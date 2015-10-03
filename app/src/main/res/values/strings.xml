@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">DeviceDiag</string>
+
+    <string name="title_section1">Main Info</string>
+    <string name="title_section2">Details</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="title_activity_cpu_info">CPU Information</string>
+    <string name="title_activity_battery_info">Battery Information</string>
+    <string name="title_activity_siminfo">SIM Information</string>
+    <string name="title_activity_nmeafeed">NMEA feed</string>
+    <string name="title_activity_display_info">Display Information</string>
+    <string name="connected_info">Connected</string>
+    <string name="available_info">Available</string>
+    <string name="not_available_info">Not Available</string>
+    <string name="not_present">Not Present</string>
+
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="activity_title_gps_information">GPS Inforamtion</string>
+    <string name="title_activity_network_info">Network Information</string>
+
+    <string name="hello_world">Hello world!</string>
+
+</resources>

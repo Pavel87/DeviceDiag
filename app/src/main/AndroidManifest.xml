@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pacmac.devicediag" >
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".DiagMain"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CPUInfo"
+            android:label="@string/title_activity_cpu_info"
+            android:theme="@style/AppTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".BatteryInfo"
+            android:label="@string/title_activity_battery_info" >
+        </activity>
+        <activity
+            android:name=".SIMInfo"
+            android:label="@string/title_activity_siminfo" >
+        </activity>
+        <activity
+            android:name=".GPSInfo"
+            android:label="@string/activity_title_gps_information" >
+        </activity>
+        <activity
+            android:name=".NMEAfeed"
+            android:label="@string/title_activity_nmeafeed" >
+        </activity>
+        <activity
+            android:name=".SensorsInfo"
+            android:label="@string/title_activity_nmeafeed" >
+        </activity>
+        <activity
+            android:name=".DisplayInfo"
+            android:label="@string/title_activity_display_info" >
+        </activity>
+        <activity
+            android:name=".NetworkInfo"
+            android:label="@string/title_activity_network_info" >
+        </activity>
+    </application>
+
+</manifest>
