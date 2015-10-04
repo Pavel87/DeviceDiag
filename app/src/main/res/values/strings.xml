@@ -23,5 +23,6 @@
     <string name="title_activity_network_info">Network Information</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_memory_info">Memory Information</string>
 
 </resources>

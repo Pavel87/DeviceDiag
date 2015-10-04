@@ -16,12 +16,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Created by tqm837 on 5/26/2015.
+ * Created by pacmac on 5/26/2015.
  */
 public class FragmentDetails extends Fragment {
 
     private GridView gridView;
-    private ArrayList<String> fields = new ArrayList<String>(
+    private ArrayList<String> fields = new ArrayList<>(
             Arrays.asList("CPU", "MEMORY", "BATTERY", "CAMERA", "GPS", "SIM","SENSORS","DISPLAY","NETWORK","ABOUT" ));
                         //  0      1          2         3        4      5       6           7       8         9
 
@@ -47,7 +47,9 @@ public FragmentDetails() {
                             startActivity(i);
                         break;
                     case 1:
-                        Toast.makeText(getActivity().getApplicationContext(), "NOT IMPLEMENTED YET", Toast.LENGTH_SHORT).show();
+                        i = new Intent(getActivity(), MemoryInfo.class);
+                        if (i.resolveActivity(getActivity().getPackageManager()) != null)
+                            startActivity(i);
                         break;
                     case 2:
                         i = new Intent(getActivity(), BatteryInfo.class);

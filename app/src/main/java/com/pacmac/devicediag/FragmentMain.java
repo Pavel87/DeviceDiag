@@ -79,10 +79,6 @@ public class FragmentMain extends Fragment {
     }
 
 
-
-
-
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -150,7 +146,9 @@ public class FragmentMain extends Fragment {
 
             try {
                 Thread.sleep(360);
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             reader.seek(0);
             load = reader.readLine();
