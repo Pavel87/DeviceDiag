@@ -22,7 +22,7 @@ public class FragmentDetails extends Fragment {
 
     private GridView gridView;
     private ArrayList<String> fields = new ArrayList<>(
-            Arrays.asList("CPU", "MEMORY", "BATTERY", "CAMERA", "GPS", "SIM","SENSORS","DISPLAY","NETWORK","ABOUT" ));
+            Arrays.asList("CPU", "MEMORY", "BATTERY", "CAMERA", "GPS", "SIM","SENSORS","DISPLAY","NETWORK", "ABOUT" ));
                         //  0      1          2         3        4      5       6           7       8         9
 
 public FragmentDetails() {
@@ -57,7 +57,9 @@ public FragmentDetails() {
                             startActivity(i);
                         break;
                     case 3:
-                        Toast.makeText(getActivity().getApplicationContext(), "NOT IMPLEMENTED YET", Toast.LENGTH_SHORT).show();
+                        i = new Intent(getActivity(), CameraInfo.class);
+                        if (i.resolveActivity(getActivity().getPackageManager()) != null)
+                            startActivity(i);
                         break;
                     case 4:
                         i = new Intent(getActivity(), GPSInfo.class);

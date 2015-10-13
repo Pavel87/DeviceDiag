@@ -23,6 +23,7 @@ public class MemoryInfo extends AppCompatActivity {
     TextView ramTotal, ramAvailable, ramLow, intTotal, intAvailable, intUsed, intSDTotal, intSDAvailable, intSDUsed,
             extTotal, extAvailable, extUsed;
 
+    //TODO DO NOT HARDCODE SD CARDS PATH - DOESN"T WORK WITH MC40
     final String INTERNAL_APP = "/data";
     final String INTERNAL_SD = "/storage/sdcard0";
     final String EXTERNAL_SD = "/storage/sdcard1";

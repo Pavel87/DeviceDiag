@@ -74,7 +74,7 @@
                     android:layout_marginRight="16dp"
                     android:background="@android:color/black"
                     android:padding="8dp"
-                    android:text="sdasd"
+                    android:text="Waiting for ping command..."
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@android:color/holo_green_dark"
                     android:textSize="12sp" />
