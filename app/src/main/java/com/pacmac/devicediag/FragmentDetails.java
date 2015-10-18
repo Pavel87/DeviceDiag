@@ -88,7 +88,9 @@ public FragmentDetails() {
                             startActivity(i);
                         break;
                     case 9:
-                        Toast.makeText(getActivity().getApplicationContext(), "NOT IMPLEMENTED YET", Toast.LENGTH_SHORT).show();
+                        i = new Intent(getActivity(), AboutActivity.class);
+                        if (i.resolveActivity(getActivity().getPackageManager()) != null)
+                            startActivity(i);
                            break;
                 }
             }

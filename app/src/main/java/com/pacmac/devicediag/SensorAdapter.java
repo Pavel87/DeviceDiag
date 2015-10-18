@@ -2,6 +2,7 @@ package com.pacmac.devicediag;
 
 import android.content.Context;
 import android.hardware.Sensor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,6 @@ public class SensorAdapter extends ArrayAdapter<Sensor> {
 
     private Context context;
     private String name;
-    private String manufacturer;
 
     public SensorAdapter(Context context, List<Sensor> sensorType) {
         super(context, 0, sensorType);
@@ -68,7 +68,6 @@ public class SensorAdapter extends ArrayAdapter<Sensor> {
         viewHolder.id.setText(index+1 + "");
         viewHolder.name.setText(name);
         viewHolder.manufacturer.setText(currentSensor.getVendor());
-
         return view;
     }
 

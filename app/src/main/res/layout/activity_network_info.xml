@@ -47,7 +47,7 @@
                         android:background="@color/switch_thumb_normal_material_light"
                         android:hint="Enter IP address"
                         android:imeOptions="actionDone"
-                        android:inputType="phone"
+                        android:inputType="text"
                         android:padding="2dp"
                         android:textSize="14sp" />
 

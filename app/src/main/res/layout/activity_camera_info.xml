@@ -13,6 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:orientation="horizontal">
 
             <TextView
@@ -54,7 +55,7 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/list_border_line"
                     android:shrinkColumns="1"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TableRow
                         android:paddingLeft="16dp"
@@ -211,7 +212,7 @@
                     android:id="@+id/tabCamSpec"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:orientation="vertical">
 
 

@@ -148,15 +148,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:text="CPU usage: " />
+                    android:text="CPU usage: "
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/cpuUsage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:text="N/A" />
+                    android:text="N/A"
+                    android:textSize="12sp" />
 
             </TableRow>
 
