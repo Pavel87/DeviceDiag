@@ -220,28 +220,6 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
         super.onPause();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_sim, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
-            satelites.add(new Satelites(1, 33, 12, 18, 2));
-            mAdapter.notifyDataSetChanged();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-
-    }
-
 
     @Override
     public void onLocationChanged(Location location) {

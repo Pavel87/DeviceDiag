@@ -95,9 +95,14 @@ public class SIMInfo extends ActionBarActivity {
 
                 networkName.setText(telephonyManager.getNetworkOperatorName());
 
-                mcc.setText("MCC:" + telephonyManager.getNetworkOperator().substring(0, 3));
-                mnc.setText("MNC:" + telephonyManager.getNetworkOperator().substring(3));
-
+                if (telephonyManager.getNetworkOperator().length() > 2) {
+                    mcc.setText("MCC:" + telephonyManager.getNetworkOperator().substring(0, 3));
+                    mnc.setText("MNC:" + telephonyManager.getNetworkOperator().substring(3));
+                }
+                else{
+                    mcc.setText("MCC:" + "N/A");
+                    mnc.setText("MNC:" + "N/A");
+                }
                 providerCountry.setText(telephonyManager.getNetworkCountryIso().toUpperCase());
                 phoneNumber.setText(telephonyManager.getLine1Number());
                 networkType.setText(networkType(telephonyManager.getNetworkType()));
@@ -132,8 +137,7 @@ public class SIMInfo extends ActionBarActivity {
             dataActivity.setText(dataActivityQuery(telephonyManager.getDataActivity()));
             dataState.setText(dataConnState(telephonyManager.getDataState()));
             phoneRadio.setText(getPhoneRadio(telephonyManager.getPhoneType()));
-        }
-        else {
+        } else {
             Toast.makeText(getApplicationContext(), "There is no WAN radio available", Toast.LENGTH_LONG).show();
             imeiNumber.setTextColor(Color.RED);
             imeiNumber.setText("No WAN DETECTED");
@@ -278,24 +282,4 @@ public class SIMInfo extends ActionBarActivity {
         return "error";
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_sim, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
-            updateData();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-
-    }
 }

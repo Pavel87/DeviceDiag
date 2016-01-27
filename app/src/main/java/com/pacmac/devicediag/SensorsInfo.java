@@ -34,21 +34,22 @@ public class SensorsInfo extends AppCompatActivity implements SensorListFragment
         fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.add(R.id.sensorFragLayout, new SensorListFragment());
-        fragmentTransaction.addToBackStack(null);
+       // fragmentTransaction.addToBackStack(null);
+
         fragmentTransaction.commit();
     }
 
     @Override
     public void onFragmentInteraction(int sensorType) {
 
-        Log.d("TAG", "returned number: " + sensorType);
+        Log.d("TAG", "sensor type: " + sensorType);
 
         switch (sensorType){
-            case 1:
-                fragmentManager = getFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.sensorFragLayout, SensorDetailFrag.newInstance(sensorType));
-                fragmentTransaction.commit();
+            case 991:
+                showSensorDetailFrag(sensorType);
+                break;
+            case 994:
+                showSensorDetailFrag(sensorType);
                 break;
             default:
                 Toast.makeText(getApplicationContext(), "No Detail available for this sensor.", Toast.LENGTH_SHORT).show();
@@ -73,5 +74,12 @@ public class SensorsInfo extends AppCompatActivity implements SensorListFragment
             super.onBackPressed();
         }
 
+    }
+
+    private void showSensorDetailFrag(int sensorType){
+        fragmentManager = getFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.sensorFragLayout, SensorDetailFrag.newInstance(sensorType));
+        fragmentTransaction.commit();
     }
 }
