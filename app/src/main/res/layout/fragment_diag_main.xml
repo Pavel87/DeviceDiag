@@ -31,13 +31,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Model: "
-                    android:textSize="12sp" />
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/modelName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="N/A"
+                    android:paddingLeft="8dp"
                     android:textSize="12sp" />
             </TableRow>
 
@@ -50,13 +53,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Serial Number: "
-                    android:textSize="12sp" />
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/serialNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="N/A"
+                    android:paddingLeft="8dp"
                     android:textSize="12sp" />
             </TableRow>
 
@@ -69,13 +75,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Manufacturer: "
-                    android:textSize="12sp" />
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/manufacturer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="N/A"
+                    android:paddingLeft="8dp"
                     android:textSize="12sp" />
             </TableRow>
 
@@ -88,13 +97,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hardware: "
-                    android:textSize="12sp" />
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/hardware"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="N/A"
+                    android:paddingLeft="8dp"
                     android:textSize="12sp" />
 
             </TableRow>
@@ -108,13 +120,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Build number: "
-                    android:textSize="12sp" />
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/buildNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="N/A"
+                    android:paddingLeft="8dp"
                     android:textSize="12sp" />
 
             </TableRow>
@@ -122,50 +137,37 @@
             <TableRow
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:paddingTop="8dp">
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Memory: "
-                    android:textSize="12sp" />
+                    android:text="Android: "
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/memory"
+                    android:id="@+id/androidVer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
                     android:text="N/A"
                     android:textSize="12sp" />
 
             </TableRow>
 
-            <TableRow
-                android:paddingBottom="8dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CPU usage: "
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/cpuUsage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N/A"
-                    android:textSize="12sp" />
-
-            </TableRow>
 
         </TableLayout>
 
-        <com.jjoe64.graphview.GraphView
-            android:id="@+id/graph"
+        <ImageView
+            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
-            android:layout_height="120dip" />
+            android:layout_height="wrap_content"
+            android:src="@drawable/pcb"/>
+
 
 
     </LinearLayout>

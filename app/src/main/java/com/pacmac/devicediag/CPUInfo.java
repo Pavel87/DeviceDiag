@@ -1,11 +1,17 @@
 package com.pacmac.devicediag;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.RandomAccessFile;
 import java.util.regex.Pattern;
 
 /**
@@ -33,6 +40,14 @@ public class CPUInfo extends ActionBarActivity {
     private String hardware = "unknown";
     private String currentFrequency= "unknown";;
     private String maxFrequency= "unknown";;
+
+
+    private GraphView graph;
+    private LineGraphSeries<DataPoint> seriesLive;
+    private double graphLastXValue = 0d;
+    private final Handler mHandler = new Handler();
+    private Runnable timer;
+    private float usage = 0;
 
 
     public int addNumbers(int a, int b) {
@@ -56,20 +71,136 @@ public class CPUInfo extends ActionBarActivity {
         cpuCurrentFreq = (TextView) findViewById(R.id.cpuCurrentFrequency);
         updateView();
 
+
+        //graph settings
+        graph = (GraphView) findViewById(R.id.graph1);
+
+        seriesLive = new LineGraphSeries<DataPoint>();
+        seriesLive.setColor(getResources().getColor(R.color.tabs));
+        seriesLive.setDrawBackground(true);
+        seriesLive.setBackgroundColor(getResources().getColor(R.color.graph_filling));
+        seriesLive.setThickness(2);
+        seriesLive.setTitle("CPU Usage");
+        graph.addSeries(seriesLive);
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(0);
+        graph.getViewport().setMaxX(10);
+        graph.getViewport().setScrollable(true);
+        graph.getViewport().setMinY(0);
+        graph.getViewport().setMaxY(100);
+        graph.getViewport().setBackgroundColor(Color.WHITE);
+
+        graph.getGridLabelRenderer().setGridColor(Color.WHITE);
+        graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+        graph.getGridLabelRenderer().setNumVerticalLabels(5);
+        graph.getGridLabelRenderer().setNumHorizontalLabels(4);
+        graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
+        graph.getGridLabelRenderer().reloadStyles();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        timer = new Runnable() {
+            @Override
+            public void run() {
+                updateGraph();
+                mHandler.postDelayed(this, 300);
+
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                       updateView();
+                    }
+                });
+            }
+        };
+        mHandler.postDelayed(timer, 300);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mHandler.removeCallbacks(timer);
+    }
+
+
+
+
+    public void updateGraph() {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                usage  = readUsage()*100;
+                graphLastXValue+=0.1d;
+                seriesLive.appendData(new DataPoint(graphLastXValue, usage), true, 120);
+            }
+        }).run();
+
+    }
+
+
+
+
+    private float readUsage() {
+        try {
+            RandomAccessFile reader = new RandomAccessFile("/proc/stat", "r");
+            String load = reader.readLine();
+
+            String[] toks = load.split(" +");  // Split on one or more spaces
+
+            long idle1 = Long.parseLong(toks[4]);
+            long cpu1 = Long.parseLong(toks[2]) + Long.parseLong(toks[3]) + Long.parseLong(toks[5])
+                    + Long.parseLong(toks[6]) + Long.parseLong(toks[7]) + Long.parseLong(toks[8]);
+
+            try {
+                Thread.sleep(360);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            reader.seek(0);
+            load = reader.readLine();
+            reader.close();
+
+            toks = load.split(" +");
+
+            long idle2 = Long.parseLong(toks[4]);
+            long cpu2 = Long.parseLong(toks[2]) + Long.parseLong(toks[3]) + Long.parseLong(toks[5])
+                    + Long.parseLong(toks[6]) + Long.parseLong(toks[7]) + Long.parseLong(toks[8]);
+
+            return (float)(cpu2 - cpu1) / ((cpu2 + idle2) - (cpu1 + idle1));
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return 0;
+    }
+
+
+
 
 
     private void updateView() {
 
         readCPUinfo();
         readCPUFreq();
-        activeCores.setText("Active: " + Runtime.getRuntime().availableProcessors() + "\nTotal: " + getNumCores());
+        activeCores.setText("Active: " + Runtime.getRuntime().availableProcessors() + "\tTotal: " + getNumCores());
         processor.setText(cpu);
         hardWareCpu.setText(hardware);
         featuresCPU.setText(features);
         cpuMaxFrequency.setText(maxFrequency + " GHz");
         cpuCurrentFreq.setText(currentFrequency + " GHz");
     }
+
+
+
+
+
 
     /*
     Gets the number of cores available in this device, across all processors.
@@ -129,6 +260,10 @@ public class CPUInfo extends ActionBarActivity {
 
     }
 
+
+
+
+
     public void readCPUinfo() {
 
         //use to get current directory
@@ -173,6 +308,9 @@ public class CPUInfo extends ActionBarActivity {
             e.printStackTrace();
         }
     }
+
+
+
 
 
     private void readCPUFreq() {
@@ -235,4 +373,8 @@ public class CPUInfo extends ActionBarActivity {
             e.printStackTrace();
         }
     }
+
+
+
+
 }

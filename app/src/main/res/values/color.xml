@@ -8,4 +8,5 @@
     <color name="log_bg">#7986CB</color>
     <color name="btn_blue">#3F51B5</color>
     <color name="connected_clr">#44743C</color>
+    <color name="graph_filling">#7A4B6A8B</color>
 </resources>
