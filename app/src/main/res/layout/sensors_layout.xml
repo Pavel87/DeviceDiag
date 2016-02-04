@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:elevation="2dip"
+        android:smoothScrollbar="true"
         android:scrollbars="none">
 
     </ListView>

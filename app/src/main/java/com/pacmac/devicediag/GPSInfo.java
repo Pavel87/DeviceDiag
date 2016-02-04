@@ -43,10 +43,9 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
 
     private TextView gpsInfo;
     private TextView timeToFix;
-    private TextView locationText;
-    private TextView altSpeedText;
-    private TextView accuracyBearingText;
-
+    private TextView longitude, latitude;
+    private TextView altitude, speed;
+    private TextView accuracy, bearing;
     private TextView nMEAStart;
     private ListView list;
 
@@ -71,9 +70,12 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
         //TextViews
         gpsInfo = (TextView) findViewById(R.id.gpsInfo);
         timeToFix = (TextView) findViewById(R.id.timeToFirstFix);
-        locationText = (TextView) findViewById(R.id.location);
-        altSpeedText = (TextView) findViewById(R.id.altSpeed);
-        accuracyBearingText = (TextView) findViewById(R.id.accuracy);
+        latitude = (TextView) findViewById(R.id.latitude);
+        longitude = (TextView) findViewById(R.id.longitude);
+        altitude = (TextView) findViewById(R.id.altitude);
+        speed = (TextView) findViewById(R.id.speed);
+        accuracy = (TextView) findViewById(R.id.accuracy);
+        bearing = (TextView) findViewById(R.id.bearing);
         nMEAStart = (TextView) findViewById(R.id.nmeaStart);
 
         //list + adapter inicialization
@@ -223,8 +225,7 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-
-        Log.d("TAG", "location: " + location.toString());
+//TODO CLEAN UP BELOW COMMENTS
 
        /* Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(location.getTime());
@@ -233,9 +234,14 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
         int minute = cal.get(Calendar.MINUTE);
         int seconds = cal.get(Calendar.SECOND);*/
 
-        locationText.setText(location.getLatitude() + "°/" + location.getLongitude() + "°");
-        altSpeedText.setText(String.format("%.01f", location.getAltitude()) + "m/" + String.format("%.02f", location.getSpeed()) + "m/s");
-        accuracyBearingText.setText(String.format("%.01f", location.getAccuracy()) + "m/" + String.format("%.02f", location.getBearing()) + "°");
+
+        latitude.setText(location.getLatitude() + "°");
+        longitude.setText(location.getLongitude() + "°");
+        altitude.setText(String.format("%.01f", location.getAltitude()) + "m");
+        speed.setText(String.format("%.02f", location.getSpeed()) + "m/s");
+        accuracy.setText(String.format("%.01f", location.getAccuracy()) + "m");
+        bearing.setText(String.format("%.02f", location.getBearing()) + "°");
+
         //timeText.setText(hour+"h"+minute+"m"+seconds+"s");
         Log.d("TAG", "satelites: " + location.getExtras().getInt("satelites"));
     }

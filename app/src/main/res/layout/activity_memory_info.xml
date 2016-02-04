@@ -8,355 +8,194 @@
         android:orientation="vertical"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingTop="16dp">
+        android:paddingTop="16dp"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/list_border_line"
-            android:shrinkColumns="1">
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/list_border_line"
+                android:shrinkColumns="1">
 
-            <TableRow
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
+                <TableRow
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="RAM Total:  "
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="RAM Total:  "
+                        android:textAllCaps="true"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/ramTotal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N/A"
-                    android:textSize="14sp" />
-            </TableRow>
+                    <TextView
+                        android:id="@+id/ramTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="N/A"
+                        android:textSize="14sp" />
+                </TableRow>
 
-            <TableRow
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
+                <TableRow
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="RAM Available:  "
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="RAM Available:  "
+                        android:textAllCaps="true"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/ramAvailable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N/A"
-                    android:textSize="14sp" />
-            </TableRow>
+                    <TextView
+                        android:id="@+id/ramAvailable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="N/A"
+                        android:textSize="14sp" />
+                </TableRow>
 
-            <TableRow
-                android:paddingBottom="8dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
+                <TableRow
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="RAM LOW:  "
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="RAM LOW:  "
+                        android:textAllCaps="true"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/ramLow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N/A"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-            </TableRow>
+                    <TextView
+                        android:id="@+id/ramLow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="N/A"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </TableRow>
 
-        </TableLayout>
+            </TableLayout>
 
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/list_border_line"
+                android:shrinkColumns="1">
 
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/list_border_line"
-            android:shrinkColumns="1">
-
-            <TableRow
-                android:gravity="left"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Internal"
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow
-                android:layout_gravity="left"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Total: "
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/intTotal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N/A"
-                    android:textSize="14sp" />
-            </TableRow>
-
-            <TableRow
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Available:   "
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/intAvailable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N/A"
-                    android:textSize="14sp" />
-            </TableRow>
-
-            <TableRow
-                android:paddingBottom="8dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Used:"
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/intUsed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N/A"
-                    android:textSize="14sp" />
-            </TableRow>
-        </TableLayout>
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/list_border_line"
-            android:shrinkColumns="1">
-
-            <TableRow
-                android:gravity="left"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SDCARD0"
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Total:"
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/intSDTotal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N/A"
-                    android:textSize="14sp" />
-            </TableRow>
-
-            <TableRow
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Available:   "
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/intSDAvailable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N/A"
-                    android:textSize="14sp" />
-            </TableRow>
-
-            <TableRow
-                android:paddingBottom="8dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Used:"
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/intSDUsed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N/A"
-                    android:textSize="14sp" />
-            </TableRow>
-        </TableLayout>
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/list_border_line"
-            android:shrinkColumns="1">
-
-            <TableRow
-                android:gravity="left"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SDCARD1"
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Total:"
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/extTotal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N/A"
-                    android:textSize="14sp" />
-            </TableRow>
-
-            <TableRow
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Available:   "
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/extAvailable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N/A"
-                    android:textSize="14sp" />
-            </TableRow>
-
-            <TableRow
-                android:paddingBottom="8dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Used:"
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/extUsed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N/A"
-                    android:textSize="14sp" />
-            </TableRow>
+                <TableRow
+                    android:layout_gravity="left"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp">
 
 
-        </TableLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="16dp"
+                        android:text="TYPE: "
+                        android:textAllCaps="true"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+
+                    <Spinner
+                        android:id="@+id/storageSpinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical" />
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_gravity="left"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total: "
+                        android:textAllCaps="true"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/storageTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="N/A"
+                        android:paddingLeft="16dp"
+                        android:textSize="14sp" />
+                </TableRow>
+
+                <TableRow
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Available:   "
+                        android:textAllCaps="true"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/storageAvailable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="N/A"
+                        android:paddingLeft="16dp"
+                        android:textSize="14sp" />
+                </TableRow>
+
+                <TableRow
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Used:"
+                        android:textAllCaps="true"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/storageUsed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="N/A"
+                        android:paddingLeft="16dp"
+                        android:textSize="14sp" />
+                </TableRow>
+            </TableLayout>
+
         </LinearLayout>
     </ScrollView>
 

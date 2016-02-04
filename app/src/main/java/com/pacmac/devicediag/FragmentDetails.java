@@ -25,6 +25,15 @@ public class FragmentDetails extends Fragment {
             Arrays.asList("CPU", "MEMORY", "BATTERY", "CAMERA", "GPS", "SIM","SENSORS","DISPLAY","NETWORK", "ABOUT" ));
                         //  0      1          2         3        4      5       6           7       8         9
 
+    private Integer[] mThumbIds = {
+            R.drawable.test, R.drawable.test,
+            R.drawable.test, R.drawable.test,
+            R.drawable.test, R.drawable.test,
+            R.drawable.test, R.drawable.test,
+            R.drawable.test, R.drawable.test
+    };
+
+
 public FragmentDetails() {
 }
 
@@ -33,7 +42,7 @@ public FragmentDetails() {
         View rootView = inflater.inflate(R.layout.frag_details, container, false);
 
         gridView = (GridView) rootView.findViewById(R.id.gridViewMain);
-        gridView.setAdapter(new DetailAdapter(getActivity().getApplicationContext(),fields));
+        gridView.setAdapter(new DetailAdapter(getActivity().getApplicationContext(),mThumbIds));
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

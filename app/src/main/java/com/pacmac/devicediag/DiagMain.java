@@ -38,6 +38,8 @@ public class DiagMain extends ActionBarActivity implements ActionBar.TabListener
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
+
+       // actionBar.setIcon(R.drawable.ic_action); //TODO ICON add
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         // Create the adapter that will return a fragment for each of the three

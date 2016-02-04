@@ -71,13 +71,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lat/Lon: "
+                    android:text="Latitude: "
                     android:textAllCaps="true"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/location"
+                    android:id="@+id/latitude"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -93,13 +93,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Altitude/Speed: "
+                    android:text="Longitude: "
                     android:textAllCaps="true"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/altSpeed"
+                    android:id="@+id/longitude"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -115,13 +115,82 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Accuracy/Bearing: "
+                    android:text="Altitude: "
+                    android:textAllCaps="true"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/altitude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Speed: "
+                    android:textAllCaps="true"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Accuracy: "
                     android:textAllCaps="true"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/accuracy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bearing: "
+                    android:textAllCaps="true"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/bearing"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -163,6 +232,7 @@
             android:id="@+id/sateliteList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:scrollbars="none"
             android:background="@drawable/list_border_line"
             android:divider="@color/primary_dark_material_light"
             android:dividerHeight="1px"
