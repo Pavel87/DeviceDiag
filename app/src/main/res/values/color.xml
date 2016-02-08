@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#0D47A1</color>
+    <color name="colorPrimaryDark">#FFFFFF</color>
+    <color name="textColorPrimary">#0B0E14</color>
+    <color name="windowBackground">#E3F2FD</color>
+    <color name="navigationBarColor">#01193F</color>
+    <color name="colorAccent">#64FFDA</color>
+
+
+
     <color name="tabs">#0D47A1</color>
     <color name="blue_ab">#2196F3</color>
     <color name="ac_background">#E3F2FD</color>
