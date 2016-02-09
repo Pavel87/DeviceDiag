@@ -56,8 +56,8 @@
                         android:layout_gravity="center_vertical"
                         android:elevation="2dp"
                         android:gravity="center"
-                        android:background="@drawable/button_cust_blue"
                         android:textColor="@android:color/white"
+                        android:background="@drawable/button_cust_blue"
                         android:text="Ping"
                         android:textSize="14sp"
                         android:textStyle="bold" />

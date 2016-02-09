@@ -1,5 +1,7 @@
 package com.pacmac.devicediag;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -9,29 +11,33 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
 
-    TextView pingUrl, pingOut, wifiConnected, wanConnected;
-    TextView ssidField, bssidField, macField, rssiField, linkSpeedField, frequencyField;
-    TextView ipAddressField, netMaskField, gatewayField, dns1Field, dns2Field, dhcpField, leaseField;
-    TextView ghzBand, powerReport, devToAp, p2p, offloadedConn, scanAlways, tdlsSupport;
-    Button pingBtn;
-    LinearLayout wifiDetail, supportedFeatures;
+    private EditText pingUrl;
+    private TextView pingOut, wifiConnected, wanConnected;
+    private TextView ssidField, bssidField, macField, rssiField, linkSpeedField, frequencyField;
+    private TextView ipAddressField, netMaskField, gatewayField, dns1Field, dns2Field, dhcpField, leaseField;
+    private TextView ghzBand, powerReport, devToAp, p2p, offloadedConn, scanAlways, tdlsSupport;
+    private Button pingBtn;
+    private LinearLayout wifiDetail, supportedFeatures;
 
-    AsyncPingTask asyncPingTask;
-
-    boolean isWiFi = false;
+    private AsyncPingTask asyncPingTask;
+    private boolean isWiFi = false;
+    private String url = null;
+    AlertDialog progress = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network_info);
 
-        pingUrl = (TextView) findViewById(R.id.pingAddress);
+        pingUrl = (EditText) findViewById(R.id.pingAddress);
         pingOut = (TextView) findViewById(R.id.pingOut);
         wifiConnected = (TextView) findViewById(R.id.wifiConn);
         wanConnected = (TextView) findViewById(R.id.wanConn);
@@ -44,7 +50,6 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         rssiField = (TextView) findViewById(R.id.rssiField);
         linkSpeedField = (TextView) findViewById(R.id.linkSpeedField);
         frequencyField = (TextView) findViewById(R.id.freqField);
-
         ipAddressField = (TextView) findViewById(R.id.ipAddress);
         gatewayField = (TextView) findViewById(R.id.gateway);
         netMaskField = (TextView) findViewById(R.id.netMask);
@@ -52,23 +57,35 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         dns2Field = (TextView) findViewById(R.id.dns2);
         dhcpField = (TextView) findViewById(R.id.dhcp);
         leaseField = (TextView) findViewById(R.id.dhcpLease);
-
         wifiDetail = (LinearLayout) findViewById(R.id.detailWifi);
         supportedFeatures = (LinearLayout) findViewById(R.id.supportedFeatures);
-
         pingBtn = (Button) findViewById(R.id.pingBtn);
+
+
+        //delete pingURL onclick
+        pingUrl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (pingUrl.hasFocus()) {
+                    pingUrl.setText("");
+                }
+            }
+        });
 
 
         pingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                url = pingUrl.getText().toString();
                 asyncPingTask = new AsyncPingTask();
                 asyncPingTask.asynResp = NetworkInfo.this;
-                asyncPingTask.execute(pingUrl.getText().toString());
+                asyncPingTask.execute(url);
             }
         });
+
 
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -192,16 +209,33 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         }
 
 
+        progress = new CenterProgress(this);
     }
+
+    public void showProgressBar(boolean isHidden) {
+
+        if (isHidden) {
+            progress.setCancelable(false);
+            progress.show();
+        } else
+            progress.hide();
+
+    }
+
 
     @Override
     public void showPingResponse(String result) {
-        pingOut.setText(result);
+        showProgressBar(false);
+        if (result.length() > 0)
+            pingOut.setText(result);
+        else
+            pingOut.setText(getResources().getString(R.string.ping_error_3));
     }
 
     @Override
     public void startingPingCommand() {
-        pingOut.setText("Waiting for response ...");
+        pingOut.setText("Waiting for response from: " + url);
+        showProgressBar(true);
     }
 
 

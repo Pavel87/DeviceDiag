@@ -11,21 +11,23 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TableLayout
 
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
             android:background="@drawable/list_border_line"
+            android:layout_marginRight="8dp"
             android:shrinkColumns="1">
 
             <TableRow
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:paddingTop="8dp">
+                android:paddingTop="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -37,6 +39,7 @@
                     android:id="@+id/simInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingRight="8dp"
                     android:paddingLeft="8dp"
                     android:text="N/A"
                     android:textSize="12sp" />
@@ -122,8 +125,8 @@
                     android:id="@+id/phoneRadio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="N/A"
                     android:paddingLeft="8dp"
+                    android:text="N/A"
                     android:textSize="12sp" />
 
             </TableRow>
@@ -143,8 +146,8 @@
                     android:id="@+id/operatorName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="N/A"
                     android:paddingLeft="8dp"
+                    android:text="N/A"
                     android:textSize="12sp" />
 
             </TableRow>
@@ -165,8 +168,8 @@
                     android:id="@+id/mncSPN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SPN-MNC:"
                     android:paddingLeft="8dp"
+                    android:text="SPN-MNC:"
                     android:textSize="12sp" />
 
             </TableRow>
@@ -186,8 +189,8 @@
                     android:id="@+id/networkName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="N/A"
                     android:paddingLeft="8dp"
+                    android:text="N/A"
                     android:textSize="12sp" />
 
             </TableRow>
@@ -195,7 +198,8 @@
             <TableRow
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:paddingTop="4dp">
+                android:paddingTop="4dp"
+                android:paddingBottom="16dp">
 
                 <TextView
                     android:id="@+id/mccCode"
@@ -208,17 +212,30 @@
                     android:id="@+id/mncCode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="MNC:"
                     android:paddingLeft="8dp"
+                    android:text="MNC:"
                     android:textSize="12sp" />
 
             </TableRow>
 
 
+        </TableLayout>
+
+        <TableLayout
+
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/list_border_line"
+            android:shrinkColumns="1">
+
+
             <TableRow
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:paddingTop="4dp">
+                android:paddingTop="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -230,8 +247,8 @@
                     android:id="@+id/networkCountry"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="N/A"
                     android:paddingLeft="8dp"
+                    android:text="N/A"
                     android:textSize="12sp" />
 
             </TableRow>
@@ -251,8 +268,8 @@
                     android:id="@+id/networkType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="N/A"
                     android:paddingLeft="8dp"
+                    android:text="N/A"
                     android:textSize="12sp" />
 
             </TableRow>
@@ -272,8 +289,8 @@
                     android:id="@+id/phoneNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="N/A"
                     android:paddingLeft="8dp"
+                    android:text="N/A"
                     android:textSize="12sp" />
 
             </TableRow>
@@ -315,8 +332,8 @@
                     android:id="@+id/dataState"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="N/A"
                     android:paddingLeft="8dp"
+                    android:text="N/A"
                     android:textSize="12sp" />
 
             </TableRow>
@@ -344,7 +361,6 @@
             </TableRow>
 
         </TableLayout>
-
 
     </LinearLayout>
 

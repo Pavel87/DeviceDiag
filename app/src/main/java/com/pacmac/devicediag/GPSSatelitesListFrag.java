@@ -22,7 +22,7 @@ public class GPSSatelitesListFrag extends Fragment {
 
     private ArrayList<Satelites> satelites = new ArrayList<Satelites>();
 
-    public  GPSSatelitesListFrag() {
+    public GPSSatelitesListFrag() {
         //default constructor
     }
 
@@ -44,10 +44,9 @@ public class GPSSatelitesListFrag extends Fragment {
 
         View view = inflater.inflate(R.layout.gps_satelites_frag, container, false);
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             satelites = savedInstanceState.getParcelableArrayList("sats_par_store");
-        }
-        else {
+        } else {
             satelites.add(new Satelites(0, 0, 0, 0, 0));
         }
         //list + adapter inicialization
@@ -62,12 +61,8 @@ public class GPSSatelitesListFrag extends Fragment {
     }
 
 
-    public void invalidateListView(ArrayList<Satelites> sats){
-        //this.mAdapter.clear();
-       // Log.d("TAG", "sat:" + (1) + ": PNR:" + sats.get(0).getPnr() + ",SNR:" + String.format("%.02f", sats.get(0).getSnr()) + ",azimuth:" + sats.get(0).getAzimuth() + ",elevation:" + sats.get(0).getElevation() + "\n\n");
-        Log.d("TAG", sats.size() + ":size");
-
-        if (sats.size() != satSizePrev && sats.size() >0){
+    public void invalidateListView(ArrayList<Satelites> sats) {
+        if (sats.size() != satSizePrev && sats.size() > 0) {
             satSizePrev = sats.size();
             this.satelites = sats;
             mAdapter = new SateliteAdapter(getActivity().getApplicationContext(), satelites);

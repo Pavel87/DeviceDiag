@@ -58,13 +58,13 @@ public class AsyncPingTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onCancelled() {
-        asynResp.showPingResponse("PING command canceled");
+        asynResp.showPingResponse("PING error: 1");
         super.onCancelled();
     }
 
     @Override
     protected void onCancelled(String result) {
-        asynResp.showPingResponse(result);
+        asynResp.showPingResponse("Ping error: 2");
         super.onCancelled(result);
     }
 }

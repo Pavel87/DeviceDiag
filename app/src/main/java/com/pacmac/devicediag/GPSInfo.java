@@ -129,7 +129,7 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
 
                         case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
                             gpsInfo = "Active";
-
+                            satelites.clear();
                             gpsSatelites = gpsStatus.getSatellites();
                             Iterator<GpsSatellite> satelliteIterator = gpsSatelites.iterator();
                             int i = 1;
@@ -272,14 +272,12 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.commit();
         }
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        if (!getResources().getBoolean(R.bool.dual_pane))
-            getMenuInflater().inflate(R.menu.menu_gps, menu);
+        getMenuInflater().inflate(R.menu.menu_gps, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -287,8 +285,10 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+
         if (id == R.id.action_satellites) {
-            showSatListFrag();
+            if (fragment instanceof GpsInfoLocation)
+                showSatListFrag();
             return true;
         }
 
