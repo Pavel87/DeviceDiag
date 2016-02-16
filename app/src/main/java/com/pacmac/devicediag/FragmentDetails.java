@@ -26,11 +26,11 @@ public class FragmentDetails extends Fragment {
                         //  0      1          2         3        4      5       6           7       8         9
 
     private Integer[] mThumbIds = {
-            R.drawable.test, R.drawable.test,
-            R.drawable.test, R.drawable.test,
-            R.drawable.test, R.drawable.test,
-            R.drawable.test, R.drawable.test,
-            R.drawable.test, R.drawable.test
+            R.drawable.cpuimg, R.drawable.ramimg,
+            R.drawable.batimg, R.drawable.camimg,
+            R.drawable.gpsimg, R.drawable.simimg,
+            R.drawable.sensorimg, R.drawable.displayimg,
+            R.drawable.wifiimg, R.drawable.aboutimg
     };
 
 

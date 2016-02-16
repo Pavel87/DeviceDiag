@@ -1,9 +1,13 @@
 package com.pacmac.devicediag;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,8 +42,10 @@ public class CPUInfo extends ActionBarActivity {
     private String cpu = "unknown";
     private String features = "unknown";
     private String hardware = "unknown";
-    private String currentFrequency= "unknown";;
-    private String maxFrequency= "unknown";;
+    private String currentFrequency = "unknown";
+    ;
+    private String maxFrequency = "unknown";
+    ;
 
 
     private GraphView graph;
@@ -48,15 +54,9 @@ public class CPUInfo extends ActionBarActivity {
     private final Handler mHandler = new Handler();
     private Runnable timer;
     private float usage = 0;
+    private ShareActionProvider mShareActionProvider;
+    private boolean isInfoCollected = false;
 
-
-    public int addNumbers(int a, int b) {
-
-        if (a>=50){
-            throw new NumberFormatException("first number has to be less than 50");
-        }
-        return a+b;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class CPUInfo extends ActionBarActivity {
         processor = (TextView) findViewById(R.id.processor);
         featuresCPU = (TextView) findViewById(R.id.features);
         hardWareCpu = (TextView) findViewById(R.id.cpuHardware);
-        cpuMaxFrequency= (TextView) findViewById(R.id.cpuMaxFrequency);
+        cpuMaxFrequency = (TextView) findViewById(R.id.cpuMaxFrequency);
         cpuCurrentFreq = (TextView) findViewById(R.id.cpuCurrentFrequency);
         updateView();
 
@@ -106,13 +106,16 @@ public class CPUInfo extends ActionBarActivity {
             @Override
             public void run() {
                 updateGraph();
+                if (!isInfoCollected) {
+                    updateShareIntent();        // WILL UPDATE SHARE INTENT ONLY ONCE AS DATA IS STATIC
+                }
                 mHandler.postDelayed(this, 300);
 
                 runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
-                       updateView();
+                        updateView();
                     }
                 });
             }
@@ -142,15 +145,13 @@ public class CPUInfo extends ActionBarActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                usage  = readUsage()*100;
-                graphLastXValue+=0.1d;
+                usage = readUsage() * 100;
+                graphLastXValue += 0.1d;
                 seriesLive.appendData(new DataPoint(graphLastXValue, usage), true, 120);
             }
         }).run();
 
     }
-
-
 
 
     private float readUsage() {
@@ -180,7 +181,7 @@ public class CPUInfo extends ActionBarActivity {
             long cpu2 = Long.parseLong(toks[2]) + Long.parseLong(toks[3]) + Long.parseLong(toks[5])
                     + Long.parseLong(toks[6]) + Long.parseLong(toks[7]) + Long.parseLong(toks[8]);
 
-            return (float)(cpu2 - cpu1) / ((cpu2 + idle2) - (cpu1 + idle1));
+            return (float) (cpu2 - cpu1) / ((cpu2 + idle2) - (cpu1 + idle1));
 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -188,9 +189,6 @@ public class CPUInfo extends ActionBarActivity {
 
         return 0;
     }
-
-
-
 
 
     private void updateView() {
@@ -204,11 +202,6 @@ public class CPUInfo extends ActionBarActivity {
         cpuMaxFrequency.setText(maxFrequency + " GHz");
         cpuCurrentFreq.setText(currentFrequency + " GHz");
     }
-
-
-
-
-
 
     /*
     Gets the number of cores available in this device, across all processors.
@@ -269,9 +262,6 @@ public class CPUInfo extends ActionBarActivity {
     }
 
 
-
-
-
     public void readCPUinfo() {
 
         //use to get current directory
@@ -318,9 +308,6 @@ public class CPUInfo extends ActionBarActivity {
     }
 
 
-
-
-
     private void readCPUFreq() {
 
         //read max freq CPU
@@ -339,7 +326,7 @@ public class CPUInfo extends ActionBarActivity {
         try {
             while ((line = br.readLine()) != null) {
                 temp = Float.parseFloat(line) / 1000000;
-                maxFrequency = "" +temp;
+                maxFrequency = "" + temp;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -369,7 +356,7 @@ public class CPUInfo extends ActionBarActivity {
         try {
             while ((line = br.readLine()) != null) {
                 temp = Float.parseFloat(line) / 1000000;
-                currentFrequency = "" +String.format("%.3f", temp);
+                currentFrequency = "" + String.format("%.3f", temp);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -383,6 +370,68 @@ public class CPUInfo extends ActionBarActivity {
     }
 
 
+
+    // SHARE CPU INFO VIA ACTION_SEND
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_share, menu);
+
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        setShareIntent(createShareIntent());
+        return true;
+    }
+
+    // Call to update the share intent
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
+    }
+
+    private Intent createShareIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.shareTextEmpty));
+        return shareIntent;
+    }
+
+    private Intent createShareIntent(StringBuilder sb) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+        return shareIntent;
+    }
+
+
+    private void updateShareIntent() {
+
+        isInfoCollected = true;
+        StringBuilder sb = new StringBuilder();
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        sb.append("\n");
+        sb.append(Build.MODEL + "\t-\t" + getResources().getString(R.string.title_activity_cpu_info));
+        sb.append("\n");
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        sb.append("\n\n");
+
+        //body
+        sb.append("Processor:\t\t" + cpu);
+        sb.append("\n");
+        sb.append("Chip:\t\t" + hardware);
+        sb.append("\n");
+        sb.append("CPU CORES:\t\t" + getNumCores());
+        sb.append("\n");
+        sb.append("CPU Max Frequency:\t\t" + maxFrequency + " GHz");
+        sb.append("\n");
+        sb.append("CPU Features:\t\t" + features);
+        sb.append("\n\n");
+
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        setShareIntent(createShareIntent(sb));
+
+    }
 
 
 }

@@ -21,6 +21,10 @@
         <item name="background">@drawable/tab_bar_background</item>
     </style>
 
-
+    <style name="MyEditTextTheme">
+        <!-- Used for the bottom line when not selected / focused -->
+        <item name="colorControlNormal">#9e9e9e</item>
+        <!-- colorControlActivated & colorControlHighlight use the colorAccent color by default -->
+    </style>
 
 </resources>

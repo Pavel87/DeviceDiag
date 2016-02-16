@@ -1,25 +1,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/ac_background"
-    tools:context="com.pacmac.devicediag.BatteryInfo">
+    tools:context=".DiagMain$PlaceholderFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="16dp"
+        android:paddingBottom="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingTop="16dp">
+        android:paddingTop="16dp"
+        android:background="@drawable/list_border_line">
 
 
         <TableLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="3"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/list_border_line"
-            android:shrinkColumns="1">
+            android:layout_gravity="center_horizontal">
 
             <TableRow
                 android:paddingLeft="16dp"
@@ -29,16 +32,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:text="Model: "
                     android:textStyle="bold"
-                    android:text="Battery Level: " />
+                    android:textAllCaps="true"
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/level"
+                    android:id="@+id/modelName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="N/A" />
+                    android:text="N/A"
+                    android:paddingLeft="8dp"
+                    android:textSize="12sp" />
             </TableRow>
 
             <TableRow
@@ -49,16 +54,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:text="Serial Number: "
                     android:textStyle="bold"
-                    android:text="Battery Voltage: " />
+                    android:textAllCaps="true"
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/voltage"
+                    android:id="@+id/serialNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="N/A" />
+                    android:text="N/A"
+                    android:paddingLeft="8dp"
+                    android:textSize="12sp" />
             </TableRow>
 
             <TableRow
@@ -69,17 +76,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:text="Manufacturer: "
+                    android:textAllCaps="true"
                     android:textStyle="bold"
-                    android:text="Battery Temp: " />
-
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/temp"
+                    android:id="@+id/manufacturer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="N/A" />
+                    android:text="N/A"
+                    android:paddingLeft="8dp"
+                    android:textSize="12sp" />
             </TableRow>
 
             <TableRow
@@ -90,36 +98,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:text="Hardware: "
+                    android:textAllCaps="true"
                     android:textStyle="bold"
-                    android:text="Battery Present: " />
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/present"
+                    android:id="@+id/hardware"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="N/A" />
-            </TableRow>
-
-            <TableRow
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:text="Power Source: " />
-
-                <TextView
-                    android:id="@+id/plugged"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="N/A" />
+                    android:text="N/A"
+                    android:paddingLeft="8dp"
+                    android:textSize="12sp" />
 
             </TableRow>
 
@@ -131,38 +121,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:text="Build number: "
+                    android:textAllCaps="true"
                     android:textStyle="bold"
-                    android:text="Battery Status: " />
-
-
-                <TextView
-                    android:id="@+id/batStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="N/A" />
-            </TableRow>
-
-            <TableRow
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
+                    android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/buildNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:text="Battery Health: " />
+                    android:text="N/A"
+                    android:paddingLeft="8dp"
+                    android:textSize="12sp" />
 
-
-                <TextView
-                    android:id="@+id/health"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="N/A" />
             </TableRow>
 
             <TableRow
@@ -174,21 +145,29 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:text="Android: "
+                    android:textAllCaps="true"
                     android:textStyle="bold"
-                    android:text="Battery Technology: " />
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/technology"
+                    android:id="@+id/androidVer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="N/A" />
+                    android:paddingLeft="8dp"
+                    android:text="N/A"
+                    android:textSize="12sp" />
 
             </TableRow>
 
         </TableLayout>
 
-    </LinearLayout>
+        <ImageView
+            android:layout_marginTop="16dp"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pcb"/>
 
+    </LinearLayout>
 </RelativeLayout>

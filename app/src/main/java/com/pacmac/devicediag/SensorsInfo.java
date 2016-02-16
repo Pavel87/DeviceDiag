@@ -2,18 +2,11 @@ package com.pacmac.devicediag;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
 
 /**
  * Created by pacmac on 7/1/2015.

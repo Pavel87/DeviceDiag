@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Device Diagnostic</string>
-
     <string name="title_section1">Main Info</string>
     <string name="title_section2">Details</string>
     <string name="action_settings">Settings</string>
@@ -24,9 +23,12 @@
     <string name="title_activity_about">About</string>
     <string name="yes_string">YES</string>
     <string name="no_string">NO</string>
-    <string name="ping_error_3">Ping Error 3</string>
+    <string name="ping_error_3">Enter the IP or hostname</string>
+    <string name="shareTextEmpty">No info available yet</string>
+    <string name="shareTextTitle1">**********************************</string>
+    <string name="exit_msg">Do you want to exit?</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="feedback_subject">"Diag Device Feedback"</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

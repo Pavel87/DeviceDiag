@@ -1,11 +1,17 @@
 package com.pacmac.devicediag;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,20 +19,23 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class CameraInfo extends AppCompatActivity {
 
     private final String TAG = "DIAGPAC";
-    TextView autoFocus, manualPP, manualSensor, capRaw, capFull, flashSupport, extSupport;
-    TextView vertical, horizontal, focalLength, minMaxEV, zoomRatios, faceDetection, jpegQuality,
+    private TextView autoFocus, manualPP, manualSensor, capRaw, capFull, flashSupport, extSupport;
+    private TextView vertical, horizontal, focalLength, minMaxEV, zoomRatios, faceDetection, jpegQuality,
             focusAreas, smoothZoom, videoSnapshot, videoStab, autoExposure, autoWhiteBalance,
             picSizes, videoSizes, resPicAmount, resVidAmount;
-    TableLayout tabGeneral;
-    LinearLayout tabCamSpec;
-    Camera camera;
-    Spinner spinnner;
+    private TableLayout tabGeneral;
+    private LinearLayout tabCamSpec;
+    private Camera camera;
+    private Spinner spinnner;
+    private boolean isLoaded = false;
+    private ShareActionProvider mShareActionProvider;
 
 
     @Override
@@ -72,7 +81,7 @@ public class CameraInfo extends AppCompatActivity {
             Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
 
             ArrayList<CharSequence> arrayList = new ArrayList<>();
-            arrayList.add("General Information");
+            arrayList.add("General Info");
 
             for (int i = 0; i < amountOfCameras; i++) {
 
@@ -111,6 +120,7 @@ public class CameraInfo extends AppCompatActivity {
                 } else {   /// GENERAL TAB SELECTED
                     tabCamSpec.setVisibility(View.GONE);
                     tabGeneral.setVisibility(View.VISIBLE);
+                    showGeneralInfo();
                 }
             }
 
@@ -119,15 +129,37 @@ public class CameraInfo extends AppCompatActivity {
             }
         });
 
-        //general tab data:
-        autoFocus.setText(checkCameraAutofocus(this));
-        manualPP.setText(checkCameraPostProc(this));
-        manualSensor.setText(checkCameraManSensor(this));
-        capRaw.setText(checkCameraCapRaw(this));
-        capFull.setText(checkFullLevel(this));
-        flashSupport.setText(checkCameraFlash(this));
-        extSupport.setText(checkExtCam(this));
+        showGeneralInfo();
+        isLoaded = true;
     }
+
+    private void showGeneralInfo() {
+
+        String sAutoFocus, sManualPP, sManualSensor, sCapFull, sCapRaw, sFlashSupport, sExtSupport;
+
+        //general tab data + updating share Intent
+        sAutoFocus = checkCameraAutofocus(this);
+        sManualPP = checkCameraPostProc(this);
+        sManualSensor = checkCameraManSensor(this);
+        sCapRaw = checkCameraCapRaw(this);
+        sCapFull = checkFullLevel(this);
+        sFlashSupport = checkCameraFlash(this);
+        sExtSupport = checkExtCam(this);
+
+        if (!isLoaded) {
+            autoFocus.setText(sAutoFocus);
+            manualPP.setText(sManualPP);
+            manualSensor.setText(sManualSensor);
+            capRaw.setText(sCapRaw);
+            capFull.setText(sCapFull);
+            flashSupport.setText(sFlashSupport);
+            extSupport.setText(sExtSupport);
+
+        }
+
+        updateShareIntentGeneral(sAutoFocus, sManualPP, sManualSensor, sCapFull, sCapRaw, sFlashSupport, sExtSupport);
+    }
+
 
     //check if any camera is present
 
@@ -200,57 +232,117 @@ public class CameraInfo extends AppCompatActivity {
         int max = Math.round(step * parameters.getMaxExposureCompensation());
         int jpegQ = parameters.getJpegQuality();
         int faces = parameters.getMaxNumDetectedFaces();
+        String sMinMaxEv, sSmoothZoom, sFaceDetection, sVideoSnapshot,
+                sZoomRatios, sVideoStab, sAutoExposure, sAutoWhiteBalance;
+
 
         picSizes.setText(getPicDetail(parameters));
 
         vertical.setText(vertAngle + "°");
         horizontal.setText(horizontalAngle + "°");
         focalLength.setText(focalLen + " mm");
+
         if (min != 0 || max != 0)
-            minMaxEV.setText(min + "/" + max);
+            sMinMaxEv = min + "/" + max;
         else
-            minMaxEV.setText("Not Supported");
+            sMinMaxEv = "Not Supported";
+
+        minMaxEV.setText(sMinMaxEv);
 
         if (parameters.isZoomSupported()) {
-            zoomRatios.setText("1x - " + getZoomRatios(parameters));
+            sZoomRatios = "1x - " + getZoomRatios(parameters);
             if (parameters.isSmoothZoomSupported())
-                smoothZoom.setText(getResources().getString(R.string.yes_string));
+                sSmoothZoom = getResources().getString(R.string.yes_string);
             else
-                smoothZoom.setText(getResources().getString(R.string.no_string));
+                sSmoothZoom = getResources().getString(R.string.no_string);
+        } else {
+            sZoomRatios = getResources().getString(R.string.no_string);
+            sSmoothZoom = getResources().getString(R.string.no_string);
         }
-        if (faces != 0)
-            faceDetection.setText(faces + " max");
-        else
-            faceDetection.setText("Not Supported");
 
+        zoomRatios.setText(sZoomRatios);
+        smoothZoom.setText(sSmoothZoom);
+
+        if (faces != 0)
+            sFaceDetection = faces + " max";
+        else
+            sFaceDetection = "Not Supported";
+
+        faceDetection.setText(sFaceDetection);
         focusAreas.setText(parameters.getMaxNumFocusAreas() + " max");
 
         if (parameters.isVideoSnapshotSupported())
-            videoSnapshot.setText(getResources().getString(R.string.yes_string));
+            sVideoSnapshot = getResources().getString(R.string.yes_string);
         else
-            videoSnapshot.setText(getResources().getString(R.string.no_string));
+            sVideoSnapshot = getResources().getString(R.string.no_string);
+
+        videoSnapshot.setText(sVideoSnapshot);
 
         if (parameters.isVideoStabilizationSupported())
-            videoStab.setText(getResources().getString(R.string.yes_string));
+            sVideoStab = getResources().getString(R.string.yes_string);
         else
-            videoStab.setText(getResources().getString(R.string.no_string));
+            sVideoStab = getResources().getString(R.string.no_string);
+
+        videoStab.setText(sVideoStab);
 
         if (parameters.isAutoExposureLockSupported())
-            autoExposure.setText(getResources().getString(R.string.yes_string));
+            sAutoExposure = getResources().getString(R.string.yes_string);
         else
-            autoExposure.setText(getResources().getString(R.string.no_string));
+            sAutoExposure = getResources().getString(R.string.no_string);
+
+        autoExposure.setText(sAutoExposure);
 
         if (parameters.isAutoWhiteBalanceLockSupported())
-            autoWhiteBalance.setText(getResources().getString(R.string.yes_string));
+            sAutoWhiteBalance = getResources().getString(R.string.yes_string);
         else
-            autoWhiteBalance.setText(getResources().getString(R.string.no_string));
+            sAutoWhiteBalance = getResources().getString(R.string.no_string);
+
+        autoWhiteBalance.setText(sAutoWhiteBalance);
 
         jpegQuality.setText(jpegQ + "%");
 
         videoSizes.setText(getVidDetail(parameters));
 
 
+
+        // update SHARE INTENT WITH CAM PARAMETERS
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Vertical View Angle:\t\t" + vertAngle + "°");
+        sb.append("\n");
+        sb.append("Horizontal View Angle:\t\t" + horizontalAngle + "°");
+        sb.append("\n");
+        sb.append("Focal Length:\t\t" + focalLen + " mm");
+        sb.append("\n");
+        sb.append("EV Min/Max:\t\t" + sMinMaxEv);
+        sb.append("\n");
+        sb.append("Zoom Ratio:\t\t" + sZoomRatios);
+        sb.append("\n");
+        sb.append("Smooth Zoom:\t\t" + sSmoothZoom);
+        sb.append("\n");
+        sb.append("Face Detection:\t\t" + sFaceDetection);
+        sb.append("\n");
+        sb.append("Focus Areas:\t\t" + parameters.getMaxNumFocusAreas() + " max");
+        sb.append("\n");
+        sb.append("Video Snapshot:\t\t" + sVideoSnapshot + "°");
+        sb.append("\n");
+        sb.append("Video Stabilization:\t\t" + sVideoStab + "°");
+        sb.append("\n");
+        sb.append("Auto Exposure Lock:\t\t" + sAutoExposure + "°");
+        sb.append("\n");
+        sb.append("Auto White Balance:\t\t" + sAutoWhiteBalance + "°");
+        sb.append("\n");
+        sb.append("JPEG Quality:\t\t" + jpegQ + "%");
+        sb.append("\n\n");
+
+        sb.append("Supported Picture Sizes [w x h]:\n" + getPicDetail(parameters));
+        sb.append("\n");
+        sb.append("Supported Video Sizes [w x h]:\n" +getVidDetail(parameters));
+        sb.append("\n\n");
+        updateShareIntentCamSpecific(sb);
     }
+
+
 
     public String getZoomRatios(Camera.Parameters parameters) {
 
@@ -265,9 +357,9 @@ public class CameraInfo extends AppCompatActivity {
         List<Camera.Size> picSizeList = parameters.getSupportedPictureSizes();
         StringBuilder sb = new StringBuilder();
         for (Camera.Size size : picSizeList) {
-            if (thirdCol <2) {
+            if (thirdCol < 2) {
                 sb.append(size.width + "x" + size.height + "    ");
-                thirdCol+=1;
+                thirdCol += 1;
             } else {
                 sb.append(size.width + "x" + size.height + "\n");
                 thirdCol = 0;
@@ -284,14 +376,13 @@ public class CameraInfo extends AppCompatActivity {
         StringBuilder sb = new StringBuilder();
         int thirdCol = 0;
         for (Camera.Size size : vidSizeList) {
-            if (thirdCol <2) {
+            if (thirdCol < 2) {
                 sb.append(size.width + "x" + size.height + "    ");
-                thirdCol+=1;
+                thirdCol += 1;
             } else {
                 sb.append(size.width + "x" + size.height + "\n");
                 thirdCol = 0;
             }
-
 
         }
         //show amount of Video resulutions
@@ -299,5 +390,86 @@ public class CameraInfo extends AppCompatActivity {
         return sb.toString();
     }
 
+
+    // SHARE VIA ACTION_SEND
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_share, menu);
+
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        setShareIntent(createShareIntent());
+        return true;
+    }
+
+    // Call to update the share intent
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
+    }
+
+    private Intent createShareIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.shareTextEmpty));
+        return shareIntent;
+    }
+
+    private Intent createShareIntent(StringBuilder sb) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+        return shareIntent;
+    }
+
+
+    private void updateShareIntentGeneral(String sAutoFocus, String sManualPP, String sManualSensor, String sCapFull, String sCapRaw, String sFlashSupport, String sExtSupport) {
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        sb.append("\n");
+        sb.append(Build.MODEL + "\t-\t" + "Camera General Info");
+        sb.append("\n");
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        sb.append("\n\n");
+        //body
+        sb.append("Autofocus:\t\t" + sAutoFocus);
+        sb.append("\n");
+        sb.append("Manual Post Processing\t\t" + sManualPP);
+        sb.append("\n");
+        sb.append("Manual Sensor\t\t" + sManualSensor);
+        sb.append("\n");
+        sb.append("Capability Raw\t\t" + sCapRaw);
+        sb.append("\n");
+        sb.append("Full HW Capability\t\t" + sCapFull);
+        sb.append("\n");
+        sb.append("Support Flash\t\t" + sFlashSupport);
+        sb.append("\n");
+        sb.append("Support External Camera\t\t" + sExtSupport);
+        sb.append("\n\n");
+
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        setShareIntent(createShareIntent(sb));
+    }
+
+    private void updateShareIntentCamSpecific(StringBuilder body){
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        sb.append("\n");
+        sb.append(Build.MODEL +"\t-\t" + getResources().getString(R.string.title_activity_camera_info));
+        sb.append("\n");
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        sb.append("\n\n");
+
+        //body
+        sb.append(body);
+
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        setShareIntent(createShareIntent(sb));
+
+    }
 
 }

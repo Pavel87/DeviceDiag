@@ -18,9 +18,6 @@ public class DetailAdapter extends BaseAdapter {
 
     private Context mContext;
     private Integer[] mFields;
-    private static final int PADDING = 5;
-    private static final int WIDTH = 110;
-    private static final int HEIGHT = 110;
 
     public DetailAdapter(Context context, Integer[] fields) {
         this.mContext = context;
@@ -50,7 +47,8 @@ public class DetailAdapter extends BaseAdapter {
 
             imageView = new ImageView(mContext);
            // imageView.setLayoutParams(new GridView.LayoutParams(160,160));
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageView.setScaleType(ImageView.ScaleType.FIT_START);
+            imageView.setAdjustViewBounds(true);
             imageView.setPadding(8,8,8,8);
         }
         else {
@@ -58,19 +56,6 @@ public class DetailAdapter extends BaseAdapter {
         }
 
         imageView.setImageResource(mFields[pos]);
-
-
-       /* TextView textView = (TextView) view;
-
-        if(textView == null) {
-            textView = new TextView(mContext);
-            textView.setLayoutParams( new GridView.LayoutParams(WIDTH,HEIGHT));
-            textView.setPadding(PADDING, PADDING, PADDING, PADDING);
-            textView.setFadingEdgeLength(10);
-
-        }
-
-        textView.setText(mFields.get(pos));*/
 
         return imageView;
     }

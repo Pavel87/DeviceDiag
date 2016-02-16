@@ -18,13 +18,11 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
-
 import android.os.Handler;
 import android.widget.Toast;
 
@@ -66,12 +64,12 @@ public class NMEAfeed extends ActionBarActivity implements GpsStatus.NmeaListene
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
 
                 if (checked) {
-                    Log.d("TAG", "checked");
+                    //Log.d("TAG", "checked");
                     isSaveToSDCard = true;
                     Toast.makeText(getApplicationContext(), "Log path: " + Environment.getExternalStorageDirectory() + "/NMEAlog.txt", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    Log.d("TAG", "disabled");
+                   // Log.d("TAG", "disabled");
                     isSaveToSDCard = false;
                 }
             }
@@ -188,7 +186,7 @@ public class NMEAfeed extends ActionBarActivity implements GpsStatus.NmeaListene
                     bWriter.append(logData);
                     bWriter.flush();
                     bWriter.close();
-                    Log.d("TAG", "Log saved and closed");
+                  // Log.d("TAG", "Log saved and closed");
 
                 } catch (IOException ioExc) {
                     Log.e("TAG", "IO exception can't write to NMEAlog.txt");
@@ -200,7 +198,6 @@ public class NMEAfeed extends ActionBarActivity implements GpsStatus.NmeaListene
 
                 try {
                     file.createNewFile();
-                    Log.d("TAG", "" + file.toString());
                 } catch (IOException ioException) {
                     Log.e("TAG", "Can't create new file");
                 }

@@ -1,11 +1,15 @@
 package com.pacmac.devicediag;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -20,6 +24,9 @@ public class DisplayInfo extends AppCompatActivity {
             diagonalInch, screenDP, layoutSize, drawSize, name;
     Point size = new Point();
     Display display;
+    private final Handler mHandler = new Handler();
+    private Runnable timer;
+    private ShareActionProvider mShareActionProvider;
 
 
     @Override
@@ -99,7 +106,7 @@ public class DisplayInfo extends AppCompatActivity {
         diagonalInch.setText(String.format("%.3f", diagonal) + " in");
         drawSize.setText(densityQualifier(densityDpi));
         //The current width/height of the available screen space, in dp units, corresponding to screen width resource qualifier
-        screenDP.setText(160*screenWidth/metrics.densityDpi + "x" +160*screenHeight/metrics.densityDpi + " dp");
+        screenDP.setText(160 * screenWidth / metrics.densityDpi + "x" + 160 * screenHeight / metrics.densityDpi + " dp");
 
     }
 
@@ -170,9 +177,104 @@ public class DisplayInfo extends AppCompatActivity {
         return "N/A";
     }
 
-    @Override
-    protected void onDestroy() {
 
-        super.onDestroy();
+    // SHARE VIA ACTION_SEND
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_share, menu);
+
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        setShareIntent(createShareIntent());
+        return true;
+    }
+
+    // Call to update the share intent
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
+    }
+
+    private Intent createShareIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.shareTextEmpty));
+        return shareIntent;
+    }
+
+    private Intent createShareIntent(StringBuilder sb) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+        return shareIntent;
+    }
+
+
+    private void updateShareIntent() {
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        sb.append("\n");
+        sb.append(Build.MODEL +"\t-\t" + getResources().getString(R.string.title_activity_display_info));
+        sb.append("\n");
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        sb.append("\n\n");
+        //body
+
+        sb.append("Density:\t\t" + density.getText().toString());
+        sb.append("\n");
+        sb.append("Scale Factor:\t\t" + scaleFactor.getText().toString());
+        sb.append("\n");
+        sb.append("Refresh Rate:\t\t" + refreshRate.getText().toString());
+        sb.append("\n");
+        sb.append("Resolution:\t\t" + resolution.getText().toString());
+        sb.append("\n");
+        sb.append("Dimensions:\t\t" + absolutDimensions.getText().toString());
+        sb.append("\n");
+        sb.append(screenDP.getText().toString());
+        sb.append("\n");
+        sb.append("Diagonal:\t\t" + diagonalInch.getText().toString());
+        sb.append("\n");
+        sb.append("X/Y DPI:\t\t" + xyDPI.getText().toString());
+        sb.append("\n");
+        sb.append("Orientation:\t\t" + rotation.getText().toString());
+        sb.append("\n");
+        sb.append("Type:\t\t" + name.getText().toString());
+        sb.append("\n");
+        sb.append("Layout Size:\t\t" + layoutSize.getText().toString());
+        sb.append("\n");
+        sb.append("Draw:\t\t" + drawSize.getText().toString());
+        sb.append("\n\n");
+
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        setShareIntent(createShareIntent(sb));
+
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        timer = new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        updateShareIntent();
+                    }
+                });
+            }
+        };
+        mHandler.postDelayed(timer, 1000);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mHandler.removeCallbacks(timer);
     }
 }

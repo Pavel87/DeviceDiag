@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -53,7 +54,6 @@
             android:label="@string/title_activity_nmeafeed"></activity>
         <activity
             android:name=".SensorsInfo"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_sensor_list"></activity>
         <activity
             android:name=".DisplayInfo"

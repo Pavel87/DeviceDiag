@@ -7,8 +7,6 @@ import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 
 
@@ -50,7 +48,7 @@ public class BatteryInfo extends ActionBarActivity {
                 int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
                 float batteryPct = 100* level / (float)scale;
 
-                int batTemp = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1);
+                float batTemp = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1) / 10.0f;
                 int batVoltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1);
                 int batPlugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
                 boolean batPresent = intent.getBooleanExtra(BatteryManager.EXTRA_PRESENT, false);
@@ -61,7 +59,7 @@ public class BatteryInfo extends ActionBarActivity {
 
                 //displaying:
                 batteryLevel.setText(batteryPct+"%");
-                batteryTemperature.setText("" + batTemp);
+                batteryTemperature.setText(batTemp + "°C");
                 batteryVoltage.setText(batVoltage+"mV");
                 batteryStatus.setText(getBatStatus(batStatus));
                 batteryHealth.setText(getBatHealth(batHealth));

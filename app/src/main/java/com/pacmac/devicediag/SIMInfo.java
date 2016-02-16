@@ -2,23 +2,20 @@ package com.pacmac.devicediag;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.database.Cursor;
+import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.telephony.CellIdentityGsm;
+import android.support.v7.widget.ShareActionProvider;
 import android.telephony.CellInfo;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 
@@ -46,6 +43,10 @@ public class SIMInfo extends ActionBarActivity {
     private String cell;
 
     private List<CellInfo> cellInfo;
+    private ShareActionProvider mShareActionProvider;
+    private final Handler mHandler = new Handler();
+    private Runnable timer;
+
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
@@ -71,10 +72,10 @@ public class SIMInfo extends ActionBarActivity {
         dataState = (TextView) findViewById(R.id.dataState);
         phoneRadio = (TextView) findViewById(R.id.phoneRadio);
         cellInformation = (TextView) findViewById(R.id.cellInformation);
+
+
         // update view with phone data
         updateData();
-
-
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -98,8 +99,7 @@ public class SIMInfo extends ActionBarActivity {
                 if (telephonyManager.getNetworkOperator().length() > 2) {
                     mcc.setText("MCC:" + telephonyManager.getNetworkOperator().substring(0, 3));
                     mnc.setText("MNC:" + telephonyManager.getNetworkOperator().substring(3));
-                }
-                else{
+                } else {
                     mcc.setText("MCC:" + "N/A");
                     mnc.setText("MNC:" + "N/A");
                 }
@@ -144,6 +144,8 @@ public class SIMInfo extends ActionBarActivity {
             simInfo.setTextColor(Color.RED);
             simInfo.setText("NO SIM CARD DETECTED");
         }
+
+        updateShareIntent();
     }
 
     private String simState(int value) {
@@ -151,7 +153,6 @@ public class SIMInfo extends ActionBarActivity {
         switch (value) {
 
             case TelephonyManager.SIM_STATE_UNKNOWN:
-                //TODO sometimes it occurs on unit which doesn't have SIM needs to be false as well
                 isSIMInside = false;
                 simInfo.setTextColor(Color.RED);
                 return "Unknown - SIM might be in transition between states";
@@ -280,6 +281,115 @@ public class SIMInfo extends ActionBarActivity {
 
         }
         return "error";
+    }
+
+
+    // SHARE VIA ACTION_SEND
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_share, menu);
+
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        setShareIntent(createShareIntent());
+        return true;
+    }
+
+    // Call to update the share intent
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
+    }
+
+    private Intent createShareIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.shareTextEmpty));
+        return shareIntent;
+    }
+
+    private Intent createShareIntent(StringBuilder sb) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+        return shareIntent;
+    }
+
+
+    private void updateShareIntent() {
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        sb.append("\n");
+        sb.append(Build.MODEL +"\t-\t" +  getResources().getString(R.string.title_activity_siminfo));
+        sb.append("\n");
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        sb.append("\n\n");
+        //body
+        sb.append("SIM SN: " + serialN.getText().toString());
+        sb.append("\n");
+        sb.append("IMEI: " + imeiNumber.getText().toString());
+        sb.append("\n");
+        sb.append("IMSI: " + imsiNumber.getText().toString());
+        sb.append("\n");
+        sb.append("Phone Radio: " + phoneRadio.getText().toString());
+        sb.append("\n");
+        sb.append("SPN Name: " + spnName.getText().toString());
+        sb.append("\n");
+        sb.append(mccSpn.getText().toString());
+        sb.append("\n");
+        sb.append(mncSpn.getText().toString());
+        sb.append("\n");
+        sb.append("Network Name: " + networkName.getText().toString());
+        sb.append("\n");
+        sb.append(mcc.getText().toString());
+        sb.append("\n");
+        sb.append(mnc.getText().toString());
+        sb.append("\n");
+        sb.append("Provider Country: " + providerCountry.getText().toString());
+        sb.append("\n");
+        sb.append("Network Type: " + networkType.getText().toString());
+        sb.append("\n");
+        sb.append("SIM Number: " + phoneNumber.getText().toString());
+        sb.append("\n");
+        sb.append("Cell Info: " + cellInformation.getText().toString());
+        sb.append("\n");
+        sb.append("Data State: " + dataState.getText().toString());
+        sb.append("\n");
+        sb.append("Data Activity: " + dataActivity.getText().toString());
+        sb.append("\n\n");
+
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        setShareIntent(createShareIntent(sb));
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        timer = new Runnable() {
+            @Override
+            public void run() {
+                mHandler.postDelayed(this, 5000);
+
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        updateShareIntent();
+                    }
+                });
+            }
+        };
+        mHandler.postDelayed(timer, 5000);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mHandler.removeCallbacks(timer);
     }
 
 }

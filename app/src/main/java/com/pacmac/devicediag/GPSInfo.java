@@ -1,6 +1,7 @@
 package com.pacmac.devicediag;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -10,14 +11,17 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import android.support.v7.widget.ShareActionProvider;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,10 +54,12 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
 
     private Iterable<GpsSatellite> gpsSatelites;
     private ArrayList<Satelites> satelites = new ArrayList<Satelites>();
+    double locLat, locLong;
 
     private boolean enabled = false;
     private Fragment fragment;
     FragmentTransaction ft = null;
+    private ShareActionProvider mShareActionProvider;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -159,6 +165,7 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
 
         } else
             Toast.makeText(getApplicationContext(), "GPS is not available on this device", Toast.LENGTH_LONG).show();
+
     }
 
 
@@ -184,6 +191,8 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
 
+        locLat = location.getLatitude();
+        locLong = location.getLongitude();
         boolean isConnected = false;
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         android.net.NetworkInfo networkInfo;
@@ -197,35 +206,61 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
             isConnected = networkInfo.isConnectedOrConnecting();
         }
 
+
         if (isConnected) {
             // geocoder will resolve
-            Geocoder geocoder = new Geocoder(getApplicationContext());
-            if (geocoder.isPresent()) {
-                try {
-                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                    String street = addresses.get(0).getThoroughfare();
-                    String numHouse = addresses.get(0).getSubThoroughfare();
-                    String city = addresses.get(0).getSubAdminArea();
-                    String postalCode = addresses.get(0).getPostalCode();
-
-                    street = street == null ? "" : street;
-                    numHouse = numHouse == null ? "" : numHouse;
-                    city = city == null ? "" : city;
-                    postalCode = postalCode == null ? "" : postalCode;
 
 
-                    //display address in ACTION BAR
-                    getSupportActionBar().setTitle(street + " " + numHouse);
-                    getSupportActionBar().setSubtitle(city + ", " + postalCode);
+            new Thread(new Runnable() {
 
-                } catch (IOException ex) {
-                    ex.printStackTrace(); // will throw if no connection to server
+                @Override
+                public void run() {
+
+
+                    Geocoder geocoder = new Geocoder(getApplicationContext());
+                    if (geocoder.isPresent()) {
+                        try {
+                            List<Address> addresses = geocoder.getFromLocation(locLat, locLong, 1);
+                            String street = addresses.get(0).getThoroughfare();
+                            String numHouse = addresses.get(0).getSubThoroughfare();
+                            String city = addresses.get(0).getSubAdminArea();
+                            String postalCode = addresses.get(0).getPostalCode();
+
+                            street = street == null ? "" : street;
+                            numHouse = numHouse == null ? "" : numHouse;
+                            city = city == null ? "" : city;
+                            postalCode = postalCode == null ? "" : postalCode;
+
+
+
+
+                            //display address in ACTION BAR
+                            runOnUiThread(new RunnableShowTitle(street, numHouse, city, postalCode) {
+                                @Override
+                                public void run() {
+                                    getSupportActionBar().setTitle(getStreet()+" " + getNumHouse());
+                                    getSupportActionBar().setSubtitle(getCity() + " " + getPostalCode());
+                                }
+                            });
+
+
+                        } catch (IOException ex) {
+                            ex.printStackTrace(); // will throw if no connection to server
+                        }
+                    }
+
+
                 }
-            }
+            }).start();
+
+        }
+        else {
+            getSupportActionBar().setTitle(getResources().getString(R.string.activity_title_gps_information));
+            getSupportActionBar().setSubtitle("");
         }
 
 
-        int speedInt = (int) (location.getSpeed() * (1000f / 3600f));
+        int speedInt = (int) (location.getSpeed() * 3.6f);
         long timeRaw = location.getTime();
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(timeRaw);
@@ -236,8 +271,8 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
 
         // display Location on screen
         lastFix = hour + ":" + String.format("%02d", minute) + ":" + String.format("%02d", second);
-        latitude = location.getLatitude() + "°";
-        longitude = location.getLongitude() + "°";
+        latitude = location.getLatitude() + "";
+        longitude = location.getLongitude() + "";
         altitude = String.format("%.01f", location.getAltitude()) + " m";
         speed = speedInt + " km/s";
         accuracy = String.format("%.01f", location.getAccuracy()) + " m";
@@ -247,6 +282,8 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
             ((GpsInfoLocation) fragment).displayGPSData(longitude, latitude, altitude,
                     speed, accuracy, bearing, lastFix);
         }
+
+        updateShareIntent();
     }
 
     @Override
@@ -274,12 +311,6 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.menu_gps, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -303,4 +334,68 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
         ft.commit();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_gps, menu);
+
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        setShareIntent(createShareIntent());
+        return true;
+    }
+
+    // Call to update the share intent
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
+    }
+
+    private Intent createShareIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.shareTextEmpty));
+        return shareIntent;
+    }
+
+    private Intent createShareIntent(StringBuilder sb) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+        return shareIntent;
+    }
+
+
+    private void updateShareIntent() {
+
+        if (lastFix != null) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(getResources().getString(R.string.shareTextTitle1));
+            sb.append("\n");
+            sb.append(Build.MODEL +"\t-\t" + getResources().getString(R.string.activity_title_gps_information));
+            sb.append("\n");
+            sb.append(getResources().getString(R.string.shareTextTitle1));
+            sb.append("\n\n");
+            //body
+            sb.append("Last location:\t\t" + lastFix);
+            sb.append("\n");
+            sb.append("Time to first fix:\t\t" + timeToFix);
+            sb.append("\n");
+            sb.append("Location:\t\t");
+            sb.append(latitude + ", " + longitude);
+            sb.append("\n");
+            sb.append("Altitude:\t\t" + altitude);
+            sb.append("\n");
+            sb.append("Speed:\t\t" + speed);
+            sb.append("\n");
+            sb.append("Accuracy:\t\t" + accuracy);
+            sb.append("\n");
+            sb.append("Bearing:\t\t" + bearing);
+            sb.append("\n\n");
+
+            sb.append(getResources().getString(R.string.shareTextTitle1));
+            setShareIntent(createShareIntent(sb));
+        }
+    }
 }
