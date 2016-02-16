@@ -194,9 +194,10 @@ public class GpsInfoLocation extends Fragment {
 
     public void displayGPSStatus(String gpsInfoS, String gpsTimeToFirstFix) {
         // display Location on screen
-        gpsInfo.setText(gpsInfoS);
-        timeToFix.setText(gpsTimeToFirstFix);
-
+        if(gpsInfoS != null && gpsTimeToFirstFix !=null) {
+            gpsInfo.setText(gpsInfoS);
+            timeToFix.setText(gpsTimeToFirstFix);
+        }
 
     }
 
