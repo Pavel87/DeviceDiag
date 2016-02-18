@@ -87,9 +87,9 @@ public class CameraInfo extends AppCompatActivity {
 
                 Camera.getCameraInfo(i, cameraInfo);
                 if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                    arrayList.add((i + 1) + ": Facing Front");
+                    arrayList.add((i + 1) + ": Front");
                 } else
-                    arrayList.add((i + 1) + ": Facing Back");
+                    arrayList.add((i + 1) + ": Back");
             }
 
             ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, arrayList);

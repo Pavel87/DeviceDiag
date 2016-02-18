@@ -174,13 +174,13 @@ public class GpsInfoLocation extends Fragment {
 
         // display Location on screen
         try {
-            latitude.setText(latitudeS);
-            longitude.setText(longitudeS);
-            altitude.setText(altitudeS);
-            speed.setText(speedS);
-            accuracy.setText(accuracyS);
-            bearing.setText(bearingS);
-            this.lastFix.setText(lastFix);
+            latitude.setText((latitudeS!= null)? latitudeS : "");
+            longitude.setText((longitudeS!= null)? longitudeS : "");
+            altitude.setText((altitudeS != null) ? altitudeS : "");
+            speed.setText((speedS!= null)? speedS : "");
+            accuracy.setText((accuracyS!= null)? accuracyS : "");
+            bearing.setText((bearingS!= null)? bearingS : "");
+            this.lastFix.setText((lastFix!= null)? lastFix : "");
         }
         catch (Exception ex){
             Toast.makeText(getActivity().getApplicationContext(),ex.getMessage(),Toast.LENGTH_LONG).show();
