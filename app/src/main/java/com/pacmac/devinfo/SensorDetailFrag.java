@@ -1,4 +1,4 @@
-package com.pacmac.devicediag;
+package com.pacmac.devinfo;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -14,9 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import static android.util.FloatMath.cos;
 import static android.util.FloatMath.sin;
@@ -44,7 +42,6 @@ public class SensorDetailFrag extends Fragment {
     SensorEventListener sensorEventListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
-            //  Log.d("TAG", sensorEvent.toString());
           //  values = sensorEvent.values;
             switch (sensor.getType()) {
                 case 1:
@@ -101,7 +98,7 @@ public class SensorDetailFrag extends Fragment {
 
         @Override
         public void onAccuracyChanged(Sensor sensor, int i) {
-            Log.d("TAG2", "accuracy: " + i);
+           // Log.d("TAG2", "accuracy: " + i);
         }
     };
 //  END LISTENER

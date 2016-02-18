@@ -1,8 +1,9 @@
-package com.pacmac.devicediag;
+package com.pacmac.devinfo;
 
 /**
- * Created by tqm837 on 2/10/2016.
+ * Created by pacmac on 2/10/2016.
  */
+
 public class RunnableShowTitle implements Runnable {
 
     private String street;

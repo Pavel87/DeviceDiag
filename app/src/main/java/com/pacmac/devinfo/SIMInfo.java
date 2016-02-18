@@ -1,4 +1,4 @@
-package com.pacmac.devicediag;
+package com.pacmac.devinfo;
 
 import android.annotation.TargetApi;
 import android.content.Context;

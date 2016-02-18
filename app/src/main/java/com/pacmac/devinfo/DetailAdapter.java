@@ -1,15 +1,10 @@
-package com.pacmac.devicediag;
+package com.pacmac.devinfo;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
-
-import java.util.List;
 
 /**
  * Created by pacmac on 5/27/2015.

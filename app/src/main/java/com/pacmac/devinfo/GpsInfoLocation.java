@@ -1,4 +1,4 @@
-package com.pacmac.devicediag;
+package com.pacmac.devinfo;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -30,9 +30,6 @@ public class GpsInfoLocation extends Fragment {
     private Button nMEAStart;
 
     private LocationManager locationManager;
-
-   // private GPSSatListFragInitListener mGPSSatButtonListener;
-
 
     public GpsInfoLocation() {
         // Required empty public constructor

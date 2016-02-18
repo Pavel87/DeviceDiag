@@ -1,13 +1,11 @@
-package com.pacmac.devicediag;
+package com.pacmac.devinfo;
 
 import android.app.ActivityManager;
 import android.graphics.Color;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.StatFs;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +21,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
+
+
 public class MemoryInfo extends AppCompatActivity {
 
     private final Handler mHandler = new Handler();
@@ -35,7 +36,6 @@ public class MemoryInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory_info);
-        Log.d("TAG", "path getExternalStorageDirectory(): " + Environment.getExternalStorageDirectory());
 
         ramTotal = (TextView) findViewById(R.id.ramTotal);
         ramAvailable = (TextView) findViewById(R.id.ramAvailable);
@@ -139,7 +139,7 @@ public class MemoryInfo extends AppCompatActivity {
 
             if (mountList.exists()) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(mountList)));
-                String line = null;
+                String line= null;
 
                 while ((line = reader.readLine()) != null) {
 
@@ -148,7 +148,6 @@ public class MemoryInfo extends AppCompatActivity {
                         String lineSplits[] = line.split(" ");
                         String sdPath = lineSplits[1];
                         if (sdPath.contains("storage/sdcard")) {
-                            Log.d("TAG", "SDPATH found: " + sdPath);
                             sdPathList.add(sdPath);
                         }
                     }

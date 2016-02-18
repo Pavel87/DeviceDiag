@@ -16,7 +16,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
             android:textSize="18sp"
             android:text="@string/exit_msg"/>
 
@@ -33,7 +32,6 @@
             android:id="@+id/noExit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginRight="16dp"
             style="?android:attr/borderlessButtonStyle"
@@ -45,7 +43,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:textStyle="bold"
             style="?android:attr/borderlessButtonStyle"
             android:textColor="@color/material_deep_teal_500"
             android:text="@string/yes_string"/>

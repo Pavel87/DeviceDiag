@@ -1,4 +1,4 @@
-package com.pacmac.devicediag;
+package com.pacmac.devinfo;
 
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +33,7 @@ import java.util.List;
 /**
  * Created by pacmac on 6/10/2015.
  */
+
 public class GPSInfo extends ActionBarActivity implements LocationListener {
 
     String gpsInfo = null;

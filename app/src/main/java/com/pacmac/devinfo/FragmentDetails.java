@@ -1,4 +1,4 @@
-package com.pacmac.devicediag;
+package com.pacmac.devinfo;
 
 
 import android.content.Intent;
@@ -10,10 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by pacmac on 5/26/2015.
@@ -21,9 +17,6 @@ import java.util.Arrays;
 public class FragmentDetails extends Fragment {
 
     private GridView gridView;
-    private ArrayList<String> fields = new ArrayList<>(
-            Arrays.asList("CPU", "MEMORY", "BATTERY", "CAMERA", "GPS", "SIM","SENSORS","DISPLAY","NETWORK", "ABOUT" ));
-                        //  0      1          2         3        4      5       6           7       8         9
 
     private Integer[] mThumbIds = {
             R.drawable.cpuimg, R.drawable.ramimg,

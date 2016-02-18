@@ -1,4 +1,4 @@
-package com.pacmac.devicediag;
+package com.pacmac.devinfo;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

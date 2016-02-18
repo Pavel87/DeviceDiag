@@ -1,9 +1,6 @@
-package com.pacmac.devicediag;
+package com.pacmac.devinfo;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
@@ -33,9 +30,7 @@ public class DiagMain extends ActionBarActivity implements ActionBar.TabListener
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
-
-        getSupportActionBar().setIcon(R.drawable.satellite); //TODO ICON add
-        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.

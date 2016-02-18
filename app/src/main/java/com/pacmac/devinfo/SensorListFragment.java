@@ -1,4 +1,4 @@
-package com.pacmac.devicediag;
+package com.pacmac.devinfo;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,7 +16,6 @@ import java.util.List;
 
 public class SensorListFragment extends Fragment {
 
-    private TextView sensorList;
     private ListView list;
     private SensorManager sensorManager;
     private SensorAdapter sensorAdapter;
@@ -24,7 +23,6 @@ public class SensorListFragment extends Fragment {
 
 
     public SensorListFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -56,6 +54,8 @@ list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
     }
 
 
+
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -67,6 +67,8 @@ list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         }
     }
 
+
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -76,7 +78,7 @@ list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(int sensorType);
+        void onFragmentInteraction(int sensorType);
     }
 
 }

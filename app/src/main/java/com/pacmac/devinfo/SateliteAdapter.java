@@ -1,4 +1,4 @@
-package com.pacmac.devicediag;
+package com.pacmac.devinfo;
 
 
 import android.content.Context;
@@ -7,9 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by pacmac on 6/27/2015.
@@ -88,8 +86,8 @@ public class SateliteAdapter extends ArrayAdapter<Satelites> {
         return super.getItemId(position);
     }
 
-    public static class Viewholder {
 
+    public static class Viewholder {
         TextView idT;
         TextView snrT;
         TextView pnrT;

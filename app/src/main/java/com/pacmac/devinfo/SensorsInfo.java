@@ -1,4 +1,4 @@
-package com.pacmac.devicediag;
+package com.pacmac.devinfo;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -45,7 +45,7 @@ public class SensorsInfo extends AppCompatActivity implements SensorListFragment
                 showSensorDetailFrag(sensorType);
                 break;
             default:
-                Toast.makeText(getApplicationContext(), "No Detail available for this sensor.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "... Sensor detail will be in next update.", Toast.LENGTH_SHORT).show();
                 break;
         }
 
@@ -61,7 +61,7 @@ public class SensorsInfo extends AppCompatActivity implements SensorListFragment
     @Override
     public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() > 0 ){
-            Log.d("TAG", "getCount " + getFragmentManager().getBackStackEntryCount());
+            //Log.d("TAG", "getCount " + getFragmentManager().getBackStackEntryCount());
             getFragmentManager().popBackStack();
         } else {
             super.onBackPressed();

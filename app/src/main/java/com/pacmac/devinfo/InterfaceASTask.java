@@ -1,4 +1,4 @@
-package com.pacmac.devicediag;
+package com.pacmac.devinfo;
 
 /**
  * Created by pacmac on 9/22/2015.

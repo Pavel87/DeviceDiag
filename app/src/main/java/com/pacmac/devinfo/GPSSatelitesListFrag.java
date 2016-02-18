@@ -1,8 +1,7 @@
-package com.pacmac.devicediag;
+package com.pacmac.devinfo;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 /**
- * Created by tqm837 on 2/5/2016.
+ * Created by pacmac on 2/5/2016.
  */
 public class GPSSatelitesListFrag extends Fragment {
 

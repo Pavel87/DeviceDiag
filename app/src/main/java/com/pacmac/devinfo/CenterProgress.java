@@ -1,11 +1,11 @@
-package com.pacmac.devicediag;
+package com.pacmac.devinfo;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 
 /**
- * Created by tqm837 on 2/9/2016.
+ * Created by pacmac on 2/9/2016.
  */
 public class CenterProgress extends AlertDialog {
 

@@ -1,20 +1,12 @@
-package com.pacmac.devicediag;
-
-import android.graphics.Color;
+package com.pacmac.devinfo;
 
 import android.os.Build;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-import java.io.IOException;
-import java.io.RandomAccessFile;
 
 
 /**

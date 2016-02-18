@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="@color/material_blue_grey_950"
-            android:text="@string/send_feedback"/>
+            android:text="@string/rate_app"/>
 
     </LinearLayout>
 
@@ -29,17 +29,11 @@
         android:layout_marginTop="16dp"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/feedbackMsg"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:hint="Type in your feedback"
-            android:theme="@style/MyEditTextTheme"
-            android:textCursorDrawable="@null"
-            android:maxLines="3"
-            style="@style/Base.V12.Widget.AppCompat.EditText"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:text="@string/rta_dialog_message"/>
 
     </LinearLayout>
 
@@ -59,7 +53,7 @@
             android:textColor="@color/material_deep_teal_500"
             android:layout_marginRight="16dp"
             style="?android:attr/borderlessButtonStyle"
-            android:text="@string/no_string"/>
+            android:text="@string/no_thanks"/>
 
         <Button
             android:id="@+id/yesExit"
@@ -68,7 +62,7 @@
             android:textSize="18sp"
             style="?android:attr/borderlessButtonStyle"
             android:textColor="@color/material_deep_teal_500"
-            android:text="@string/yes_string"/>
+            android:text="@string/rateit"/>
 
     </LinearLayout>
 

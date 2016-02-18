@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/ac_background"
-    tools:context="com.pacmac.devicediag.BatteryInfo">
+    tools:context="com.pacmac.devinfo.BatteryInfo">
 
     <LinearLayout
         android:layout_width="match_parent"

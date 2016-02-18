@@ -1,19 +1,13 @@
-package com.pacmac.devicediag;
+package com.pacmac.devinfo;
 
 import android.content.Context;
 import android.hardware.Sensor;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Switch;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * Created by pacmac on 7/14/2015.
@@ -30,6 +24,7 @@ public class SensorAdapter extends ArrayAdapter<Sensor> {
         this.context = context;
     }
 
+
     @Override
     public int getCount() {
         return super.getCount();
@@ -45,12 +40,12 @@ public class SensorAdapter extends ArrayAdapter<Sensor> {
         return super.getItemId(i);
     }
 
+
     @Override
     public View getView(int index, View view, ViewGroup viewGroup) {
 
         Sensor currentSensor = getItem(index);
         getSensor(currentSensor);
-
 
         Viewhold viewHolder;
         if (view == null) {
@@ -71,7 +66,6 @@ public class SensorAdapter extends ArrayAdapter<Sensor> {
         return view;
     }
 
-
     public static class Viewhold {
 
         TextView id;
@@ -81,14 +75,11 @@ public class SensorAdapter extends ArrayAdapter<Sensor> {
     }
 
     public void getSensor(Sensor sensor) {
-
        name= getName(sensor.getType());
-
     }
 
 
     public String getName(int type) {
-
         switch(type){
             case 1: return "Acccelerometer";
             case 2: return "Magnetic Field";
@@ -113,7 +104,6 @@ public class SensorAdapter extends ArrayAdapter<Sensor> {
             case 21: return "Heart Rate";
             case 22: return "Step Counter";
         }
-
         return "unknown";
     }
 

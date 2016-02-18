@@ -1,4 +1,4 @@
-package com.pacmac.devicediag;
+package com.pacmac.devinfo;
 
 import android.os.AsyncTask;
 
@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Created by tqm837 on 9/22/2015.
+ * Created by pacmac on 9/22/2015.
  */
 public class AsyncPingTask extends AsyncTask<String, Integer, String> {
 

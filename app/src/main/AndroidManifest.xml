@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pacmac.devicediag">
+    package="com.pacmac.devinfo">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -23,7 +23,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".DiagMain"
+            android:name="com.pacmac.devinfo.DiagMain"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CPUInfo"
+            android:name="com.pacmac.devinfo.CPUInfo"
             android:label="@string/title_activity_cpu_info"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -41,35 +41,35 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BatteryInfo"
+            android:name="com.pacmac.devinfo.BatteryInfo"
             android:label="@string/title_activity_battery_info"></activity>
         <activity
-            android:name=".SIMInfo"
+            android:name="com.pacmac.devinfo.SIMInfo"
             android:label="@string/title_activity_siminfo"></activity>
         <activity
-            android:name=".GPSInfo"
+            android:name="com.pacmac.devinfo.GPSInfo"
             android:label="@string/activity_title_gps_information"></activity>
         <activity
-            android:name=".NMEAfeed"
+            android:name="com.pacmac.devinfo.NMEAfeed"
             android:label="@string/title_activity_nmeafeed"></activity>
         <activity
-            android:name=".SensorsInfo"
+            android:name="com.pacmac.devinfo.SensorsInfo"
             android:label="@string/title_activity_sensor_list"></activity>
         <activity
-            android:name=".DisplayInfo"
+            android:name="com.pacmac.devinfo.DisplayInfo"
             android:label="@string/title_activity_display_info"></activity>
         <activity
-            android:name=".NetworkInfo"
+            android:name="com.pacmac.devinfo.NetworkInfo"
             android:label="@string/title_activity_network_info"
             android:windowSoftInputMode="adjustNothing"></activity>
         <activity
-            android:name=".MemoryInfo"
+            android:name="com.pacmac.devinfo.MemoryInfo"
             android:label="@string/title_activity_memory_info"></activity>
         <activity
-            android:name=".CameraInfo"
+            android:name="com.pacmac.devinfo.CameraInfo"
             android:label="@string/title_activity_camera_info"></activity>
         <activity
-            android:name=".AboutActivity"
+            android:name="com.pacmac.devinfo.AboutActivity"
             android:label="@string/title_activity_about"></activity>
     </application>
 

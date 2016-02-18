@@ -1,9 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+        }
+    }
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
-
     defaultConfig {
         applicationId "com.pacmac.devicediag"
         minSdkVersion 16
@@ -20,18 +23,18 @@ android {
     productFlavors {
         paid {
             applicationId = "com.pacmac.devicediag.paid"
-            versionName = "1.0-paid"
+            versionName = "1.0-p"
         }
         free {
             applicationId = "com.pacmac.devicediag.free"
-            versionName = "1.0-free"
+            versionName = "1.0"
         }
     }
     sourceSets { main { java.srcDirs = ['src/main/java'] } }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.jjoe64:graphview:4.0.1'
