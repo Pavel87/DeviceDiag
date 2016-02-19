@@ -91,17 +91,17 @@ public class SIMInfo extends ActionBarActivity {
                 imsiNumber.setText(telephonyManager.getSubscriberId());
                 spnName.setText(telephonyManager.getSimOperatorName());
 
-                mccSpn.setText("SPN-MCC:" + telephonyManager.getSimOperator().substring(0, 3));
-                mncSpn.setText("SPN-MNC:" + telephonyManager.getSimOperator().substring(3));
+                mccSpn.setText("SPN-MCC: " + telephonyManager.getSimOperator().substring(0, 3));
+                mncSpn.setText("SPN-MNC: " + telephonyManager.getSimOperator().substring(3));
 
                 networkName.setText(telephonyManager.getNetworkOperatorName());
 
                 if (telephonyManager.getNetworkOperator().length() > 2) {
-                    mcc.setText("MCC:" + telephonyManager.getNetworkOperator().substring(0, 3));
-                    mnc.setText("MNC:" + telephonyManager.getNetworkOperator().substring(3));
+                    mcc.setText("MCC: " + telephonyManager.getNetworkOperator().substring(0, 3));
+                    mnc.setText("MNC: " + telephonyManager.getNetworkOperator().substring(3));
                 } else {
-                    mcc.setText("MCC:" + "N/A");
-                    mnc.setText("MNC:" + "N/A");
+                    mcc.setText("MCC: " + "N/A");
+                    mnc.setText("MNC: " + "N/A");
                 }
                 providerCountry.setText(telephonyManager.getNetworkCountryIso().toUpperCase());
                 phoneNumber.setText(telephonyManager.getLine1Number());
@@ -127,7 +127,7 @@ public class SIMInfo extends ActionBarActivity {
                         stop = cell.indexOf("}", start);
                         String ber = cell.substring(start + 5, stop);
                         cellInformation.setText("LAC: " + lac + "\n" + "Cell ID: " + cid + "\n" +
-                                "Signal Stregth[dBm]: " + ss +
+                                "Signal Strength[dBm]: " + ss +
                                 "\n" + "BER: " + ber);
                     }
                 }

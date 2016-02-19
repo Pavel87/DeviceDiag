@@ -176,7 +176,8 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
             progress.setCancelable(false);
             progress.show();
         } else
-            progress.hide();
+            //progress.hide();
+            progress.dismiss();
 
     }
 
@@ -242,14 +243,16 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         } else {
             bssidTemp = connInformation[1].substring(7);
         }
-
         // WIFI Connected info
         ssidField.setText(connInformation[0].substring(6));
         bssidField.setText(connInformation[1].substring(7));
         macField.setText(connInformation[2].substring(5));
         rssiField.setText(connInformation[4].substring(6));
         linkSpeedField.setText(connInformation[5].substring(12));
-        frequencyField.setText(connInformation[6].substring(11));
+        if (Build.VERSION.SDK_INT >= 19) // frequency is not available in JB OS
+            frequencyField.setText(connInformation[6].substring(11));
+        else
+            frequencyField.setText(getResources().getString(R.string.not_available_info));
         roaming.setText(roamingStr);
 
         //dhcp address
