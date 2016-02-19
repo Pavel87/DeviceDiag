@@ -16,7 +16,7 @@
     <string name="available_info">Available</string>
     <string name="not_available_info">Not Available</string>
     <string name="not_present">Not Present</string>
-    <string name="activity_title_gps_information">GPS Inforamtion</string>
+    <string name="activity_title_gps_information">GPS Information</string>
     <string name="title_activity_network_info">Network Information</string>
     <string name="title_activity_memory_info">Memory Information</string>
     <string name="title_activity_camera_info">Camera Information</string>
@@ -31,7 +31,7 @@
     <string name="exit_msg">Do you want to exit?</string>
     <string name="send_feedback">Send Feedback</string>
     <string name="rate_app">Rate now!</string>
-    <string name="feedback_subject">Diag Device Feedback</string>
+    <string name="feedback_subject">Device Info Feedback</string>
     <string name="version_text">Version: </string>
     <string name="app_description">Device Info is an application which queries data from android device and obtain HW features which are normally not available through user interface. It contains several modules visible from main menu. Device Info application also offers a possibility to test GPS and network using ping command.</string>
 <string name="app_author">© Device Info by p@cmac 2016.</string>
