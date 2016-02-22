@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.net.DhcpInfo;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Handler;
@@ -22,6 +24,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Calendar;
 
 public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
@@ -233,38 +237,57 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         // wifi info
         String[] connInformation = wifiManager.getConnectionInfo().toString().split(",");
 
-        if (bssidTemp != null && !bssidTemp.equals(connInformation[1].substring(7))) {
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+
+
+        if (bssidTemp != null && !bssidTemp.equals(wifiInfo.getBSSID())) {
             Calendar cal = Calendar.getInstance();
             int hour = cal.get(Calendar.HOUR_OF_DAY);
             int minute = cal.get(Calendar.MINUTE);
             int second = cal.get(Calendar.SECOND);
-            bssidTemp = connInformation[1].substring(7);
+            bssidTemp = wifiInfo.getBSSID();
             roamingStr = hour + ":" + String.format("%02d", minute) + ":" + String.format("%02d", second);
         } else {
-            bssidTemp = connInformation[1].substring(7);
+            bssidTemp = wifiInfo.getBSSID();
         }
+
         // WIFI Connected info
-        ssidField.setText(connInformation[0].substring(6));
-        bssidField.setText(connInformation[1].substring(7));
-        macField.setText(connInformation[2].substring(5));
-        rssiField.setText(connInformation[4].substring(6));
-        linkSpeedField.setText(connInformation[5].substring(12));
-        if (Build.VERSION.SDK_INT >= 19) // frequency is not available in JB OS
-            frequencyField.setText(connInformation[6].substring(11));
+        ssidField.setText(wifiInfo.getSSID()+ "");
+        bssidField.setText(wifiInfo.getBSSID()+ "");
+        macField.setText(wifiInfo.getMacAddress()+ "");
+        rssiField.setText(wifiInfo.getRssi()+ "");
+        linkSpeedField.setText(wifiInfo.getLinkSpeed()+ "");
+        if (Build.VERSION.SDK_INT >= 21) // frequency is not available in JB OS
+            frequencyField.setText(wifiInfo.getFrequency()+ "");
+        else if (Build.VERSION.SDK_INT >= 19)
+            frequencyField.setText(connInformation[6].substring(11)+ "");
         else
             frequencyField.setText(getResources().getString(R.string.not_available_info));
         roaming.setText(roamingStr);
 
         //dhcp address
-        String[] dhcpInformation = wifiManager.getDhcpInfo().toString().split(" ");
-        ipAddressField.setText(dhcpInformation[1]);
-        gatewayField.setText(dhcpInformation[3]);
-        netMaskField.setText(dhcpInformation[5]);
-        dns1Field.setText(dhcpInformation[7]);
-        dns2Field.setText(dhcpInformation[9]);
-        dhcpField.setText(dhcpInformation[12]);
-        leaseField.setText(dhcpInformation[14] + " seconds");
+        DhcpInfo dhcpInformation = wifiManager.getDhcpInfo();
+        ipAddressField.setText(intToInetAddress(dhcpInformation.ipAddress).getHostAddress());
+        gatewayField.setText(intToInetAddress(dhcpInformation.gateway).getHostAddress());
+        netMaskField.setText(intToInetAddress(dhcpInformation.netmask).getHostAddress());
+        dns1Field.setText(intToInetAddress(dhcpInformation.dns1).getHostAddress());
+        dns2Field.setText(intToInetAddress(dhcpInformation.dns2).getHostAddress());
+        dhcpField.setText(intToInetAddress(dhcpInformation.serverAddress).getHostAddress());
+        leaseField.setText(intToInetAddress(dhcpInformation.leaseDuration).getHostAddress());
 
+    }
+    // convertion taken from stackoverflow: http://stackoverflow.com/questions/6345597/human-readable-dhcpinfo-ipaddress
+    public static InetAddress intToInetAddress(int hostAddress) {
+        byte[] addressBytes = { (byte)(0xff & hostAddress),
+                (byte)(0xff & (hostAddress >> 8)),
+                (byte)(0xff & (hostAddress >> 16)),
+                (byte)(0xff & (hostAddress >> 24)) };
+
+        try {
+            return InetAddress.getByAddress(addressBytes);
+        } catch (UnknownHostException e) {
+            throw new AssertionError();
+        }
     }
 
     public void checkRadioStates() {
