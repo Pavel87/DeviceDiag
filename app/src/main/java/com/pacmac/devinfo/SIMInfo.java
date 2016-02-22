@@ -11,11 +11,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ShareActionProvider;
 import android.telephony.CellInfo;
+import android.telephony.CellInfoCdma;
+import android.telephony.CellInfoGsm;
+import android.telephony.CellInfoLte;
+import android.telephony.CellInfoWcdma;
 import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.List;
 
 
@@ -40,7 +45,6 @@ public class SIMInfo extends ActionBarActivity {
     private TextView cellInformation;
 
     private boolean isSIMInside = false;
-    private String cell;
 
     private List<CellInfo> cellInfo;
     private ShareActionProvider mShareActionProvider;
@@ -78,6 +82,7 @@ public class SIMInfo extends ActionBarActivity {
         updateData();
     }
 
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void updateData() {
 
@@ -107,30 +112,55 @@ public class SIMInfo extends ActionBarActivity {
                 phoneNumber.setText(telephonyManager.getLine1Number());
                 networkType.setText(networkType(telephonyManager.getNetworkType()));
                 cellInfo = telephonyManager.getAllCellInfo();
+                String currentCellInfo = "Unknown";
+                // getAllCellInfo may return null in old phones!
                 if (cellInfo != null) {
-                    if (cellInfo.get(0).isRegistered()) {
+                    for (CellInfo cell : cellInfo) {
+                        if (cell instanceof CellInfoGsm && cell.isRegistered()) {
+                            int lac = ((CellInfoGsm) cell).getCellIdentity().getLac();
+                            int cid = ((CellInfoGsm) cell).getCellIdentity().getCid();
+                            int psc = ((CellInfoGsm) cell).getCellIdentity().getPsc();
+                            int dbm = ((CellInfoGsm) cell).getCellSignalStrength().getDbm();
+                            int asuLevel = ((CellInfoGsm) cell).getCellSignalStrength().getAsuLevel();
+                            currentCellInfo = "LAC: " + lac + "\n" + "Cell ID: " + cid + "\n" + "PSC: " + psc + "\n"
+                                    + "Signal Strength[dBm]: " + dbm + "\n" + "Asu Level: " + asuLevel + "\n"
+                                    + "Type: GSM";
 
-                        cell = cellInfo.get(0).toString();
-                        int start = cell.indexOf("mLac=");
-                        int stop = cell.indexOf("mCid");
-                        String lac = cell.substring(start + 5, stop);
+                        } else if (cell instanceof CellInfoCdma && cell.isRegistered()) {
+                            int baseStationId = ((CellInfoCdma) cell).getCellIdentity().getBasestationId();
+                            int netId = ((CellInfoCdma) cell).getCellIdentity().getNetworkId();
+                            int sysId = ((CellInfoCdma) cell).getCellIdentity().getSystemId();
+                            int dbm = ((CellInfoCdma) cell).getCellSignalStrength().getDbm();
+                            int asuLevel = ((CellInfoCdma) cell).getCellSignalStrength().getAsuLevel();
+                            currentCellInfo = "Base Station ID: " + baseStationId + "\n" + "Network ID: " + netId + "\n" + "System ID: " + sysId + "\n"
+                                    + "Signal Strength[dBm]: " + dbm + "\n" + "Asu Level: " + asuLevel + "\n"
+                                    + "Type: CDMA";
 
-                        start = stop;
-                        stop = cell.indexOf("mPsc=");
-                        String cid = cell.substring(start + 5, stop);
+                        } else if (Build.VERSION.SDK_INT > 17 && cell instanceof CellInfoWcdma && cell.isRegistered()) {   // FROM API 18+ supported
+                            int lac = ((CellInfoWcdma) cell).getCellIdentity().getLac();
+                            int cid = ((CellInfoWcdma) cell).getCellIdentity().getCid();
+                            int psc = ((CellInfoWcdma) cell).getCellIdentity().getPsc();
+                            int dbm = ((CellInfoWcdma) cell).getCellSignalStrength().getDbm();
+                            int asuLevel = ((CellInfoWcdma) cell).getCellSignalStrength().getAsuLevel();
+                            currentCellInfo = "LAC: " + lac + "\n" + "Cell ID: " + cid + "\n" + "PSC: " + psc + "\n"
+                                    + "Signal Strength[dBm]: " + dbm + "\n" + "Asu Level: " + asuLevel + "\n"
+                                    + "Type: UMTS";
 
-                        start = cell.indexOf("ss=");
-                        stop = cell.indexOf(" ber=");
-                        String ss = cell.substring(start + 3, stop);
-
-                        start = stop;
-                        stop = cell.indexOf("}", start);
-                        String ber = cell.substring(start + 5, stop);
-                        cellInformation.setText("LAC: " + lac + "\n" + "Cell ID: " + cid + "\n" +
-                                "Signal Strength[dBm]: " + ss +
-                                "\n" + "BER: " + ber);
+                        } else if (cell instanceof CellInfoLte && cell.isRegistered()) {
+                            int cellId = ((CellInfoLte) cell).getCellIdentity().getCi();
+                            int physCellId = ((CellInfoLte) cell).getCellIdentity().getPci();
+                            int tac = ((CellInfoLte) cell).getCellIdentity().getTac();
+                            int dbm = ((CellInfoLte) cell).getCellSignalStrength().getDbm();
+                            int asuLevel = ((CellInfoLte) cell).getCellSignalStrength().getAsuLevel();
+                            currentCellInfo = "Cell Identity: " + cellId + "\n" + "Physical Cell ID: " + physCellId + "\n" + "TAC: " + tac + "\n"
+                                    + "Signal Strength[dBm]: " + dbm + "\n" + "Asu Level: " + asuLevel + "\n"
+                                    + "Type: LTE";
+                        }
                     }
+                } else {
+                    currentCellInfo = getResources().getString(R.string.not_available_info);
                 }
+                cellInformation.setText(currentCellInfo);
             }
 
             imeiNumber.setText(telephonyManager.getDeviceId());
@@ -144,7 +174,6 @@ public class SIMInfo extends ActionBarActivity {
             simInfo.setTextColor(Color.RED);
             simInfo.setText("NO SIM CARD DETECTED");
         }
-
         updateShareIntent();
     }
 
@@ -252,17 +281,16 @@ public class SIMInfo extends ActionBarActivity {
     private String dataConnState(int value) {
         switch (value) {
             case TelephonyManager.DATA_CONNECTED:
-                dataState.setTextColor(Color.BLACK);
-                return "Connected: IP traffic should be available";
+                dataState.setTextColor(Color.GREEN);
+                return "Connected:\nIP traffic should be available";
             case TelephonyManager.DATA_DISCONNECTED:
                 dataState.setTextColor(Color.RED);
-                return "Disconnected: IP traffic not available";
+                return "Disconnected:\nIP traffic not available";
             case TelephonyManager.DATA_CONNECTING:
                 return "Setting up data connection";
             case TelephonyManager.DATA_SUSPENDED:
+                dataState.setTextColor(Color.RED);
                 return "Data Suspended";
-
-
         }
         return "error";
     }
@@ -323,7 +351,7 @@ public class SIMInfo extends ActionBarActivity {
         StringBuilder sb = new StringBuilder();
         sb.append(getResources().getString(R.string.shareTextTitle1));
         sb.append("\n");
-        sb.append(Build.MODEL +"\t-\t" +  getResources().getString(R.string.title_activity_siminfo));
+        sb.append(Build.MODEL + "\t-\t" + getResources().getString(R.string.title_activity_siminfo));
         sb.append("\n");
         sb.append(getResources().getString(R.string.shareTextTitle1));
         sb.append("\n\n");
@@ -363,7 +391,6 @@ public class SIMInfo extends ActionBarActivity {
 
         sb.append(getResources().getString(R.string.shareTextTitle1));
         setShareIntent(createShareIntent(sb));
-
     }
 
     @Override
@@ -378,7 +405,7 @@ public class SIMInfo extends ActionBarActivity {
 
                     @Override
                     public void run() {
-                        updateShareIntent();
+                        updateData();
                     }
                 });
             }
