@@ -251,8 +251,9 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
             bssidTemp = wifiInfo.getBSSID();
         }
 
+
         // WIFI Connected info
-        ssidField.setText(wifiInfo.getSSID()+ "");
+        ssidField.setText(wifiInfo.getSSID().replaceAll("\"",""));
         bssidField.setText(wifiInfo.getBSSID()+ "");
         macField.setText(wifiInfo.getMacAddress()+ "");
         rssiField.setText(wifiInfo.getRssi()+ "");

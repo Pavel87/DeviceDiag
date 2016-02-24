@@ -15,7 +15,10 @@ import android.telephony.CellInfoCdma;
 import android.telephony.CellInfoGsm;
 import android.telephony.CellInfoLte;
 import android.telephony.CellInfoWcdma;
+import android.telephony.CellLocation;
 import android.telephony.TelephonyManager;
+import android.telephony.cdma.CdmaCellLocation;
+import android.telephony.gsm.GsmCellLocation;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -114,7 +117,7 @@ public class SIMInfo extends ActionBarActivity {
                 cellInfo = telephonyManager.getAllCellInfo();
                 String currentCellInfo = "Unknown";
                 // getAllCellInfo may return null in old phones!
-                if (cellInfo != null) {
+                if (cellInfo != null && cellInfo.size() > 0) {
                     for (CellInfo cell : cellInfo) {
                         if (cell instanceof CellInfoGsm && cell.isRegistered()) {
                             int lac = ((CellInfoGsm) cell).getCellIdentity().getLac();
@@ -158,7 +161,31 @@ public class SIMInfo extends ActionBarActivity {
                         }
                     }
                 } else {
-                    currentCellInfo = getResources().getString(R.string.not_available_info);
+                    CellLocation cell = telephonyManager.getCellLocation();
+
+                    if (cell instanceof GsmCellLocation) {
+                        int lac = ((GsmCellLocation) cell).getLac();
+                        int cid = ((GsmCellLocation) cell).getCid();
+                        int psc = ((GsmCellLocation) cell).getPsc();
+                        currentCellInfo = "LAC: " + lac + "\n" + "Cell ID: " + cid + "\n" + "PSC: " + psc + "\n"
+                                + "Type: GSM";
+                    }
+                    else if (cell instanceof CdmaCellLocation) {
+                        int baseStationId = ((CdmaCellLocation) cell).getBaseStationId();
+                        int sysId = ((CdmaCellLocation) cell).getSystemId();
+                        int netId = ((CdmaCellLocation) cell).getNetworkId();
+                        int longitude = ((CdmaCellLocation) cell).getBaseStationLongitude();
+                        int latitude = ((CdmaCellLocation) cell).getBaseStationLatitude();
+                        currentCellInfo = "Base Station ID: " + baseStationId + "\n" + "Network ID: " + netId + "\n" + "System ID: " + sysId + "\n"
+                                + "BS Longitude: " + longitude + "\n" + "BS Latitude: " + latitude + "\n"
+                                + "Type: CDMA";
+                    }
+                    else {
+                        currentCellInfo = getResources().getString(R.string.not_available_info);
+                    }
+
+
+
                 }
                 cellInformation.setText(currentCellInfo);
             }
