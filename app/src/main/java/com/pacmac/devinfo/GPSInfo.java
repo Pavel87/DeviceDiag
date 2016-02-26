@@ -158,7 +158,7 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
 
                     }
 
-                    if (fragment instanceof GpsInfoLocation)
+                    if (fragment instanceof GpsInfoLocation && fragment.isVisible() && fragment != null)
                         ((GpsInfoLocation) fragment).displayGPSStatus(gpsInfo, timeToFix);
                 }
 
@@ -279,7 +279,7 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
         accuracy = String.format("%.01f", location.getAccuracy()) + " m";
         bearing = String.format("%.02f", location.getBearing()) + "°";
 
-        if (fragment instanceof GpsInfoLocation) {
+        if (fragment instanceof GpsInfoLocation && fragment.isVisible()) {
             ((GpsInfoLocation) fragment).displayGPSData(longitude, latitude, altitude,
                     speed, accuracy, bearing, lastFix);
         }

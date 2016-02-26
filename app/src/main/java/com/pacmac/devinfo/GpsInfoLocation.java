@@ -133,7 +133,6 @@ public class GpsInfoLocation extends Fragment {
                 gpsAlertDialog.show();
             }
 
-
         }
     }
 
@@ -173,7 +172,6 @@ public class GpsInfoLocation extends Fragment {
                                String lastFix) {
 
         // display Location on screen
-        try {
             latitude.setText((latitudeS!= null)? latitudeS : "");
             longitude.setText((longitudeS!= null)? longitudeS : "");
             altitude.setText((altitudeS != null) ? altitudeS : "");
@@ -181,20 +179,12 @@ public class GpsInfoLocation extends Fragment {
             accuracy.setText((accuracyS!= null)? accuracyS : "");
             bearing.setText((bearingS!= null)? bearingS : "");
             this.lastFix.setText((lastFix!= null)? lastFix : "");
-        }
-        catch (Exception ex){
-            Toast.makeText(getActivity().getApplicationContext(),ex.getMessage(),Toast.LENGTH_LONG).show();
-            ex.printStackTrace();
-            Log.d("TAG", ex.getMessage());
-        }
     }
 
     public void displayGPSStatus(String gpsInfoS, String gpsTimeToFirstFix) {
         // display Location on screen
-        if(gpsInfoS != null && gpsTimeToFirstFix !=null) {
-            gpsInfo.setText(gpsInfoS);
-            timeToFix.setText(gpsTimeToFirstFix);
-        }
+            gpsInfo.setText((gpsInfoS!= null)? gpsInfoS : "");
+            timeToFix.setText((gpsTimeToFirstFix!= null)? gpsTimeToFirstFix : "");
 
     }
 
