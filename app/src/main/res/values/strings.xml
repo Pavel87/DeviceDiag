@@ -15,6 +15,7 @@
     <string name="connected_info">Connected</string>
     <string name="available_info">Available</string>
     <string name="not_available_info">Not Available</string>
+    <string name="not_available_in_API">Not available in API:</string>
     <string name="not_present">Not Present</string>
     <string name="activity_title_gps_information">GPS Information</string>
     <string name="title_activity_network_info">Network Information</string>

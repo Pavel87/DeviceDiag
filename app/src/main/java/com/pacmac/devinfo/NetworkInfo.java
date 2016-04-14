@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,7 +35,8 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
     private TextView pingOut, wifiConnected, wanConnected;
     private TextView ssidField, bssidField, macField, rssiField, linkSpeedField, frequencyField, roaming;
     private TextView ipAddressField, netMaskField, gatewayField, dns1Field, dns2Field, dhcpField, leaseField;
-    private TextView ghzBand, powerReport, devToAp, p2p, offloadedConn, scanAlways, tdlsSupport;
+    private ImageView ghzBand, powerReport, devToAp, p2p, offloadedConn, scanAlways, tdlsSupport;
+
     private Button pingBtn;
     private LinearLayout wifiDetail, supportedFeatures;
 
@@ -127,49 +129,36 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
 
                 supportedFeatures.setVisibility(View.VISIBLE);
 
-                ghzBand = (TextView) findViewById(R.id.bandSupport);
-                devToAp = (TextView) findViewById(R.id.deviceToApRtt);
-                p2p = (TextView) findViewById(R.id.wifiDirectSupport);
-                offloadedConn = (TextView) findViewById(R.id.offLoadConn);
-                powerReport = (TextView) findViewById(R.id.powerReport);
-                scanAlways = (TextView) findViewById(R.id.scanAlwaysAvailable);
-                tdlsSupport = (TextView) findViewById(R.id.tdlsSupported);
+                ghzBand = (ImageView) findViewById(R.id.bandSupport);
+                devToAp = (ImageView) findViewById(R.id.deviceToApRtt);
+                p2p = (ImageView) findViewById(R.id.wifiDirectSupport);
+                offloadedConn = (ImageView) findViewById(R.id.offLoadConn);
+                powerReport = (ImageView) findViewById(R.id.powerReport);
+                scanAlways = (ImageView) findViewById(R.id.scanAlwaysAvailable);
+                tdlsSupport = (ImageView) findViewById(R.id.tdlsSupported);
 
                 if (wifiManager.is5GHzBandSupported()) {
-                    ghzBand.setTextColor(getResources().getColor(R.color.connected_clr));
-                    ghzBand.setText("YES");
+                    ghzBand.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
                 }
+                if (wifiManager.isEnhancedPowerReportingSupported())
+                    powerReport.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
 
-                if (wifiManager.isEnhancedPowerReportingSupported()) {
-                    powerReport.setTextColor(getResources().getColor(R.color.connected_clr));
-                    powerReport.setText("YES");
-                }
-                if (wifiManager.isDeviceToApRttSupported()) {
-                    devToAp.setTextColor(getResources().getColor(R.color.connected_clr));
-                    devToAp.setText("YES");
-                }
-                if (wifiManager.isP2pSupported()) {
-                    p2p.setTextColor(getResources().getColor(R.color.connected_clr));
-                    p2p.setText("YES");
-                }
-                if (wifiManager.isPreferredNetworkOffloadSupported()) {
-                    offloadedConn.setTextColor(getResources().getColor(R.color.connected_clr));
-                    offloadedConn.setText("YES");
-                }
-                if (wifiManager.isScanAlwaysAvailable()) {
-                    scanAlways.setTextColor(getResources().getColor(R.color.connected_clr));
-                    scanAlways.setText("YES");
-                }
+                if (wifiManager.isDeviceToApRttSupported())
+                    devToAp.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
 
-                if (wifiManager.isTdlsSupported()) {
-                    tdlsSupport.setTextColor(getResources().getColor(R.color.connected_clr));
-                    tdlsSupport.setText("YES");
-                }
+                if (wifiManager.isP2pSupported())
+                    p2p.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
 
+                if (wifiManager.isPreferredNetworkOffloadSupported())
+                    offloadedConn.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
 
+                if (wifiManager.isScanAlwaysAvailable())
+                    scanAlways.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
+
+                if (wifiManager.isTdlsSupported())
+                    tdlsSupport.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
             }
         }
-
 
         progress = new CenterProgress(this);
     }
@@ -255,15 +244,19 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         // WIFI Connected info
         ssidField.setText(wifiInfo.getSSID().replaceAll("\"",""));
         bssidField.setText(wifiInfo.getBSSID()+ "");
-        macField.setText(wifiInfo.getMacAddress()+ "");
+        if (Build.VERSION.SDK_INT < 23) {
+            macField.setText(wifiInfo.getMacAddress() + "");
+        } else {
+            macField.setText(getResources().getString(R.string.not_available_in_API) + Build.VERSION.SDK_INT);
+        }
         rssiField.setText(wifiInfo.getRssi()+ "");
-        linkSpeedField.setText(wifiInfo.getLinkSpeed()+ "");
-        if (Build.VERSION.SDK_INT >= 21) // frequency is not available in JB OS
-            frequencyField.setText(wifiInfo.getFrequency()+ "");
-        else if (Build.VERSION.SDK_INT >= 19)
-            frequencyField.setText(connInformation[6].substring(11)+ "");
+        linkSpeedField.setText(wifiInfo.getLinkSpeed() + " " + WifiInfo.LINK_SPEED_UNITS);
+        if (Build.VERSION.SDK_INT >= 21)
+            frequencyField.setText(wifiInfo.getFrequency() + " " + WifiInfo.FREQUENCY_UNITS);
+        else if (Build.VERSION.SDK_INT >= 19)  // frequency is paased in connenctionInfo - might cause an issue in some phones
+            frequencyField.setText(connInformation[6].substring(11) + " " + "MHz");
         else
-            frequencyField.setText(getResources().getString(R.string.not_available_info));
+            frequencyField.setText(getResources().getString(R.string.not_available_info)); // frequency is not available in JB OS
         roaming.setText(roamingStr);
 
         //dhcp address
@@ -274,7 +267,7 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         dns1Field.setText(intToInetAddress(dhcpInformation.dns1).getHostAddress());
         dns2Field.setText(intToInetAddress(dhcpInformation.dns2).getHostAddress());
         dhcpField.setText(intToInetAddress(dhcpInformation.serverAddress).getHostAddress());
-        leaseField.setText(intToInetAddress(dhcpInformation.leaseDuration).getHostAddress());
+        leaseField.setText(dhcpInformation.leaseDuration + " " + "s");
 
     }
     // convertion taken from stackoverflow: http://stackoverflow.com/questions/6345597/human-readable-dhcpinfo-ipaddress
@@ -418,7 +411,9 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
             sb.append("DHCP Lease:\t\t" + leaseField.getText().toString());
             sb.append("\n\n");
 
-            if (Build.VERSION.SDK_INT >= 21) {
+            // commented out as it is not reliable and consistent.
+            // Most of manufacturer left it out hence I am not printing this stuff now
+          /*  if (Build.VERSION.SDK_INT >= 21) {
 
                 sb.append("WIFI supported features:");
                 sb.append("\n");
@@ -436,7 +431,7 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
                 sb.append("\n");
                 sb.append("Tdls Support:\t\t" + tdlsSupport.getText().toString());
                 sb.append("\n\n");
-            }
+            }*/
 
         } else {
             sb.append("WIFI INFO NOT AVAILABLE");

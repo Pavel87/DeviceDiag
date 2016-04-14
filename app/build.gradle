@@ -5,14 +5,14 @@ android {
         config {
         }
     }
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
     defaultConfig {
         applicationId "com.pacmac.devicediag"
         minSdkVersion 16
         targetSdkVersion 21
-        versionCode 12
-        versionName "1.0.5"
+        versionCode 13
+        versionName "1.0.10"
     }
     buildTypes {
         release {
@@ -21,13 +21,9 @@ android {
         }
     }
     productFlavors {
-        paid {
-            applicationId = "com.pacmac.devicediag.paid"
-            versionName = "1.0-5"
-        }
         free {
             applicationId = "com.pacmac.devicediag.free"
-            versionName = "1.0.5"
+            versionName = "1.0.10"
         }
     }
     sourceSets { main { java.srcDirs = ['src/main/java'] } }
@@ -36,7 +32,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.jjoe64:graphview:4.0.1'
-    compile 'com.android.support:support-v4:22.2.1'
+    compile 'com.android.support:support-v4:23.2.1'
 }

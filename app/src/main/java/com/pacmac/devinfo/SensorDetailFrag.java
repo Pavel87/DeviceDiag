@@ -9,16 +9,15 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import static android.util.FloatMath.cos;
-import static android.util.FloatMath.sin;
-import static android.util.FloatMath.sqrt;
+import static java.lang.StrictMath.cos;
+import static java.lang.StrictMath.sqrt;
+
 
 /**
  * Created by pacmac on 10/15/2015.
@@ -227,7 +226,7 @@ public class SensorDetailFrag extends Fragment {
             float axisZ = event.values[2];
 
             // Calculate the angular speed of the sample
-            float omegaMagnitude = sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+            float omegaMagnitude = (float) sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
 
             // Normalize the rotation vector if it's big enough to get the axis
             // (that is, EPSILON should represent your maximum allowable margin of error)
@@ -242,8 +241,8 @@ public class SensorDetailFrag extends Fragment {
             // We will convert this axis-angle representation of the delta rotation
             // into a quaternion before turning it into the rotation matrix.
             float thetaOverTwo = omegaMagnitude * dT / 2.0f;
-            float sinThetaOverTwo = sin(thetaOverTwo);
-            float cosThetaOverTwo = cos(thetaOverTwo);
+            float sinThetaOverTwo = (float) StrictMath.sin(thetaOverTwo);
+            float cosThetaOverTwo = (float) cos(thetaOverTwo);
             deltaRotationVector[0] = sinThetaOverTwo * axisX;
             deltaRotationVector[1] = sinThetaOverTwo * axisY;
             deltaRotationVector[2] = sinThetaOverTwo * axisZ;
