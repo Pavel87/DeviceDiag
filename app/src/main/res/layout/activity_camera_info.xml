@@ -13,16 +13,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="16dp"
+                android:layout_weight="1"
                 android:paddingLeft="16dp"
                 android:text="CAMERA: "
                 android:textAllCaps="true"
@@ -32,11 +32,11 @@
             <Spinner
                 android:id="@+id/spinner"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/scrollView"
                 android:layout_centerHorizontal="true"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -44,9 +44,9 @@
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none"
             android:layout_marginBottom="16dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -217,8 +217,8 @@
                     android:id="@+id/tabCamSpec"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
 
                     <TableLayout
@@ -226,8 +226,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:background="@drawable/list_border_line"
-                        android:shrinkColumns="1"
-                        >
+                        android:shrinkColumns="1">
 
                         <TableRow
                             android:paddingLeft="16dp"
@@ -349,6 +348,27 @@
 
                             <TextView
                                 android:id="@+id/smoothZoom"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="N/A"
+                                android:textSize="14sp" />
+                        </TableRow>
+
+                        <TableRow
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:paddingTop="8dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Cam Orientation: "
+                                android:textAllCaps="true"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/camOrientation"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="N/A"
@@ -592,14 +612,14 @@
                                 android:text="0"
                                 android:textSize="24sp" />
 
-                                <TextView
-                                    android:id="@+id/videoSizes"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginBottom="16dp"
-                                    android:gravity="center"
-                                    android:text="N/A"
-                                    android:textSize="12sp" />
+                            <TextView
+                                android:id="@+id/videoSizes"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="16dp"
+                                android:gravity="center"
+                                android:text="N/A"
+                                android:textSize="12sp" />
 
                         </LinearLayout>
                     </LinearLayout>

@@ -28,7 +28,7 @@ public class CameraInfo extends AppCompatActivity {
     private final String TAG = "DIAGPAC";
     private TextView autoFocus, manualPP, manualSensor, capRaw, capFull, flashSupport, extSupport;
     private TextView vertical, horizontal, focalLength, minMaxEV, zoomRatios, faceDetection, jpegQuality,
-            focusAreas, smoothZoom, videoSnapshot, videoStab, autoExposure, autoWhiteBalance,
+            focusAreas, smoothZoom, orientation, videoSnapshot, videoStab, autoExposure, autoWhiteBalance,
             picSizes, videoSizes, resPicAmount, resVidAmount;
     private TableLayout tabGeneral;
     private LinearLayout tabCamSpec;
@@ -54,6 +54,7 @@ public class CameraInfo extends AppCompatActivity {
         faceDetection = (TextView) findViewById(R.id.faceDetection);
         focusAreas = (TextView) findViewById(R.id.focusAreas);
         smoothZoom = (TextView) findViewById(R.id.smoothZoom);
+        orientation = (TextView) findViewById(R.id.camOrientation);
         videoSnapshot = (TextView) findViewById(R.id.videoSnapshot);
         videoStab = (TextView) findViewById(R.id.videoStab);
         autoExposure = (TextView) findViewById(R.id.autoExposure);
@@ -111,7 +112,7 @@ public class CameraInfo extends AppCompatActivity {
                         camera = Camera.open(item - 1);
                         Camera.Parameters params = camera.getParameters();
                         camera.release();
-                        getCameraSpecParams(params);
+                        getCameraSpecParams(params, (item - 1));
 
                     } catch (Exception ex) {
                         Log.e(TAG, "Camera cannot be aquired");
@@ -221,8 +222,11 @@ public class CameraInfo extends AppCompatActivity {
 
 
     //get camera specific params
-    public void getCameraSpecParams(Camera.Parameters parameters) {
+    public void getCameraSpecParams(Camera.Parameters parameters, int camIndex) {
 
+        Camera.CameraInfo camInfo = new Camera.CameraInfo();
+        Camera.getCameraInfo(camIndex, camInfo);
+        int camOrientation = camInfo.orientation;
 
         float vertAngle = parameters.getVerticalViewAngle();
         float horizontalAngle = parameters.getHorizontalViewAngle();
@@ -270,7 +274,7 @@ public class CameraInfo extends AppCompatActivity {
 
         faceDetection.setText(sFaceDetection);
         focusAreas.setText(parameters.getMaxNumFocusAreas() + " max");
-
+        orientation.setText(camOrientation + " degrees");
         if (parameters.isVideoSnapshotSupported())
             sVideoSnapshot = getResources().getString(R.string.yes_string);
         else
