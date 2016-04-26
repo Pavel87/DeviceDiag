@@ -242,14 +242,18 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
 
 
         // WIFI Connected info
-        ssidField.setText(wifiInfo.getSSID().replaceAll("\"",""));
-        bssidField.setText(wifiInfo.getBSSID()+ "");
+        String ssid = wifiInfo.getSSID().replaceAll("\"", "");
+        if (!ssid.equals("0x"))
+            ssidField.setText(ssid);
+        else
+            ssidField.setText(getResources().getString(R.string.not_available_info));
+        bssidField.setText(wifiInfo.getBSSID() + "");
         if (Build.VERSION.SDK_INT < 23) {
             macField.setText(wifiInfo.getMacAddress() + "");
         } else {
             macField.setText(getResources().getString(R.string.not_available_in_API) + Build.VERSION.SDK_INT);
         }
-        rssiField.setText(wifiInfo.getRssi()+ "");
+        rssiField.setText(wifiInfo.getRssi() + "");
         linkSpeedField.setText(wifiInfo.getLinkSpeed() + " " + WifiInfo.LINK_SPEED_UNITS);
         if (Build.VERSION.SDK_INT >= 21)
             frequencyField.setText(wifiInfo.getFrequency() + " " + WifiInfo.FREQUENCY_UNITS);
@@ -270,12 +274,13 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         leaseField.setText(dhcpInformation.leaseDuration + " " + "s");
 
     }
+
     // convertion taken from stackoverflow: http://stackoverflow.com/questions/6345597/human-readable-dhcpinfo-ipaddress
     public static InetAddress intToInetAddress(int hostAddress) {
-        byte[] addressBytes = { (byte)(0xff & hostAddress),
-                (byte)(0xff & (hostAddress >> 8)),
-                (byte)(0xff & (hostAddress >> 16)),
-                (byte)(0xff & (hostAddress >> 24)) };
+        byte[] addressBytes = {(byte) (0xff & hostAddress),
+                (byte) (0xff & (hostAddress >> 8)),
+                (byte) (0xff & (hostAddress >> 16)),
+                (byte) (0xff & (hostAddress >> 24))};
 
         try {
             return InetAddress.getByAddress(addressBytes);

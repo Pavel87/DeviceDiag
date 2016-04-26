@@ -535,7 +535,9 @@
 
                     <TableRow
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp">
+                        android:paddingRight="16dp"
+                        android:paddingBottom="4dp"
+                        android:gravity="center_vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -545,24 +547,21 @@
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <ImageView
                             android:id="@+id/bandSupport"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="NO"
-                            android:textColor="@android:color/holo_red_dark"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginLeft="16dp"
+                            android:src="@drawable/maybe" />
 
 
                     </TableRow>
 
                     <TableRow
-                        android:paddingBottom="8dp"
+                        android:paddingBottom="4dp"
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="8dp">
+                        android:gravity="center_vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -572,22 +571,20 @@
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <ImageView
                             android:id="@+id/deviceToApRtt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="NO"
-                            android:textColor="@android:color/holo_red_dark"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginLeft="16dp"
+                            android:src="@drawable/maybe" />
 
                     </TableRow>
 
                     <TableRow
-                        android:paddingBottom="8dp"
+                        android:paddingBottom="4dp"
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp">
+                        android:paddingRight="16dp"
+                        android:gravity="center_vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -597,22 +594,20 @@
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <ImageView
                             android:id="@+id/powerReport"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="NO"
-                            android:textColor="@android:color/holo_red_dark"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginLeft="16dp"
+                            android:src="@drawable/maybe" />
 
                     </TableRow>
 
                     <TableRow
-                        android:paddingBottom="8dp"
+                        android:paddingBottom="4dp"
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp">
+                        android:paddingRight="16dp"
+                        android:gravity="center_vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -622,22 +617,20 @@
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <ImageView
                             android:id="@+id/wifiDirectSupport"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="NO"
-                            android:textColor="@android:color/holo_red_dark"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginLeft="16dp"
+                            android:src="@drawable/maybe" />
 
                     </TableRow>
 
                     <TableRow
-                        android:paddingBottom="8dp"
+                        android:paddingBottom="4dp"
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp">
+                        android:paddingRight="16dp"
+                        android:gravity="center_vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -647,22 +640,20 @@
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <ImageView
                             android:id="@+id/offLoadConn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="NO"
-                            android:textColor="@android:color/holo_red_dark"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginLeft="16dp"
+                            android:src="@drawable/maybe" />
 
                     </TableRow>
 
                     <TableRow
-                        android:paddingBottom="8dp"
+                        android:paddingBottom="4dp"
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp">
+                        android:paddingRight="16dp"
+                        android:gravity="center_vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -672,21 +663,19 @@
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <ImageView
                             android:id="@+id/scanAlwaysAvailable"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="NO"
-                            android:textColor="@android:color/holo_red_dark"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginLeft="16dp"
+                            android:src="@drawable/maybe" />
 
                     </TableRow>
 
                     <TableRow
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp">
+                        android:paddingRight="16dp"
+                        android:gravity="center_vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -696,15 +685,12 @@
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <ImageView
                             android:id="@+id/tdlsSupported"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="NO"
-                            android:textColor="@android:color/holo_red_dark"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginLeft="16dp"
+                            android:src="@drawable/maybe" />
 
                     </TableRow>
 
