@@ -258,7 +258,12 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         if (Build.VERSION.SDK_INT >= 21)
             frequencyField.setText(wifiInfo.getFrequency() + " " + WifiInfo.FREQUENCY_UNITS);
         else if (Build.VERSION.SDK_INT >= 19)  // frequency is paased in connenctionInfo - might cause an issue in some phones
+            try{
             frequencyField.setText(connInformation[6].substring(11) + " " + "MHz");
+            }
+            catch(StringIndexOutOfBoundsException ex){
+                frequencyField.setText(getResources().getString(R.string.not_available_in_API));
+            }
         else
             frequencyField.setText(getResources().getString(R.string.not_available_info)); // frequency is not available in JB OS
         roaming.setText(roamingStr);
