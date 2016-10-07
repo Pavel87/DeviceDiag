@@ -1,12 +1,15 @@
 package com.pacmac.devinfo;
 
+import android.Manifest;
 import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Environment;
-import android.support.v7.app.ActionBarActivity;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
@@ -18,16 +21,16 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
-import android.os.Handler;
-import android.widget.Toast;
 
 
-public class NMEAfeed extends ActionBarActivity implements GpsStatus.NmeaListener, LocationListener {
+public class NMEAfeed extends AppCompatActivity implements GpsStatus.NmeaListener, LocationListener {
 
     private TextView nmeaUpdate;
     private Button nmeaRollButton;
@@ -54,6 +57,8 @@ public class NMEAfeed extends ActionBarActivity implements GpsStatus.NmeaListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nmeafeed);
 
+        final AppCompatActivity activity = this;
+
         nmeaUpdate = (TextView) findViewById(R.id.nmeaUpdate);
         nmeaRollButton = (Button) findViewById(R.id.nmeaRollButton);
         saveCheckBox = (CheckBox) findViewById(R.id.saveTofile);
@@ -63,14 +68,25 @@ public class NMEAfeed extends ActionBarActivity implements GpsStatus.NmeaListene
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
 
-                if (checked) {
-                    //Log.d("TAG", "checked");
-                    isSaveToSDCard = true;
-                    Toast.makeText(getApplicationContext(), "Log path: " + Environment.getExternalStorageDirectory() + "/NMEAlog.txt", Toast.LENGTH_SHORT).show();
+                boolean isPermissionEnabled = true;
+                // Check if user disabled CAMERA permission at some point
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+                    isPermissionEnabled = Utility.checkPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                }
 
+                if (!isPermissionEnabled) {
+                    Utility.requestPermissions(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    compoundButton.setChecked(false);
                 } else {
-                   // Log.d("TAG", "disabled");
-                    isSaveToSDCard = false;
+                    if (checked) {
+                        //Log.d("TAG", "checked");
+                        isSaveToSDCard = true;
+                        Toast.makeText(getApplicationContext(), "Log path: " + Environment.getExternalStorageDirectory() + "/NMEAlog.txt", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        // Log.d("TAG", "disabled");
+                        isSaveToSDCard = false;
+                    }
                 }
             }
         });
@@ -142,9 +158,8 @@ public class NMEAfeed extends ActionBarActivity implements GpsStatus.NmeaListene
 
             }
             nmeaUpdate.setText("Press the Start button in order to get NMEA data.");
-        }
-        else {
-            Toast.makeText(getApplicationContext(),"Stop logging before deleting log.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Stop logging before deleting log.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -186,7 +201,7 @@ public class NMEAfeed extends ActionBarActivity implements GpsStatus.NmeaListene
                     bWriter.append(logData);
                     bWriter.flush();
                     bWriter.close();
-                  // Log.d("TAG", "Log saved and closed");
+                    // Log.d("TAG", "Log saved and closed");
 
                 } catch (IOException ioExc) {
                     Log.e("TAG", "IO exception can't write to NMEAlog.txt");
@@ -274,7 +289,7 @@ public class NMEAfeed extends ActionBarActivity implements GpsStatus.NmeaListene
             html = html.substring(html.indexOf("<br>") + 4);
         }
 
-        String timeDate = hour + ":" + minute + ":" +second+":"+ milis + " " + day + "/" + month + ": ";
+        String timeDate = hour + ":" + minute + ":" + second + ":" + milis + " " + day + "/" + month + ": ";
         html = html + "<font color=\"" + getResources().getColor(android.support.v7.appcompat.R.color.abc_primary_text_material_dark) + "\">" + "<b>" + timeDate + "</b>" + "</font>" + s + "<br>";
     }
 

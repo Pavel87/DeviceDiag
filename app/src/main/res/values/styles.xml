@@ -6,7 +6,7 @@
     <item name="colorPrimaryDark">@color/tabs</item>
     <item name="android:tabWidgetStyle">@color/tabs</item>
     <item name="android:colorBackground">@color/background_material_light</item>
-    <item name="colorAccent">@color/accent_color</item>
+    <item name="colorAccent">@color/tab_highlight</item>
     <item name="actionBarTabStyle">@style/MyTabs</item>
 </style>
 

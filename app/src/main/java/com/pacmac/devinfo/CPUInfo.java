@@ -313,62 +313,64 @@ public class CPUInfo extends ActionBarActivity {
         //read max freq CPU
         File fin = new File("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq");
         FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(fin);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        //Construct BufferedReader from InputStreamReader
-        BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-        float temp = 0;
         String line = null;
-        try {
-            while ((line = br.readLine()) != null) {
-                temp = Float.parseFloat(line) / 1000000;
-                maxFrequency = "" + temp;
+        BufferedReader br;
+        float temp = 0;
+        if (fin.exists()) {
+            try {
+                fis = new FileInputStream(fin);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        try {
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            //Construct BufferedReader from InputStreamReader
+            br = new BufferedReader(new InputStreamReader(fis));
 
+            try {
+                while ((line = br.readLine()) != null) {
+                    temp = Float.parseFloat(line) / 1000000;
+                    maxFrequency = "" + temp;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         /// read the current CPU freq
 
         //use to get current directory
         fin = new File("/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq");
-        fis = null;
-        try {
-            fis = new FileInputStream(fin);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        //Construct BufferedReader from InputStreamReader
-        br = new BufferedReader(new InputStreamReader(fis));
-
-        line = null;
-        try {
-            while ((line = br.readLine()) != null) {
-                temp = Float.parseFloat(line) / 1000000;
-                currentFrequency = "" + String.format("%.3f", temp);
+        if (fin.exists()) {
+            fis = null;
+            try {
+                fis = new FileInputStream(fin);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        try {
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            //Construct BufferedReader from InputStreamReader
+            br = new BufferedReader(new InputStreamReader(fis));
+            try {
+                while ((line = br.readLine()) != null) {
+                    temp = Float.parseFloat(line) / 1000000;
+                    currentFrequency = "" + String.format("%.3f", temp);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
-
 
 
     // SHARE CPU INFO VIA ACTION_SEND

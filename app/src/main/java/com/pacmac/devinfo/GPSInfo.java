@@ -1,5 +1,6 @@
 package com.pacmac.devinfo;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,6 +19,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -34,7 +36,7 @@ import java.util.List;
  * Created by pacmac on 6/10/2015.
  */
 
-public class GPSInfo extends ActionBarActivity implements LocationListener {
+public class GPSInfo extends AppCompatActivity implements LocationListener {
 
     String gpsInfo = null;
     String timeToFix = "Waiting...";
@@ -62,6 +64,10 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
     FragmentTransaction ft = null;
     private ShareActionProvider mShareActionProvider;
 
+    private static final String LOCATION_PERMISSION_GROUP = Manifest.permission_group.LOCATION;
+    private static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
+    private boolean isPermissionEnabled = true;
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (fragment instanceof GpsInfoLocation) {
@@ -84,26 +90,32 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gps_info_base);
 
-        // PORTRAIT
-
-        if (savedInstanceState == null) {
-            fragment = new GpsInfoLocation();
-            fragTag = FRAG_GPS_INFO;
-        } else if (savedInstanceState.getString(FRAG_SAVE).equals(FRAG_GPS_INFO)) {
-            fragment = getSupportFragmentManager().findFragmentByTag(FRAG_GPS_INFO);
-            fragTag = FRAG_GPS_INFO;
-        } else {
-            fragment = getSupportFragmentManager().findFragmentByTag(FRAG_GPS_SATS);
-            if (fragment.isVisible()) {
-                fragTag = FRAG_GPS_SATS;
-            }
+        // Check if user disabled CAMERA permission at some point
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
         }
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction().replace(R.id.gpsPortrait, fragment, fragTag);
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        ft.commit();
+        if (!isPermissionEnabled) {
+            Utility.requestPermissions(this, LOCATION_PERMISSION);
+        }
+            // PORTRAIT
 
+            if (savedInstanceState == null) {
+                fragment = new GpsInfoLocation();
+                fragTag = FRAG_GPS_INFO;
+            } else if (savedInstanceState.getString(FRAG_SAVE).equals(FRAG_GPS_INFO)) {
+                fragment = getSupportFragmentManager().findFragmentByTag(FRAG_GPS_INFO);
+                fragTag = FRAG_GPS_INFO;
+            } else {
+                fragment = getSupportFragmentManager().findFragmentByTag(FRAG_GPS_SATS);
+                if (fragment.isVisible()) {
+                    fragTag = FRAG_GPS_SATS;
+                }
+            }
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction().replace(R.id.gpsPortrait, fragment, fragTag);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            ft.commit();
 
-        if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
+        if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS) && isPermissionEnabled) {
 
             locationManager = (LocationManager) getApplicationContext().getSystemService(getApplicationContext().LOCATION_SERVICE);
             // check if GPS provider is enabled
@@ -164,26 +176,31 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
 
             };
 
-        } else
-            Toast.makeText(getApplicationContext(), "GPS is not available on this device", Toast.LENGTH_LONG).show();
+        } else if (isPermissionEnabled) {
+            Toast.makeText(getApplicationContext(), "GPS is not available on this device.", Toast.LENGTH_LONG).show();
+        }
 
     }
 
 
     @Override
     protected void onResume() {
-        if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
-            locationManager.addGpsStatusListener(gpsStatusListener);
+        if (isPermissionEnabled) {
+            if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
+                locationManager.addGpsStatusListener(gpsStatusListener);
+            }
         }
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
-            locationManager.removeGpsStatusListener(gpsStatusListener);
-            locationManager.removeUpdates(this);
+        if (isPermissionEnabled) {
+            if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
+                locationManager.removeGpsStatusListener(gpsStatusListener);
+                locationManager.removeUpdates(this);
+            }
         }
         super.onPause();
     }
@@ -233,13 +250,11 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
                             postalCode = postalCode == null ? "" : postalCode;
 
 
-
-
                             //display address in ACTION BAR
                             runOnUiThread(new RunnableShowTitle(street, numHouse, city, postalCode) {
                                 @Override
                                 public void run() {
-                                    getSupportActionBar().setTitle(getStreet()+" " + getNumHouse());
+                                    getSupportActionBar().setTitle(getStreet() + " " + getNumHouse());
                                     getSupportActionBar().setSubtitle(getCity() + " " + getPostalCode());
                                 }
                             });
@@ -254,8 +269,7 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
                 }
             }).start();
 
-        }
-        else {
+        } else {
             getSupportActionBar().setTitle(getResources().getString(R.string.activity_title_gps_information));
             getSupportActionBar().setSubtitle("");
         }
@@ -307,7 +321,7 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
         if (fragment instanceof GPSSatelitesListFrag) {
             fragment = new GpsInfoLocation();
             ft = getSupportFragmentManager().beginTransaction().replace(R.id.gpsPortrait, fragment, FRAG_GPS_INFO);
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             ft.commit();
         }
     }
@@ -330,7 +344,7 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
     private void showSatListFrag() {
         fragment = new GPSSatelitesListFrag();
         ft = getSupportFragmentManager().beginTransaction().replace(R.id.gpsPortrait, fragment, FRAG_GPS_SATS);
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         ft.addToBackStack(FRAG_GPS_SATS);
         ft.commit();
     }
@@ -374,7 +388,7 @@ public class GPSInfo extends ActionBarActivity implements LocationListener {
             StringBuilder sb = new StringBuilder();
             sb.append(getResources().getString(R.string.shareTextTitle1));
             sb.append("\n");
-            sb.append(Build.MODEL +"\t-\t" + getResources().getString(R.string.activity_title_gps_information));
+            sb.append(Build.MODEL + "\t-\t" + getResources().getString(R.string.activity_title_gps_information));
             sb.append("\n");
             sb.append(getResources().getString(R.string.shareTextTitle1));
             sb.append("\n\n");

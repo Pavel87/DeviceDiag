@@ -1,11 +1,13 @@
 package com.pacmac.devinfo;
 
+import android.Manifest;
 import android.app.ActivityManager;
 import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.StatFs;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,6 +34,9 @@ public class MemoryInfo extends AppCompatActivity {
     private TextView storageTotal, storageAvailable, storageUsed;
     private Spinner storageSpinner;
 
+    boolean isPermissionEnabled = true;
+    private static final String STORAGE_PERMISSION = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +49,15 @@ public class MemoryInfo extends AppCompatActivity {
         storageAvailable = (TextView) findViewById(R.id.storageAvailable);
         storageUsed = (TextView) findViewById(R.id.storageUsed);
         storageSpinner = (Spinner) findViewById(R.id.storageSpinner);
+
+        // Check if user disabled CAMERA permission at some point
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), STORAGE_PERMISSION);
+        }
+
+        if (!isPermissionEnabled) {
+            Utility.displayExplanationForPermission(this, getResources().getString(R.string.storage_permission_msg), STORAGE_PERMISSION);
+        }
 
         //retrieve STORAGE OPTIONS
         final List<String> listStorage;

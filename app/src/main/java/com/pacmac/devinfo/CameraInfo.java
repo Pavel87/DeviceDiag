@@ -1,5 +1,6 @@
 package com.pacmac.devinfo;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -37,6 +38,9 @@ public class CameraInfo extends AppCompatActivity {
     private boolean isLoaded = false;
     private ShareActionProvider mShareActionProvider;
 
+    private static final String CAMERA_PERMISSION = Manifest.permission.CAMERA;
+    private boolean isPermissionEnabled = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,66 +76,75 @@ public class CameraInfo extends AppCompatActivity {
         capFull = (TextView) findViewById(R.id.capFull);
         flashSupport = (TextView) findViewById(R.id.flashSupport);
         extSupport = (TextView) findViewById(R.id.extSupport);
-
-
         spinnner = (Spinner) findViewById(R.id.spinner);
 
-
-        if (checkCameraPresent(this)) {
-            int amountOfCameras = Camera.getNumberOfCameras();
-            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-
-            ArrayList<CharSequence> arrayList = new ArrayList<>();
-            arrayList.add("General Info");
-
-            for (int i = 0; i < amountOfCameras; i++) {
-
-                Camera.getCameraInfo(i, cameraInfo);
-                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                    arrayList.add((i + 1) + ": Front Cam");
-                } else
-                    arrayList.add((i + 1) + ": Rear Cam");
-            }
-
-            ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, arrayList);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-            spinnner.setAdapter(adapter);
+        // Check if user disabled CAMERA permission at some point
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), CAMERA_PERMISSION);
         }
 
-// SPINNER LISTENER
-        spinnner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int item, long l) {
 
-                if (item > 0) { // 1 of the cammera selected
-                    tabGeneral.setVisibility(View.GONE);
-                    tabCamSpec.setVisibility(View.VISIBLE);
-                    //get camera params
-                    try {
-                        camera = Camera.open(item - 1);
-                        Camera.Parameters params = camera.getParameters();
-                        camera.release();
-                        getCameraSpecParams(params, (item - 1));
+        if(isPermissionEnabled) {
+            if (checkCameraPresent(this)) {
+                int amountOfCameras = Camera.getNumberOfCameras();
+                Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
 
-                    } catch (Exception ex) {
-                        Log.e(TAG, "Camera cannot be aquired");
-                    }
+                ArrayList<CharSequence> arrayList = new ArrayList<>();
+                arrayList.add("General Info");
 
-                } else {   /// GENERAL TAB SELECTED
-                    tabCamSpec.setVisibility(View.GONE);
-                    tabGeneral.setVisibility(View.VISIBLE);
-                    showGeneralInfo();
+                for (int i = 0; i < amountOfCameras; i++) {
+
+                    Camera.getCameraInfo(i, cameraInfo);
+                    if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                        arrayList.add((i + 1) + ": Front Cam");
+                    } else
+                        arrayList.add((i + 1) + ": Rear Cam");
                 }
+
+                ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, arrayList);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                spinnner.setAdapter(adapter);
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
+            // SPINNER LISTENER
+            spinnner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int item, long l) {
 
-        showGeneralInfo();
-        isLoaded = true;
+                    if (item > 0) { // 1 of the cammera selected
+                        tabGeneral.setVisibility(View.GONE);
+                        tabCamSpec.setVisibility(View.VISIBLE);
+                        //get camera params
+                        try {
+                            camera = Camera.open(item - 1);
+                            Camera.Parameters params = camera.getParameters();
+                            camera.release();
+                            getCameraSpecParams(params, (item - 1));
+
+                        } catch (Exception ex) {
+                            Log.e(TAG, "Camera cannot be aquired");
+                        }
+
+                    } else {   /// GENERAL TAB SELECTED
+                        tabCamSpec.setVisibility(View.GONE);
+                        tabGeneral.setVisibility(View.VISIBLE);
+                        showGeneralInfo();
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                }
+            });
+
+            showGeneralInfo();
+            isLoaded = true;
+
+        } else {
+            Utility.displayExplanationForPermission(this, getResources().getString(R.string.cam_permission_msg), CAMERA_PERMISSION);
+            //Utility.requestPermissions(this , CAMERA_PERMISSION);
+        }
     }
 
     private void showGeneralInfo() {
@@ -308,7 +321,6 @@ public class CameraInfo extends AppCompatActivity {
         videoSizes.setText(getVidDetail(parameters));
 
 
-
         // update SHARE INTENT WITH CAM PARAMETERS
         StringBuilder sb = new StringBuilder();
 
@@ -341,11 +353,10 @@ public class CameraInfo extends AppCompatActivity {
 
         sb.append("Supported Picture Sizes [w x h]:\n" + getPicDetail(parameters));
         sb.append("\n");
-        sb.append("Supported Video Sizes [w x h]:\n" +getVidDetail(parameters));
+        sb.append("Supported Video Sizes [w x h]:\n" + getVidDetail(parameters));
         sb.append("\n\n");
         updateShareIntentCamSpecific(sb);
     }
-
 
 
     public String getZoomRatios(Camera.Parameters parameters) {
@@ -458,12 +469,12 @@ public class CameraInfo extends AppCompatActivity {
         setShareIntent(createShareIntent(sb));
     }
 
-    private void updateShareIntentCamSpecific(StringBuilder body){
+    private void updateShareIntentCamSpecific(StringBuilder body) {
 
         StringBuilder sb = new StringBuilder();
         sb.append(getResources().getString(R.string.shareTextTitle1));
         sb.append("\n");
-        sb.append(Build.MODEL +"\t-\t" + getResources().getString(R.string.title_activity_camera_info));
+        sb.append(Build.MODEL + "\t-\t" + getResources().getString(R.string.title_activity_camera_info));
         sb.append("\n");
         sb.append(getResources().getString(R.string.shareTextTitle1));
         sb.append("\n\n");

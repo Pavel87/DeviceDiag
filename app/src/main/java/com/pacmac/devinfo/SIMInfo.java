@@ -1,14 +1,15 @@
 package com.pacmac.devinfo;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.widget.ShareActionProvider;
 import android.telephony.CellInfo;
 import android.telephony.CellInfoCdma;
@@ -25,7 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
-
 
 public class SIMInfo extends ActionBarActivity {
 
@@ -54,6 +54,9 @@ public class SIMInfo extends ActionBarActivity {
     private final Handler mHandler = new Handler();
     private Runnable timer;
 
+    boolean isPermissionEnabled = true;
+    private static final String PHONE_PERMISSION = Manifest.permission.READ_PHONE_STATE;
+
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
@@ -61,6 +64,14 @@ public class SIMInfo extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.siminfo);
 
+        // Check if user disabled CAMERA permission at some point
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), PHONE_PERMISSION);
+        }
+
+        if (!isPermissionEnabled) {
+            Utility.displayExplanationForPermission(this, getResources().getString(R.string.phone_permission_msg), PHONE_PERMISSION);
+        }
 
         simInfo = (TextView) findViewById(R.id.simInfo);
         serialN = (TextView) findViewById(R.id.serialN);
@@ -169,8 +180,7 @@ public class SIMInfo extends ActionBarActivity {
                         int psc = ((GsmCellLocation) cell).getPsc();
                         currentCellInfo = "LAC: " + lac + "\n" + "Cell ID: " + cid + "\n" + "PSC: " + psc + "\n"
                                 + "Type: GSM";
-                    }
-                    else if (cell instanceof CdmaCellLocation) {
+                    } else if (cell instanceof CdmaCellLocation) {
                         int baseStationId = ((CdmaCellLocation) cell).getBaseStationId();
                         int sysId = ((CdmaCellLocation) cell).getSystemId();
                         int netId = ((CdmaCellLocation) cell).getNetworkId();
@@ -179,11 +189,9 @@ public class SIMInfo extends ActionBarActivity {
                         currentCellInfo = "Base Station ID: " + baseStationId + "\n" + "Network ID: " + netId + "\n" + "System ID: " + sysId + "\n"
                                 + "BS Longitude: " + longitude + "\n" + "BS Latitude: " + latitude + "\n"
                                 + "Type: CDMA";
-                    }
-                    else {
+                    } else {
                         currentCellInfo = getResources().getString(R.string.not_available_info);
                     }
-
 
 
                 }
@@ -194,6 +202,11 @@ public class SIMInfo extends ActionBarActivity {
             dataActivity.setText(dataActivityQuery(telephonyManager.getDataActivity()));
             dataState.setText(dataConnState(telephonyManager.getDataState()));
             phoneRadio.setText(getPhoneRadio(telephonyManager.getPhoneType()));
+        } else if (!isPermissionEnabled) {
+            imeiNumber.setTextColor(Color.RED);
+            imeiNumber.setText("No WAN DETECTED");
+            simInfo.setTextColor(Color.RED);
+            simInfo.setText("NO SIM CARD DETECTED");
         } else {
             Toast.makeText(getApplicationContext(), "There is no WAN radio available", Toast.LENGTH_LONG).show();
             imeiNumber.setTextColor(Color.RED);
@@ -201,7 +214,9 @@ public class SIMInfo extends ActionBarActivity {
             simInfo.setTextColor(Color.RED);
             simInfo.setText("NO SIM CARD DETECTED");
         }
+
         updateShareIntent();
+
     }
 
     private String simState(int value) {
@@ -423,27 +438,31 @@ public class SIMInfo extends ActionBarActivity {
     @Override
     public void onResume() {
         super.onResume();
-        timer = new Runnable() {
-            @Override
-            public void run() {
-                mHandler.postDelayed(this, 5000);
+        if (isPermissionEnabled) {
+            timer = new Runnable() {
+                @Override
+                public void run() {
+                    mHandler.postDelayed(this, 5000);
 
-                runOnUiThread(new Runnable() {
+                    runOnUiThread(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        updateData();
-                    }
-                });
-            }
-        };
-        mHandler.postDelayed(timer, 5000);
+                        @Override
+                        public void run() {
+                            updateData();
+                        }
+                    });
+                }
+            };
+            mHandler.postDelayed(timer, 5000);
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mHandler.removeCallbacks(timer);
+        if (mHandler != null) {
+            mHandler.removeCallbacks(timer);
+        }
     }
 
 }

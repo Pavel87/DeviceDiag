@@ -246,7 +246,7 @@
                 android:padding="24dp"
                 android:background="@drawable/button_cust_blue"
                 android:textColor="@color/colorPrimaryDark"
-                android:elevation="2dp"
+                android:elevation="4dp"
                 android:text="NMEA FEED"
                 android:textAllCaps="true"
                 android:textSize="18sp"
