@@ -234,11 +234,12 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
                 @Override
                 public void run() {
 
-
+                    // TODO don't do this on every loc update - check for distance to update 
                     Geocoder geocoder = new Geocoder(getApplicationContext());
                     if (geocoder.isPresent()) {
                         try {
                             List<Address> addresses = geocoder.getFromLocation(locLat, locLong, 1);
+                            if(addresses == null) return;
                             String street = addresses.get(0).getThoroughfare();
                             String numHouse = addresses.get(0).getSubThoroughfare();
                             String city = addresses.get(0).getSubAdminArea();
