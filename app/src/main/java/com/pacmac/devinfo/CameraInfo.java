@@ -85,67 +85,72 @@ public class CameraInfo extends AppCompatActivity {
 
 
         if(isPermissionEnabled) {
-            if (checkCameraPresent(this)) {
-                int amountOfCameras = Camera.getNumberOfCameras();
-                Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-
-                ArrayList<CharSequence> arrayList = new ArrayList<>();
-                arrayList.add("General Info");
-
-                for (int i = 0; i < amountOfCameras; i++) {
-
-                    Camera.getCameraInfo(i, cameraInfo);
-                    if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                        arrayList.add((i + 1) + ": Front Cam");
-                    } else
-                        arrayList.add((i + 1) + ": Rear Cam");
-                }
-
-                ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, arrayList);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                spinnner.setAdapter(adapter);
-            }
-
-            // SPINNER LISTENER
-            spinnner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int item, long l) {
-
-                    if (item > 0) { // 1 of the cammera selected
-                        tabGeneral.setVisibility(View.GONE);
-                        tabCamSpec.setVisibility(View.VISIBLE);
-                        //get camera params
-                        try {
-                            camera = Camera.open(item - 1);
-                            Camera.Parameters params = camera.getParameters();
-                            camera.release();
-                            getCameraSpecParams(params, (item - 1));
-
-                        } catch (Exception ex) {
-                            Log.e(TAG, "Camera cannot be aquired");
-                        }
-
-                    } else {   /// GENERAL TAB SELECTED
-                        tabCamSpec.setVisibility(View.GONE);
-                        tabGeneral.setVisibility(View.VISIBLE);
-                        showGeneralInfo();
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-                }
-            });
-
-            showGeneralInfo();
-            isLoaded = true;
+            getCameraInfo();
 
         } else {
             Utility.displayExplanationForPermission(this, getResources().getString(R.string.cam_permission_msg), CAMERA_PERMISSION);
             //Utility.requestPermissions(this , CAMERA_PERMISSION);
         }
     }
+
+    private void getCameraInfo(){
+        if (checkCameraPresent(this)) {
+            int amountOfCameras = Camera.getNumberOfCameras();
+            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+
+            ArrayList<CharSequence> arrayList = new ArrayList<>();
+            arrayList.add("General Info");
+
+            for (int i = 0; i < amountOfCameras; i++) {
+
+                Camera.getCameraInfo(i, cameraInfo);
+                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                    arrayList.add((i + 1) + ": Front Cam");
+                } else
+                    arrayList.add((i + 1) + ": Rear Cam");
+            }
+
+            ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, arrayList);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            spinnner.setAdapter(adapter);
+        }
+
+        // SPINNER LISTENER
+        spinnner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int item, long l) {
+
+                if (item > 0) { // 1 of the cammera selected
+                    tabGeneral.setVisibility(View.GONE);
+                    tabCamSpec.setVisibility(View.VISIBLE);
+                    //get camera params
+                    try {
+                        camera = Camera.open(item - 1);
+                        Camera.Parameters params = camera.getParameters();
+                        camera.release();
+                        getCameraSpecParams(params, (item - 1));
+
+                    } catch (Exception ex) {
+                        Log.e(TAG, "Camera cannot be aquired");
+                    }
+
+                } else {   /// GENERAL TAB SELECTED
+                    tabCamSpec.setVisibility(View.GONE);
+                    tabGeneral.setVisibility(View.VISIBLE);
+                    showGeneralInfo();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
+        showGeneralInfo();
+        isLoaded = true;
+    }
+
 
     private void showGeneralInfo() {
 
@@ -485,6 +490,17 @@ public class CameraInfo extends AppCompatActivity {
         sb.append(getResources().getString(R.string.shareTextTitle1));
         setShareIntent(createShareIntent(sb));
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        if (requestCode == Utility.MY_PERMISSIONS_REQUEST) {
+            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), CAMERA_PERMISSION);
+        }
+        if (isPermissionEnabled){
+            getCameraInfo();
+        }
     }
 
 }

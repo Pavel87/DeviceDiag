@@ -51,6 +51,8 @@ public class NMEAfeed extends AppCompatActivity implements GpsStatus.NmeaListene
     LocationManager locationManager;
 
     private boolean isNMEAListenerOn = false;
+    private static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +77,8 @@ public class NMEAfeed extends AppCompatActivity implements GpsStatus.NmeaListene
                 }
 
                 if (!isPermissionEnabled) {
-                    Utility.requestPermissions(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     compoundButton.setChecked(false);
+                    Utility.requestPermissions(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 } else {
                     if (checked) {
                         //Log.d("TAG", "checked");
@@ -98,44 +100,56 @@ public class NMEAfeed extends AppCompatActivity implements GpsStatus.NmeaListene
             @Override
             public void onClick(View view) {
 
-                if (isNMEAListenerOn) {
-                    mHandler.removeCallbacks(timer);
-                    isNMEAListenerOn = false;
-                    locationManager.removeNmeaListener(NMEAfeed.this);
-                    locationManager.removeUpdates(NMEAfeed.this);
-                    nmeaRollButton.setText("Start");
-                    saveCheckBox.setEnabled(true);
+                // Check if user disabled LOCATION permission at some point
+                boolean isPermissionEnabled = true;
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+                    isPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
+                }
+
+                if (!isPermissionEnabled) {
+                    Utility.requestPermissions(activity, LOCATION_PERMISSION);
                 } else {
-                    nmeaUpdate.setText("Fetching data from GPS...");
-                    saveCheckBox.setEnabled(false);
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) NMEAfeed.this);
-                    locationManager.addNmeaListener(NMEAfeed.this);
-                    isNMEAListenerOn = true;
-                    nmeaRollButton.setText("Stop");
 
-                    timer = new Runnable() {
-                        @Override
-                        public void run() {
-                            mHandler.postDelayed(this, 200);
 
-                            runOnUiThread(new Runnable() {
+                    if (isNMEAListenerOn) {
+                        mHandler.removeCallbacks(timer);
+                        isNMEAListenerOn = false;
+                        locationManager.removeNmeaListener(NMEAfeed.this);
+                        locationManager.removeUpdates(NMEAfeed.this);
+                        nmeaRollButton.setText("Start");
+                        saveCheckBox.setEnabled(true);
+                    } else {
+                        nmeaUpdate.setText("Fetching data from GPS...");
+                        saveCheckBox.setEnabled(false);
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) NMEAfeed.this);
+                        locationManager.addNmeaListener(NMEAfeed.this);
+                        isNMEAListenerOn = true;
+                        nmeaRollButton.setText("Stop");
 
-                                @Override
-                                public void run() {
-                                    nmeaUpdate.setText(Html.fromHtml(html));
+                        timer = new Runnable() {
+                            @Override
+                            public void run() {
+                                mHandler.postDelayed(this, 200);
 
-                                    mScrollView.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            mScrollView.smoothScrollTo(0, nmeaUpdate.getBottom());
-                                        }
-                                    });
-                                }
-                            });
+                                runOnUiThread(new Runnable() {
 
-                        }
-                    };
-                    mHandler.postDelayed(timer, 5000);
+                                    @Override
+                                    public void run() {
+                                        nmeaUpdate.setText(Html.fromHtml(html));
+
+                                        mScrollView.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mScrollView.smoothScrollTo(0, nmeaUpdate.getBottom());
+                                            }
+                                        });
+                                    }
+                                });
+
+                            }
+                        };
+                        mHandler.postDelayed(timer, 5000);
+                    }
                 }
             }
         });
@@ -240,8 +254,11 @@ public class NMEAfeed extends AppCompatActivity implements GpsStatus.NmeaListene
 
     @Override
     protected void onPause() {
-        locationManager.removeNmeaListener(this);
-        locationManager.removeUpdates(this);
+        if (locationManager != null) {
+            locationManager.removeNmeaListener(this);
+            if (Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION))
+                locationManager.removeUpdates(this);
+        }
         super.onPause();
     }
 

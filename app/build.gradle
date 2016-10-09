@@ -5,14 +5,14 @@ android {
         config {
         }
     }
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion "23.0.3"
     defaultConfig {
         applicationId "com.pacmac.devicediag"
         minSdkVersion 16
-        targetSdkVersion 22
-        versionCode 18
-        versionName "1.0.15"
+        targetSdkVersion 24
+        versionCode 19
+        versionName "1.0.19"
     }
     buildTypes {
         release {
@@ -23,7 +23,7 @@ android {
     productFlavors {
         free {
             applicationId = "com.pacmac.devicediag.free"
-            versionName = "1.0.13"
+            versionName = "1.0.19"
         }
     }
     sourceSets { main { java.srcDirs = ['src/main/java'] } }
@@ -32,7 +32,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.jjoe64:graphview:4.0.1'
-    compile 'com.android.support:support-v4:23.2.1'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.jjoe64:graphview:4.2.1'
+    compile 'com.android.support:support-v4:24.2.1'
 }

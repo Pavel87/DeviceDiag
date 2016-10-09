@@ -64,7 +64,6 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
     FragmentTransaction ft = null;
     private ShareActionProvider mShareActionProvider;
 
-    private static final String LOCATION_PERMISSION_GROUP = Manifest.permission_group.LOCATION;
     private static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
     private boolean isPermissionEnabled = true;
 
@@ -90,32 +89,32 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gps_info_base);
 
-        // Check if user disabled CAMERA permission at some point
+        // Check if user disabled LOCATION permission at some point
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
             isPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
         }
         if (!isPermissionEnabled) {
             Utility.requestPermissions(this, LOCATION_PERMISSION);
         }
-            // PORTRAIT
+        // PORTRAIT
 
-            if (savedInstanceState == null) {
-                fragment = new GpsInfoLocation();
-                fragTag = FRAG_GPS_INFO;
-            } else if (savedInstanceState.getString(FRAG_SAVE).equals(FRAG_GPS_INFO)) {
-                fragment = getSupportFragmentManager().findFragmentByTag(FRAG_GPS_INFO);
-                fragTag = FRAG_GPS_INFO;
-            } else {
-                fragment = getSupportFragmentManager().findFragmentByTag(FRAG_GPS_SATS);
-                if (fragment.isVisible()) {
-                    fragTag = FRAG_GPS_SATS;
-                }
+        if (savedInstanceState == null) {
+            fragment = new GpsInfoLocation();
+            fragTag = FRAG_GPS_INFO;
+        } else if (savedInstanceState.getString(FRAG_SAVE).equals(FRAG_GPS_INFO)) {
+            fragment = getSupportFragmentManager().findFragmentByTag(FRAG_GPS_INFO);
+            fragTag = FRAG_GPS_INFO;
+        } else {
+            fragment = getSupportFragmentManager().findFragmentByTag(FRAG_GPS_SATS);
+            if (fragment.isVisible()) {
+                fragTag = FRAG_GPS_SATS;
             }
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction().replace(R.id.gpsPortrait, fragment, fragTag);
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            ft.commit();
+        }
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction().replace(R.id.gpsPortrait, fragment, fragTag);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.commit();
 
-        if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS) && isPermissionEnabled) {
+        if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
 
             locationManager = (LocationManager) getApplicationContext().getSystemService(getApplicationContext().LOCATION_SERVICE);
             // check if GPS provider is enabled
@@ -239,7 +238,7 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
                     if (geocoder.isPresent()) {
                         try {
                             List<Address> addresses = geocoder.getFromLocation(locLat, locLong, 1);
-                            if(addresses == null) return;
+                            if (addresses == null) return;
                             String street = addresses.get(0).getThoroughfare();
                             String numHouse = addresses.get(0).getSubThoroughfare();
                             String city = addresses.get(0).getSubAdminArea();
@@ -413,5 +412,12 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
             sb.append(getResources().getString(R.string.shareTextTitle1));
             setShareIntent(createShareIntent(sb));
         }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        isPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
     }
 }

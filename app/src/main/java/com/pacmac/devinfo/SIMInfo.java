@@ -54,8 +54,10 @@ public class SIMInfo extends ActionBarActivity {
     private final Handler mHandler = new Handler();
     private Runnable timer;
 
+    boolean isLocPermissionEnabled = true;
     boolean isPermissionEnabled = true;
     private static final String PHONE_PERMISSION = Manifest.permission.READ_PHONE_STATE;
+    private static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
 
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -64,14 +66,14 @@ public class SIMInfo extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.siminfo);
 
-        // Check if user disabled CAMERA permission at some point
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
             isPermissionEnabled = Utility.checkPermission(getApplicationContext(), PHONE_PERMISSION);
+            isLocPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
+            if (!isPermissionEnabled) {
+                Utility.displayExplanationForPermission(this, getResources().getString(R.string.phone_permission_msg), PHONE_PERMISSION);
+            }
         }
 
-        if (!isPermissionEnabled) {
-            Utility.displayExplanationForPermission(this, getResources().getString(R.string.phone_permission_msg), PHONE_PERMISSION);
-        }
 
         simInfo = (TextView) findViewById(R.id.simInfo);
         serialN = (TextView) findViewById(R.id.serialN);
@@ -92,8 +94,10 @@ public class SIMInfo extends ActionBarActivity {
         cellInformation = (TextView) findViewById(R.id.cellInformation);
 
 
-        // update view with phone data
-        updateData();
+        if (isPermissionEnabled) {
+            // update view with phone data
+            updateData();
+        }
     }
 
 
@@ -125,77 +129,81 @@ public class SIMInfo extends ActionBarActivity {
                 providerCountry.setText(telephonyManager.getNetworkCountryIso().toUpperCase());
                 phoneNumber.setText(telephonyManager.getLine1Number());
                 networkType.setText(networkType(telephonyManager.getNetworkType()));
-                cellInfo = telephonyManager.getAllCellInfo();
-                String currentCellInfo = "Unknown";
-                // getAllCellInfo may return null in old phones!
-                if (cellInfo != null && cellInfo.size() > 0) {
-                    for (CellInfo cell : cellInfo) {
-                        if (cell instanceof CellInfoGsm && cell.isRegistered()) {
-                            int lac = ((CellInfoGsm) cell).getCellIdentity().getLac();
-                            int cid = ((CellInfoGsm) cell).getCellIdentity().getCid();
-                            int psc = ((CellInfoGsm) cell).getCellIdentity().getPsc();
-                            int dbm = ((CellInfoGsm) cell).getCellSignalStrength().getDbm();
-                            int asuLevel = ((CellInfoGsm) cell).getCellSignalStrength().getAsuLevel();
-                            currentCellInfo = "LAC: " + lac + "\n" + "Cell ID: " + cid + "\n" + "PSC: " + psc + "\n"
-                                    + "Signal Strength[dBm]: " + dbm + "\n" + "Asu Level: " + asuLevel + "\n"
-                                    + "Type: GSM";
+                if (isLocPermissionEnabled) {
+                    cellInfo = telephonyManager.getAllCellInfo();
+                    String currentCellInfo = "Unknown";
+                    // getAllCellInfo may return null in old phones!
+                    if (cellInfo != null && cellInfo.size() > 0) {
+                        for (CellInfo cell : cellInfo) {
+                            if (cell instanceof CellInfoGsm && cell.isRegistered()) {
+                                int lac = ((CellInfoGsm) cell).getCellIdentity().getLac();
+                                int cid = ((CellInfoGsm) cell).getCellIdentity().getCid();
+                                int psc = ((CellInfoGsm) cell).getCellIdentity().getPsc();
+                                int dbm = ((CellInfoGsm) cell).getCellSignalStrength().getDbm();
+                                int asuLevel = ((CellInfoGsm) cell).getCellSignalStrength().getAsuLevel();
+                                currentCellInfo = "LAC: " + lac + "\n" + "Cell ID: " + cid + "\n" + "PSC: " + psc + "\n"
+                                        + "Signal Strength[dBm]: " + dbm + "\n" + "Asu Level: " + asuLevel + "\n"
+                                        + "Type: GSM";
 
-                        } else if (cell instanceof CellInfoCdma && cell.isRegistered()) {
-                            int baseStationId = ((CellInfoCdma) cell).getCellIdentity().getBasestationId();
-                            int netId = ((CellInfoCdma) cell).getCellIdentity().getNetworkId();
-                            int sysId = ((CellInfoCdma) cell).getCellIdentity().getSystemId();
-                            int dbm = ((CellInfoCdma) cell).getCellSignalStrength().getDbm();
-                            int asuLevel = ((CellInfoCdma) cell).getCellSignalStrength().getAsuLevel();
-                            currentCellInfo = "Base Station ID: " + baseStationId + "\n" + "Network ID: " + netId + "\n" + "System ID: " + sysId + "\n"
-                                    + "Signal Strength[dBm]: " + dbm + "\n" + "Asu Level: " + asuLevel + "\n"
-                                    + "Type: CDMA";
+                            } else if (cell instanceof CellInfoCdma && cell.isRegistered()) {
+                                int baseStationId = ((CellInfoCdma) cell).getCellIdentity().getBasestationId();
+                                int netId = ((CellInfoCdma) cell).getCellIdentity().getNetworkId();
+                                int sysId = ((CellInfoCdma) cell).getCellIdentity().getSystemId();
+                                int dbm = ((CellInfoCdma) cell).getCellSignalStrength().getDbm();
+                                int asuLevel = ((CellInfoCdma) cell).getCellSignalStrength().getAsuLevel();
+                                currentCellInfo = "Base Station ID: " + baseStationId + "\n" + "Network ID: " + netId + "\n" + "System ID: " + sysId + "\n"
+                                        + "Signal Strength[dBm]: " + dbm + "\n" + "Asu Level: " + asuLevel + "\n"
+                                        + "Type: CDMA";
 
-                        } else if (Build.VERSION.SDK_INT > 17 && cell instanceof CellInfoWcdma && cell.isRegistered()) {   // FROM API 18+ supported
-                            int lac = ((CellInfoWcdma) cell).getCellIdentity().getLac();
-                            int cid = ((CellInfoWcdma) cell).getCellIdentity().getCid();
-                            int psc = ((CellInfoWcdma) cell).getCellIdentity().getPsc();
-                            int dbm = ((CellInfoWcdma) cell).getCellSignalStrength().getDbm();
-                            int asuLevel = ((CellInfoWcdma) cell).getCellSignalStrength().getAsuLevel();
-                            currentCellInfo = "LAC: " + lac + "\n" + "Cell ID: " + cid + "\n" + "PSC: " + psc + "\n"
-                                    + "Signal Strength[dBm]: " + dbm + "\n" + "Asu Level: " + asuLevel + "\n"
-                                    + "Type: UMTS";
+                            } else if (Build.VERSION.SDK_INT > 17 && cell instanceof CellInfoWcdma && cell.isRegistered()) {   // FROM API 18+ supported
+                                int lac = ((CellInfoWcdma) cell).getCellIdentity().getLac();
+                                int cid = ((CellInfoWcdma) cell).getCellIdentity().getCid();
+                                int psc = ((CellInfoWcdma) cell).getCellIdentity().getPsc();
+                                int dbm = ((CellInfoWcdma) cell).getCellSignalStrength().getDbm();
+                                int asuLevel = ((CellInfoWcdma) cell).getCellSignalStrength().getAsuLevel();
+                                currentCellInfo = "LAC: " + lac + "\n" + "Cell ID: " + cid + "\n" + "PSC: " + psc + "\n"
+                                        + "Signal Strength[dBm]: " + dbm + "\n" + "Asu Level: " + asuLevel + "\n"
+                                        + "Type: UMTS";
 
-                        } else if (cell instanceof CellInfoLte && cell.isRegistered()) {
-                            int cellId = ((CellInfoLte) cell).getCellIdentity().getCi();
-                            int physCellId = ((CellInfoLte) cell).getCellIdentity().getPci();
-                            int tac = ((CellInfoLte) cell).getCellIdentity().getTac();
-                            int dbm = ((CellInfoLte) cell).getCellSignalStrength().getDbm();
-                            int asuLevel = ((CellInfoLte) cell).getCellSignalStrength().getAsuLevel();
-                            currentCellInfo = "Cell Identity: " + cellId + "\n" + "Physical Cell ID: " + physCellId + "\n" + "TAC: " + tac + "\n"
-                                    + "Signal Strength[dBm]: " + dbm + "\n" + "Asu Level: " + asuLevel + "\n"
-                                    + "Type: LTE";
+                            } else if (cell instanceof CellInfoLte && cell.isRegistered()) {
+                                int cellId = ((CellInfoLte) cell).getCellIdentity().getCi();
+                                int physCellId = ((CellInfoLte) cell).getCellIdentity().getPci();
+                                int tac = ((CellInfoLte) cell).getCellIdentity().getTac();
+                                int dbm = ((CellInfoLte) cell).getCellSignalStrength().getDbm();
+                                int asuLevel = ((CellInfoLte) cell).getCellSignalStrength().getAsuLevel();
+                                currentCellInfo = "Cell Identity: " + cellId + "\n" + "Physical Cell ID: " + physCellId + "\n" + "TAC: " + tac + "\n"
+                                        + "Signal Strength[dBm]: " + dbm + "\n" + "Asu Level: " + asuLevel + "\n"
+                                        + "Type: LTE";
+                            }
                         }
-                    }
-                } else {
-                    CellLocation cell = telephonyManager.getCellLocation();
-
-                    if (cell instanceof GsmCellLocation) {
-                        int lac = ((GsmCellLocation) cell).getLac();
-                        int cid = ((GsmCellLocation) cell).getCid();
-                        int psc = ((GsmCellLocation) cell).getPsc();
-                        currentCellInfo = "LAC: " + lac + "\n" + "Cell ID: " + cid + "\n" + "PSC: " + psc + "\n"
-                                + "Type: GSM";
-                    } else if (cell instanceof CdmaCellLocation) {
-                        int baseStationId = ((CdmaCellLocation) cell).getBaseStationId();
-                        int sysId = ((CdmaCellLocation) cell).getSystemId();
-                        int netId = ((CdmaCellLocation) cell).getNetworkId();
-                        int longitude = ((CdmaCellLocation) cell).getBaseStationLongitude();
-                        int latitude = ((CdmaCellLocation) cell).getBaseStationLatitude();
-                        currentCellInfo = "Base Station ID: " + baseStationId + "\n" + "Network ID: " + netId + "\n" + "System ID: " + sysId + "\n"
-                                + "BS Longitude: " + longitude + "\n" + "BS Latitude: " + latitude + "\n"
-                                + "Type: CDMA";
                     } else {
-                        currentCellInfo = getResources().getString(R.string.not_available_info);
+                        CellLocation cell = telephonyManager.getCellLocation();
+
+                        if (cell instanceof GsmCellLocation) {
+                            int lac = ((GsmCellLocation) cell).getLac();
+                            int cid = ((GsmCellLocation) cell).getCid();
+                            int psc = ((GsmCellLocation) cell).getPsc();
+                            currentCellInfo = "LAC: " + lac + "\n" + "Cell ID: " + cid + "\n" + "PSC: " + psc + "\n"
+                                    + "Type: GSM";
+                        } else if (cell instanceof CdmaCellLocation) {
+                            int baseStationId = ((CdmaCellLocation) cell).getBaseStationId();
+                            int sysId = ((CdmaCellLocation) cell).getSystemId();
+                            int netId = ((CdmaCellLocation) cell).getNetworkId();
+                            int longitude = ((CdmaCellLocation) cell).getBaseStationLongitude();
+                            int latitude = ((CdmaCellLocation) cell).getBaseStationLatitude();
+                            currentCellInfo = "Base Station ID: " + baseStationId + "\n" + "Network ID: " + netId + "\n" + "System ID: " + sysId + "\n"
+                                    + "BS Longitude: " + longitude + "\n" + "BS Latitude: " + latitude + "\n"
+                                    + "Type: CDMA";
+                        } else {
+                            currentCellInfo = getResources().getString(R.string.not_available_info);
+                        }
+
+
                     }
-
-
+                    cellInformation.setText(currentCellInfo);
+                } else {
+                    Utility.requestPermissions(this, LOCATION_PERMISSION);
                 }
-                cellInformation.setText(currentCellInfo);
             }
 
             imeiNumber.setText(telephonyManager.getDeviceId());
@@ -438,23 +446,25 @@ public class SIMInfo extends ActionBarActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (isPermissionEnabled) {
-            timer = new Runnable() {
-                @Override
-                public void run() {
-                    mHandler.postDelayed(this, 5000);
 
-                    runOnUiThread(new Runnable() {
+        timer = new Runnable() {
+            @Override
+            public void run() {
+                mHandler.postDelayed(this, 2500);
 
-                        @Override
-                        public void run() {
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if (isPermissionEnabled) {
                             updateData();
                         }
-                    });
-                }
-            };
-            mHandler.postDelayed(timer, 5000);
-        }
+                    }
+                });
+            }
+        };
+        mHandler.postDelayed(timer, 3000);
+
     }
 
     @Override
@@ -462,6 +472,15 @@ public class SIMInfo extends ActionBarActivity {
         super.onPause();
         if (mHandler != null) {
             mHandler.removeCallbacks(timer);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        if (requestCode == Utility.MY_PERMISSIONS_REQUEST) {
+            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), PHONE_PERMISSION);
+            isLocPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
         }
     }
 
