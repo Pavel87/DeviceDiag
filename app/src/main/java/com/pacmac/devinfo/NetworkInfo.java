@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.DhcpInfo;
+import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -28,6 +29,7 @@ import android.widget.TextView;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Calendar;
+import java.util.List;
 
 public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
 
@@ -174,6 +176,31 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
 
     }
 
+    public int getFrequency(String bssid){
+        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (wifiManager == null)
+            return -1; // TUException.getDefaultErrorCode();
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        if (wifiInfo == null)
+            return -1; // TUException.getDefaultErrorCode();
+
+        int frequency = -1;  // TUException.getDefaultErrorCode();
+
+        // API 21+ has method to pull frequency channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            // should we check for permissions in Manifest here ??
+            return wifiInfo.getFrequency();
+            // Older android versions have to use getScanResults to get frequency
+        } else {
+            List<ScanResult> wifiScanList = wifiManager.getScanResults();
+            for (int i = 0; i < wifiScanList.size(); i++) {
+                if (bssid.equals(wifiScanList.get(i).BSSID)){
+                    return wifiScanList.get(i).frequency;
+                }
+            }
+        }
+        return frequency;
+    }
 
     @Override
     public void showPingResponse(String result) {
@@ -255,16 +282,7 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         }
         rssiField.setText(wifiInfo.getRssi() + "");
         linkSpeedField.setText(wifiInfo.getLinkSpeed() + " " + WifiInfo.LINK_SPEED_UNITS);
-        if (Build.VERSION.SDK_INT >= 21)
-            frequencyField.setText(wifiInfo.getFrequency() + " " + WifiInfo.FREQUENCY_UNITS);
-        else if (Build.VERSION.SDK_INT >= 19)  // frequency is paased in connenctionInfo - might cause an issue in some phones
-           try{
-            frequencyField.setText(connInformation[6].substring(11) + " " + "MHz");
-            }catch(StringIndexOutOfBoundsException ex){
-                frequencyField.setText(getResources().getString(R.string.not_available_in_API));
-            }
-        else
-            frequencyField.setText(getResources().getString(R.string.not_available_info)); // frequency is not available in JB OS
+        frequencyField.setText(wifiInfo.getBSSID() + " MHz");
         roaming.setText(roamingStr);
 
         //dhcp address
@@ -279,7 +297,7 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
 
     }
 
-    // convertion taken from stackoverflow: http://stackoverflow.com/questions/6345597/human-readable-dhcpinfo-ipaddress
+    //  conversion taken from stackoverflow: http://stackoverflow.com/questions/6345597/human-readable-dhcpinfo-ipaddress
     public static InetAddress intToInetAddress(int hostAddress) {
         byte[] addressBytes = {(byte) (0xff & hostAddress),
                 (byte) (0xff & (hostAddress >> 8)),
