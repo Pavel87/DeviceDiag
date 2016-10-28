@@ -282,7 +282,7 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         }
         rssiField.setText(wifiInfo.getRssi() + "");
         linkSpeedField.setText(wifiInfo.getLinkSpeed() + " " + WifiInfo.LINK_SPEED_UNITS);
-        frequencyField.setText(wifiInfo.getBSSID() + " MHz");
+        frequencyField.setText(getFrequency(wifiInfo.getBSSID()) + " MHz");
         roaming.setText(roamingStr);
 
         //dhcp address
