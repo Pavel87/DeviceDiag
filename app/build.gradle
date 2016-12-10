@@ -11,8 +11,8 @@ android {
         applicationId "com.pacmac.devicediag"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 20
-        versionName "1.1"
+        versionCode 21
+        versionName "1.2"
     }
     buildTypes {
         release {
@@ -23,7 +23,7 @@ android {
     productFlavors {
         free {
             applicationId = "com.pacmac.devicediag.free"
-            versionName = "1.0.19"
+            versionName = "1.2"
         }
     }
     sourceSets { main { java.srcDirs = ['src/main/java'] } }
@@ -33,6 +33,8 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.google.android.gms:play-services-location:9.+'
     compile 'com.jjoe64:graphview:4.2.1'
     compile 'com.android.support:support-v4:24.2.1'
+    compile files('libs/Android_Tutela_SDK.jar')
 }
