@@ -1,0 +1,52 @@
+Privacy Policy
+
+This Privacy Policy ("Policy") applies to the use of Apps developed by pacmac on android platform.
+
+Through this policy want to explain the practices we upheld regarding what information is collected, its use and disclosure in reference to our Applications.
+
+By using our Applications, you consent to the privacy practices described in this Policy.
+
+This Policy covers collection, use and disclosure of your information through the Applications. It does not cover any collection, use or disclosure by third parties through any applications, Web sites, products or services that we do not control or own, such as Google or any third party features or services made available via an Application. All trademarks, trade names, and logos of third parties featured on the Applications belong to their respective owners.
+
+1. WHAT INFORMATION WE COLLECT
+A. Personal Information: We do not collect ANY Personal Information. "Personal Information" is information that can identify an individual, which may be transmitted or received when you use an Application. Personal Information includes geographic location information, names, physical addresses, email addresses, telephone, fax, SSN, information stored within your Device and other information you transmit or receive while using an Application, the Service and/ or the Website which can identify you.
+
+B. Non-personal identification: We may collect non-personal anonymous information about phone without any relevance to user itself. Non-personal identification information may include the type of your phone, its technical hardware specifications such as storage, OS, build information and information about means of connection to our apps, such as the phone model version and other similar information.
+
+B1. Session and Usage Data: "Session and Usage Data" is information about your use of an Application, without limitation, connection and service-related data submitted to us through your use of an Application. Session and Usage Data includes information relating to the connection quality, including network measurements, quality of service, and date, time and location of the bump. We also may aggregate Session and Usage data as described in Aggregate Information below. Please note that Session and Usage Data does not include any Personal Information nor does it include Content you may transmit or share through the use of an Application (such as photos, contacts, calendar appointments, etc.).
+
+B3. Aggregate Information: "Aggregate Information" is data we collect about netowork quality at certain location. The data about network quality are collected without any bound to specific users and thus we can ensure it is anonymity.
+
+2. HOW WE USE COLLECTED INFORMATION
+A. Personal Information: No personally-identifiable information is collected and hence not used.
+
+B. Non- Personal Information: We may use Non-Personal Information for any purpose mentioned below:
+
+B1. To help improve quality of internet connection all over the world
+
+
+3. INFORMATION DISCLOSURE
+A. Personal Information: We neither store nor disclose personal information. 
+
+B. Non-Personal Information: We may disclose Non-Personal Information to our trusted partners who shall comply with this privacy policy and relevant privacy laws. Again, none of the information shared with our partners can be used to identify an individual. In general, we collect only anonymous network performance data which are later used to improve coverage and quality of mobile networks.
+
+4. THIRD-PARTY SITES
+In general, the Applications do not interact with third-party sites like Facebook or Twitter.
+
+5. USERS WITH WHOM YOU SHARE YOUR INFORMATION
+We cannot control the actions of other Users with whom you share your information. We cannot, and do not, control the information you share with other Users using an Application or how such other Users will use or share information. We are not responsible for third party circumvention of our security measures.
+
+6. SECURITY
+Developer of Application is committed to safeguarding the confidentiality of your information. We do not collect Personal Information, and we employ administrative, physical and electronic measures designed to protect your Non-Personal Information from unauthorized access and use.
+
+7. INTERNATIONAL USERS
+The information from your phone listed above may be stored and processed in any country where we have facilities, and by using an Application you consent to the transfer of your phone information to countries, including the United States, which may be outside of your country of residence and may provide for different and less stringent data protection rules than in your country. If you object to your Personal Information being transferred or used as described in this Policy, please do not use any Application and immediately delete all Applications from your Devices.
+
+8. SENSITIVE INFORMATION
+We ask that you not send us, and you not disclose, any sensitive Personal Information (e.g., information related to racial or ethnic origin, political opinions, religion or other beliefs, health, sexual orientation, criminal background or membership in past organizations, including trade union memberships) on or through an Application.
+
+9. CONTACTING US / REPORTING VIOLATIONS
+If you have any questions or comments about this Policy or our privacy practices, or to report any violations of the Policy or abuse of an Application, please contact us at pacmac.dev@gmail.com.
+
+10. CHANGES TO PRIVACY POLICY
+We reserve the right, at our sole discretion, to change, modify or otherwise alter this Policy at any time. You can always check the latest version of our Privacy Policy.  You must review this Policy on a regular basis to keep yourself apprised of any changes. If you do not agree to any modifications to this Policy, your sole recourse is to immediately stop all use of all Applications. Your continued use of any Application following the posting of any modifications to this Policy will constitute your acceptance of the revised Policy. Please note that none of our employees or agents has the authority to vary any of our Policies.
