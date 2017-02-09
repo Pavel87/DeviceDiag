@@ -1,6 +1,8 @@
 package com.pacmac.devinfo;
 
+import android.Manifest;
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
@@ -23,10 +25,22 @@ public class DiagMain extends ActionBarActivity implements ActionBar.TabListener
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
 
+    private static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
+    private boolean isPermissionEnabled = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diag_main);
+
+
+        // Check if user disabled LOCATION permission at some point
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
+        }
+        if (!isPermissionEnabled) {
+            Utility.requestPermissions(this, LOCATION_PERMISSION);
+        }
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
@@ -63,8 +77,20 @@ public class DiagMain extends ActionBarActivity implements ActionBar.TabListener
         }
 
 
+        // Check if user disabled LOCATION permission at some point
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
+        }
+        if (!isPermissionEnabled) {
+            Utility.requestPermissions(this, LOCATION_PERMISSION);
+        }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        isPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
+    }
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/ac_background"
+    android:background="@color/dark_act_bg"
     tools:context="com.pacmac.devinfo.BatteryInfo">
 
     <LinearLayout

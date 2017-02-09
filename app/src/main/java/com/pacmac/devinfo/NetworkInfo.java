@@ -38,6 +38,8 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
     private TextView ssidField, bssidField, macField, rssiField, linkSpeedField, frequencyField, roaming;
     private TextView ipAddressField, netMaskField, gatewayField, dns1Field, dns2Field, dhcpField, leaseField;
     private ImageView ghzBand, powerReport, devToAp, p2p, offloadedConn, scanAlways, tdlsSupport;
+    private TextView supplicantState, apCapabilities, centerFreq0, centerFreq1, channelWidth, passpointNetwork, mcResponder, operatorName, venueName;
+
 
     private Button pingBtn;
     private LinearLayout wifiDetail, supportedFeatures;
@@ -51,6 +53,7 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
     private String roamingStr = null;
     private String bssidTemp = null;
     private ShareActionProvider mShareActionProvider;
+    private ScanResult scanResult = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,18 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         rssiField = (TextView) findViewById(R.id.rssiField);
         linkSpeedField = (TextView) findViewById(R.id.linkSpeedField);
         frequencyField = (TextView) findViewById(R.id.freqField);
+
+        supplicantState = (TextView) findViewById(R.id.supplicantState);
+        apCapabilities = (TextView) findViewById(R.id.apCapabilities);
+        channelWidth = (TextView) findViewById(R.id.channelWidth);
+        centerFreq0 = (TextView) findViewById(R.id.centerFreq0);
+        centerFreq1 = (TextView) findViewById(R.id.centerFreq1);
+        operatorName = (TextView) findViewById(R.id.operatorFriendlyName);
+        venueName = (TextView) findViewById(R.id.venueName);
+        mcResponder = (TextView) findViewById(R.id.mcResponder);
+        passpointNetwork = (TextView) findViewById(R.id.passPointNetwork);
+
+
         roaming = (TextView) findViewById(R.id.roaming);
         ipAddressField = (TextView) findViewById(R.id.ipAddress);
         gatewayField = (TextView) findViewById(R.id.gateway);
@@ -176,30 +191,52 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
 
     }
 
-    public int getFrequency(String bssid){
+    public int getFrequency(String bssid) {
         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wifiManager == null)
-            return -1; // TUException.getDefaultErrorCode();
+            return -1;
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         if (wifiInfo == null)
-            return -1; // TUException.getDefaultErrorCode();
+            return -1;
 
-        int frequency = -1;  // TUException.getDefaultErrorCode();
+        int frequency = -1;
 
         // API 21+ has method to pull frequency channel
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // should we check for permissions in Manifest here ??
             return wifiInfo.getFrequency();
             // Older android versions have to use getScanResults to get frequency
         } else {
             List<ScanResult> wifiScanList = wifiManager.getScanResults();
+            if (wifiScanList == null || wifiScanList.size() == 0)
+                return -1;
             for (int i = 0; i < wifiScanList.size(); i++) {
-                if (bssid.equals(wifiScanList.get(i).BSSID)){
+                if (bssid.equals(wifiScanList.get(i).BSSID)) {
                     return wifiScanList.get(i).frequency;
                 }
             }
         }
         return frequency;
+    }
+
+    public ScanResult getWiFiScanResult(String bssid) {
+        if(bssid == null)
+            return null;
+        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (wifiManager == null)
+            return null;
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        if (wifiInfo == null)
+            return null;
+        List<ScanResult> wifiScanList = wifiManager.getScanResults();
+        if (wifiScanList == null || wifiScanList.size() == 0)
+            return null;
+        for (int i = 0; i < wifiScanList.size(); i++) {
+            if (bssid.equals(wifiScanList.get(i).BSSID)) {
+                return wifiScanList.get(i);
+            }
+        }
+        return null;
     }
 
     @Override
@@ -250,11 +287,15 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
 
     public void updateView(WifiManager wifiManager) {
 
-        // wifi info
-        String[] connInformation = wifiManager.getConnectionInfo().toString().split(",");
 
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        WifiInfo wifiInfo = null;
+        try {
+            wifiInfo = wifiManager.getConnectionInfo();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        // TODO if wifiInfo == null
 
         if (bssidTemp != null && !bssidTemp.equals(wifiInfo.getBSSID())) {
             Calendar cal = Calendar.getInstance();
@@ -283,7 +324,38 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         rssiField.setText(wifiInfo.getRssi() + "");
         linkSpeedField.setText(wifiInfo.getLinkSpeed() + " " + WifiInfo.LINK_SPEED_UNITS);
         frequencyField.setText(getFrequency(wifiInfo.getBSSID()) + " MHz");
+        supplicantState.setText(wifiInfo.getSupplicantState().name());
         roaming.setText(roamingStr);
+
+        scanResult = getWiFiScanResult(wifiInfo.getBSSID());
+
+        if (scanResult != null) {
+
+            apCapabilities.setText(scanResult.capabilities);
+
+            if (Build.VERSION.SDK_INT > 22) {
+                channelWidth.setText(getChannelWidth(scanResult.channelWidth));
+                if (scanResult.centerFreq0 > 0)
+                    centerFreq0.setText(scanResult.centerFreq0 + WifiInfo.FREQUENCY_UNITS);
+                if (scanResult.centerFreq1 > 0)
+                    centerFreq1.setText(scanResult.centerFreq1 + WifiInfo.FREQUENCY_UNITS);
+                if (!scanResult.operatorFriendlyName.equals(""))
+                    operatorName.setText(scanResult.operatorFriendlyName + "");
+                if (!scanResult.venueName.equals(""))
+                    venueName.setText(scanResult.venueName + "");
+                mcResponder.setText((scanResult.is80211mcResponder()) ? "YES" : "NO");
+                passpointNetwork.setText((scanResult.isPasspointNetwork()) ? "YES" : "NO");
+            } else {
+                findViewById(R.id.wifiAPI23a).setVisibility(View.GONE);
+                findViewById(R.id.wifiAPI23b).setVisibility(View.GONE);
+                findViewById(R.id.wifiAPI23c).setVisibility(View.GONE);
+                findViewById(R.id.wifiAPI23d).setVisibility(View.GONE);
+                findViewById(R.id.wifiAPI23e).setVisibility(View.GONE);
+                findViewById(R.id.wifiAPI23f).setVisibility(View.GONE);
+                findViewById(R.id.wifiAPI23g).setVisibility(View.GONE);
+            }
+        }
+
 
         //dhcp address
         DhcpInfo dhcpInformation = wifiManager.getDhcpInfo();
@@ -296,6 +368,25 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         leaseField.setText(dhcpInformation.leaseDuration + " " + "s");
 
     }
+
+
+    private String getChannelWidth(int width) {
+        switch (width) {
+            case ScanResult.CHANNEL_WIDTH_20MHZ:
+                return "20 MHz";
+            case ScanResult.CHANNEL_WIDTH_40MHZ:
+                return "40 MHz";
+            case ScanResult.CHANNEL_WIDTH_80MHZ:
+                return "80 MHz";
+            case ScanResult.CHANNEL_WIDTH_160MHZ:
+                return "160 MHz";
+            case ScanResult.CHANNEL_WIDTH_80MHZ_PLUS_MHZ:
+                return "80 + 80 MHz";
+            default:
+                return getResources().getString(R.string.not_available_info);
+        }
+    }
+
 
     //  conversion taken from stackoverflow: http://stackoverflow.com/questions/6345597/human-readable-dhcpinfo-ipaddress
     public static InetAddress intToInetAddress(int hostAddress) {
@@ -323,6 +414,7 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
 
             networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
             if (networkInfo.isConnected()) {
+                wifiDetail.setVisibility(View.VISIBLE);
                 wifiConnected.setTextColor(getResources().getColor(R.color.connected_clr));
                 wifiConnected.setText(getString(R.string.connected_info));
             } else if (networkInfo.isAvailable()) {
@@ -342,6 +434,8 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
 
             networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
             if (networkInfo.isConnected()) {
+                isWiFi = false;
+                wifiDetail.setVisibility(View.GONE);
                 wanConnected.setTextColor(getResources().getColor(R.color.connected_clr));
                 wanConnected.setText(getString(R.string.connected_info));
             } else if (networkInfo.isAvailable()) {
@@ -436,29 +530,28 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
             sb.append("DHCP Address:\t\t" + dhcpField.getText().toString());
             sb.append("\n");
             sb.append("DHCP Lease:\t\t" + leaseField.getText().toString());
-            sb.append("\n\n");
+            sb.append("\n");
+            sb.append("Supplicant State:\t\t" + supplicantState.getText().toString());
+            sb.append("\n");
+            sb.append("AP Capabilities:\t\t" + apCapabilities.getText().toString());
 
-            // commented out as it is not reliable and consistent.
-            // Most of manufacturer left it out hence I am not printing this stuff now
-          /*  if (Build.VERSION.SDK_INT >= 21) {
-
-                sb.append("WIFI supported features:");
+            if (Build.VERSION.SDK_INT > 22) {
                 sb.append("\n");
-                sb.append("5GHz Band\t\t" + ghzBand.getText().toString());
+                sb.append("Channel Width:\t\t" + channelWidth.getText().toString());
                 sb.append("\n");
-                sb.append("Device To AP Rtt:\t\t" + devToAp.getText().toString());
+                sb.append("Center Frequency 0:\t\t" + centerFreq0.getText().toString());
                 sb.append("\n");
-                sb.append("P2P:\t\t" + p2p.getText().toString());
+                sb.append("Center Frequency 1:\t\t" + centerFreq1.getText().toString());
                 sb.append("\n");
-                sb.append("Preferred Network Offload:\t\t" + offloadedConn.getText().toString());
+                sb.append("Operator Friendly Name:\t\t" + operatorName.getText().toString());
                 sb.append("\n");
-                sb.append("Enhanced Power Reporting:\t\t" + powerReport.getText().toString());
+                sb.append("Venue Name:\t\t" + venueName.getText().toString());
                 sb.append("\n");
-                sb.append("Scan Always Available:\t\t" + scanAlways.getText().toString());
+                sb.append("Is 802.11mc Responder:\t\t" + mcResponder.getText().toString());
                 sb.append("\n");
-                sb.append("Tdls Support:\t\t" + tdlsSupport.getText().toString());
+                sb.append("Is Passpoint Network:\t\t" + passpointNetwork.getText().toString());
                 sb.append("\n\n");
-            }*/
+            }
 
         } else {
             sb.append("WIFI INFO NOT AVAILABLE");
