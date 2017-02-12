@@ -26,7 +26,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginRight="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/list_border_line"
+                android:background="@android:drawable/dialog_holo_light_frame"
                 android:shrinkColumns="1">
 
                 <TableRow
@@ -233,7 +233,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/list_border_line"
+                android:background="@android:drawable/dialog_holo_light_frame"
                 android:shrinkColumns="1">
 
 

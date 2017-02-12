@@ -25,7 +25,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:background="@drawable/list_border_line"
+                android:background="@android:drawable/dialog_holo_light_frame"
                 android:shrinkColumns="1">
 
                 <TableRow
@@ -101,7 +101,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/list_border_line"
+                android:background="@android:drawable/dialog_holo_light_frame"
                 android:shrinkColumns="1">
 
                 <TableRow

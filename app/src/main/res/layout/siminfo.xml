@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/list_border_line"
+                android:background="@android:drawable/dialog_holo_light_frame"
                 android:shrinkColumns="1">
 
                 <TableRow

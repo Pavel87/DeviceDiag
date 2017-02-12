@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/list_border_line"
+        android:background="@android:drawable/dialog_holo_light_frame"
         android:orientation="vertical"
         android:scrollbars="none">
 
@@ -29,10 +29,11 @@
                 android:id="@+id/versionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="28dp"
+                android:layout_margin="16dp"
+                android:layout_gravity="right"
                 android:text="@string/version_text"
                 android:textColor="@color/textColorPrimary"
-                android:textSize="16sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/appDescription"
@@ -40,8 +41,8 @@
                 android:layout_height="wrap_content"
 
                 android:layout_marginBottom="16dp"
-                android:layout_marginLeft="28dp"
-                android:layout_marginRight="28dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:text="@string/app_description"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="14sp" />
@@ -50,9 +51,9 @@
                 android:id="@+id/author"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="28dp"
-                android:layout_marginLeft="28dp"
-                android:layout_marginRight="28dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:text="@string/app_author"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="14sp" />
@@ -65,7 +66,6 @@
                 android:layout_margin="16dp"
                 android:background="@drawable/button_cust_blue"
                 android:elevation="2dp"
-                android:padding="24dp"
                 android:text="@string/rate_app"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimaryDark"
@@ -81,7 +81,6 @@
                 android:layout_margin="16dp"
                 android:background="@drawable/button_cust_blue"
                 android:elevation="2dp"
-                android:padding="24dp"
                 android:text="@string/send_feedback"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimaryDark"

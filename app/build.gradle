@@ -11,8 +11,8 @@ android {
         applicationId "com.pacmac.devicediag"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 22
-        versionName "1.3"
+        versionCode 23
+        versionName "1.4"
     }
     buildTypes {
         release {

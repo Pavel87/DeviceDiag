@@ -19,7 +19,7 @@
             android:id="@+id/sateliteList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/list_border_line"
+            android:background="@android:drawable/dialog_holo_light_frame"
             android:divider="@color/primary_dark_material_light"
             android:dividerHeight="1px"
             android:padding="1dp"

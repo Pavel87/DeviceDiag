@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/list_border_line"
+                android:background="@android:drawable/dialog_holo_light_frame"
                 android:orientation="vertical">
 
 
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/list_border_line"
+                android:background="@android:drawable/dialog_holo_light_frame"
                 android:paddingBottom="16dp"
                 android:paddingTop="16dp"
                 android:shrinkColumns="1">
@@ -162,7 +162,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="10dp"
-                    android:background="@drawable/list_border_line"
+                    android:background="@android:drawable/dialog_holo_light_frame"
                     android:paddingBottom="16dp"
                     android:paddingTop="16dp"
                     android:shrinkColumns="0">
@@ -562,7 +562,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="10dp"
-                    android:background="@drawable/list_border_line"
+                    android:background="@android:drawable/dialog_holo_light_frame"
                     android:paddingBottom="16dp"
                     android:paddingTop="16dp"
                     android:shrinkColumns="1">
@@ -738,7 +738,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/list_border_line"
+                android:background="@android:drawable/dialog_holo_light_frame"
                 android:orientation="vertical"
                 android:visibility="gone">
 
@@ -756,7 +756,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="10dp"
-                    android:background="@drawable/list_border_line"
+                    android:background="@android:drawable/dialog_holo_light_frame"
                     android:paddingBottom="16dp"
                     android:paddingLeft="8dp"
                     android:paddingTop="16dp"

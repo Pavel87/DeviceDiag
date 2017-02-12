@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -27,7 +28,7 @@ import java.util.List;
 public class CameraInfo extends AppCompatActivity {
 
     private final String TAG = "DIAGPAC";
-    private TextView autoFocus, manualPP, manualSensor, capRaw, capFull, flashSupport, extSupport;
+    private ImageView autoFocus, manualPP, manualSensor, capRaw, capFull, flashSupport, extSupport;
     private TextView vertical, horizontal, focalLength, minMaxEV, zoomRatios, faceDetection, jpegQuality,
             focusAreas, smoothZoom, orientation, videoSnapshot, videoStab, autoExposure, autoWhiteBalance,
             picSizes, videoSizes, resPicAmount, resVidAmount;
@@ -69,13 +70,13 @@ public class CameraInfo extends AppCompatActivity {
         resPicAmount = (TextView) findViewById(R.id.resPicAmount);
         resVidAmount = (TextView) findViewById(R.id.resVidAmount);
 
-        autoFocus = (TextView) findViewById(R.id.autoFocus);
-        manualPP = (TextView) findViewById(R.id.manualPP);
-        manualSensor = (TextView) findViewById(R.id.manualSensor);
-        capRaw = (TextView) findViewById(R.id.capRaw);
-        capFull = (TextView) findViewById(R.id.capFull);
-        flashSupport = (TextView) findViewById(R.id.flashSupport);
-        extSupport = (TextView) findViewById(R.id.extSupport);
+        autoFocus = (ImageView) findViewById(R.id.autoFocus);
+        manualPP = (ImageView) findViewById(R.id.manualPP);
+        manualSensor = (ImageView) findViewById(R.id.manualSensor);
+        capRaw = (ImageView) findViewById(R.id.capRaw);
+        capFull = (ImageView) findViewById(R.id.capFull);
+        flashSupport = (ImageView) findViewById(R.id.flashSupport);
+        extSupport = (ImageView) findViewById(R.id.extSupport);
         spinnner = (Spinner) findViewById(R.id.spinner);
 
         // Check if user disabled CAMERA permission at some point
@@ -84,7 +85,7 @@ public class CameraInfo extends AppCompatActivity {
         }
 
 
-        if(isPermissionEnabled) {
+        if (isPermissionEnabled) {
             getCameraInfo();
 
         } else {
@@ -93,8 +94,8 @@ public class CameraInfo extends AppCompatActivity {
         }
     }
 
-    private void getCameraInfo(){
-        if (checkCameraPresent(this)) {
+    private void getCameraInfo() {
+        if (checkCameraFeature(this, PackageManager.FEATURE_CAMERA)) {
             int amountOfCameras = Camera.getNumberOfCameras();
             Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
 
@@ -154,90 +155,71 @@ public class CameraInfo extends AppCompatActivity {
 
     private void showGeneralInfo() {
 
-        String sAutoFocus, sManualPP, sManualSensor, sCapFull, sCapRaw, sFlashSupport, sExtSupport;
+        boolean sAutoFocus, sManualPP, sManualSensor, sCapFull, sCapRaw, sFlashSupport, sExtSupport;
 
         //general tab data + updating share Intent
-        sAutoFocus = checkCameraAutofocus(this);
-        sManualPP = checkCameraPostProc(this);
-        sManualSensor = checkCameraManSensor(this);
-        sCapRaw = checkCameraCapRaw(this);
-        sCapFull = checkFullLevel(this);
-        sFlashSupport = checkCameraFlash(this);
-        sExtSupport = checkExtCam(this);
+        sAutoFocus = checkCameraFeature(this, PackageManager.FEATURE_CAMERA_AUTOFOCUS);
+        sManualPP = checkCameraFeature(this, PackageManager.FEATURE_CAMERA_CAPABILITY_MANUAL_POST_PROCESSING);
+        sManualSensor = checkCameraFeature(this, PackageManager.FEATURE_CAMERA_CAPABILITY_MANUAL_SENSOR);
+        sCapRaw = checkCameraFeature(this, PackageManager.FEATURE_CAMERA_CAPABILITY_RAW);
+        sCapFull = checkCameraFeature(this, PackageManager.FEATURE_CAMERA_LEVEL_FULL);
+        sFlashSupport = checkCameraFeature(this, PackageManager.FEATURE_CAMERA_FLASH);
+        sExtSupport = checkCameraFeature(this, PackageManager.FEATURE_CAMERA_EXTERNAL);
 
         if (!isLoaded) {
-            autoFocus.setText(sAutoFocus);
-            manualPP.setText(sManualPP);
-            manualSensor.setText(sManualSensor);
-            capRaw.setText(sCapRaw);
-            capFull.setText(sCapFull);
-            flashSupport.setText(sFlashSupport);
-            extSupport.setText(sExtSupport);
+            if (sAutoFocus) {
+                autoFocus.setImageDrawable(getResources().getDrawable(R.drawable.tick));
+            } else {
+                autoFocus.setImageDrawable(getResources().getDrawable(R.drawable.cancel));
+            }
 
+            if (sManualPP) {
+                manualPP.setImageDrawable(getResources().getDrawable(R.drawable.tick));
+            } else {
+                manualPP.setImageDrawable(getResources().getDrawable(R.drawable.cancel));
+            }
+            if (sManualSensor) {
+                manualSensor.setImageDrawable(getResources().getDrawable(R.drawable.tick));
+            } else {
+                manualSensor.setImageDrawable(getResources().getDrawable(R.drawable.cancel));
+            }
+
+            if (sCapRaw) {
+                capRaw.setImageDrawable(getResources().getDrawable(R.drawable.tick));
+            } else {
+                capRaw.setImageDrawable(getResources().getDrawable(R.drawable.cancel));
+            }
+
+            if (sCapFull) {
+                capFull.setImageDrawable(getResources().getDrawable(R.drawable.tick));
+            } else {
+                capFull.setImageDrawable(getResources().getDrawable(R.drawable.cancel));
+            }
+
+            if (sFlashSupport) {
+                flashSupport.setImageDrawable(getResources().getDrawable(R.drawable.tick));
+            } else {
+                flashSupport.setImageDrawable(getResources().getDrawable(R.drawable.cancel));
+            }
+            if (sExtSupport) {
+                extSupport.setImageDrawable(getResources().getDrawable(R.drawable.tick));
+            } else {
+                extSupport.setImageDrawable(getResources().getDrawable(R.drawable.cancel));
+            }
         }
 
         updateShareIntentGeneral(sAutoFocus, sManualPP, sManualSensor, sCapFull, sCapRaw, sFlashSupport, sExtSupport);
     }
 
 
-    //check if any camera is present
+    //check if camera feature is present
 
-    public boolean checkCameraPresent(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA))
+    public boolean checkCameraFeature(Context context, String feature) {
+        if (context.getPackageManager().hasSystemFeature(feature))
             return true;
         else
             return false;
     }
-
-    public String checkCameraAutofocus(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_AUTOFOCUS))
-            return getResources().getString(R.string.yes_string);
-        else
-            return getResources().getString(R.string.no_string);
-    }
-
-    public String checkCameraPostProc(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_CAPABILITY_MANUAL_POST_PROCESSING))
-            return getResources().getString(R.string.yes_string);
-        else
-            return getResources().getString(R.string.no_string);
-    }
-
-    public String checkCameraManSensor(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_CAPABILITY_MANUAL_SENSOR))
-            return getResources().getString(R.string.yes_string);
-        else
-            return getResources().getString(R.string.no_string);
-    }
-
-    public String checkCameraCapRaw(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_CAPABILITY_RAW))
-            return getResources().getString(R.string.yes_string);
-        else
-            return getResources().getString(R.string.no_string);
-    }
-
-    public String checkCameraFlash(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH))
-            return getResources().getString(R.string.yes_string);
-        else
-            return getResources().getString(R.string.no_string);
-    }
-
-    public String checkExtCam(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_EXTERNAL))
-            return getResources().getString(R.string.yes_string);
-        else
-            return getResources().getString(R.string.no_string);
-    }
-
-    public String checkFullLevel(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_LEVEL_FULL))
-            return getResources().getString(R.string.yes_string);
-        else
-            return getResources().getString(R.string.no_string);
-    }
-
 
     //get camera specific params
     public void getCameraSpecParams(Camera.Parameters parameters, int camIndex) {
@@ -445,7 +427,10 @@ public class CameraInfo extends AppCompatActivity {
     }
 
 
-    private void updateShareIntentGeneral(String sAutoFocus, String sManualPP, String sManualSensor, String sCapFull, String sCapRaw, String sFlashSupport, String sExtSupport) {
+    private void updateShareIntentGeneral(boolean sAutoFocus, boolean sManualPP,
+                                          boolean sManualSensor, boolean sCapFull,
+                                          boolean sCapRaw, boolean sFlashSupport,
+                                          boolean sExtSupport) {
 
         StringBuilder sb = new StringBuilder();
         sb.append(getResources().getString(R.string.shareTextTitle1));
@@ -455,19 +440,19 @@ public class CameraInfo extends AppCompatActivity {
         sb.append(getResources().getString(R.string.shareTextTitle1));
         sb.append("\n\n");
         //body
-        sb.append("Autofocus:\t\t" + sAutoFocus);
+        sb.append("Autofocus:\t\t" + Boolean.toString(sAutoFocus));
         sb.append("\n");
-        sb.append("Manual Post Processing\t\t" + sManualPP);
+        sb.append("Manual Post Processing:\t\t" + Boolean.toString(sManualPP));
         sb.append("\n");
-        sb.append("Manual Sensor\t\t" + sManualSensor);
+        sb.append("Manual Sensor:\t\t" + Boolean.toString(sManualSensor));
         sb.append("\n");
-        sb.append("Capability Raw\t\t" + sCapRaw);
+        sb.append("Capability Raw:\t\t" + Boolean.toString(sCapRaw));
         sb.append("\n");
-        sb.append("Full HW Capability\t\t" + sCapFull);
+        sb.append("Full HW Capability:\t\t" + Boolean.toString(sCapFull));
         sb.append("\n");
-        sb.append("Support Flash\t\t" + sFlashSupport);
+        sb.append("Support Flash:\t\t" + Boolean.toString(sFlashSupport));
         sb.append("\n");
-        sb.append("Support External Camera\t\t" + sExtSupport);
+        sb.append("Support External Camera:\t\t" + Boolean.toString(sExtSupport));
         sb.append("\n\n");
 
         sb.append(getResources().getString(R.string.shareTextTitle1));
@@ -498,7 +483,7 @@ public class CameraInfo extends AppCompatActivity {
         if (requestCode == Utility.MY_PERMISSIONS_REQUEST) {
             isPermissionEnabled = Utility.checkPermission(getApplicationContext(), CAMERA_PERMISSION);
         }
-        if (isPermissionEnabled){
+        if (isPermissionEnabled) {
             getCameraInfo();
         }
     }
