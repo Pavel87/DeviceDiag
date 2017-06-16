@@ -114,9 +114,10 @@ public class SIMInfo extends ActionBarActivity {
                 imsiNumber.setText(telephonyManager.getSubscriberId());
                 spnName.setText(telephonyManager.getSimOperatorName());
 
-                mccSpn.setText("SPN-MCC: " + telephonyManager.getSimOperator().substring(0, 3));
-                mncSpn.setText("SPN-MNC: " + telephonyManager.getSimOperator().substring(3));
-
+                if (telephonyManager.getSimOperator().length() > 2) {
+                    mccSpn.setText("SPN-MCC: " + telephonyManager.getSimOperator().substring(0, 3));
+                    mncSpn.setText("SPN-MNC: " + telephonyManager.getSimOperator().substring(3));
+                }
                 networkName.setText(telephonyManager.getNetworkOperatorName());
 
                 if (telephonyManager.getNetworkOperator().length() > 2) {

@@ -117,7 +117,11 @@ public class GpsInfoLocation extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                startActivity(intent);
+                                try {
+                                    startActivity(intent);
+                                } catch (Exception e){
+                                    e.printStackTrace();
+                                }
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

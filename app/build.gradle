@@ -6,13 +6,13 @@ android {
         }
     }
     compileSdkVersion 24
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "25.0.0"
     defaultConfig {
         applicationId "com.pacmac.devicediag"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 24
-        versionName "1.5"
+        versionCode 26
+        versionName "1.7"
     }
     buildTypes {
         release {

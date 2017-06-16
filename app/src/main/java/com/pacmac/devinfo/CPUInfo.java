@@ -273,6 +273,10 @@ public class CPUInfo extends ActionBarActivity {
             e.printStackTrace();
         }
 
+        if(fis == null || !fin.exists() || !fin.canRead()) {
+            Log.e("CPUInfo", "Cannot access CPUINFO.");
+            return;
+        }
         //Construct BufferedReader from InputStreamReader
         BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 
