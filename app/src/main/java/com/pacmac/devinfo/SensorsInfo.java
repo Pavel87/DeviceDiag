@@ -27,7 +27,7 @@ public class SensorsInfo extends AppCompatActivity implements SensorListFragment
         fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.add(R.id.sensorFragLayout, new SensorListFragment());
-       // fragmentTransaction.addToBackStack(null);
+        //fragmentTransaction.addToBackStack(null);
 
         fragmentTransaction.commit();
     }
@@ -37,17 +37,19 @@ public class SensorsInfo extends AppCompatActivity implements SensorListFragment
 
         Log.d("TAG", "sensor type: " + sensorType);
 
-        switch (sensorType){
-            case 991:
-                showSensorDetailFrag(sensorType);
-                break;
-            case 994:
-                showSensorDetailFrag(sensorType);
-                break;
-            default:
-                Toast.makeText(getApplicationContext(), "... Sensor detail will be in next update.", Toast.LENGTH_SHORT).show();
-                break;
-        }
+        showSensorDetailFrag(sensorType);
+        return;
+//        switch (sensorType){
+//            case 991:
+//                showSensorDetailFrag(sensorType);
+//                break;
+//            case 994:
+//                showSensorDetailFrag(sensorType);
+//                break;
+//            default:
+//                Toast.makeText(getApplicationContext(), "... Sensor detail will be in next update.", Toast.LENGTH_SHORT).show();
+//                break;
+//        }
 
     }
 
@@ -61,7 +63,6 @@ public class SensorsInfo extends AppCompatActivity implements SensorListFragment
     @Override
     public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() > 0 ){
-            //Log.d("TAG", "getCount " + getFragmentManager().getBackStackEntryCount());
             getFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
@@ -72,7 +73,8 @@ public class SensorsInfo extends AppCompatActivity implements SensorListFragment
     private void showSensorDetailFrag(int sensorType){
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.sensorFragLayout, SensorDetailFrag.newInstance(sensorType));
+        fragmentTransaction.add(R.id.sensorFragLayout, SensorDetailFrag.newInstance(sensorType));
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 }

@@ -5,14 +5,14 @@ android {
         config {
         }
     }
-    compileSdkVersion 24
-    buildToolsVersion "25.0.0"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.pacmac.devicediag"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 26
-        versionName "1.7"
+        versionCode 27
+        versionName "1.9"
     }
     buildTypes {
         release {
@@ -20,6 +20,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    flavorDimensions "default"
     productFlavors {
         free {
             applicationId = "com.pacmac.devicediag.free"
@@ -30,11 +31,11 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.google.android.gms:play-services-location:9.+'
-    compile 'com.jjoe64:graphview:4.2.1'
-    compile 'com.android.support:support-v4:24.2.1'
-    compile files('libs/Android_Tutela_SDK.jar')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support:appcompat-v7:27+'
+    implementation 'com.google.android.gms:play-services-location:11.8.0'
+    implementation 'com.jjoe64:graphview:4.2.1'
+    implementation 'com.android.support:support-v4:27+'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 }

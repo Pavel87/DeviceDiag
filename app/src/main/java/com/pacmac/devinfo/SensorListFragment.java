@@ -40,10 +40,10 @@ public class SensorListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.sensors_layout, container, false);
-        list = (ListView) v.findViewById(R.id.listSensors);
+        list = v.findViewById(R.id.listSensors);
         list.setAdapter(sensorAdapter);
 
-list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Sensor currentSensor = (Sensor) adapterView.getItemAtPosition(i);

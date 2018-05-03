@@ -9,7 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.telephony.CellInfo;
 import android.telephony.CellInfoCdma;
@@ -27,7 +27,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class SIMInfo extends ActionBarActivity {
+public class SIMInfo extends AppCompatActivity {
 
     private TextView simInfo;
     private TextView serialN;
