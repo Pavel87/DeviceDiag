@@ -192,6 +192,9 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
     }
 
     public int getFrequency(String bssid) {
+        if(bssid == null)
+            return -1;
+
         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wifiManager == null)
             return -1;

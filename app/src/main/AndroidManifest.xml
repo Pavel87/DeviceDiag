@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pacmac.devinfo">
+          package="com.pacmac.devinfo">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" />
-    <uses-feature android:name="android.hardware.location.gps" />
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.location.gps"/>
 
     <application
         android:name=".DeviceDiagApp"
@@ -25,56 +25,59 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.pacmac.devinfo.DiagMain"
+            android:name=".DiagMain"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-            android:name="com.pacmac.devinfo.CPUInfo"
+            android:name=".CPUInfo"
             android:label="@string/title_activity_cpu_info"
             android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
         <activity
-            android:name="com.pacmac.devinfo.BatteryInfo"
-            android:label="@string/title_activity_battery_info"></activity>
+            android:name=".BatteryInfo"
+            android:label="@string/title_activity_battery_info"/>
         <activity
-            android:name="com.pacmac.devinfo.SIMInfo"
-            android:label="@string/title_activity_siminfo"></activity>
+            android:name=".SIMInfo"
+            android:label="@string/title_activity_siminfo"/>
         <activity
-            android:name="com.pacmac.devinfo.GPSInfo"
-            android:label="@string/activity_title_gps_information"></activity>
+            android:name=".GPSInfo"
+            android:label="@string/activity_title_gps_information"/>
         <activity
-            android:name="com.pacmac.devinfo.NMEAfeed"
-            android:label="@string/title_activity_nmeafeed"></activity>
+            android:name=".NMEAfeed"
+            android:label="@string/title_activity_nmeafeed"/>
         <activity
-            android:name="com.pacmac.devinfo.SensorsInfo"
-            android:label="@string/title_activity_sensor_list"></activity>
+            android:name=".SensorsInfo"
+            android:label="@string/title_activity_sensor_list"/>
         <activity
-            android:name="com.pacmac.devinfo.DisplayInfo"
-            android:label="@string/title_activity_display_info"></activity>
+            android:name=".DisplayInfo"
+            android:label="@string/title_activity_display_info"/>
         <activity
-            android:name="com.pacmac.devinfo.NetworkInfo"
+            android:name=".NetworkInfo"
             android:label="@string/title_activity_network_info"
-            android:windowSoftInputMode="adjustNothing"></activity>
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
-            android:name="com.pacmac.devinfo.MemoryInfo"
-            android:label="@string/title_activity_memory_info"></activity>
+            android:name=".MemoryInfo"
+            android:label="@string/title_activity_memory_info"/>
         <activity
-            android:name="com.pacmac.devinfo.CameraInfo"
-            android:label="@string/title_activity_camera_info"></activity>
+            android:name=".CameraInfo"
+            android:label="@string/title_activity_camera_info"/>
         <activity
-            android:name="com.pacmac.devinfo.AboutActivity"
-            android:label="@string/title_activity_about"></activity>
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"/>
 
-        <service android:name="com.tutelatechnologies.sdk.framework.TutelaSDKService"></service>
+        <service android:name="com.tutelatechnologies.sdk.framework.TutelaSDKService"/>
+
+        <activity android:name=".sensors.PressureSensorActivity">
+        </activity>
     </application>
 
 </manifest>

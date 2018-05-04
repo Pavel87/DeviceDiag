@@ -37,7 +37,7 @@
     <string name="feedback_subject">Device Info Feedback</string>
     <string name="version_text">Version: </string>
     <string name="app_description">Device Info is an application which queries data from android device and obtain HW features which are normally not available through user interface. It contains several modules visible from main menu. Device Info application also offers a possibility to test GPS and network using ping command.</string>
-<string name="app_author">© Device Info by p@cmac 2016.</string>
+    <string name="app_author">© Device Info by p@cmac 2016.</string>
     <string name="rta_dialog_message">If you like using this app, would you mind taking a moment to rate it? It won\'t take more than a minute. Thank you for your support!</string>
     <string name="cam_permission_msg">Camera permission is currently disabled. To be able to obtain camera parameters you need to accept camera permission.</string>
     <string name="loc_permission_msg">Location permission is currently disabled. To be able to obtain location information you need to accept location permission.</string>
