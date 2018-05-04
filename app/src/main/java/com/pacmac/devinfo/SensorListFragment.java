@@ -1,17 +1,17 @@
 package com.pacmac.devinfo;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
+
 import java.util.List;
 
 public class SensorListFragment extends Fragment {

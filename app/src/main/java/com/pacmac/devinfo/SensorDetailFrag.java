@@ -61,17 +61,16 @@ public class SensorDetailFrag extends Fragment {
                 case Sensor.TYPE_MAGNETIC_FIELD:
                     break; // return "Magnetic Field";
                 case Sensor.TYPE_ORIENTATION:
+                    sensorReading.setText(String.format("%.2f " , sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
                     break; // return "Orientation";
                 case Sensor.TYPE_GYROSCOPE:
                     calculateGyro(sensorEvent);
                     break; // return "Gyroscope";
                 case Sensor.TYPE_LIGHT:
-                    sensorReading.setText(String.format("%.2f " , sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
-                    break;
                 case Sensor.TYPE_PRESSURE:
-                    sensorReading.setText(String.format("%.2f " , sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
-                break;
                 case Sensor.TYPE_TEMPERATURE:
+                case Sensor.TYPE_RELATIVE_HUMIDITY:
+                case Sensor.TYPE_AMBIENT_TEMPERATURE:
                     sensorReading.setText(String.format("%.2f " , sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
                     break;
                 case Sensor.TYPE_PROXIMITY:
@@ -89,11 +88,6 @@ public class SensorDetailFrag extends Fragment {
                     break;
                 case Sensor.TYPE_ROTATION_VECTOR:
                     break; // return "Rotation Vector";
-                case Sensor.TYPE_RELATIVE_HUMIDITY:
-                    break; // return "Relative Humidity";
-                case Sensor.TYPE_AMBIENT_TEMPERATURE:
-                    sensorReading.setText(String.format("%.2f " , sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
-                    break;
                 case Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED:
                     break; // return "Mag. Field Uncalibrated";
                 case Sensor.TYPE_GAME_ROTATION_VECTOR:
@@ -101,26 +95,59 @@ public class SensorDetailFrag extends Fragment {
                 case Sensor.TYPE_GYROSCOPE_UNCALIBRATED:
                     break; // return "Gyroscope Uncalibrated";
                 case Sensor.TYPE_SIGNIFICANT_MOTION:
+                    sensorReading.setText(String.format("%.2f " , sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
                     break; // return "Significant Motion Trigger";
                 case Sensor.TYPE_STEP_DETECTOR:
+                    sensorReading.setText(String.format("%.2f " , sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
                     break; // return "Step Detector";
                 case Sensor.TYPE_STEP_COUNTER:
+                    sensorReading.setText(String.format("%.2f " , sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
                     break; // return "Step Counter";
                 case Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR:
                     break; // return "Geomagnetic Rotation";
                 case Sensor.TYPE_HEART_RATE:
+                    sensorReading.setText(String.format("%.2f " , sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
                     break; // return "Heart Rate";
                 case Sensor.TYPE_POSE_6DOF:
                     break;
                 case Sensor.TYPE_STATIONARY_DETECT:
+                    sensorReading.setText(String.format("%.2f " , sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
                     break;
                 case Sensor.TYPE_MOTION_DETECT:
+                    sensorReading.setText(String.format("%.2f " , sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
                     break;
                 case Sensor.TYPE_HEART_BEAT:
+                    if(sensorEvent.values[0] > 0) {
+                        sensorReading.setText("Detected");
+                    } else {
+                        sensorReading.setText("Not Found");
+                    }
                     break;
                 case Sensor.TYPE_LOW_LATENCY_OFFBODY_DETECT:
+                    if(sensorEvent.values[0] > 0) {
+                        sensorReading.setText("ON Body");
+                    } else {
+                        sensorReading.setText("OFF Body");
+                    }
                     break;
                 case Sensor.TYPE_ACCELEROMETER_UNCALIBRATED:
+                    break;
+                case SensorsInfo.TYPE_TILT_DETECTOR:
+                case SensorsInfo.TYPE_WAKE_GESTURE:
+                case SensorsInfo.TYPE_PICK_UP_GESTURE:
+                case SensorsInfo.TYPE_GLANCE_GESTURE:
+                case SensorsInfo.TYPE_WRIST_TILT_GESTURE:
+                case SensorsInfo.TYPE_DEVICE_ORIENTATION:
+                case SensorsInfo.TYPE_DYNAMIC_SENSOR_META:
+                case SensorsInfo.TYPE_BASIC_GESTURES:
+                case SensorsInfo.TYPE_TAP:
+                case SensorsInfo.TYPE_FACING:
+                case SensorsInfo.TYPE_TILT:
+                case SensorsInfo.TYPE_ABSOLUTE_MOTION_DETECTOR:
+                case SensorsInfo.TYPE_RELATIVE_MOTION_DETECTOR:
+                case SensorsInfo.TYPE_PEDOMETER:
+                    sensorReading.setText(String.format("%.2f " , sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
+                case SensorsInfo.TYPE_PEDESTRIAN_ACTIVITY_MONITOR:
                     break;
             }
         }
@@ -136,7 +163,6 @@ public class SensorDetailFrag extends Fragment {
     // CREATE STATIC FRAGMENT INSTANCE
     public static SensorDetailFrag newInstance(int sensorType) {
         SensorDetailFrag f = new SensorDetailFrag();
-
         // Supply index input as an argument.
         Bundle args = new Bundle();
         args.putInt("type", sensorType);
@@ -166,7 +192,7 @@ public class SensorDetailFrag extends Fragment {
         maxRangeTxt = v.findViewById(R.id.maxRange);
         sensorReading = v.findViewById(R.id.sensorReading);
 
-        String type = getName(sensor.getType());
+        String type = Utility.getSensorName(sensor.getType());
         String name = sensor.getName();
         String vendor = sensor.getVendor();
         float power = sensor.getPower();
@@ -304,67 +330,8 @@ public class SensorDetailFrag extends Fragment {
 
       }
 
-
-    public String getName(int type) {
-
-        switch (type) {
-            case 1:
-                return "Acccelerometer";
-            case 2:
-                return "Magnetic Field";
-            case 3:
-                return "Orientation";
-            case 4:
-                return "Gyroscope";
-            case 5:
-                return "Light";
-            case 6:
-                return "Pressure";
-            case 7:
-                return "Temperature";
-            case 8:
-                return "Proximity";
-            case 9:
-                return "Gravity";
-            case 10:
-                return "Linear Acceleration";
-            case 11:
-                return "Rotation Vector";
-            case 12:
-                return "Relative Humidity";
-            case 13:
-                return "Ambient Temperature";
-            case 14:
-                return "Mag. Field Uncalibrated";
-            case 15:
-                return "Game Rotation Vector";
-            case 16:
-                return "Gyroscope Uncalibrated";
-            case 17:
-                return "Significant Motion Trigger";
-            case 18:
-                return "Step Detector";
-            case 19:
-                return "Step Counter";
-            case 20:
-                return "Geomagnetic Rotation";
-            case 21:
-                return "Heart Rate";
-            case 22:
-                return "Step Counter";
-        }
-
-        return "Unknown";
-    }
-
     public String getUnits(int type) {
-        switch (sensor.getType()) {
-            case Sensor.TYPE_ACCELEROMETER:
-                //calculateAcc();
-                break;
-            case Sensor.TYPE_MAGNETIC_FIELD:
-            case Sensor.TYPE_ORIENTATION:
-            case Sensor.TYPE_GYROSCOPE:
+        switch (type) {
             case Sensor.TYPE_LIGHT:
                 return "lux";
             case Sensor.TYPE_PRESSURE:
@@ -373,12 +340,19 @@ public class SensorDetailFrag extends Fragment {
                 return "°C";
             case Sensor.TYPE_PROXIMITY:
                 return "cm";
+            case Sensor.TYPE_RELATIVE_HUMIDITY:
+                return "%";
+            case Sensor.TYPE_AMBIENT_TEMPERATURE:
+                return "°C";
+            case Sensor.TYPE_HEART_RATE:
+                return "bps";
+            case Sensor.TYPE_ACCELEROMETER:
             case Sensor.TYPE_GRAVITY:
             case Sensor.TYPE_LINEAR_ACCELERATION:
             case Sensor.TYPE_ROTATION_VECTOR:
-            case Sensor.TYPE_RELATIVE_HUMIDITY:
-            case Sensor.TYPE_AMBIENT_TEMPERATURE:
-                return "°C";
+            case Sensor.TYPE_MAGNETIC_FIELD:
+            case Sensor.TYPE_ORIENTATION:
+            case Sensor.TYPE_GYROSCOPE:
             case Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED:
             case Sensor.TYPE_GAME_ROTATION_VECTOR:
             case Sensor.TYPE_GYROSCOPE_UNCALIBRATED:
@@ -386,15 +360,27 @@ public class SensorDetailFrag extends Fragment {
             case Sensor.TYPE_STEP_DETECTOR:
             case Sensor.TYPE_STEP_COUNTER:
             case Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR:
-            case Sensor.TYPE_HEART_RATE:
             case Sensor.TYPE_POSE_6DOF:
             case Sensor.TYPE_STATIONARY_DETECT:
             case Sensor.TYPE_MOTION_DETECT:
             case Sensor.TYPE_HEART_BEAT:
-            case Sensor.TYPE_LOW_LATENCY_OFFBODY_DETECT:
+            case Sensor.TYPE_LOW_LATENCY_OFFBODY_DETECT: // no units
             case Sensor.TYPE_ACCELEROMETER_UNCALIBRATED:
-
-
+            case SensorsInfo.TYPE_TILT_DETECTOR:
+            case SensorsInfo.TYPE_WAKE_GESTURE:
+            case SensorsInfo.TYPE_PICK_UP_GESTURE:
+            case SensorsInfo.TYPE_GLANCE_GESTURE:
+            case SensorsInfo.TYPE_WRIST_TILT_GESTURE:
+            case SensorsInfo.TYPE_DEVICE_ORIENTATION:
+            case SensorsInfo.TYPE_DYNAMIC_SENSOR_META:
+            case SensorsInfo.TYPE_BASIC_GESTURES:
+            case SensorsInfo.TYPE_TAP:
+            case SensorsInfo.TYPE_FACING:
+            case SensorsInfo.TYPE_TILT:
+            case SensorsInfo.TYPE_ABSOLUTE_MOTION_DETECTOR:
+            case SensorsInfo.TYPE_RELATIVE_MOTION_DETECTOR:
+            case SensorsInfo.TYPE_PEDOMETER:
+            case SensorsInfo.TYPE_PEDESTRIAN_ACTIVITY_MONITOR:
         }
         return "";
     }

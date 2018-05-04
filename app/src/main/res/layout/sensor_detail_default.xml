@@ -28,133 +28,167 @@
             android:id="@+id/type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginLeft="32dp"
-            android:layout_marginRight="8dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:text="Type"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/sensorReading"
-            app:layout_constraintHorizontal_bias="1.0"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/NameLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="Sensor"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/type"
-            app:layout_constraintTop_toBottomOf="@+id/type" />
+            app:layout_constraintTop_toBottomOf="@+id/sensorType"/>
 
         <TextView
             android:id="@+id/vendorLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="Vendor"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/NameLabel"
-            app:layout_constraintTop_toBottomOf="@+id/NameLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/sensorName"/>
+
 
         <TextView
             android:id="@+id/powerLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="Power"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/vendorLabel"
-            app:layout_constraintTop_toBottomOf="@+id/vendorLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/vendorName"/>
 
         <TextView
             android:id="@+id/maxRangeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp"
             android:text="Max Range"
             android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/powerLabel"
-            app:layout_constraintTop_toBottomOf="@+id/powerLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/powerRequirements"
+            app:layout_constraintVertical_bias="0.0"/>
 
         <TextView
             android:id="@+id/sensorType"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
             android:text="type"
-            android:textSize="16sp"
+            android:ellipsize="marquee"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/type"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/maxRangeLabel"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/type"
+            app:layout_constraintVertical_bias="0.0"/>
 
         <TextView
             android:id="@+id/sensorName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
             android:text="name"
-            android:textSize="16sp"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/NameLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/maxRangeLabel"
-            app:layout_constraintTop_toBottomOf="@+id/sensorType" />
+            app:layout_constraintTop_toTopOf="@+id/NameLabel"
+            app:layout_constraintVertical_bias="0.0"/>
 
         <TextView
             android:id="@+id/vendorName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
             android:text="vendor"
-            android:textSize="16sp"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/vendorLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/maxRangeLabel"
-            app:layout_constraintTop_toBottomOf="@+id/sensorName" />
+            app:layout_constraintTop_toTopOf="@+id/vendorLabel"
+            app:layout_constraintVertical_bias="0.0"/>
 
         <TextView
             android:id="@+id/powerRequirements"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
             android:text="power"
-            android:textSize="16sp"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/powerLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/maxRangeLabel"
-            app:layout_constraintTop_toBottomOf="@+id/vendorName" />
+            app:layout_constraintTop_toTopOf="@+id/powerLabel"
+            app:layout_constraintVertical_bias="0.0"/>
 
         <TextView
             android:id="@+id/maxRange"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
             android:text="range"
-            android:textSize="16sp"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/maxRangeLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/maxRangeLabel"
-            app:layout_constraintTop_toBottomOf="@+id/powerRequirements" />
+            app:layout_constraintTop_toTopOf="@+id/maxRangeLabel"
+            app:layout_constraintVertical_bias="0.0"/>
 
         <TextView
             android:id="@+id/sensorReading"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="256dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="64dp"
+            android:gravity="center"
             android:text="Not Available"
-            android:textSize="32sp"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/maxRange"/>
 
     </android.support.constraint.ConstraintLayout>
 

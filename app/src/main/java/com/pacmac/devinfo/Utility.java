@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.hardware.Sensor;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
 
@@ -54,6 +55,55 @@ public class Utility {
                 });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    public static String getSensorName(int type) {
+        switch(type){
+            case Sensor.TYPE_ACCELEROMETER: return "Acccelerometer";
+            case Sensor.TYPE_MAGNETIC_FIELD: return "Magnetic Field";
+            case Sensor.TYPE_ORIENTATION: return "Orientation";
+            case Sensor.TYPE_GYROSCOPE: return "Gyroscope";
+            case Sensor.TYPE_LIGHT: return "Light";
+            case Sensor.TYPE_PRESSURE: return "Pressure";
+            case Sensor.TYPE_TEMPERATURE: return "Temperature";
+            case Sensor.TYPE_PROXIMITY: return "Proximity";
+            case Sensor.TYPE_GRAVITY: return "Gravity";
+            case Sensor.TYPE_LINEAR_ACCELERATION: return "Linear Acceleration";
+            case Sensor.TYPE_ROTATION_VECTOR: return "Rotation Vector";
+            case Sensor.TYPE_RELATIVE_HUMIDITY: return "Relative Humidity";
+            case Sensor.TYPE_AMBIENT_TEMPERATURE: return "Ambient Temperature";
+            case Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED: return "Mag. Field Uncalibrated";
+            case Sensor.TYPE_GAME_ROTATION_VECTOR: return "Game Rotation Vector";
+            case Sensor.TYPE_GYROSCOPE_UNCALIBRATED: return "Gyroscope Uncalibrated";
+            case Sensor.TYPE_SIGNIFICANT_MOTION: return "Significant Motion Trigger";
+            case Sensor.TYPE_STEP_DETECTOR: return "Step Detector";
+            case Sensor.TYPE_STEP_COUNTER: return "Step Counter";
+            case Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR: return "Geomagnetic Rotation";
+            case Sensor.TYPE_HEART_RATE: return "Heart Rate";
+            case Sensor.TYPE_POSE_6DOF: return "POSE 6DOF";
+            case Sensor.TYPE_STATIONARY_DETECT: return "Stationary Detector";
+            case Sensor.TYPE_MOTION_DETECT: return "Motion Detector";
+            case Sensor.TYPE_HEART_BEAT: return "Heart Beat";
+            case Sensor.TYPE_LOW_LATENCY_OFFBODY_DETECT: return "Low Latency Off-Body";
+            case Sensor.TYPE_ACCELEROMETER_UNCALIBRATED: return "Accelerometer Uncalibrated";
+            case SensorsInfo.TYPE_TILT_DETECTOR: return "Tilt Detector";
+            case SensorsInfo.TYPE_WAKE_GESTURE: return "Wake Gesture Detector";
+            case SensorsInfo.TYPE_PICK_UP_GESTURE: return "Pick Up Detector";
+            case SensorsInfo.TYPE_GLANCE_GESTURE: return "Glance Gesture";
+            case SensorsInfo.TYPE_WRIST_TILT_GESTURE: return "Wrist Tilt";
+            case SensorsInfo.TYPE_DEVICE_ORIENTATION: return "Device Orientation";
+            case SensorsInfo.TYPE_DYNAMIC_SENSOR_META: return "Dynamic Sensor Meta";
+            case SensorsInfo.TYPE_BASIC_GESTURES: return "Basic Gestures";
+            case SensorsInfo.TYPE_TAP: return "Tap";
+            case SensorsInfo.TYPE_FACING: return "Facing";
+            case SensorsInfo.TYPE_TILT: return "Tilt";
+            case SensorsInfo.TYPE_ABSOLUTE_MOTION_DETECTOR: return "Absolute Motion";
+            case SensorsInfo.TYPE_RELATIVE_MOTION_DETECTOR: return "Relative Motion";
+            case SensorsInfo.TYPE_PEDOMETER: return "Pedometer";
+            case SensorsInfo.TYPE_PEDESTRIAN_ACTIVITY_MONITOR: return "Pedestrian Monitor";
+            
+            default: return "Unknown";
+        }
     }
 
 }

@@ -11,11 +11,11 @@
 
         <TextView
             android:id="@+id/idSensor"
-            android:layout_width="0dp"
+            android:layout_width="52dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
             android:padding="16dp"
-            android:text="1"
+            android:layout_gravity="center"
+            android:text="24"
             android:textColor="@color/abc_input_method_navigation_guard" />
 
         <LinearLayout
@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
-                android:text="Sensor_Type"
+                android:text="Sensor_Type_sdasdasdasdaasdasdasdas"
                 android:textAllCaps="true"
                 android:textColor="@color/abc_input_method_navigation_guard"
                 android:textSize="14sp" />

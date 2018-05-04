@@ -52,9 +52,9 @@ public class SensorAdapter extends ArrayAdapter<Sensor> {
             viewHolder = new Viewhold();
 
             view = LayoutInflater.from(context).inflate(R.layout.sensor_item, null);
-            viewHolder.id = (TextView) view.findViewById(R.id.idSensor);
-            viewHolder.name = (TextView) view.findViewById(R.id.nameSensor);
-            viewHolder.manufacturer = (TextView) view.findViewById(R.id.manSensor);
+            viewHolder.id = view.findViewById(R.id.idSensor);
+            viewHolder.name = view.findViewById(R.id.nameSensor);
+            viewHolder.manufacturer = view.findViewById(R.id.manSensor);
             view.setTag(viewHolder);
         } else {
             viewHolder = (Viewhold) view.getTag();
@@ -75,36 +75,10 @@ public class SensorAdapter extends ArrayAdapter<Sensor> {
     }
 
     public void getSensor(Sensor sensor) {
-       name= getName(sensor.getType());
+       name = Utility.getSensorName(sensor.getType());
     }
 
 
-    public String getName(int type) {
-        switch(type){
-            case 1: return "Acccelerometer";
-            case 2: return "Magnetic Field";
-            case 3: return "Orientation";
-            case 4: return "Gyroscope";
-            case 5: return "Light";
-            case 6: return "Pressure";
-            case 7: return "Temperature";
-            case 8: return "Proximity";
-            case 9: return "Gravity";
-            case 10: return "Linear Acceleration";
-            case 11: return "Rotation Vector";
-            case 12: return "Relative Humidity";
-            case 13: return "Ambient Temperature";
-            case 14: return "Mag. Field Uncalibrated";
-            case 15: return "Game Rotation Vector";
-            case 16: return "Gyroscope Uncalibrated";
-            case 17: return "Significant Motion Trigger";
-            case 18: return "Step Detector";
-            case 19: return "Step Counter";
-            case 20: return "Geomagnetic Rotation";
-            case 21: return "Heart Rate";
-            case 22: return "Step Counter";
-        }
-        return "unknown";
-    }
+
 
 }
