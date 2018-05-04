@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Date;
+
 import static java.lang.StrictMath.cos;
 import static java.lang.StrictMath.sqrt;
 
@@ -95,13 +97,13 @@ public class SensorDetailFrag extends Fragment {
                 case Sensor.TYPE_GYROSCOPE_UNCALIBRATED:
                     break; // return "Gyroscope Uncalibrated";
                 case Sensor.TYPE_SIGNIFICANT_MOTION:
-                    sensorReading.setText(String.format("%.2f " , sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
+                    sensorReading.setText(String.format("%.0f " , sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
                     break; // return "Significant Motion Trigger";
                 case Sensor.TYPE_STEP_DETECTOR:
-                    sensorReading.setText(String.format("%.2f " , sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
+                    sensorReading.setText(String.valueOf("Step Recognized: \n" + new Date(System.currentTimeMillis()).toString()));
                     break; // return "Step Detector";
                 case Sensor.TYPE_STEP_COUNTER:
-                    sensorReading.setText(String.format("%.2f " , sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
+                    sensorReading.setText(String.format("%.0f " , sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
                     break; // return "Step Counter";
                 case Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR:
                     break; // return "Geomagnetic Rotation";
@@ -346,6 +348,10 @@ public class SensorDetailFrag extends Fragment {
                 return "°C";
             case Sensor.TYPE_HEART_RATE:
                 return "bps";
+            case Sensor.TYPE_STEP_COUNTER:
+            case SensorsInfo.TYPE_PEDOMETER:
+                return "step";
+            case Sensor.TYPE_STEP_DETECTOR:
             case Sensor.TYPE_ACCELEROMETER:
             case Sensor.TYPE_GRAVITY:
             case Sensor.TYPE_LINEAR_ACCELERATION:
@@ -357,8 +363,6 @@ public class SensorDetailFrag extends Fragment {
             case Sensor.TYPE_GAME_ROTATION_VECTOR:
             case Sensor.TYPE_GYROSCOPE_UNCALIBRATED:
             case Sensor.TYPE_SIGNIFICANT_MOTION:
-            case Sensor.TYPE_STEP_DETECTOR:
-            case Sensor.TYPE_STEP_COUNTER:
             case Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR:
             case Sensor.TYPE_POSE_6DOF:
             case Sensor.TYPE_STATIONARY_DETECT:
@@ -379,7 +383,7 @@ public class SensorDetailFrag extends Fragment {
             case SensorsInfo.TYPE_TILT:
             case SensorsInfo.TYPE_ABSOLUTE_MOTION_DETECTOR:
             case SensorsInfo.TYPE_RELATIVE_MOTION_DETECTOR:
-            case SensorsInfo.TYPE_PEDOMETER:
+
             case SensorsInfo.TYPE_PEDESTRIAN_ACTIVITY_MONITOR:
         }
         return "";
