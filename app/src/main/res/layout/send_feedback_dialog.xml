@@ -38,7 +38,6 @@
             android:theme="@style/MyEditTextTheme"
             android:textCursorDrawable="@null"
             android:maxLines="3"
-            style="@style/Base.V12.Widget.AppCompat.EditText"
             android:textSize="18sp"/>
 
     </LinearLayout>

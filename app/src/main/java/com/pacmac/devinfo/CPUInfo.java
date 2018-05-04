@@ -6,7 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.Menu;
@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 /**
  * Created by pacmac on 5/28/2015.
  */
-public class CPUInfo extends ActionBarActivity {
+public class CPUInfo extends AppCompatActivity {
 
     TextView activeCores;
     TextView processor;

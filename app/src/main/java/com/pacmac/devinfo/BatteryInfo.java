@@ -5,12 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 
-public class BatteryInfo extends ActionBarActivity {
+public class BatteryInfo extends AppCompatActivity {
 
     private IntentFilter intentFilter;
     private BroadcastReceiver batteryUpdates;
