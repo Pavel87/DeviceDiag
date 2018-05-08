@@ -32,6 +32,17 @@ public class SensorsInfo extends AppCompatActivity implements SensorListFragment
     public static final int TYPE_RELATIVE_MOTION_DETECTOR = 33171007;
     public static final int TYPE_PEDOMETER = 33171009;
     public static final int TYPE_PEDESTRIAN_ACTIVITY_MONITOR = 33171010;
+    public static final int TYPE_MOTION_ACCEL = 33171011;
+    public static final int TYPE_COARSE_MOTION_CLASSIFIER = 33171012;
+    // Cywee
+    public static final int TYPE_CYWEE_HAND_UP = 33171016;
+    public static final int TYPE_CYWEE_PICKUP = 33171018;
+    public static final int TYPE_CYWEE_FLIP = 33171019;
+    // Google
+    public static final int TYPE_GOOGLE_TEMPERATURE_BOSH = 65536;
+    public static final int TYPE_GOOGLE_SENSORS_SYNC = 65537;
+    public static final int TYPE_GOOGLE_DOUBLE_TWIST = 65538;
+    public static final int TYPE_GOOGLE_DOUBLE_TAP = 65539;
 
 
     @Override

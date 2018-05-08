@@ -101,8 +101,17 @@ public class Utility {
             case SensorsInfo.TYPE_RELATIVE_MOTION_DETECTOR: return "Relative Motion";
             case SensorsInfo.TYPE_PEDOMETER: return "Pedometer";
             case SensorsInfo.TYPE_PEDESTRIAN_ACTIVITY_MONITOR: return "Pedestrian Monitor";
-            
-            default: return "Unknown";
+            case SensorsInfo.TYPE_CYWEE_HAND_UP: return "Hand Up Sensor";
+            case SensorsInfo.TYPE_CYWEE_PICKUP: return "Pick Up Sensor";
+            case SensorsInfo.TYPE_CYWEE_FLIP: return "Flip Sensor";
+            case SensorsInfo.TYPE_GOOGLE_TEMPERATURE_BOSH: return "Temperature Sensor";
+            case SensorsInfo.TYPE_GOOGLE_SENSORS_SYNC: return "Sensors Sync";
+            case SensorsInfo.TYPE_GOOGLE_DOUBLE_TWIST: return "Double Twist";
+            case SensorsInfo.TYPE_GOOGLE_DOUBLE_TAP: return "Double Tap";
+            case SensorsInfo.TYPE_MOTION_ACCEL: return "Motion Accel";
+            case SensorsInfo.TYPE_COARSE_MOTION_CLASSIFIER: return "Coarse Motion Classifier";
+            default: return String.valueOf(type);
+//            default: return "Unknown";
         }
     }
 
