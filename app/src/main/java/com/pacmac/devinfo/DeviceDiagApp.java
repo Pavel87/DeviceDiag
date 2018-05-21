@@ -1,6 +1,7 @@
 package com.pacmac.devinfo;
 
 import android.app.Application;
+import android.os.Build;
 
 import com.tutelatechnologies.sdk.framework.TutelaSDKFactory;
 
@@ -16,10 +17,12 @@ public class DeviceDiagApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        try {
-//            TutelaSDKFactory.getTheSDK().initializeWithApiKey(REG_KEY, this);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            try {
+                TutelaSDKFactory.getTheSDK().initializeWithApiKey(REG_KEY, this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
