@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "com.pacmac.devicediag"
         minSdkVersion 16
-        targetSdkVersion 24
+        targetSdkVersion 27
         versionCode 27
         versionName "1.9"
     }

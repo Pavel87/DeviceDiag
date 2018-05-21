@@ -76,8 +76,6 @@
 
         <service android:name="com.tutelatechnologies.sdk.framework.TutelaSDKService"/>
 
-        <activity android:name=".sensors.PressureSensorActivity">
-        </activity>
     </application>
 
 </manifest>

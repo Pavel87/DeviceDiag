@@ -20,6 +20,8 @@ public class FragmentMain extends Fragment {
     TextView hardWare;
     TextView buildNumber;
     TextView androidVer;
+    TextView bootloader;
+    TextView radio;
 
     public FragmentMain() {
 
@@ -36,6 +38,8 @@ public class FragmentMain extends Fragment {
         hardWare = (TextView) rootView.findViewById(R.id.hardware);
         buildNumber = (TextView) rootView.findViewById(R.id.buildNumber);
         androidVer = (TextView) rootView.findViewById(R.id.androidVer);
+        bootloader = rootView.findViewById(R.id.bootloader);
+        radio = rootView.findViewById(R.id.radio);
 
         return rootView;
     }
@@ -45,11 +49,20 @@ public class FragmentMain extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        String radioFW = Build.getRadioVersion();
+        if(radioFW != null) {
+            radio.setText(radioFW);
+        } else {
+            radio.setText("Not Available");
+        }
+
         modelName.setText(Build.MODEL);
         serialNumber.setText(Build.SERIAL);
-        manufacturer.setText(Build.MANUFACTURER);
+        manufacturer.setText(Build.MANUFACTURER + " " + Build.getRadioVersion());
+
         hardWare.setText(Build.HARDWARE.toUpperCase() + " " + Build.BOARD);
         buildNumber.setText(Build.DISPLAY);
+        bootloader.setText(Build.BOOTLOADER);
         androidVer.setText(Build.VERSION.RELEASE + "  API:" + Build.VERSION.SDK_INT);
     }
 

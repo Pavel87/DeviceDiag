@@ -349,13 +349,27 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
                 mcResponder.setText((scanResult.is80211mcResponder()) ? "YES" : "NO");
                 passpointNetwork.setText((scanResult.isPasspointNetwork()) ? "YES" : "NO");
             } else {
-                findViewById(R.id.wifiAPI23a).setVisibility(View.GONE);
-                findViewById(R.id.wifiAPI23b).setVisibility(View.GONE);
-                findViewById(R.id.wifiAPI23c).setVisibility(View.GONE);
-                findViewById(R.id.wifiAPI23d).setVisibility(View.GONE);
-                findViewById(R.id.wifiAPI23e).setVisibility(View.GONE);
-                findViewById(R.id.wifiAPI23f).setVisibility(View.GONE);
-                findViewById(R.id.wifiAPI23g).setVisibility(View.GONE);
+                findViewById(R.id.textView11).setVisibility(View.GONE);
+                findViewById(R.id.channelWidth).setVisibility(View.GONE);
+
+                findViewById(R.id.textView10).setVisibility(View.GONE);
+                findViewById(R.id.centerFreq0).setVisibility(View.GONE);
+
+                findViewById(R.id.textView12).setVisibility(View.GONE);
+                findViewById(R.id.centerFreq1).setVisibility(View.GONE);
+
+                findViewById(R.id.textView13).setVisibility(View.GONE);
+                findViewById(R.id.operatorFriendlyName).setVisibility(View.GONE);
+
+                findViewById(R.id.textView14).setVisibility(View.GONE);
+                findViewById(R.id.venueName).setVisibility(View.GONE);
+
+                findViewById(R.id.textView15).setVisibility(View.GONE);
+                findViewById(R.id.mcResponder).setVisibility(View.GONE);
+
+
+                findViewById(R.id.textView16).setVisibility(View.GONE);
+                findViewById(R.id.passPointNetwork).setVisibility(View.GONE);
             }
         }
 

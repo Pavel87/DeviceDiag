@@ -186,7 +186,9 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/cpuChart"
                 android:layout_width="0dp"
+                android:visibility="visible"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"

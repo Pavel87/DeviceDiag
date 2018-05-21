@@ -11,6 +11,7 @@ import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
@@ -63,40 +64,49 @@ public class CPUInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cpuinfo);
 
+
         activeCores = (TextView) findViewById(R.id.activeCores);
         processor = (TextView) findViewById(R.id.processor);
         featuresCPU = (TextView) findViewById(R.id.features);
         hardWareCpu = (TextView) findViewById(R.id.cpuHardware);
         cpuMaxFrequency = (TextView) findViewById(R.id.cpuMaxFrequency);
         cpuCurrentFreq = (TextView) findViewById(R.id.cpuCurrentFrequency);
+        View cpuChart = findViewById(R.id.cpuChart);
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+
+        }
         updateView();
 
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            //graph settings
+            graph = (GraphView) findViewById(R.id.graph1);
 
-        //graph settings
-        graph = (GraphView) findViewById(R.id.graph1);
+            seriesLive = new LineGraphSeries<DataPoint>();
+            seriesLive.setColor(getResources().getColor(R.color.tabs));
+            seriesLive.setDrawBackground(true);
+            seriesLive.setBackgroundColor(getResources().getColor(R.color.graph_filling));
+            seriesLive.setThickness(2);
+            seriesLive.setTitle("CPU Usage");
+            graph.addSeries(seriesLive);
+            graph.getViewport().setYAxisBoundsManual(true);
+            graph.getViewport().setXAxisBoundsManual(true);
+            graph.getViewport().setMinX(0);
+            graph.getViewport().setMaxX(10);
+            graph.getViewport().setScrollable(true);
+            graph.getViewport().setMinY(0);
+            graph.getViewport().setMaxY(100);
+            graph.getViewport().setBackgroundColor(Color.WHITE);
 
-        seriesLive = new LineGraphSeries<DataPoint>();
-        seriesLive.setColor(getResources().getColor(R.color.tabs));
-        seriesLive.setDrawBackground(true);
-        seriesLive.setBackgroundColor(getResources().getColor(R.color.graph_filling));
-        seriesLive.setThickness(2);
-        seriesLive.setTitle("CPU Usage");
-        graph.addSeries(seriesLive);
-        graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(10);
-        graph.getViewport().setScrollable(true);
-        graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(100);
-        graph.getViewport().setBackgroundColor(Color.WHITE);
-
-        graph.getGridLabelRenderer().setGridColor(Color.WHITE);
-        graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
-        graph.getGridLabelRenderer().setNumVerticalLabels(5);
-        graph.getGridLabelRenderer().setNumHorizontalLabels(4);
-        graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
-        graph.getGridLabelRenderer().reloadStyles();
+            graph.getGridLabelRenderer().setGridColor(Color.WHITE);
+            graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+            graph.getGridLabelRenderer().setNumVerticalLabels(5);
+            graph.getGridLabelRenderer().setNumHorizontalLabels(4);
+            graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
+            graph.getGridLabelRenderer().reloadStyles();
+        } else {
+            cpuChart.setVisibility(View.GONE );
+        }
     }
 
     @Override
@@ -142,14 +152,16 @@ public class CPUInfo extends AppCompatActivity {
 
     public void updateGraph() {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                usage = readUsage() * 100;
-                graphLastXValue += 0.1d;
-                seriesLive.appendData(new DataPoint(graphLastXValue, usage), true, 120);
-            }
-        }).run();
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    usage = readUsage() * 100;
+                    graphLastXValue += 0.1d;
+                    seriesLive.appendData(new DataPoint(graphLastXValue, usage), true, 120);
+                }
+            }).run();
+        }
 
     }
 

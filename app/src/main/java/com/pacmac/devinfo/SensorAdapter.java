@@ -45,7 +45,6 @@ public class SensorAdapter extends ArrayAdapter<Sensor> {
     public View getView(int index, View view, ViewGroup viewGroup) {
 
         Sensor currentSensor = getItem(index);
-        getSensor(currentSensor);
 
         Viewhold viewHolder;
         if (view == null) {
@@ -61,7 +60,7 @@ public class SensorAdapter extends ArrayAdapter<Sensor> {
         }
 
         viewHolder.id.setText(index+1 + "");
-        viewHolder.name.setText(name);
+        viewHolder.name.setText(currentSensor.getName());
         viewHolder.manufacturer.setText(currentSensor.getVendor());
         return view;
     }
@@ -73,12 +72,4 @@ public class SensorAdapter extends ArrayAdapter<Sensor> {
         TextView manufacturer;
 
     }
-
-    public void getSensor(Sensor sensor) {
-       name = Utility.getSensorName(sensor.getType());
-    }
-
-
-
-
 }

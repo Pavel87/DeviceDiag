@@ -6,21 +6,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="32dp"
-        android:paddingBottom="16dp"
         android:layout_centerInParent="true"
+        android:layout_margin="32dp"
+        android:background="@drawable/list_border_line"
+        android:orientation="horizontal"
+        android:paddingBottom="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:background="@drawable/list_border_line">
+        android:paddingTop="16dp">
 
 
         <TableLayout
             android:layout_width="0dp"
-            android:layout_weight="3"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="3">
 
             <TableRow
                 android:paddingLeft="16dp"
@@ -31,16 +31,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Model: "
-                    android:textStyle="bold"
                     android:textAllCaps="true"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/modelName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="N/A"
                     android:paddingLeft="8dp"
+                    android:text="N/A"
                     android:textSize="12sp" />
             </TableRow>
 
@@ -53,16 +53,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Serial Number: "
-                    android:textStyle="bold"
                     android:textAllCaps="true"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/serialNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="N/A"
                     android:paddingLeft="8dp"
+                    android:text="N/A"
                     android:textSize="12sp" />
             </TableRow>
 
@@ -76,15 +76,15 @@
                     android:layout_height="wrap_content"
                     android:text="Manufacturer: "
                     android:textAllCaps="true"
-                    android:textStyle="bold"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/manufacturer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="N/A"
                     android:paddingLeft="8dp"
+                    android:text="N/A"
                     android:textSize="12sp" />
             </TableRow>
 
@@ -98,15 +98,15 @@
                     android:layout_height="wrap_content"
                     android:text="Hardware: "
                     android:textAllCaps="true"
-                    android:textStyle="bold"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/hardware"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="N/A"
                     android:paddingLeft="8dp"
+                    android:text="N/A"
                     android:textSize="12sp" />
 
             </TableRow>
@@ -121,15 +121,15 @@
                     android:layout_height="wrap_content"
                     android:text="Build number: "
                     android:textAllCaps="true"
-                    android:textStyle="bold"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/buildNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="N/A"
                     android:paddingLeft="8dp"
+                    android:text="N/A"
                     android:textSize="12sp" />
 
             </TableRow>
@@ -137,16 +137,61 @@
             <TableRow
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp">
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BOOTLOADER: "
+                    android:textAllCaps="true"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/bootloader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:text="N/A"
+                    android:textSize="12sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RADIO FIRMWARE: "
+                    android:textAllCaps="true"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:text="N/A"
+                    android:textSize="12sp" />
+            </TableRow>
+
+            <TableRow
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Android: "
                     android:textAllCaps="true"
-                    android:textStyle="bold"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/androidVer"
@@ -160,12 +205,21 @@
 
         </TableLayout>
 
-        <ImageView
-            android:layout_marginTop="16dp"
+        <LinearLayout
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:src="@drawable/pcb"/>
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:src="@drawable/pcb" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 </RelativeLayout>
