@@ -1,6 +1,7 @@
 package com.pacmac.devinfo;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -125,6 +126,7 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
 
             // GPS STATUS Listener
             gpsStatusListener = new GpsStatus.Listener() {
+                @SuppressLint("MissingPermission")
                 @Override
                 public void onGpsStatusChanged(int event) {
 
@@ -181,6 +183,7 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
     }
 
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onResume() {
         if (isPermissionEnabled) {
@@ -237,7 +240,7 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
                     if (geocoder.isPresent()) {
                         try {
                             List<Address> addresses = geocoder.getFromLocation(locLat, locLong, 1);
-                            if (addresses == null) return;
+                            if (addresses == null || addresses.size() == 0) return;
                             String street = addresses.get(0).getThoroughfare();
                             String numHouse = addresses.get(0).getSubThoroughfare();
                             String city = addresses.get(0).getSubAdminArea();

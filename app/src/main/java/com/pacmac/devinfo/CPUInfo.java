@@ -339,22 +339,24 @@ public class CPUInfo extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            //Construct BufferedReader from InputStreamReader
-            br = new BufferedReader(new InputStreamReader(fis));
+            if(fis != null) {
+                //Construct BufferedReader from InputStreamReader
+                br = new BufferedReader(new InputStreamReader(fis));
 
-            try {
-                while ((line = br.readLine()) != null) {
-                    temp = Float.parseFloat(line) / 1000000;
-                    maxFrequency = "" + temp;
+                try {
+                    while ((line = br.readLine()) != null) {
+                        temp = Float.parseFloat(line) / 1000000;
+                        maxFrequency = "" + temp;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
-            try {
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         /// read the current CPU freq
@@ -368,22 +370,23 @@ public class CPUInfo extends AppCompatActivity {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-
-            //Construct BufferedReader from InputStreamReader
-            br = new BufferedReader(new InputStreamReader(fis));
-            try {
-                while ((line = br.readLine()) != null) {
-                    temp = Float.parseFloat(line) / 1000000;
-                    currentFrequency = "" + String.format("%.3f", temp);
+            if(fis != null) {
+                //Construct BufferedReader from InputStreamReader
+                br = new BufferedReader(new InputStreamReader(fis));
+                try {
+                    while ((line = br.readLine()) != null) {
+                        temp = Float.parseFloat(line) / 1000000;
+                        currentFrequency = "" + String.format("%.3f", temp);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
-            try {
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
