@@ -79,8 +79,6 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-
-
         super.onSaveInstanceState(outState, outPersistentState);
     }
 
