@@ -8,6 +8,8 @@ import android.hardware.Sensor;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
 
+import java.lang.reflect.Method;
+
 /**
  * Created by pacmac on 2016-10-04.
  */
@@ -113,6 +115,26 @@ public class Utility {
             default: return String.valueOf(type);
 //            default: return "Unknown";
         }
+    }
+
+    protected static String getDeviceProperty(String key) throws Exception {
+        String result = "";
+        Class<?> systemPropClass = Class.forName("android.os.SystemProperties");
+
+        Class<?>[] parameter = new Class[1];
+        parameter[0] = String.class;
+        Method getString = systemPropClass.getMethod("get", parameter);
+        Object[] obParameter = new Object[1];
+        obParameter[0] = key;
+
+        Object output;
+        if (getString != null) {
+            output = getString.invoke(systemPropClass, obParameter);
+            if (output != null) {
+                result = output.toString();
+            }
+        }
+        return result;
     }
 
 }

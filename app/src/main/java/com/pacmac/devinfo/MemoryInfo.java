@@ -30,7 +30,7 @@ public class MemoryInfo extends AppCompatActivity {
 
     private final Handler mHandler = new Handler();
     private Runnable timer;
-    private TextView ramTotal, ramAvailable, ramLow;
+    private TextView ramHardware, ramTotal, ramAvailable, ramLow;
     private TextView storageTotal, storageAvailable, storageUsed;
     private Spinner storageSpinner;
 
@@ -42,6 +42,7 @@ public class MemoryInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory_info);
 
+        ramHardware = (TextView) findViewById(R.id.ramHardware);
         ramTotal = (TextView) findViewById(R.id.ramTotal);
         ramAvailable = (TextView) findViewById(R.id.ramAvailable);
         ramLow = (TextView) findViewById(R.id.ramLow);
@@ -57,6 +58,14 @@ public class MemoryInfo extends AppCompatActivity {
 
         if (!isPermissionEnabled) {
             Utility.displayExplanationForPermission(this, getResources().getString(R.string.storage_permission_msg), STORAGE_PERMISSION);
+        }
+
+        try {
+           String memorychip = Utility.getDeviceProperty("ro.boot.hardware.ddr");
+           String[] chipelements = memorychip.split(",");
+           ramHardware.setText(chipelements[1] + " " + chipelements[2] + " - " + chipelements[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         //retrieve STORAGE OPTIONS

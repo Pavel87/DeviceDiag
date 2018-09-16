@@ -5,14 +5,14 @@ android {
         config {
         }
     }
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.pacmac.devicediag"
-        minSdkVersion 16
-        targetSdkVersion 27
-        versionCode 30
-        versionName "1.9.1"
+        minSdkVersion 17
+        targetSdkVersion 28
+        versionCode 31
+        versionName "1.9.2"
     }
     buildTypes {
         release {
@@ -33,9 +33,9 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
-    implementation 'com.android.support:appcompat-v7:27+'
-    implementation 'com.google.android.gms:play-services-location:11.8.0'
+    implementation 'com.android.support:appcompat-v7:28+'
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
     implementation 'com.jjoe64:graphview:4.2.1'
-    implementation 'com.android.support:support-v4:27+'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support:support-v4:28+'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }

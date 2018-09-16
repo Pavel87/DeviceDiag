@@ -1,6 +1,9 @@
 package com.pacmac.devinfo;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -50,15 +53,24 @@ public class FragmentMain extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         String radioFW = Build.getRadioVersion();
-        if(radioFW != null) {
+        if (radioFW != null) {
             radio.setText(radioFW);
         } else {
             radio.setText("Not Available");
         }
 
+
         modelName.setText(Build.MODEL);
-        serialNumber.setText(Build.SERIAL);
-        manufacturer.setText(Build.MANUFACTURER + " " + Build.getRadioVersion());
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+                serialNumber.setText(Build.getSerial());
+            }
+        } else {
+            serialNumber.setText(Build.SERIAL);
+        }
+
+        manufacturer.setText(Build.MANUFACTURER);
 
         hardWare.setText(Build.HARDWARE.toUpperCase() + " " + Build.BOARD);
         buildNumber.setText(Build.DISPLAY);

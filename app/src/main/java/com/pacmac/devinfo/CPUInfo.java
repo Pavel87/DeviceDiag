@@ -33,6 +33,8 @@ import java.util.regex.Pattern;
  */
 public class CPUInfo extends AppCompatActivity {
 
+    private static final String BOARD_PLATFORM = "ro.board.platform";
+
     TextView activeCores;
     TextView processor;
     TextView hardWareCpu;
@@ -44,9 +46,7 @@ public class CPUInfo extends AppCompatActivity {
     private String features = "unknown";
     private String hardware = "unknown";
     private String currentFrequency = "unknown";
-    ;
     private String maxFrequency = "unknown";
-    ;
 
 
     private GraphView graph;
@@ -73,12 +73,9 @@ public class CPUInfo extends AppCompatActivity {
         cpuCurrentFreq = (TextView) findViewById(R.id.cpuCurrentFrequency);
         View cpuChart = findViewById(R.id.cpuChart);
 
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-
-        }
         updateView();
 
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             //graph settings
             graph = (GraphView) findViewById(R.id.graph1);
 
@@ -105,7 +102,7 @@ public class CPUInfo extends AppCompatActivity {
             graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
             graph.getGridLabelRenderer().reloadStyles();
         } else {
-            cpuChart.setVisibility(View.GONE );
+            cpuChart.setVisibility(View.GONE);
         }
     }
 
@@ -152,7 +149,7 @@ public class CPUInfo extends AppCompatActivity {
 
     public void updateGraph() {
 
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -204,15 +201,21 @@ public class CPUInfo extends AppCompatActivity {
 
 
     private void updateView() {
-
         readCPUinfo();
         readCPUFreq();
         activeCores.setText("Active: " + Runtime.getRuntime().availableProcessors() + "\tTotal: " + getNumCores());
         processor.setText(cpu);
-        hardWareCpu.setText(hardware);
         featuresCPU.setText(features);
         cpuMaxFrequency.setText(maxFrequency + " GHz");
         cpuCurrentFreq.setText(currentFrequency + " GHz");
+        if (hardware.equals("unknown")) {
+            try {
+                hardware = Utility.getDeviceProperty(BOARD_PLATFORM).toUpperCase();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        hardWareCpu.setText(hardware);
     }
 
     /*
@@ -276,6 +279,7 @@ public class CPUInfo extends AppCompatActivity {
 
     public void readCPUinfo() {
 
+
         //use to get current directory
         File fin = new File("/proc/cpuinfo");
         FileInputStream fis = null;
@@ -285,7 +289,7 @@ public class CPUInfo extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if(fis == null || !fin.exists() || !fin.canRead()) {
+        if (fis == null || !fin.exists() || !fin.canRead()) {
             Log.e("CPUInfo", "Cannot access CPUINFO.");
             return;
         }
@@ -339,7 +343,7 @@ public class CPUInfo extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            if(fis != null) {
+            if (fis != null) {
                 //Construct BufferedReader from InputStreamReader
                 br = new BufferedReader(new InputStreamReader(fis));
 
@@ -370,7 +374,7 @@ public class CPUInfo extends AppCompatActivity {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            if(fis != null) {
+            if (fis != null) {
                 //Construct BufferedReader from InputStreamReader
                 br = new BufferedReader(new InputStreamReader(fis));
                 try {
