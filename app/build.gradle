@@ -11,8 +11,8 @@ android {
         applicationId "com.pacmac.devicediag"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 31
-        versionName "1.9.2"
+        versionCode 33
+        versionName "1.9.4"
     }
     buildTypes {
         release {
@@ -24,7 +24,7 @@ android {
     productFlavors {
         free {
             applicationId = "com.pacmac.devicediag.free"
-            versionName = "1.9"
+            versionName = "1.9.4"
         }
     }
     sourceSets { main { java.srcDirs = ['src/main/java'] } }

@@ -17,12 +17,10 @@ public class DeviceDiagApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            try {
-                TutelaSDKFactory.getTheSDK().initializeWithApiKey(REG_KEY, this);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            TutelaSDKFactory.getTheSDK().initializeWithApiKey(REG_KEY, this);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

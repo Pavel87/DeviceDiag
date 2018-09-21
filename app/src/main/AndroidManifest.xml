@@ -74,8 +74,11 @@
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"/>
 
-        <service android:name="com.tutelatechnologies.sdk.framework.TutelaSDKService"/>
-
+        <service
+            android:name="com.tutelatechnologies.sdk.framework.TutelaSDKService"
+            android:enabled="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            />
     </application>
 
 </manifest>

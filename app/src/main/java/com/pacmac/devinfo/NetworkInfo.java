@@ -187,8 +187,9 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
             progress.show();
         } else
             //progress.hide();
-            progress.dismiss();
-
+            if (progress != null && progress.isShowing()) {
+                progress.dismiss();
+            }
     }
 
     public int getFrequency(String bssid) {

@@ -159,33 +159,34 @@ public class SIMInfo extends AppCompatActivity {
                 findViewById(R.id.viewMEID2).setVisibility(View.VISIBLE);
             }
 
-            for (SubscriptionInfo info : list) {
-                if (info.getSimSlotIndex() == 0) {
-                    simState.setText(getSimState(telephonyManager, 0, false));
-                    mccSpn.setText("" + info.getMcc());
-                    mncSpn.setText("" + info.getMnc());
-                    spnName.setText(info.getCarrierName() != null ? info.getCarrierName() : "N/A");
-                    phoneNumber.setText(info.getNumber() != null ? info.getNumber() : "N/A");
-                    serialN.setText(info.getIccId() != null ? info.getIccId() : "N/A");
-                    String imei = getImei(telephonyManager, 0, false);
-                    imeiNumber.setText(imei != null ? imei : "N/A");
-                    simCountryCode.setText(info.getCountryIso() != null ? info.getCountryIso().toUpperCase() : "N/A");
-                    meid.setText(getMEID(telephonyManager, 0));
+            if (list != null && list.size() > 0) {
+                for (SubscriptionInfo info : list) {
+                    if (info.getSimSlotIndex() == 0) {
+                        simState.setText(getSimState(telephonyManager, 0, false));
+                        mccSpn.setText("" + info.getMcc());
+                        mncSpn.setText("" + info.getMnc());
+                        spnName.setText(info.getCarrierName() != null ? info.getCarrierName() : "N/A");
+                        phoneNumber.setText(info.getNumber() != null ? info.getNumber() : "N/A");
+                        serialN.setText(info.getIccId() != null ? info.getIccId() : "N/A");
+                        String imei = getImei(telephonyManager, 0, false);
+                        imeiNumber.setText(imei != null ? imei : "N/A");
+                        simCountryCode.setText(info.getCountryIso() != null ? info.getCountryIso().toUpperCase() : "N/A");
+                        meid.setText(getMEID(telephonyManager, 0));
 
-                } else if (info.getSimSlotIndex() == 1) {
-                    simState2.setText(getSimState(telephonyManager, 1, false));
-                    mccSpn2.setText("" + info.getMcc());
-                    mncSpn2.setText("" + info.getMnc());
-                    spnName2.setText(info.getCarrierName() != null ? info.getCarrierName() : "N/A");
-                    phoneNumber2.setText(info.getNumber() != null ? info.getNumber() : "N/A");
-                    serialN2.setText(info.getIccId() != null ? info.getIccId() : "N/A");
-                    String imei2 = getImei(telephonyManager, 1, false);
-                    imeiNumber2.setText(imei2 != null ? imei2 : "N/A");
-                    simCountryCode2.setText(info.getCountryIso() != null ? info.getCountryIso().toUpperCase() : "N/A");
-                    meid2.setText(getMEID(telephonyManager, 1));
+                    } else if (info.getSimSlotIndex() == 1) {
+                        simState2.setText(getSimState(telephonyManager, 1, false));
+                        mccSpn2.setText("" + info.getMcc());
+                        mncSpn2.setText("" + info.getMnc());
+                        spnName2.setText(info.getCarrierName() != null ? info.getCarrierName() : "N/A");
+                        phoneNumber2.setText(info.getNumber() != null ? info.getNumber() : "N/A");
+                        serialN2.setText(info.getIccId() != null ? info.getIccId() : "N/A");
+                        String imei2 = getImei(telephonyManager, 1, false);
+                        imeiNumber2.setText(imei2 != null ? imei2 : "N/A");
+                        simCountryCode2.setText(info.getCountryIso() != null ? info.getCountryIso().toUpperCase() : "N/A");
+                        meid2.setText(getMEID(telephonyManager, 1));
+                    }
                 }
             }
-
             /** SINGLE SIM **/
         } else if (!isMultiSIM()) {
             simState.setText(getSimState(telephonyManager, 0, true));
