@@ -6,6 +6,7 @@
     <string name="action_satellites">Show Satellites</string>
     <string name="action_delete">Delete</string>
     <string name="action_refresh">Refresh</string>
+    <string name="title_activity_main_info">Main Info</string>
     <string name="title_activity_cpu_info">CPU Information</string>
     <string name="title_activity_battery_info">Battery Information</string>
     <string name="title_activity_siminfo">Phone Information</string>

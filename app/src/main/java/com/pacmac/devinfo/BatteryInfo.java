@@ -5,8 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 
@@ -46,21 +51,21 @@ public class BatteryInfo extends AppCompatActivity {
             public void onReceive(Context context, Intent intent) {
                 int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
                 int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-                float batteryPct = 100* level / (float)scale;
+                float batteryPct = 100 * level / (float) scale;
 
                 float batTemp = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1) / 10.0f;
                 int batVoltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1);
                 int batPlugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
                 boolean batPresent = intent.getBooleanExtra(BatteryManager.EXTRA_PRESENT, false);
                 int batStatus = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-                int batHealth = intent.getIntExtra(BatteryManager.EXTRA_HEALTH,-1);
+                int batHealth = intent.getIntExtra(BatteryManager.EXTRA_HEALTH, -1);
                 String batTech = intent.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY);
 
 
                 //displaying:
-                batteryLevel.setText(batteryPct+"%");
+                batteryLevel.setText(batteryPct + "%");
                 batteryTemperature.setText(batTemp + "°C");
-                batteryVoltage.setText(batVoltage+"mV");
+                batteryVoltage.setText(batVoltage + "mV");
                 batteryStatus.setText(getBatStatus(batStatus));
                 batteryHealth.setText(getBatHealth(batHealth));
 
@@ -68,10 +73,9 @@ public class BatteryInfo extends AppCompatActivity {
                     batteryPlugged.setText("AC Connected");
                 else if (batPlugged == BatteryManager.BATTERY_PLUGGED_USB)
                     batteryPlugged.setText("USB Connected");
-                else if(batPlugged == BatteryManager.BATTERY_PLUGGED_WIRELESS) {
+                else if (batPlugged == BatteryManager.BATTERY_PLUGGED_WIRELESS) {
                     batteryPlugged.setText("Wireless Charger");
-                }
-                else{
+                } else {
                     batteryPlugged.setText("None");
                 }
                 if (batPresent)
@@ -80,6 +84,7 @@ public class BatteryInfo extends AppCompatActivity {
                     batteryPresent.setText("Battery Is Missing");
                 }
                 batteryTechnology.setText(batTech);
+                updateShareIntent();
             }
         };
 
@@ -89,6 +94,7 @@ public class BatteryInfo extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         registerReceiver(batteryUpdates, intentFilter);
+        updateShareIntent();
     }
 
     @Override
@@ -135,6 +141,70 @@ public class BatteryInfo extends AppCompatActivity {
                 return "Unspecified Failure";
         }
         return "Uknown";
+    }
+
+
+    // SHARE CPU INFO VIA ACTION_SEND
+    private ShareActionProvider mShareActionProvider;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_share, menu);
+
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        updateShareIntent();
+        return true;
+    }
+
+    // Call to update the share intent
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
+    }
+
+    private Intent createShareIntent(StringBuilder sb) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, Build.MODEL + "\t-\t"
+                + getResources().getString(R.string.title_activity_battery_info));
+        return shareIntent;
+    }
+
+
+    private void updateShareIntent() {
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        sb.append("\n");
+        sb.append(Build.MODEL + "\t-\t" + getResources().getString(R.string.title_activity_battery_info));
+        sb.append("\n");
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        sb.append("\n\n");
+
+        //body
+        sb.append("Battery Level:\t\t" + batteryLevel.getText().toString());
+        sb.append("\n");
+        sb.append("Battery Voltage:\t\t" + batteryVoltage.getText().toString());
+        sb.append("\n");
+        sb.append("Battery Temperature:\t\t" + batteryTemperature.getText().toString());
+        sb.append("\n");
+        sb.append("Battery Present:\t\t" + batteryPresent.getText().toString());
+        sb.append("\n");
+        sb.append("Power Source:\t\t" + batteryPlugged.getText().toString());
+        sb.append("\n");
+        sb.append("Battery Status:\t\t" + batteryStatus.getText().toString());
+        sb.append("\n");
+        sb.append("Battery Health:\t\t" + batteryHealth.getText().toString());
+        sb.append("\n");
+        sb.append("Battery Technology:\t\t" + batteryTechnology.getText().toString());
+        sb.append("\n\n");
+
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        setShareIntent(createShareIntent(sb));
     }
 
 

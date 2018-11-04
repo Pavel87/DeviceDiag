@@ -378,6 +378,8 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, Build.MODEL + "\t-\t"
+                + getResources().getString(R.string.activity_title_gps_information));
         return shareIntent;
     }
 

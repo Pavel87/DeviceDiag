@@ -40,6 +40,13 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
     private ImageView ghzBand, powerReport, devToAp, p2p, offloadedConn, scanAlways, tdlsSupport;
     private TextView supplicantState, apCapabilities, centerFreq0, centerFreq1, channelWidth, passpointNetwork, mcResponder, operatorName, venueName;
 
+    private boolean _ghzBand = false;
+    private boolean _powerReport = false;
+    private boolean _devToAp = false;
+    private boolean _p2p = false;
+    private boolean _offloadedConn = false;
+    private boolean _scanAlways = false;
+    private boolean _tdlsSupport = false;
 
     private Button pingBtn;
     private LinearLayout wifiDetail, supportedFeatures;
@@ -154,25 +161,33 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
                 scanAlways = (ImageView) findViewById(R.id.scanAlwaysAvailable);
                 tdlsSupport = (ImageView) findViewById(R.id.tdlsSupported);
 
-                if (wifiManager.is5GHzBandSupported()) {
+                _ghzBand = wifiManager.is5GHzBandSupported();
+                _powerReport = wifiManager.isEnhancedPowerReportingSupported();
+                _devToAp = wifiManager.isDeviceToApRttSupported();
+                _p2p = wifiManager.isP2pSupported();
+                _offloadedConn = wifiManager.isPreferredNetworkOffloadSupported();
+                _scanAlways = wifiManager.isScanAlwaysAvailable();
+                _tdlsSupport = wifiManager.isTdlsSupported();
+
+                if (_ghzBand) {
                     ghzBand.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
                 }
-                if (wifiManager.isEnhancedPowerReportingSupported())
+                if (_powerReport)
                     powerReport.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
 
-                if (wifiManager.isDeviceToApRttSupported())
+                if (_devToAp)
                     devToAp.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
 
-                if (wifiManager.isP2pSupported())
+                if (_p2p)
                     p2p.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
 
-                if (wifiManager.isPreferredNetworkOffloadSupported())
+                if (_offloadedConn)
                     offloadedConn.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
 
-                if (wifiManager.isScanAlwaysAvailable())
+                if (_scanAlways)
                     scanAlways.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
 
-                if (wifiManager.isTdlsSupported())
+                if (_tdlsSupport)
                     tdlsSupport.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
             }
         }
@@ -193,7 +208,7 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
     }
 
     public int getFrequency(String bssid) {
-        if(bssid == null)
+        if (bssid == null)
             return -1;
 
         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -224,7 +239,7 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
     }
 
     public ScanResult getWiFiScanResult(String bssid) {
-        if(bssid == null)
+        if (bssid == null)
             return null;
         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wifiManager == null)
@@ -265,7 +280,6 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         timer = new Runnable() {
             @Override
             public void run() {
-                mHandler.postDelayed(this, 5000);
 
                 runOnUiThread(new Runnable() {
 
@@ -277,9 +291,10 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
                         updateShareIntent();
                     }
                 });
+                mHandler.postDelayed(this, 5000);
             }
         };
-        mHandler.postDelayed(timer, 10000);
+        mHandler.postDelayed(timer, 500);
     }
 
     @Override
@@ -504,6 +519,8 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, Build.MODEL + "\t-\t"
+                + getResources().getString(R.string.title_activity_network_info));
         return shareIntent;
     }
 
@@ -568,14 +585,27 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
                 sb.append("Is 802.11mc Responder:\t\t" + mcResponder.getText().toString());
                 sb.append("\n");
                 sb.append("Is Passpoint Network:\t\t" + passpointNetwork.getText().toString());
-                sb.append("\n\n");
             }
-
+            if (Build.VERSION.SDK_INT >= 21) {
+                sb.append("\n");
+                sb.append("Supported 5Ghz Band:\t\t" + (_ghzBand ? "YES" : " NO"));
+                sb.append("\n");
+                sb.append("Power Reporting:\t\t" + (_powerReport ? "YES" : " NO"));
+                sb.append("\n");
+                sb.append("Device to AP RTT:\t\t" + (_devToAp ? "YES" : " NO"));
+                sb.append("\n");
+                sb.append("WiFi Direct:\t\t" + (_p2p ? "YES" : " NO"));
+                sb.append("\n");
+                sb.append("Offloaded Connectivity Scan:\t\t" + (_offloadedConn ? "YES" : " NO"));
+                sb.append("\n");
+                sb.append("WiFi Scan Always On:\t\t" + (_scanAlways ? "YES" : " NO"));
+                sb.append("\n");
+                sb.append("Tunnel Directed Link Setup:\t\t" + (_tdlsSupport ? "YES" : " NO"));
+            }
         } else {
             sb.append("WIFI INFO NOT AVAILABLE");
-            sb.append("\n\n");
         }
-
+        sb.append("\n\n");
         sb.append(getResources().getString(R.string.shareTextTitle1));
         setShareIntent(createShareIntent(sb));
     }

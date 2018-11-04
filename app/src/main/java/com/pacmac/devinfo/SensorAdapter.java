@@ -18,10 +18,12 @@ public class SensorAdapter extends ArrayAdapter<Sensor> {
 
     private Context context;
     private String name;
+    private List<Sensor> sensors;
 
-    public SensorAdapter(Context context, List<Sensor> sensorType) {
-        super(context, 0, sensorType);
+    public SensorAdapter(Context context, List<Sensor> sensors) {
+        super(context, 0, sensors);
         this.context = context;
+        this.sensors = sensors;
     }
 
 
@@ -70,6 +72,9 @@ public class SensorAdapter extends ArrayAdapter<Sensor> {
         TextView id;
         TextView name;
         TextView manufacturer;
+    }
 
+    public List<Sensor> getSensors() {
+        return sensors;
     }
 }

@@ -27,15 +27,15 @@ public class FragmentDetails extends Fragment {
     };
 
 
-public FragmentDetails() {
-}
+    public FragmentDetails() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.frag_details, container, false);
 
         gridView = (GridView) rootView.findViewById(R.id.gridViewMain);
-        gridView.setAdapter(new DetailAdapter(getActivity().getApplicationContext(),mThumbIds));
+        gridView.setAdapter(new DetailAdapter(getActivity().getApplicationContext(), mThumbIds));
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -93,7 +93,7 @@ public FragmentDetails() {
                         i = new Intent(getActivity(), AboutActivity.class);
                         if (i.resolveActivity(getActivity().getPackageManager()) != null)
                             startActivity(i);
-                           break;
+                        break;
                 }
             }
         });

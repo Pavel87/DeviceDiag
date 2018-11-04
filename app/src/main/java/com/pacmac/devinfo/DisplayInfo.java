@@ -146,16 +146,30 @@ public class DisplayInfo extends AppCompatActivity {
                 return "HDPI";
             case DisplayMetrics.DENSITY_XHIGH:
                 return "XHDPI";
+            case DisplayMetrics.DENSITY_340:
+                return "340DPI XHDPI - XXHDPI";
+            case DisplayMetrics.DENSITY_360:
+                return "360DPI XHDPI - XXHDPI";
+            case DisplayMetrics.DENSITY_400:
+                return "400DPI XHDPI - XXHDPI";
+            case DisplayMetrics.DENSITY_420:
+                return "420DPI XHDPI - XXHDPI";
+            case DisplayMetrics.DENSITY_440:
+                return "440DPI XHDPI - XXHDPI";
             case DisplayMetrics.DENSITY_XXHIGH:
                 return "XXHDPI";
+            case DisplayMetrics.DENSITY_560:
+                return "440DPI XXHDPI - XXXHDPI";
             case DisplayMetrics.DENSITY_XXXHIGH:
                 return "XXXHDPI";
             case DisplayMetrics.DENSITY_TV:
                 return "TVDPI";
+            case DisplayMetrics.DENSITY_260:
+                return "260DPI HDPI - XHDPI";
             case DisplayMetrics.DENSITY_280:
-                return "280DPI";
-            case DisplayMetrics.DENSITY_400:
-                return "400DPI";
+                return "280DPI HDPI - XHDPI";
+            case DisplayMetrics.DENSITY_300:
+                return "300DPI HDPI - XHDPI";
             default:
                 return "UNDEFINED";
         }
@@ -207,6 +221,8 @@ public class DisplayInfo extends AppCompatActivity {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, Build.MODEL + "\t-\t"
+                + getResources().getString(R.string.title_activity_display_info));
         return shareIntent;
     }
 
@@ -240,9 +256,9 @@ public class DisplayInfo extends AppCompatActivity {
         sb.append("\n");
         sb.append("Orientation:\t\t" + rotation.getText().toString());
         sb.append("\n");
-        sb.append("Type:\t\t" + name.getText().toString());
-        sb.append("\n");
         sb.append("Layout Size:\t\t" + layoutSize.getText().toString());
+        sb.append("\n");
+        sb.append("Type:\t\t" + name.getText().toString());
         sb.append("\n");
         sb.append("Draw:\t\t" + drawSize.getText().toString());
         sb.append("\n\n");
