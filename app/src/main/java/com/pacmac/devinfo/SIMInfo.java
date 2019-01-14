@@ -5,10 +5,12 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
@@ -230,9 +232,12 @@ public class SIMInfo extends AppCompatActivity {
                         networkMCC = "N/A";
                         networkMNC = "N/A";
                     }
-                    simSerialNumber = telephonyManager.getSimSerialNumber() != null ? telephonyManager.getSimSerialNumber() : simSerialNumber;
+
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+                        simSerialNumber = telephonyManager.getSimSerialNumber() != null ? telephonyManager.getSimSerialNumber() : simSerialNumber;
+                        telNumber = telephonyManager.getLine1Number();
+                    }
                     networkTypeString = networkType(telephonyManager.getNetworkType());
-                    telNumber = telephonyManager.getLine1Number();
 
                     spnName.setText(simServiceProvider);
                     simCountryCode.setText(simCountry);

@@ -203,7 +203,11 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         } else
             //progress.hide();
             if (progress != null && progress.isShowing()) {
-                progress.dismiss();
+                try {
+                    progress.dismiss();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
     }
 
@@ -466,12 +470,12 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
 
             networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-            if (networkInfo.isConnected()) {
+            if (networkInfo != null && networkInfo.isConnected()) {
                 isWiFi = false;
                 wifiDetail.setVisibility(View.GONE);
                 wanConnected.setTextColor(getResources().getColor(R.color.connected_clr));
                 wanConnected.setText(getString(R.string.connected_info));
-            } else if (networkInfo.isAvailable()) {
+            } else if (networkInfo != null && networkInfo.isAvailable()) {
                 wanConnected.setTextColor(Color.BLUE);
                 wanConnected.setText(getString(R.string.available_info));
             } else {
