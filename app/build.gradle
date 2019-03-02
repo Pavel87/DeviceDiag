@@ -6,13 +6,13 @@ android {
         }
     }
     compileSdkVersion 28
-    buildToolsVersion "28.0.2"
+    buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "com.pacmac.devicediag"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 35
-        versionName "1.9.7"
+        versionCode 36
+        versionName "1.9.8"
     }
     buildTypes {
         release {
@@ -33,7 +33,10 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
-    implementation 'com.android.support:appcompat-v7:28+'
+//    implementation 'com.android.support:appcompat-v7:28+'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
     implementation 'com.google.android.gms:play-services-location:15.0.1'
     implementation 'com.jjoe64:graphview:4.2.1'
     implementation 'com.android.support:support-v4:28+'
