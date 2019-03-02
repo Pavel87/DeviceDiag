@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.tutelatechnologies.sdk.framework.TutelaSDKFactory;
+
 /**
  * Created by pacmac on 5/26/2015.
  */
@@ -26,7 +28,6 @@ public class FragmentDetails extends Fragment {
             R.drawable.wifiimg, R.drawable.aboutimg
     };
 
-
     public FragmentDetails() {
     }
 
@@ -34,7 +35,14 @@ public class FragmentDetails extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.frag_details, container, false);
 
-        gridView = (GridView) rootView.findViewById(R.id.gridViewMain);
+        try {
+            TutelaSDKFactory.getTheSDK().initializeWithApiKey(DeviceDiagApp.REG_KEY,
+                    getActivity().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        gridView = rootView.findViewById(R.id.gridViewMain);
         gridView.setAdapter(new DetailAdapter(getActivity().getApplicationContext(), mThumbIds));
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
