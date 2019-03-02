@@ -445,6 +445,10 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         android.net.NetworkInfo networkInfo;
 
+        if (connMgr == null) {
+            return;
+        }
+
         // check WIFI state and if present in device
         if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI)) {
             isWiFi = true;

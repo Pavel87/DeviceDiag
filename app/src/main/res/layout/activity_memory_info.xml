@@ -26,6 +26,8 @@
                 android:shrinkColumns="1">
 
                 <TableRow
+                    android:visibility="gone"
+                    android:id="@+id/ramchipView"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:paddingTop="8dp">

@@ -63,6 +63,7 @@ public class MemoryInfo extends AppCompatActivity {
         try {
            String memorychip = Utility.getDeviceProperty("ro.boot.hardware.ddr");
            String[] chipelements = memorychip.split(",");
+           findViewById(R.id.ramchipView).setVisibility(View.VISIBLE);
            ramHardware.setText(chipelements[1] + " " + chipelements[2] + " - " + chipelements[0]);
         } catch (Exception e) {
             e.printStackTrace();
