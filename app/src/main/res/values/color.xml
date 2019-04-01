@@ -20,4 +20,11 @@
     <color name="btn_blue">#3F51B5</color>
     <color name="connected_clr">#44743C</color>
     <color name="graph_filling">#7A4B6A8B</color>
+
+
+
+
+    <color name="text_name">#404047</color>
+    <color name="text_value">#727E87</color>
+
 </resources>

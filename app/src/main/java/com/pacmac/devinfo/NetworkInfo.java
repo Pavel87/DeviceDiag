@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.DhcpInfo;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -37,7 +39,8 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
     private TextView pingOut, wifiConnected, wanConnected;
     private TextView ssidField, bssidField, macField, rssiField, linkSpeedField, frequencyField, roaming;
     private TextView ipAddressField, netMaskField, gatewayField, dns1Field, dns2Field, dhcpField, leaseField;
-    private ImageView ghzBand, powerReport, devToAp, p2p, offloadedConn, scanAlways, tdlsSupport;
+    private TextView upstreamBandwidth, downstreamBandwidth;
+    private ImageView ghzBand, powerReport, devToAp, p2p, offloadedConn, scanAlways, tdlsSupport, dppSupport, oweSupport, wpa3SAESupport, wpa3SuiteBSSupport;
     private TextView supplicantState, apCapabilities, centerFreq0, centerFreq1, channelWidth, passpointNetwork, mcResponder, operatorName, venueName;
 
     private boolean _ghzBand = false;
@@ -47,9 +50,13 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
     private boolean _offloadedConn = false;
     private boolean _scanAlways = false;
     private boolean _tdlsSupport = false;
+    private boolean _dppSupport = false;
+    private boolean _oweSupport = false;
+    private boolean _wpa3SAESupport = false;
+    private boolean _wpa3SuiteBSSupport = false;
 
     private Button pingBtn;
-    private LinearLayout wifiDetail, supportedFeatures;
+    private LinearLayout wifiDetail, supportedFeatures, addressView, downstreamBandwidthView, upstreamBandwidthView;
 
     private AsyncPingTask asyncPingTask;
     private boolean isWiFi = false;
@@ -72,42 +79,49 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         } else
             roamingStr = getResources().getString(R.string.no_string);
 
-        pingUrl = (EditText) findViewById(R.id.pingAddress);
-        pingOut = (TextView) findViewById(R.id.pingOut);
-        wifiConnected = (TextView) findViewById(R.id.wifiConn);
-        wanConnected = (TextView) findViewById(R.id.wanConn);
+        pingUrl = findViewById(R.id.pingAddress);
+        pingOut = findViewById(R.id.pingOut);
+        wifiConnected = findViewById(R.id.wifiConn);
+        wanConnected = findViewById(R.id.wanConn);
 
         //WiFi fields
 
-        ssidField = (TextView) findViewById(R.id.ssidField);
-        bssidField = (TextView) findViewById(R.id.bssidField);
-        macField = (TextView) findViewById(R.id.macField);
-        rssiField = (TextView) findViewById(R.id.rssiField);
-        linkSpeedField = (TextView) findViewById(R.id.linkSpeedField);
-        frequencyField = (TextView) findViewById(R.id.freqField);
+        ssidField = findViewById(R.id.ssidField);
+        bssidField = findViewById(R.id.bssidField);
+        macField = findViewById(R.id.macField);
+        rssiField = findViewById(R.id.rssiField);
+        linkSpeedField = findViewById(R.id.linkSpeedField);
+        frequencyField = findViewById(R.id.freqField);
 
-        supplicantState = (TextView) findViewById(R.id.supplicantState);
-        apCapabilities = (TextView) findViewById(R.id.apCapabilities);
-        channelWidth = (TextView) findViewById(R.id.channelWidth);
-        centerFreq0 = (TextView) findViewById(R.id.centerFreq0);
-        centerFreq1 = (TextView) findViewById(R.id.centerFreq1);
-        operatorName = (TextView) findViewById(R.id.operatorFriendlyName);
-        venueName = (TextView) findViewById(R.id.venueName);
-        mcResponder = (TextView) findViewById(R.id.mcResponder);
-        passpointNetwork = (TextView) findViewById(R.id.passPointNetwork);
+        supplicantState = findViewById(R.id.supplicantState);
+        apCapabilities = findViewById(R.id.apCapabilities);
+        channelWidth = findViewById(R.id.channelWidth);
+        centerFreq0 = findViewById(R.id.centerFreq0);
+        centerFreq1 = findViewById(R.id.centerFreq1);
+        operatorName = findViewById(R.id.operatorFriendlyName);
+        venueName = findViewById(R.id.venueName);
+        mcResponder = findViewById(R.id.mcResponder);
+        passpointNetwork = findViewById(R.id.passPointNetwork);
 
 
-        roaming = (TextView) findViewById(R.id.roaming);
-        ipAddressField = (TextView) findViewById(R.id.ipAddress);
-        gatewayField = (TextView) findViewById(R.id.gateway);
-        netMaskField = (TextView) findViewById(R.id.netMask);
-        dns1Field = (TextView) findViewById(R.id.dns1);
-        dns2Field = (TextView) findViewById(R.id.dns2);
-        dhcpField = (TextView) findViewById(R.id.dhcp);
-        leaseField = (TextView) findViewById(R.id.dhcpLease);
-        wifiDetail = (LinearLayout) findViewById(R.id.detailWifi);
-        supportedFeatures = (LinearLayout) findViewById(R.id.supportedFeatures);
-        pingBtn = (Button) findViewById(R.id.pingBtn);
+        roaming = findViewById(R.id.roaming);
+        ipAddressField = findViewById(R.id.ipAddress);
+        gatewayField = findViewById(R.id.gateway);
+        netMaskField = findViewById(R.id.netMask);
+        dns1Field = findViewById(R.id.dns1);
+        dns2Field = findViewById(R.id.dns2);
+        dhcpField = findViewById(R.id.dhcp);
+        leaseField = findViewById(R.id.dhcpLease);
+        wifiDetail = findViewById(R.id.detailWifi);
+        addressView = findViewById(R.id.addressView);
+        supportedFeatures = findViewById(R.id.supportedFeatures);
+        downstreamBandwidthView = findViewById(R.id.downstreamBandwidthView);
+        upstreamBandwidthView = findViewById(R.id.upstreamBandwidthView);
+
+        upstreamBandwidth = findViewById(R.id.upstreamBandwidth);
+        downstreamBandwidth = findViewById(R.id.downstreamBandwidth);
+
+        pingBtn = findViewById(R.id.pingBtn);
 
 
         //delete pingURL onclick
@@ -148,18 +162,23 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
             WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             updateView(wifiManager);
             wifiDetail.setVisibility(View.VISIBLE);
+            addressView.setVisibility(View.VISIBLE);
 
             if (Build.VERSION.SDK_INT >= 21) {
 
                 supportedFeatures.setVisibility(View.VISIBLE);
 
-                ghzBand = (ImageView) findViewById(R.id.bandSupport);
-                devToAp = (ImageView) findViewById(R.id.deviceToApRtt);
-                p2p = (ImageView) findViewById(R.id.wifiDirectSupport);
-                offloadedConn = (ImageView) findViewById(R.id.offLoadConn);
-                powerReport = (ImageView) findViewById(R.id.powerReport);
-                scanAlways = (ImageView) findViewById(R.id.scanAlwaysAvailable);
-                tdlsSupport = (ImageView) findViewById(R.id.tdlsSupported);
+                ghzBand = findViewById(R.id.bandSupport);
+                devToAp = findViewById(R.id.deviceToApRtt);
+                p2p = findViewById(R.id.wifiDirectSupport);
+                offloadedConn = findViewById(R.id.offLoadConn);
+                powerReport = findViewById(R.id.powerReport);
+                scanAlways = findViewById(R.id.scanAlwaysAvailable);
+                tdlsSupport = findViewById(R.id.tdlsSupported);
+                dppSupport = findViewById(R.id.dppSupport);
+                oweSupport = findViewById(R.id.oweSupport);
+                wpa3SAESupport = findViewById(R.id.wpa3SAESupport);
+                wpa3SuiteBSSupport = findViewById(R.id.wpa3SuiteBSSupport);
 
                 _ghzBand = wifiManager.is5GHzBandSupported();
                 _powerReport = wifiManager.isEnhancedPowerReportingSupported();
@@ -189,6 +208,15 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
 
                 if (_tdlsSupport)
                     tdlsSupport.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
+
+
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                    dppSupport.setImageDrawable(getResources().getDrawable(R.drawable.cancel, null));
+                    oweSupport.setImageDrawable(getResources().getDrawable(R.drawable.cancel, null));
+                    wpa3SAESupport.setImageDrawable(getResources().getDrawable(R.drawable.cancel, null));
+                    wpa3SuiteBSSupport.setImageDrawable(getResources().getDrawable(R.drawable.cancel, null));
+                }
+
             }
         }
 
@@ -369,26 +397,26 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
                 mcResponder.setText((scanResult.is80211mcResponder()) ? "YES" : "NO");
                 passpointNetwork.setText((scanResult.isPasspointNetwork()) ? "YES" : "NO");
             } else {
-                findViewById(R.id.textView11).setVisibility(View.GONE);
+                findViewById(R.id.channelWidthView).setVisibility(View.GONE);
                 findViewById(R.id.channelWidth).setVisibility(View.GONE);
 
-                findViewById(R.id.textView10).setVisibility(View.GONE);
+                findViewById(R.id.centerFreq0View).setVisibility(View.GONE);
                 findViewById(R.id.centerFreq0).setVisibility(View.GONE);
 
-                findViewById(R.id.textView12).setVisibility(View.GONE);
+                findViewById(R.id.centerFreq1View).setVisibility(View.GONE);
                 findViewById(R.id.centerFreq1).setVisibility(View.GONE);
 
-                findViewById(R.id.textView13).setVisibility(View.GONE);
+                findViewById(R.id.operatorFriendlyNameView).setVisibility(View.GONE);
                 findViewById(R.id.operatorFriendlyName).setVisibility(View.GONE);
 
-                findViewById(R.id.textView14).setVisibility(View.GONE);
+                findViewById(R.id.venueNameView).setVisibility(View.GONE);
                 findViewById(R.id.venueName).setVisibility(View.GONE);
 
-                findViewById(R.id.textView15).setVisibility(View.GONE);
+                findViewById(R.id.mcResponderView).setVisibility(View.GONE);
                 findViewById(R.id.mcResponder).setVisibility(View.GONE);
 
 
-                findViewById(R.id.textView16).setVisibility(View.GONE);
+                findViewById(R.id.passPointNetworkView).setVisibility(View.GONE);
                 findViewById(R.id.passPointNetwork).setVisibility(View.GONE);
             }
         }
@@ -456,6 +484,10 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
             networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
             if (networkInfo.isConnected()) {
                 wifiDetail.setVisibility(View.VISIBLE);
+                addressView.setVisibility(View.VISIBLE);
+                if (Build.VERSION.SDK_INT >= 21) {
+                    supportedFeatures.setVisibility(View.VISIBLE);
+                }
                 wifiConnected.setTextColor(getResources().getColor(R.color.connected_clr));
                 wifiConnected.setText(getString(R.string.connected_info));
             } else if (networkInfo.isAvailable()) {
@@ -477,6 +509,10 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
             if (networkInfo != null && networkInfo.isConnected()) {
                 isWiFi = false;
                 wifiDetail.setVisibility(View.GONE);
+                addressView.setVisibility(View.GONE);
+                if (Build.VERSION.SDK_INT >= 21) {
+                    supportedFeatures.setVisibility(View.GONE);
+                }
                 wanConnected.setTextColor(getResources().getColor(R.color.connected_clr));
                 wanConnected.setText(getString(R.string.connected_info));
             } else if (networkInfo != null && networkInfo.isAvailable()) {
@@ -489,6 +525,20 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         } else {
             wanConnected.setTextColor(Color.RED);
             wanConnected.setText(getString(R.string.not_present));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            Network network = connMgr.getActiveNetwork();
+            if (network != null) {
+                NetworkCapabilities networkCapabilities = connMgr.getNetworkCapabilities(network);
+                if (networkCapabilities != null) {
+                    downstreamBandwidthView.setVisibility(View.VISIBLE);
+                    upstreamBandwidthView.setVisibility(View.VISIBLE);
+                    downstreamBandwidth.setText(String.valueOf(networkCapabilities.getLinkDownstreamBandwidthKbps()));
+                    upstreamBandwidth.setText(String.valueOf(networkCapabilities.getLinkUpstreamBandwidthKbps()));
+                }
+            }
         }
     }
 
@@ -578,7 +628,12 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
             sb.append("\n");
             sb.append("AP Capabilities:\t\t" + apCapabilities.getText().toString());
 
+
             if (Build.VERSION.SDK_INT > 22) {
+                sb.append("\n");
+                sb.append("Dowsntream Bandwidth:\t\t" + downstreamBandwidth.getText().toString() + "kbps");
+                sb.append("\n");
+                sb.append("Upstream Bandwidth:\t\t" + upstreamBandwidth.getText().toString() + "kbps");
                 sb.append("\n");
                 sb.append("Channel Width:\t\t" + channelWidth.getText().toString());
                 sb.append("\n");
@@ -609,9 +664,23 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
                 sb.append("WiFi Scan Always On:\t\t" + (_scanAlways ? "YES" : " NO"));
                 sb.append("\n");
                 sb.append("Tunnel Directed Link Setup:\t\t" + (_tdlsSupport ? "YES" : " NO"));
+                sb.append("\n");
+                sb.append("Wi-Fi Easy Connect (DPP):\t\t" + (_dppSupport ? "YES" : " NO"));
+                sb.append("\n");
+                sb.append("Wi-Fi Enhanced Open (OWE):\t\t" + (_oweSupport ? "YES" : " NO"));
+                sb.append("\n");
+                sb.append("WPA3-Personal SAE:\t\t" + (_wpa3SAESupport ? "YES" : " NO"));
+                sb.append("\n");
+                sb.append("WPA3-Enterprise Suite-B-192:\t\t" + (_wpa3SuiteBSSupport ? "YES" : " NO"));
             }
         } else {
-            sb.append("WIFI INFO NOT AVAILABLE");
+            if (Build.VERSION.SDK_INT > 22) {
+                sb.append("Dowsntream Bandwidth:\t\t" + downstreamBandwidth.getText().toString() + "kbps");
+                sb.append("\n");
+                sb.append("Upstream Bandwidth:\t\t" + upstreamBandwidth.getText().toString() + "kbps");
+            } else {
+                sb.append("WIFI INFO NOT AVAILABLE");
+            }
         }
         sb.append("\n\n");
         sb.append(getResources().getString(R.string.shareTextTitle1));
