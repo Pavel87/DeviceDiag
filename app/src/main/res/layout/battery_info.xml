@@ -1,193 +1,294 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/dark_act_bg"
-    tools:context="com.pacmac.devinfo.BatteryInfo">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/dark_act_bg"
+                tools:context="com.pacmac.devinfo.BatteryInfo">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp">
+        android:paddingRight="16dp">
 
 
-        <TableLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
             android:background="@android:drawable/dialog_holo_light_frame"
-            android:shrinkColumns="1">
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
-            <TableRow
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingLeft="16dp"
+                android:paddingTop="16dp"
                 android:paddingRight="16dp"
-                android:paddingTop="8dp">
+                android:paddingBottom="4dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp"
+                    android:text="Level"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_name"
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:text="Battery Level: " />
+                    android:textStyle=""/>
 
                 <TextView
                     android:id="@+id/level"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="N/A" />
-            </TableRow>
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_light"
+                    android:gravity="end"
+                    android:text=""
+                    android:textColor="@color/text_value"
+                    android:textSize="14sp"/>
+            </LinearLayout>
 
-            <TableRow
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingLeft="16dp"
+                android:paddingTop="8dp"
                 android:paddingRight="16dp"
-                android:paddingTop="8dp">
+                android:paddingBottom="4dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp"
+                    android:text="Voltage"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_name"
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:text="Battery Voltage: " />
+                    android:textStyle=""/>
 
                 <TextView
                     android:id="@+id/voltage"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="N/A" />
-            </TableRow>
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_light"
+                    android:gravity="end"
+                    android:text=""
+                    android:textColor="@color/text_value"
+                    android:textSize="14sp"/>
+            </LinearLayout>
 
-            <TableRow
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingLeft="16dp"
+                android:paddingTop="8dp"
                 android:paddingRight="16dp"
-                android:paddingTop="8dp">
+                android:paddingBottom="4dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp"
+                    android:text="Temperature"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_name"
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:text="Battery Temp: " />
-
+                    android:textStyle=""/>
 
                 <TextView
                     android:id="@+id/temp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="N/A" />
-            </TableRow>
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_light"
+                    android:gravity="end"
+                    android:text=""
+                    android:textColor="@color/text_value"
+                    android:textSize="14sp"/>
+            </LinearLayout>
 
-            <TableRow
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingLeft="16dp"
+                android:paddingTop="8dp"
                 android:paddingRight="16dp"
-                android:paddingTop="8dp">
+                android:paddingBottom="4dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp"
+                    android:text="Inserted"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_name"
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:text="Battery Present: " />
+                    android:textStyle=""/>
 
                 <TextView
                     android:id="@+id/present"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="N/A" />
-            </TableRow>
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_light"
+                    android:gravity="end"
+                    android:text=""
+                    android:textColor="@color/text_value"
+                    android:textSize="14sp"/>
+            </LinearLayout>
 
-            <TableRow
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingLeft="16dp"
+                android:paddingTop="8dp"
                 android:paddingRight="16dp"
-                android:paddingTop="8dp">
+                android:paddingBottom="4dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp"
+                    android:text="Power Source"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_name"
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:text="Power Source: " />
+                    android:textStyle=""/>
 
                 <TextView
                     android:id="@+id/plugged"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="N/A" />
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_light"
+                    android:gravity="end"
+                    android:text=""
+                    android:textColor="@color/text_value"
+                    android:textSize="14sp"/>
+            </LinearLayout>
 
-            </TableRow>
-
-            <TableRow
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingLeft="16dp"
+                android:paddingTop="8dp"
                 android:paddingRight="16dp"
-                android:paddingTop="8dp">
+                android:paddingBottom="4dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp"
+                    android:text="Status"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_name"
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:text="Battery Status: " />
-
+                    android:textStyle=""/>
 
                 <TextView
                     android:id="@+id/batStatus"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="N/A" />
-            </TableRow>
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_light"
+                    android:gravity="end"
+                    android:text=""
+                    android:textColor="@color/text_value"
+                    android:textSize="14sp"/>
+            </LinearLayout>
 
-            <TableRow
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingLeft="16dp"
+                android:paddingTop="8dp"
                 android:paddingRight="16dp"
-                android:paddingTop="8dp">
+                android:paddingBottom="4dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp"
+                    android:text="Health"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_name"
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:text="Battery Health: " />
-
+                    android:textStyle=""/>
 
                 <TextView
                     android:id="@+id/health"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="N/A" />
-            </TableRow>
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_light"
+                    android:gravity="end"
+                    android:text=""
+                    android:textColor="@color/text_value"
+                    android:textSize="14sp"/>
+            </LinearLayout>
 
-            <TableRow
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp"
                 android:paddingTop="8dp"
-                android:paddingBottom="8dp">
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp"
+                    android:text="Technology"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_name"
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:text="Battery Technology: " />
+                    android:textStyle=""/>
 
                 <TextView
                     android:id="@+id/technology"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="N/A" />
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_light"
+                    android:gravity="end"
+                    android:text=""
+                    android:textColor="@color/text_value"
+                    android:textSize="14sp"/>
+            </LinearLayout>
 
-            </TableRow>
-
-        </TableLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

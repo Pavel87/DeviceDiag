@@ -1,8 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/dark_act_bg">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:background="@color/dark_act_bg">
 
     <ScrollView
         android:id="@+id/mainScrollView"
@@ -31,115 +32,148 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/roboto_medium"
                     android:paddingLeft="16dp"
-                    android:paddingTop="8dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="8dp"
                     android:paddingRight="16dp"
-                    android:textColor="#727272"
+                    android:textColor="@color/text_value"
                     android:textSize="16sp"
                     android:text="RAM Info"/>
 
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:shrinkColumns="1">
-
-                    <TableRow
+                    <LinearLayout
                         android:id="@+id/ramchipView"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="16dp"
-                        android:paddingTop="8dp"
                         android:visibility="gone"
-                        android:paddingRight="16dp">
+                        android:paddingTop="8dp"
+                        android:paddingRight="16dp"
+                        android:paddingBottom="4dp">
 
                         <TextView
-                            android:layout_width="120dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
                             android:text="CHIP"
                             android:textAllCaps="true"
+                            android:textColor="@color/text_name"
                             android:textSize="14sp"
-                            tools:fontFamily="@font/roboto_medium" />
+                            android:textStyle=""/>
 
                         <TextView
                             android:id="@+id/ramHardware"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
                             android:text="N/A"
-                            android:textSize="14sp"
-                            tools:fontFamily="@font/roboto" />
-                    </TableRow>
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="16dp"
-                        android:paddingTop="8dp"
-                        android:paddingRight="16dp">
+                        android:paddingTop="4dp"
+                        android:paddingRight="16dp"
+                        android:paddingBottom="4dp">
 
                         <TextView
-                            android:layout_width="120dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
                             android:text="Total"
                             android:textAllCaps="true"
+                            android:textColor="@color/text_name"
                             android:textSize="14sp"
-                            tools:fontFamily="@font/roboto_medium"/>
+                            android:textStyle=""/>
 
                         <TextView
                             android:id="@+id/ramTotal"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
                             android:text="N/A"
-                            android:textSize="14sp"
-                            tools:fontFamily="@font/roboto" />
-                    </TableRow>
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="16dp"
-                        android:paddingTop="8dp"
-                        android:paddingRight="16dp">
+                        android:paddingTop="4dp"
+                        android:paddingRight="16dp"
+                        android:paddingBottom="4dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
                             android:text="Available"
                             android:textAllCaps="true"
+                            android:textColor="@color/text_name"
                             android:textSize="14sp"
-                            tools:fontFamily="@font/roboto_medium" />
+                            android:textStyle=""/>
 
                         <TextView
                             android:id="@+id/ramAvailable"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
                             android:text="N/A"
-                            android:textSize="14sp"
-                            tools:fontFamily="@font/roboto" />
-                    </TableRow>
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="16dp"
-                        android:paddingTop="8dp"
+                        android:paddingTop="4dp"
                         android:paddingRight="16dp"
-                        android:paddingBottom="8dp">
+                        android:paddingBottom="16dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
                             android:text="LOW RAM"
                             android:textAllCaps="true"
+                            android:textColor="@color/text_name"
                             android:textSize="14sp"
-                            tools:fontFamily="@font/roboto_medium" />
+                            android:textStyle=""/>
 
                         <TextView
                             android:id="@+id/ramLow"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
                             android:text="N/A"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            tools:fontFamily="@font/roboto" />
-                    </TableRow>
-
-                </TableLayout>
-
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
             </LinearLayout>
 
 
@@ -154,89 +188,113 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="8dp"
+                    android:paddingRight="16dp"
+                    android:textColor="@color/text_value"
+                    android:textSize="16sp"
+                    android:text="Storage Info"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:paddingLeft="16dp"
                     android:paddingTop="8dp"
                     android:paddingRight="16dp"
-                    android:text="Storage Info"
-                    android:textColor="#727272"
-                    android:textSize="16sp" />
+                    android:paddingBottom="4dp">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="Total"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
 
-                <TableLayout
+                    <TextView
+                        android:id="@+id/totalStorage"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="N/A"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:shrinkColumns="1">
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
 
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingTop="8dp"
-                        android:paddingRight="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Total "
-                            android:textAllCaps="true"
-                            android:textSize="14sp"
-                            tools:fontFamily="@font/roboto_medium" />
-
-                        <TextView
-                            android:id="@+id/totalStorage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="N/A"
-                            android:textSize="14sp"
-                            tools:fontFamily="@font/roboto" />
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingTop="8dp"
-                        android:paddingRight="16dp">
-
-                        <TextView
-                            android:layout_width="120dp"
-                            android:layout_height="wrap_content"
-                            android:text="AVAILABLE   "
-                            android:textAllCaps="true"
-                            android:textSize="14sp"
-                            tools:fontFamily="@font/roboto_medium" />
-
-                        <TextView
-                            android:id="@+id/availableStorage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="N/A"
-                            android:textSize="14sp"
-                            android:fontFamily="@font/roboto" />
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingTop="8dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:paddingBottom="8dp">
+                        android:text="Available"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="USED:  "
-                            android:textAllCaps="true"
-                            android:textSize="14sp"
-                            tools:fontFamily="@font/roboto_medium" />
+                    <TextView
+                        android:id="@+id/availableStorage"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="N/A"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/usedStorage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="N/A"
-                            android:textSize="14sp"
-                            android:fontFamily="@font/roboto" />
-                    </TableRow>
-                </TableLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="16dp">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="Used"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
+
+                    <TextView
+                        android:id="@+id/usedStorage"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="N/A"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
@@ -244,7 +302,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-
                 android:focusable="false"
                 android:background="@android:drawable/dialog_holo_light_frame">
 

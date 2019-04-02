@@ -34,14 +34,14 @@ public class BatteryInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.battery_info);
-        batteryLevel = (TextView) findViewById(R.id.level);
-        batteryPlugged = (TextView) findViewById(R.id.plugged);
-        batteryPresent = (TextView) findViewById(R.id.present);
-        batteryTechnology = (TextView) findViewById(R.id.technology);
-        batteryVoltage = (TextView) findViewById(R.id.voltage);
-        batteryTemperature = (TextView) findViewById(R.id.temp);
-        batteryStatus = (TextView) findViewById(R.id.batStatus);
-        batteryHealth = (TextView) findViewById(R.id.health);
+        batteryLevel = findViewById(R.id.level);
+        batteryPlugged = findViewById(R.id.plugged);
+        batteryPresent = findViewById(R.id.present);
+        batteryTechnology = findViewById(R.id.technology);
+        batteryVoltage = findViewById(R.id.voltage);
+        batteryTemperature = findViewById(R.id.temp);
+        batteryStatus = findViewById(R.id.batStatus);
+        batteryHealth = findViewById(R.id.health);
 
         intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 

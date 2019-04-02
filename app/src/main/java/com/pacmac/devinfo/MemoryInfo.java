@@ -52,10 +52,10 @@ public class MemoryInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory_info);
 
-        ramHardware = (TextView) findViewById(R.id.ramHardware);
-        ramTotal = (TextView) findViewById(R.id.ramTotal);
-        ramAvailable = (TextView) findViewById(R.id.ramAvailable);
-        ramLow = (TextView) findViewById(R.id.ramLow);
+        ramHardware = findViewById(R.id.ramHardware);
+        ramTotal = findViewById(R.id.ramTotal);
+        ramAvailable = findViewById(R.id.ramAvailable);
+        ramLow = findViewById(R.id.ramLow);
 
         storageTotal = findViewById(R.id.totalStorage);
         storageAvailable = findViewById(R.id.availableStorage);
