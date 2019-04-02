@@ -14,9 +14,6 @@
 
         <!-- tab indicator -->
         <item name="android:background">@drawable/tab_bar_background</item>
-
-
-
         <!-- Support library compatibility -->
         <item name="background">@drawable/tab_bar_background</item>
     </style>
