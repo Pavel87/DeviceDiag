@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/ac_background"
-    android:keepScreenOn="true">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/ac_background"
+                android:keepScreenOn="true">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:orientation="vertical"
         android:scrollbars="none">
 
@@ -33,18 +33,18 @@
                     android:layout_marginBottom="24dp"
                     android:layout_weight="1"
                     android:text="Last Update:"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"/>
 
                 <TextView
                     android:id="@+id/locUpdate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="24dp"
                     android:layout_weight="1"
                     android:elegantTextHeight="true"
                     android:text="--:--:--"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
 
                 <Button
@@ -54,14 +54,14 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:background="@drawable/button_cust_blue"
+                    android:elevation="2dp"
                     android:gravity="center"
                     android:padding="16dp"
                     android:text="NMEA FEED"
                     android:textAllCaps="true"
-                    android:elevation="2dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 
@@ -69,210 +69,288 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:orientation="horizontal"
-                android:background="@drawable/list_border_line">
+                android:background="@drawable/list_border_line"
+                android:orientation="horizontal">
 
 
-                <TableLayout
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                    <TableRow
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="16dp"
+                        android:paddingTop="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="16dp">
+                        android:paddingBottom="4dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="GPS: "
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="GPS"
                             android:textAllCaps="true"
+                            android:textColor="@color/text_name"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:textStyle=""/>
 
                         <TextView
                             android:id="@+id/gpsInfo"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:text="N/A" />
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text=""
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
 
-                    </TableRow>
-
-
-                    <TableRow
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="16dp"
+                        android:paddingTop="8dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="8dp">
+                        android:paddingBottom="4dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Latitude: "
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="First Fix"
                             android:textAllCaps="true"
+                            android:textColor="@color/text_name"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/latitude"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:text="" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="8dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Altitude: "
-                            android:textAllCaps="true"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/altitude"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:text="" />
-
-                    </TableRow>
-
-
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="8dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Accuracy: "
-                            android:textAllCaps="true"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/accuracy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:text="" />
-
-                    </TableRow>
-
-
-
-
-                </TableLayout>
-
-                <TableLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal">
-
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="First fix: "
-                            android:textAllCaps="true"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:textStyle=""/>
 
                         <TextView
                             android:id="@+id/timeToFirstFix"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:text="Waiting..." />
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text=""
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
 
-                    </TableRow>
-
-
-                    <TableRow
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="16dp"
+                        android:paddingTop="8dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="8dp">
+                        android:paddingBottom="4dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Longitude: "
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="Latitude"
                             android:textAllCaps="true"
+                            android:textColor="@color/text_name"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:textStyle=""/>
+
+                        <TextView
+                            android:id="@+id/latitude"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text=""
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="8dp"
+                        android:paddingRight="16dp"
+                        android:paddingBottom="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="Longitude"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_name"
+                            android:textSize="14sp"
+                            android:textStyle=""/>
 
                         <TextView
                             android:id="@+id/longitude"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:text="" />
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text=""
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+                </LinearLayout>
 
-                    </TableRow>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-
-                    <TableRow
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="16dp"
+                        android:paddingTop="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="8dp">
+                        android:paddingBottom="4dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Speed: "
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="Altitude"
                             android:textAllCaps="true"
+                            android:textColor="@color/text_name"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:textStyle=""/>
+
+                        <TextView
+                            android:id="@+id/altitude"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text=""
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="8dp"
+                        android:paddingRight="16dp"
+                        android:paddingBottom="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="Speed"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_name"
+                            android:textSize="14sp"
+                            android:textStyle=""/>
 
                         <TextView
                             android:id="@+id/speed"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:text="" />
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text=""
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
 
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingBottom="16dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="16dp"
+                        android:paddingTop="8dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="8dp">
+                        android:paddingBottom="4dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Bearing: "
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="Accuracy"
                             android:textAllCaps="true"
+                            android:textColor="@color/text_name"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:textStyle=""/>
+
+                        <TextView
+                            android:id="@+id/accuracy"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text=""
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="8dp"
+                        android:paddingRight="16dp"
+                        android:paddingBottom="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="Bearing"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_name"
+                            android:textSize="14sp"
+                            android:textStyle=""/>
 
                         <TextView
                             android:id="@+id/bearing"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:text="" />
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text=""
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
 
-                    </TableRow>
-
-                </TableLayout>
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

@@ -32,7 +32,7 @@ public class CameraInfo extends AppCompatActivity {
     private TextView vertical, horizontal, focalLength, minMaxEV, zoomRatios, faceDetection, jpegQuality,
             focusAreas, smoothZoom, orientation, videoSnapshot, videoStab, autoExposure, autoWhiteBalance,
             picSizes, videoSizes, resPicAmount, resVidAmount;
-    private TableLayout tabGeneral;
+    private LinearLayout tabGeneral;
     private LinearLayout tabCamSpec;
     private Camera camera;
     private Spinner spinnner;
@@ -49,7 +49,7 @@ public class CameraInfo extends AppCompatActivity {
         setContentView(R.layout.activity_camera_info);
 
         tabCamSpec = (LinearLayout) findViewById(R.id.tabCamSpec);
-        tabGeneral = (TableLayout) findViewById(R.id.tabGeneral);
+        tabGeneral = findViewById(R.id.tabGeneral);
 
         vertical = (TextView) findViewById(R.id.vertical);
         horizontal = (TextView) findViewById(R.id.horizontal);
