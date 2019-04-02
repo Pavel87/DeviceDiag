@@ -194,17 +194,17 @@ public class SIMInfo extends AppCompatActivity {
             simState.setText(getSimState(telephonyManager, 0, true));
             String imei = getImei(telephonyManager, 0, true);
 
-            String simSerialNumber = "N/A";
-            String simMCC = "N/A";
-            String simMNC = "N/A";
-            String simServiceProvider = "N/A";
-            String simCountry = "N/A";
-            String networkServiceProvider = "N/A";
-            String networkMCC = "N/A";
-            String networkMNC = "N/A";
-            String networkCountryCode = "N/A";
-            String networkTypeString = "N/A";
-            String telNumber = "N/A";
+            String simSerialNumber = getApplicationContext().getResources().getString(R.string.not_available_info);
+            String simMCC = getApplicationContext().getResources().getString(R.string.not_available_info);
+            String simMNC = getApplicationContext().getResources().getString(R.string.not_available_info);
+            String simServiceProvider = getApplicationContext().getResources().getString(R.string.not_available_info);
+            String simCountry = getApplicationContext().getResources().getString(R.string.not_available_info);
+            String networkServiceProvider = getApplicationContext().getResources().getString(R.string.not_available_info);
+            String networkMCC = getApplicationContext().getResources().getString(R.string.not_available_info);
+            String networkMNC = getApplicationContext().getResources().getString(R.string.not_available_info);
+            String networkCountryCode = getApplicationContext().getResources().getString(R.string.not_available_info);
+            String networkTypeString = getApplicationContext().getResources().getString(R.string.not_available_info);
+            String telNumber = getApplicationContext().getResources().getString(R.string.not_available_info);
 
             if (imei != "" && imei != null) {
 
@@ -212,8 +212,10 @@ public class SIMInfo extends AppCompatActivity {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     findViewById(R.id.viewMEID).setVisibility(View.VISIBLE);
                     String meID = telephonyManager.getMeid();
-                    meid.setText(meID != null ? meID : "N/A");
+                    meid.setText(meID != null ? meID : getApplicationContext().getResources().getString(R.string.not_available_info));
                 }
+
+
 
 
                 if (isSIMInside) {
@@ -223,15 +225,16 @@ public class SIMInfo extends AppCompatActivity {
                     }
                     simCountry = "" + telephonyManager.getSimCountryIso().toUpperCase();
                     simServiceProvider = telephonyManager.getSimOperatorName();
-                    networkServiceProvider = telephonyManager.getNetworkOperatorName() != null ? telephonyManager.getNetworkOperatorName() : "N/A";
-                    networkCountryCode = telephonyManager.getNetworkCountryIso() != null ? telephonyManager.getNetworkCountryIso().toUpperCase() : "N/A";
+
+
+
+                    networkServiceProvider = telephonyManager.getNetworkOperatorName() != null ? telephonyManager.getNetworkOperatorName() : getApplicationContext().getResources().getString(R.string.not_available_info);
+                    networkCountryCode = telephonyManager.getNetworkCountryIso() != null ? telephonyManager.getNetworkCountryIso().toUpperCase() : getApplicationContext().getResources().getString(R.string.not_available_info);
                     if (telephonyManager.getNetworkOperator().length() > 2) {
                         networkMCC = "" + telephonyManager.getNetworkOperator().substring(0, 3);
                         networkMNC = "" + telephonyManager.getNetworkOperator().substring(3);
-                    } else {
-                        networkMCC = "N/A";
-                        networkMNC = "N/A";
                     }
+
 
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
                         simSerialNumber = telephonyManager.getSimSerialNumber() != null ? telephonyManager.getSimSerialNumber() : simSerialNumber;
@@ -290,7 +293,7 @@ public class SIMInfo extends AppCompatActivity {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
                 findViewById(R.id.viewNAI).setVisibility(View.VISIBLE);
                 String naiString = telephonyManager.getNai();
-                nai.setText(naiString != null ? naiString : "N/A");
+                nai.setText(naiString != null ? naiString : getApplicationContext().getResources().getString(R.string.not_available_info));
             }
         }
 

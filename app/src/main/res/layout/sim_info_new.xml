@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_act_bg"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.pacmac.devinfo.SIMInfo">
 
     <ScrollView
@@ -25,156 +25,226 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TableLayout
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="12dp"
                     android:background="@android:drawable/dialog_holo_light_frame"
-                    android:shrinkColumns="1">
+                    android:orientation="vertical"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp">
 
-                    <TableRow
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="16dp"
+                        android:paddingTop="8dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="8dp">
+                        android:paddingBottom="4dp">
 
                         <TextView
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="SIM Count:"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="SIM Count"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_name"
+                            android:textSize="14sp"
+                            android:textStyle="" />
 
                         <TextView
                             android:id="@+id/simCount"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text="@string/not_available_info"
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp" />
+                    </LinearLayout>
 
-                    </TableRow>
-
-                    <TableRow
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="16dp"
+                        android:paddingTop="4dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:paddingBottom="4dp">
 
                         <TextView
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="IMSI: "
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="IMSI"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_name"
+                            android:textSize="14sp"
+                            android:textStyle="" />
 
                         <TextView
                             android:id="@+id/imsiNumber"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
-                    </TableRow>
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text="@string/not_available_info"
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp" />
+                    </LinearLayout>
 
-                    <TableRow
+
+                    <LinearLayout
                         android:id="@+id/viewNAI"
-                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="16dp"
+                        android:paddingTop="4dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:paddingBottom="4dp"
+                        android:visibility="gone">
 
                         <TextView
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="NAI:"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="NAI"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_name"
+                            android:textSize="14sp"
+                            android:textStyle="" />
 
                         <TextView
                             android:id="@+id/nai"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
-                    </TableRow>
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text="@string/not_available_info"
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp" />
+                    </LinearLayout>
 
-                    <TableRow
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="16dp"
+                        android:paddingTop="4dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:paddingBottom="4dp">
 
                         <TextView
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Phone Radio:"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="Phone Radio"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_name"
+                            android:textSize="14sp"
+                            android:textStyle="" />
 
                         <TextView
                             android:id="@+id/phoneRadio"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text="@string/not_available_info"
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp" />
+                    </LinearLayout>
 
-                    </TableRow>
-
-
-                    <TableRow
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="16dp"
+                        android:paddingTop="4dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:paddingBottom="4dp">
 
                         <TextView
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Data State:"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="Data State"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_name"
+                            android:textSize="14sp"
+                            android:textStyle="" />
 
                         <TextView
                             android:id="@+id/dataState"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text="@string/not_available_info"
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp" />
+                    </LinearLayout>
 
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingBottom="8dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="16dp"
+                        android:paddingTop="4dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:paddingBottom="8dp">
 
                         <TextView
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Data Activity:"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="Data Activity"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_name"
+                            android:textSize="14sp"
+                            android:textStyle="" />
 
                         <TextView
                             android:id="@+id/dataActivity"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
-
-                    </TableRow>
-
-
-                </TableLayout>
-
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text="@string/not_available_info"
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
+
             <LinearLayout
-                android:id="@+id/simView1"
+                android:id="@+id/currentNetworkView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
                 android:background="@android:drawable/dialog_holo_light_frame"
                 android:orientation="vertical">
 
@@ -182,363 +252,557 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="SIM Slot 1"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Current Network"
+                        android:textColor="@color/text_value"
+                        android:textSize="16sp"
                         android:textStyle="normal" />
                 </LinearLayout>
 
-                <TableLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:shrinkColumns="1">
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
 
-                    <TableRow
-                        android:paddingLeft="16dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="8dp">
+                        android:text="Provider"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="IMEI:"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/networkName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/imei"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
-                    </TableRow>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
 
-                    <TableRow
-                        android:id="@+id/viewMEID"
-                        android:paddingLeft="16dp"
-                        android:visibility="gone"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:text="MCC"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="MEID:"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/mccCode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/meid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
-                    </TableRow>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
 
-                    <TableRow
-                        android:paddingLeft="16dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:text="MNC"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="SIM State: "
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/mncCode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/simState"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
 
-                    </TableRow>
-
-
-                    <TableRow
-                        android:paddingLeft="16dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:text="Country Code"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="SIM SN: "
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/networkCountry"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/serialN"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
-                    </TableRow>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
 
-
-                    <TableRow
-                        android:paddingLeft="16dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:text="Type"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="SIM Provider:"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/networkType"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/operatorName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
 
-                    </TableRow>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="16dp">
 
-                    <TableRow
-                        android:paddingLeft="16dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:text="Connected Cell"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Country Code:"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/cellInformation"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/simCountryCode"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
+            </LinearLayout>
 
-                    </TableRow>
 
-                    <TableRow
-                        android:paddingLeft="16dp"
+            <LinearLayout
+                android:id="@+id/simView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@android:drawable/dialog_holo_light_frame"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="SIM Slot 1"
+                        android:textColor="@color/text_value"
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:text="IMEI"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="SIM MCC:"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/imei"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/mccSPN"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
+                <LinearLayout
+                    android:id="@+id/viewMEID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
 
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingLeft="16dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:text="MEID"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="SIM MNC:"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/meid"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/mncSPN"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
 
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingLeft="16dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:text="SIM State"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Network Provider:"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/simState"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/networkName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
 
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingLeft="16dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:text="SIM SN"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Network MCC:"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:id="@+id/mccCode"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/serialN"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                    </TableRow>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
 
-                    <TableRow
-                        android:paddingLeft="16dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:text="SIM Provider"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Network MNC:"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:id="@+id/mncCode"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/operatorName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                    </TableRow>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
 
-
-                    <TableRow
-                        android:paddingLeft="16dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:text="Country Code"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Provider Country: "
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/simCountryCode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/networkCountry"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
 
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingLeft="16dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:text="SIM MCC"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Network Type: "
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/mccSPN"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/networkType"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
 
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingLeft="16dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:text="SIM MNC"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Sim Number: "
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/mncSPN"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/phoneNumber"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="8dp">
 
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingBottom="8dp"
-                        android:paddingLeft="16dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:text="Phone Number"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Current Cell: "
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/phoneNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/cellInformation"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp" />
-                    </TableRow>
-                </TableLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/simView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_marginTop="8dp"
                 android:background="@android:drawable/dialog_holo_light_frame"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -563,8 +827,8 @@
 
                     <TableRow
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="8dp">
+                        android:paddingTop="8dp"
+                        android:paddingRight="16dp">
 
                         <TextView
                             android:layout_width="100dp"
@@ -585,9 +849,9 @@
                     <TableRow
                         android:id="@+id/viewMEID2"
                         android:paddingLeft="16dp"
-                        android:visibility="gone"
+                        android:paddingTop="4dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="100dp"
@@ -604,10 +868,11 @@
                             android:text="N/A"
                             android:textSize="12sp" />
                     </TableRow>
+
                     <TableRow
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:paddingTop="4dp"
+                        android:paddingRight="16dp">
 
                         <TextView
                             android:layout_width="100dp"
@@ -629,8 +894,8 @@
 
                     <TableRow
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:paddingTop="4dp"
+                        android:paddingRight="16dp">
 
                         <TextView
                             android:layout_width="100dp"
@@ -650,8 +915,8 @@
 
                     <TableRow
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:paddingTop="4dp"
+                        android:paddingRight="16dp">
 
                         <TextView
                             android:layout_width="100dp"
@@ -673,8 +938,8 @@
 
                     <TableRow
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:paddingTop="4dp"
+                        android:paddingRight="16dp">
 
                         <TextView
                             android:layout_width="100dp"
@@ -695,8 +960,8 @@
 
                     <TableRow
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:paddingTop="4dp"
+                        android:paddingRight="16dp">
 
                         <TextView
                             android:layout_width="100dp"
@@ -717,8 +982,8 @@
 
                     <TableRow
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:paddingTop="4dp"
+                        android:paddingRight="16dp">
 
                         <TextView
                             android:layout_width="100dp"
@@ -739,8 +1004,8 @@
 
                     <TableRow
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:paddingTop="4dp"
+                        android:paddingRight="16dp">
 
                         <TextView
                             android:layout_width="100dp"
@@ -761,8 +1026,8 @@
 
                     <TableRow
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:paddingTop="4dp"
+                        android:paddingRight="16dp">
 
                         <TextView
                             android:layout_width="100dp"
@@ -770,6 +1035,7 @@
                             android:text="Network MCC:"
                             android:textSize="12sp"
                             android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/mccCode2"
                             android:layout_width="wrap_content"
@@ -782,8 +1048,8 @@
 
                     <TableRow
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:paddingTop="4dp"
+                        android:paddingRight="16dp">
 
                         <TextView
                             android:layout_width="100dp"
@@ -791,6 +1057,7 @@
                             android:text="Network MNC:"
                             android:textSize="12sp"
                             android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/mncCode2"
                             android:layout_width="wrap_content"
@@ -804,8 +1071,8 @@
 
                     <TableRow
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:paddingTop="4dp"
+                        android:paddingRight="16dp">
 
                         <TextView
                             android:layout_width="100dp"
@@ -826,8 +1093,8 @@
 
                     <TableRow
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:paddingTop="4dp"
+                        android:paddingRight="16dp">
 
                         <TextView
                             android:layout_width="100dp"
@@ -848,8 +1115,8 @@
 
                     <TableRow
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:paddingTop="4dp"
+                        android:paddingRight="16dp">
 
                         <TextView
                             android:layout_width="100dp"
@@ -869,10 +1136,10 @@
                     </TableRow>
 
                     <TableRow
-                        android:paddingBottom="8dp"
                         android:paddingLeft="16dp"
+                        android:paddingTop="4dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="4dp">
+                        android:paddingBottom="8dp">
 
                         <TextView
                             android:layout_width="100dp"
