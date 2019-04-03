@@ -9,14 +9,15 @@ import android.net.ConnectivityManager;
 import android.net.DhcpInfo;
 import android.net.Network;
 import android.net.NetworkCapabilities;
+import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,10 +34,9 @@ import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.List;
 
-public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
+public class NetworkInfo extends AppCompatActivity {
 
-    private EditText pingUrl;
-    private TextView pingOut, wifiConnected, wanConnected;
+    private TextView wifiConnected, wanConnected;
     private TextView ssidField, bssidField, macField, rssiField, linkSpeedField, frequencyField, roaming;
     private TextView ipAddressField, netMaskField, gatewayField, dns1Field, dns2Field, dhcpField, leaseField;
     private TextView upstreamBandwidth, downstreamBandwidth;
@@ -55,12 +55,9 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
     private boolean _wpa3SAESupport = false;
     private boolean _wpa3SuiteBSSupport = false;
 
-    private Button pingBtn;
     private LinearLayout wifiDetail, supportedFeatures, addressView, downstreamBandwidthView, upstreamBandwidthView;
 
-    private AsyncPingTask asyncPingTask;
     private boolean isWiFi = false;
-    private String url = null;
     AlertDialog progress = null;
     private final Handler mHandler = new Handler();
     private Runnable timer;
@@ -79,8 +76,6 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         } else
             roamingStr = getResources().getString(R.string.no_string);
 
-        pingUrl = findViewById(R.id.pingAddress);
-        pingOut = findViewById(R.id.pingOut);
         wifiConnected = findViewById(R.id.wifiConn);
         wanConnected = findViewById(R.id.wanConn);
 
@@ -121,39 +116,23 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         upstreamBandwidth = findViewById(R.id.upstreamBandwidth);
         downstreamBandwidth = findViewById(R.id.downstreamBandwidth);
 
-        pingBtn = findViewById(R.id.pingBtn);
 
-
-        //delete pingURL onclick
-        pingUrl.setOnClickListener(new View.OnClickListener() {
+        // Open ICMP PING tool in market store
+        findViewById(R.id.icmpPingTool).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (pingUrl.hasFocus()) {
-                    pingUrl.setText("");
+                String appPackage = "com.pacmac.pinger";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackage));
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackage));
+                    startActivity(intent);
                 }
             }
         });
 
-        pingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //disable SIP on button press
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (pingUrl.hasFocus() & getResources().getBoolean(R.bool.dual_pane) != true)
-                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-
-                url = pingUrl.getText().toString();
-                pingUrl.clearFocus();
-                // run ping in backround
-                asyncPingTask = new AsyncPingTask();
-                asyncPingTask.asynResp = NetworkInfo.this;
-                asyncPingTask.execute(url);
-            }
-        });
-
-
         checkRadioStates();
-
 
         // show WiFi detail
 
@@ -289,22 +268,6 @@ public class NetworkInfo extends AppCompatActivity implements InterfaceASTask {
         }
         return null;
     }
-
-    @Override
-    public void showPingResponse(String result) {
-        showProgressBar(false);
-        if (result != null && result.length() > 0)
-            pingOut.setText(result);
-        else
-            pingOut.setText(getResources().getString(R.string.ping_error_3));
-    }
-
-    @Override
-    public void startingPingCommand() {
-        pingOut.setText("Waiting for response from: " + url);
-        showProgressBar(true);
-    }
-
 
     @Override
     public void onResume() {

@@ -34,7 +34,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_gravity="center"
-                android:src="@drawable/maybe"/>
+                android:src="@drawable/tick"/>
         </LinearLayout>
 
         <LinearLayout
@@ -53,12 +53,12 @@
                 android:text="MCC"/>
 
             <TextView
+                android:id="@+id/lte_mcc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
                 android:textColor="@color/text_value"
                 android:textSize="12sp"
-
                 android:text="320"/>
         </LinearLayout>
 
@@ -78,6 +78,7 @@
                 android:text="MNC"/>
 
             <TextView
+                android:id="@+id/lte_mnc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
@@ -99,9 +100,10 @@
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/text_name"
                 android:textSize="12sp"
-                android:text="CID"/>
+                android:text="CI"/>
 
             <TextView
+                android:id="@+id/lte_ci"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
@@ -126,6 +128,7 @@
                 android:text="TAC"/>
 
             <TextView
+                android:id="@+id/lte_tac"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
@@ -183,6 +186,7 @@
                 android:text="PCI"/>
 
             <TextView
+                android:id="@+id/lte_pci"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
@@ -204,9 +208,10 @@
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/text_name"
                 android:textSize="12sp"
-                android:text="EUARFCN"/>
+                android:text="EARFCN"/>
 
             <TextView
+                android:id="@+id/lte_earfcn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
@@ -231,6 +236,7 @@
                 android:text="BANDWIDTH"/>
 
             <TextView
+                android:id="@+id/lte_bandwidth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
@@ -261,8 +267,6 @@
         android:orientation="horizontal">
 
 
-
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -280,6 +284,7 @@
                 android:text="RSRP"/>
 
             <TextView
+                android:id="@+id/lte_rsrp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
@@ -306,6 +311,7 @@
                 android:text="RSRQ"/>
 
             <TextView
+                android:id="@+id/lte_rsrq"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
@@ -332,6 +338,7 @@
                 android:text="RSSNR"/>
 
             <TextView
+                android:id="@+id/lte_rssnr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
@@ -358,6 +365,7 @@
                 android:text="CQI"/>
 
             <TextView
+                android:id="@+id/lte_cqi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
@@ -384,6 +392,7 @@
                 android:text="TA"/>
 
             <TextView
+                android:id="@+id/lte_ta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
@@ -394,11 +403,4 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/blue_ab"/>
-
-
 </LinearLayout>

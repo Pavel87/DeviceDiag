@@ -31,7 +31,7 @@ public class AboutActivity extends AppCompatActivity {
         isRating = preferences.getBoolean(WAS_RATED, false);
 
 
-        Button sendFeedback = (Button) findViewById(R.id.sendFeedback);
+        Button sendFeedback = findViewById(R.id.sendFeedback);
         sendFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,7 +40,7 @@ public class AboutActivity extends AppCompatActivity {
         });
 
 
-        Button rating = (Button) findViewById(R.id.rateApp);
+        Button rating = findViewById(R.id.rateApp);
         if (!isRating) {
             rating.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -52,7 +52,7 @@ public class AboutActivity extends AppCompatActivity {
             rating.setVisibility(View.GONE);  // if rating was submited don't show this button anymore
 
 
-        TextView versionText = (TextView) findViewById(R.id.versionText);
+        TextView versionText = findViewById(R.id.versionText);
         String s = "Unknown";
         try {
             s = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
@@ -73,8 +73,8 @@ public class AboutActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.send_feedback_dialog);
         dialog.setCancelable(false);
 
-        Button yesButton = (Button) dialog.findViewById(R.id.yesExit);
-        final EditText feedbackMsg = (EditText) dialog.findViewById(R.id.feedbackMsg);
+        Button yesButton = dialog.findViewById(R.id.yesExit);
+        final EditText feedbackMsg = dialog.findViewById(R.id.feedbackMsg);
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,7 +91,7 @@ public class AboutActivity extends AppCompatActivity {
             }
         });
 
-        Button noButton = (Button) dialog.findViewById(R.id.noExit);
+        Button noButton = dialog.findViewById(R.id.noExit);
         noButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,7 +110,7 @@ public class AboutActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.rateit_dialog);
         dialog.setCancelable(false);
 
-        Button yesButton = (Button) dialog.findViewById(R.id.yesExit);
+        Button yesButton = dialog.findViewById(R.id.yesExit);
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

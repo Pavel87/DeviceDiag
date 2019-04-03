@@ -13,6 +13,8 @@ import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.ShareActionProvider;
 import android.telephony.CellInfo;
 import android.telephony.CellInfoCdma;
@@ -25,13 +27,16 @@ import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SIMInfo extends AppCompatActivity {
@@ -60,6 +65,10 @@ public class SIMInfo extends AppCompatActivity {
     private TextView nai;
     private TextView phoneRadio;
 
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     private boolean isSIMInside = false;
 
@@ -128,6 +137,16 @@ public class SIMInfo extends AppCompatActivity {
         meid2 = (TextView) findViewById(R.id.meid2);
 
 
+//        mRecyclerView = findViewById(R.id.cellList);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+//        mRecyclerView.setHasFixedSize(true);
+//        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+//        mRecyclerView.setLayoutManager(mLayoutManager);
+//        mAdapter = new CellInfoAdapter(new ArrayList<CellInfo>());
+//        mRecyclerView.setAdapter(mAdapter);
+
+
         simCount.setText(String.valueOf(isMultiSIM() ? 2 : 1));
 
         if (isMultiSIM()) {
@@ -147,6 +166,14 @@ public class SIMInfo extends AppCompatActivity {
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         if (telephonyManager == null) {
             return;
+        }
+
+
+        if (isLocPermissionEnabled) {
+//            ((CellInfoAdapter) mAdapter).updateData(telephonyManager.getAllCellInfo());
+            getCellTower(telephonyManager);
+        } else {
+            Utility.requestPermissions(this, LOCATION_PERMISSION);
         }
 
 
@@ -216,8 +243,6 @@ public class SIMInfo extends AppCompatActivity {
                 }
 
 
-
-
                 if (isSIMInside) {
                     if (telephonyManager.getSimOperator().length() > 2) {
                         simMCC = "" + telephonyManager.getSimOperator().substring(0, 3);
@@ -225,7 +250,6 @@ public class SIMInfo extends AppCompatActivity {
                     }
                     simCountry = "" + telephonyManager.getSimCountryIso().toUpperCase();
                     simServiceProvider = telephonyManager.getSimOperatorName();
-
 
 
                     networkServiceProvider = telephonyManager.getNetworkOperatorName() != null ? telephonyManager.getNetworkOperatorName() : getApplicationContext().getResources().getString(R.string.not_available_info);
@@ -256,11 +280,12 @@ public class SIMInfo extends AppCompatActivity {
                     networkType.setText(networkTypeString);
 
 
-                    if (isLocPermissionEnabled) {
-                        cellInformation.setText(getCellTower(telephonyManager));
-                    } else {
-                        Utility.requestPermissions(this, LOCATION_PERMISSION);
-                    }
+//                    if (isLocPermissionEnabled) {
+//                        mAdapter = new CellInfoAdapter();
+//                        cellInformation.setText(getCellTower(telephonyManager));
+//                    } else {
+//                        Utility.requestPermissions(this, LOCATION_PERMISSION);
+//                    }
                 }
             } else if (!isPermissionEnabled) {
                 imeiNumber.setTextColor(Color.RED);
@@ -537,13 +562,13 @@ public class SIMInfo extends AppCompatActivity {
         sb.append("\n");
         sb.append("SIM MCC: " + mccSpn.getText().toString());
         sb.append("\n");
-        sb.append("SIM MNC: " +mncSpn.getText().toString());
+        sb.append("SIM MNC: " + mncSpn.getText().toString());
         sb.append("\n");
         sb.append("Network Provider Name: " + networkName.getText().toString());
         sb.append("\n");
-        sb.append("Network MCC: " +mcc.getText().toString());
+        sb.append("Network MCC: " + mcc.getText().toString());
         sb.append("\n");
-        sb.append("Network MNC: " +mnc.getText().toString());
+        sb.append("Network MNC: " + mnc.getText().toString());
         sb.append("\n");
         sb.append("Network Provider Country: " + providerCountry.getText().toString());
         sb.append("\n");
@@ -619,7 +644,7 @@ public class SIMInfo extends AppCompatActivity {
                             || Utility.getDeviceProperty(GSM_SIM_STATE).contains(",")
                             || Utility.getDeviceProperty(SIM_COUNT_QLC2).equals("true")
                             || !Utility.getDeviceProperty(PHONE_TYPE_2).equals("")
-                            ) {
+                    ) {
                         return true;
                     }
                 } catch (Exception e) {
@@ -740,7 +765,7 @@ public class SIMInfo extends AppCompatActivity {
                     int psc = ((CellInfoGsm) cell).getCellIdentity().getPsc();
                     int dbm = ((CellInfoGsm) cell).getCellSignalStrength().getDbm();
                     int ta = Integer.MAX_VALUE;
-                    if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
                         ta = ((CellInfoGsm) cell).getCellSignalStrength().getTimingAdvance();
                     }
                     int asuLevel = ((CellInfoGsm) cell).getCellSignalStrength().getAsuLevel();
@@ -748,26 +773,26 @@ public class SIMInfo extends AppCompatActivity {
                     int bsic = Integer.MAX_VALUE;
                     String rfcnString = "Unknown";
                     String bsicString = "Unknown";
-                    if(Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
                         rfcn = ((CellInfoGsm) cell).getCellIdentity().getArfcn();
-                        if(rfcn != Integer.MAX_VALUE) {
+                        if (rfcn != Integer.MAX_VALUE) {
                             rfcnString = String.valueOf(rfcn);
                         }
                         bsic = ((CellInfoGsm) cell).getCellIdentity().getBsic();
-                        if(bsic != Integer.MAX_VALUE) {
+                        if (bsic != Integer.MAX_VALUE) {
                             bsicString = String.valueOf(bsic);
                         }
                     }
 
                     currentCellInfo = "Type: GSM"
-                                        + "Cell ID: " + cid + "\n"
-                                        + "LAC: " + lac + "\n"
-                                        + "PSC: " + psc + "\n"
-                                        + "ARFCN: " + rfcnString + "\n"
-                                        + "BSIC: " + bsicString + "\n"
-                                        + "Signal Strength[dBm]: " + dbm + "\n"
-                                        + "Asu Level: " + asuLevel + "\n"
-                                        + "Timing Advance: " + (ta == Integer.MAX_VALUE ? "Unknown" : ta) + "\n";
+                            + "Cell ID: " + cid + "\n"
+                            + "LAC: " + lac + "\n"
+                            + "PSC: " + psc + "\n"
+                            + "ARFCN: " + rfcnString + "\n"
+                            + "BSIC: " + bsicString + "\n"
+                            + "Signal Strength[dBm]: " + dbm + "\n"
+                            + "Asu Level: " + asuLevel + "\n"
+                            + "Timing Advance: " + (ta == Integer.MAX_VALUE ? "Unknown" : ta) + "\n";
 
                 } else if (cell instanceof CellInfoCdma && cell.isRegistered()) {
                     int baseStationId = ((CellInfoCdma) cell).getCellIdentity().getBasestationId();
@@ -790,22 +815,24 @@ public class SIMInfo extends AppCompatActivity {
                     int asuLevel = ((CellInfoWcdma) cell).getCellSignalStrength().getAsuLevel();
                     int rfcn = -1;
                     String rfcnString = "Unknown";
-                    if(Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
                         rfcn = ((CellInfoWcdma) cell).getCellIdentity().getUarfcn();
-                        if(rfcn != Integer.MAX_VALUE) {
+                        if (rfcn != Integer.MAX_VALUE) {
                             rfcnString = String.valueOf(rfcn);
                         }
                     }
 
                     currentCellInfo = "Type: UMTS" + "\n"
-                                    + "Cell ID: " + cid + "\n"
-                                    + "LAC: " + lac + "\n"
-                                    + "PSC: " + psc + "\n"
-                                    + "UARFCN: " + rfcnString + "\n"
-                                    + "Signal Strength[dBm]: " + dbm + "\n"
-                                    + "Asu Level: " + asuLevel + "\n";
+                            + "Cell ID: " + cid + "\n"
+                            + "LAC: " + lac + "\n"
+                            + "PSC: " + psc + "\n"
+                            + "UARFCN: " + rfcnString + "\n"
+                            + "Signal Strength[dBm]: " + dbm + "\n"
+                            + "Asu Level: " + asuLevel + "\n";
 
                 } else if (cell instanceof CellInfoLte && cell.isRegistered()) {
+                    int mcc = ((CellInfoLte) cell).getCellIdentity().getMcc();
+                    int mnc = ((CellInfoLte) cell).getCellIdentity().getMnc();
                     int cellId = ((CellInfoLte) cell).getCellIdentity().getCi();
                     int physCellId = ((CellInfoLte) cell).getCellIdentity().getPci();
                     int tac = ((CellInfoLte) cell).getCellIdentity().getTac();
@@ -813,15 +840,15 @@ public class SIMInfo extends AppCompatActivity {
                     int bandwidth = -1;
                     String rfcnString = "Unknown";
                     String bandwidthString = "Unknown";
-                    if(Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
                         rfcn = ((CellInfoLte) cell).getCellIdentity().getEarfcn();
-                        if(rfcn != Integer.MAX_VALUE) {
+                        if (rfcn != Integer.MAX_VALUE) {
                             rfcnString = String.valueOf(rfcn);
                         }
                     }
-                    if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
                         bandwidth = ((CellInfoLte) cell).getCellIdentity().getBandwidth();
-                        if(bandwidth != Integer.MAX_VALUE) {
+                        if (bandwidth != Integer.MAX_VALUE) {
                             bandwidthString = String.valueOf(bandwidth);
                         }
                     }
@@ -836,31 +863,60 @@ public class SIMInfo extends AppCompatActivity {
                     String cqiString = "Unknown";
                     String taString = "Unknown";
 
+
+                    TextView mccLTE = findViewById(R.id.lte_mcc);
+                    TextView mncLTE = findViewById(R.id.lte_mnc);
+                    TextView ciLTE = findViewById(R.id.lte_ci);
+                    TextView tacLTE = findViewById(R.id.lte_tac);
+                    TextView pciLTE = findViewById(R.id.lte_pci);
+                    TextView rfcnLTE = findViewById(R.id.lte_earfcn);
+                    TextView bandwidthLTE = findViewById(R.id.lte_bandwidth);
+
+                    TextView rsrpLTE = findViewById(R.id.lte_rsrp);
+                    TextView rsrqLTE = findViewById(R.id.lte_rsrq);
+                    TextView rssnrLTE = findViewById(R.id.lte_rssnr);
+                    TextView cqiLTE = findViewById(R.id.lte_cqi);
+                    TextView taLTE = findViewById(R.id.lte_ta);
+
+                    mccLTE.setText(cleanValue(mcc));
+                    mncLTE.setText(cleanValue(mnc));
+                    ciLTE.setText(cleanValue(cellId));
+                    tacLTE.setText(cleanValue(tac));
+                    pciLTE.setText(cleanValue(physCellId));
+                    rfcnLTE.setText(cleanValue(rfcn));
+                    bandwidthLTE.setText(cleanValue(bandwidth));
+
                     rsrp = ((CellInfoLte) cell).getCellSignalStrength().getDbm();
-                    if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
                         rsrq = ((CellInfoLte) cell).getCellSignalStrength().getRsrq();
-                        if(rsrq != Integer.MAX_VALUE) {
+                        if (rsrq != Integer.MAX_VALUE) {
                             rsrqString = String.valueOf(rsrq);
                         }
                         rssnr = ((CellInfoLte) cell).getCellSignalStrength().getRssnr();
-                        if(rssnr != Integer.MAX_VALUE) {
+                        if (rssnr != Integer.MAX_VALUE) {
                             rssnrString = String.valueOf(rssnr);
                         }
                         cqi = ((CellInfoLte) cell).getCellSignalStrength().getCqi();
-                        if(cqi >= 0 && cqi != Integer.MAX_VALUE) {
+                        if (cqi >= 0 && cqi != Integer.MAX_VALUE) {
                             cqiString = String.valueOf(cqi);
                         }
                     }
                     ta = ((CellInfoLte) cell).getCellSignalStrength().getTimingAdvance();
-                    if(ta >= 0 && ta != Integer.MAX_VALUE) {
+                    if (ta >= 0 && ta != Integer.MAX_VALUE) {
                         taString = String.valueOf(ta);
                     }
 
                     int asuLevel = ((CellInfoLte) cell).getCellSignalStrength().getAsuLevel();
                     int type = telephonyManager.getNetworkType();
 
+                    rsrpLTE.setText(cleanValue(rsrp));
+                    rsrqLTE.setText(cleanValue(rsrq));
+                    rssnrLTE.setText(cleanValue(rssnr));
+                    cqiLTE.setText(cleanValue(cqi));
+                    taLTE.setText(cleanValue(ta));
+
                     currentCellInfo =
-                                      "Type: " + ((type == 19) ? "LTE CA" : "LTE") + "\n"
+                            "Type: " + ((type == 19) ? "LTE CA" : "LTE") + "\n"
                                     + "Cell ID: " + cellId + "\n"
                                     + "TAC: " + tac + "\n"
                                     + "Physical Cell ID: " + physCellId + "\n"
@@ -883,10 +939,10 @@ public class SIMInfo extends AppCompatActivity {
                     int psc = ((GsmCellLocation) cell).getPsc();
                     currentCellInfo =
                             "Type: GSM"
-                            + "Cell ID: " + cid + "\n"
-                            + "LAC: " + lac + "\n"
-                            + "PSC: " + psc + "\n"
-                           ;
+                                    + "Cell ID: " + cid + "\n"
+                                    + "LAC: " + lac + "\n"
+                                    + "PSC: " + psc + "\n"
+                    ;
                 } else if (cell instanceof CdmaCellLocation) {
                     int baseStationId = ((CdmaCellLocation) cell).getBaseStationId();
                     int sysId = ((CdmaCellLocation) cell).getSystemId();
@@ -894,7 +950,7 @@ public class SIMInfo extends AppCompatActivity {
                     int longitude = ((CdmaCellLocation) cell).getBaseStationLongitude();
                     int latitude = ((CdmaCellLocation) cell).getBaseStationLatitude();
                     currentCellInfo = "Type: CDMA\n"
-                            +"Base Station ID: " + baseStationId + "\n"
+                            + "Base Station ID: " + baseStationId + "\n"
                             + "Network ID: " + netId + "\n"
                             + "System ID: " + sysId + "\n"
                             + "Tower Longitude: " + longitude + "\n"
@@ -911,4 +967,12 @@ public class SIMInfo extends AppCompatActivity {
         return currentCellInfo;
     }
 
+
+    private String cleanValue(int value) {
+
+        if (value == Integer.MAX_VALUE) {
+            return "N/A";
+        }
+        return String.valueOf(value);
+    }
 }

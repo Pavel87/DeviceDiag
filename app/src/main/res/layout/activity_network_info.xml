@@ -17,13 +17,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <View
-                android:id="@+id/focus_thief"
-                android:layout_width="1dp"
-                android:layout_height="1dp"
-                android:focusable="true"
-                android:focusableInTouchMode="true" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,51 +34,23 @@
                     android:padding="16dp">
 
 
-                    <EditText
-                        android:id="@+id/pingAddress"
+                    <TextView
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="16dp"
-                        android:layout_weight="2"
-                        android:background="@color/edit_bg"
-                        android:drawableRight="@android:drawable/ic_input_delete"
-                        android:hint="Enter IP address"
-                        android:imeOptions="actionDone"
-                        android:inputType="text"
-                        android:padding="8dp"
-                        android:textSize="14sp" />
-
-                    <Button
-                        android:id="@+id/pingBtn"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:background="@drawable/button_cust_blue"
-                        android:elevation="2dp"
-                        android:gravity="center"
-                        android:padding="16dp"
-                        android:text="Ping"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:textColor="@color/text_value"
+                        android:textStyle="italic"
+                        android:text="Want to do ICMP Ping?"/>
+
+                    <View
+                        android:id="@+id/icmpPingTool"
+                        android:layout_width="150dp"
+                        android:layout_height="60dp"
+                        android:background="@drawable/google_badge"/>
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/pingOut"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@color/windowBackground"
-                    android:padding="8dp"
-                    android:text="Waiting for ping command..."
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/material_blue_grey_950"
-                    android:textSize="12sp" />
 
             </LinearLayout>
 
