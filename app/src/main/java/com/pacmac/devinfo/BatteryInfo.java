@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 
@@ -28,6 +29,11 @@ public class BatteryInfo extends AppCompatActivity {
     private TextView batteryTechnology;
     private TextView batteryStatus;
     private TextView batteryHealth;
+    private TextView chargeCounter;
+    private TextView currentAvg;
+    private TextView currentActual;
+    private TextView batteryEnergyCounter;
+    private TextView timeToFull;
 
 
     @Override
@@ -42,10 +48,14 @@ public class BatteryInfo extends AppCompatActivity {
         batteryTemperature = findViewById(R.id.temp);
         batteryStatus = findViewById(R.id.batStatus);
         batteryHealth = findViewById(R.id.health);
+        chargeCounter = findViewById(R.id.chargeCounter);
+        currentAvg = findViewById(R.id.currentAvg);
+        currentActual = findViewById(R.id.currentActual);
+        batteryEnergyCounter = findViewById(R.id.batteryEnergyCounter);
+        timeToFull = findViewById(R.id.timeToFull);
+
 
         intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-
-
         batteryUpdates = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -65,7 +75,7 @@ public class BatteryInfo extends AppCompatActivity {
                 //displaying:
                 batteryLevel.setText(batteryPct + "%");
                 batteryTemperature.setText(batTemp + "°C");
-                batteryVoltage.setText(batVoltage + "mV");
+                batteryVoltage.setText(batVoltage + " mV");
                 batteryStatus.setText(getBatStatus(batStatus));
                 batteryHealth.setText(getBatHealth(batHealth));
 
@@ -84,6 +94,38 @@ public class BatteryInfo extends AppCompatActivity {
                     batteryPresent.setText("Battery Is Missing");
                 }
                 batteryTechnology.setText(batTech);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    findViewById(R.id.viewForAPI21).setVisibility(View.VISIBLE);
+                    BatteryManager batteryManager = (BatteryManager) getSystemService(BATTERY_SERVICE);
+
+                    // Battery capacity in microampere-hours, as an integer.
+                    int chargeCounterInt = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER);
+                    chargeCounter.setText(String.valueOf(chargeCounterInt) + " mAH");
+
+                    // Average battery current in microamperes, as an integer. Positive values indicate net current
+                    // entering the battery from a charge source, negative values indicate net current discharging from
+                    // the battery. The time period over which the average is computed may depend on the fuel gauge hardware and its configuration.
+                    int avgCurrentInt = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_AVERAGE);
+                    currentAvg.setText(String.valueOf(avgCurrentInt) + " mA");
+
+                    // Instantaneous battery current in microamperes, as an integer. Positive values indicate
+                    // net current entering the battery from a charge source, negative values indicate net current discharging from the battery.
+                    int actualCurrentInt = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW);
+                    currentActual.setText(String.valueOf(actualCurrentInt) + " mA");
+
+                    // Battery remaining energy in nanowatt-hours, as a long integer.
+                    long remainingEnergyInt = batteryManager.getLongProperty(BatteryManager.BATTERY_PROPERTY_ENERGY_COUNTER);
+                    batteryEnergyCounter.setText((remainingEnergyInt >= 0) ? String.valueOf(remainingEnergyInt) + " nWh" : getResources().getString(R.string.not_available_info));
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        findViewById(R.id.timeToFullView).setVisibility(View.VISIBLE);
+                        // Compute an approximation for how much time (in milliseconds) remains until the battery
+                        // is fully charged. Returns -1 if no time can be computed: either there is not enough current
+                        // data to make a decision or the battery is currently discharging.
+                        long timeToFullLong = batteryManager.computeChargeTimeRemaining();
+                        timeToFull.setText((timeToFullLong >= 0) ? timeToFullLong + " ms" : getResources().getString(R.string.not_available_info));
+                    }
+                }
                 updateShareIntent();
             }
         };

@@ -1,18 +1,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/dark_act_bg"
-                tools:context="com.pacmac.devinfo.BatteryInfo">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_act_bg"
+    tools:context="com.pacmac.devinfo.BatteryInfo">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp">
 
 
         <LinearLayout
@@ -22,7 +22,7 @@
             android:background="@android:drawable/dialog_holo_light_frame"
             android:orientation="vertical"
             android:paddingTop="16dp"
-            android:paddingBottom="16dp">
+            android:paddingBottom="24dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/text_name"
                     android:textSize="14sp"
-                    android:textStyle=""/>
+                    android:textStyle="" />
 
                 <TextView
                     android:id="@+id/level"
@@ -54,7 +54,7 @@
                     android:gravity="end"
                     android:text=""
                     android:textColor="@color/text_value"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -76,7 +76,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/text_name"
                     android:textSize="14sp"
-                    android:textStyle=""/>
+                    android:textStyle="" />
 
                 <TextView
                     android:id="@+id/voltage"
@@ -87,7 +87,7 @@
                     android:gravity="end"
                     android:text=""
                     android:textColor="@color/text_value"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -109,7 +109,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/text_name"
                     android:textSize="14sp"
-                    android:textStyle=""/>
+                    android:textStyle="" />
 
                 <TextView
                     android:id="@+id/temp"
@@ -120,7 +120,7 @@
                     android:gravity="end"
                     android:text=""
                     android:textColor="@color/text_value"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -142,7 +142,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/text_name"
                     android:textSize="14sp"
-                    android:textStyle=""/>
+                    android:textStyle="" />
 
                 <TextView
                     android:id="@+id/present"
@@ -153,7 +153,7 @@
                     android:gravity="end"
                     android:text=""
                     android:textColor="@color/text_value"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -175,7 +175,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/text_name"
                     android:textSize="14sp"
-                    android:textStyle=""/>
+                    android:textStyle="" />
 
                 <TextView
                     android:id="@+id/plugged"
@@ -186,7 +186,7 @@
                     android:gravity="end"
                     android:text=""
                     android:textColor="@color/text_value"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -208,7 +208,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/text_name"
                     android:textSize="14sp"
-                    android:textStyle=""/>
+                    android:textStyle="" />
 
                 <TextView
                     android:id="@+id/batStatus"
@@ -219,7 +219,7 @@
                     android:gravity="end"
                     android:text=""
                     android:textColor="@color/text_value"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -241,7 +241,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/text_name"
                     android:textSize="14sp"
-                    android:textStyle=""/>
+                    android:textStyle="" />
 
                 <TextView
                     android:id="@+id/health"
@@ -252,7 +252,7 @@
                     android:gravity="end"
                     android:text=""
                     android:textColor="@color/text_value"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -262,7 +262,7 @@
                 android:paddingLeft="16dp"
                 android:paddingTop="8dp"
                 android:paddingRight="16dp"
-                android:paddingBottom="16dp">
+                android:paddingBottom="4dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -274,7 +274,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/text_name"
                     android:textSize="14sp"
-                    android:textStyle=""/>
+                    android:textStyle="" />
 
                 <TextView
                     android:id="@+id/technology"
@@ -285,7 +285,185 @@
                     android:gravity="end"
                     android:text=""
                     android:textColor="@color/text_value"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/viewForAPI21"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="Charge Count"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
+
+                    <TextView
+                        android:id="@+id/chargeCounter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text=""
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="Average Current"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
+
+                    <TextView
+                        android:id="@+id/currentAvg"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text=""
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="Actual Current"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
+
+                    <TextView
+                        android:id="@+id/currentActual"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text=""
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="Remaining Energy"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
+
+                    <TextView
+                        android:id="@+id/batteryEnergyCounter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text=""
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/timeToFullView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="Time to full charge"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
+
+                    <TextView
+                        android:id="@+id/timeToFull"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text=""
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
