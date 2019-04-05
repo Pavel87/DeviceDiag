@@ -314,6 +314,40 @@
                         android:fontFamily="@font/roboto_medium"
                         android:paddingEnd="16dp"
                         android:paddingRight="16dp"
+                        android:text="Generation"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
+
+                    <TextView
+                        android:id="@+id/networkClass"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:id="@+id/mccLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
                         android:text="MCC"
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
@@ -342,6 +376,7 @@
                     android:paddingBottom="4dp">
 
                     <TextView
+                        android:id="@+id/mncLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
@@ -364,6 +399,214 @@
                         android:textColor="@color/text_value"
                         android:textSize="14sp"/>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:id="@+id/cidLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="CID"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
+
+                    <TextView
+                        android:id="@+id/cid"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lacView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:id="@+id/lacLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="LAC"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
+
+                    <TextView
+                        android:id="@+id/lac"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/pciOrPscView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:id="@+id/pciAndPscLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="PCI"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
+
+                    <TextView
+                        android:id="@+id/pciAndPsc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="Type"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
+
+                    <TextView
+                        android:id="@+id/networkType"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/rfChannelView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:id="@+id/rfChannelLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="EARFCN"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
+
+                    <TextView
+                        android:id="@+id/rfChannel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/bwOrBSICView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:id="@+id/bwOrBSICLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="Bandwidth"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
+
+                    <TextView
+                        android:id="@+id/bsicOrBandwidth"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -413,14 +656,14 @@
                         android:fontFamily="@font/roboto_medium"
                         android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:text="Type"
+                        android:text="Signal Level"
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
                         android:textStyle=""/>
 
                     <TextView
-                        android:id="@+id/networkType"
+                        android:id="@+id/signalLevel"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -431,7 +674,6 @@
                         android:textSize="14sp"/>
                 </LinearLayout>
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -439,8 +681,7 @@
                     android:paddingLeft="16dp"
                     android:paddingTop="4dp"
                     android:paddingRight="16dp"
-                    android:paddingBottom="4dp"
-                    android:visibility="gone">
+                    android:paddingBottom="4dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -448,14 +689,14 @@
                         android:fontFamily="@font/roboto_medium"
                         android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:text="Connected Cell"
+                        android:text="ASU Level"
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
                         android:textStyle=""/>
 
                     <TextView
-                        android:id="@+id/cellInformation"
+                        android:id="@+id/asuLevel"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -479,258 +720,6 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingLeft="16dp"
-                            android:paddingTop="8dp"
-                            android:paddingRight="16dp">
-
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical"
-                                android:paddingLeft="4dp"
-                                android:paddingRight="4dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:gravity="center"
-                                    android:text="R"
-                                    android:textColor="@color/text_name"
-                                    android:textSize="12sp"/>
-
-
-                                <ImageView
-                                    android:layout_width="16dp"
-                                    android:layout_height="16dp"
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/tick"/>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="2"
-                                android:orientation="vertical"
-                                android:paddingLeft="4dp"
-                                android:paddingRight="4dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:text="MCC"
-                                    android:textColor="@color/text_name"
-                                    android:textSize="12sp"/>
-
-                                <TextView
-                                    android:id="@+id/lte_mcc"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_light"
-                                    android:text="320"
-                                    android:textColor="@color/text_value"
-                                    android:textSize="12sp"/>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="2"
-                                android:orientation="vertical"
-                                android:paddingLeft="4dp"
-                                android:paddingRight="4dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:text="MNC"
-                                    android:textColor="@color/text_name"
-                                    android:textSize="12sp"/>
-
-                                <TextView
-                                    android:id="@+id/lte_mnc"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_light"
-                                    android:text="123"
-                                    android:textColor="@color/text_value"
-                                    android:textSize="12sp"/>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="3"
-                                android:orientation="vertical"
-                                android:paddingLeft="4dp"
-                                android:paddingRight="4dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:text="CI"
-                                    android:textColor="@color/text_name"
-                                    android:textSize="12sp"/>
-
-                                <TextView
-                                    android:id="@+id/lte_ci"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_light"
-                                    android:text="231231233"
-                                    android:textColor="@color/text_value"
-                                    android:textSize="12sp"/>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="3"
-                                android:orientation="vertical"
-                                android:paddingLeft="4dp"
-                                android:paddingRight="4dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:text="TAC"
-                                    android:textColor="@color/text_name"
-                                    android:textSize="12sp"/>
-
-                                <TextView
-                                    android:id="@+id/lte_tac"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_light"
-                                    android:text="231231233"
-                                    android:textColor="@color/text_value"
-                                    android:textSize="12sp"/>
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingLeft="16dp"
-                            android:paddingTop="4dp"
-                            android:paddingRight="16dp">
-
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical"
-                                android:paddingLeft="4dp"
-                                android:paddingRight="4dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:text=""
-                                    android:textColor="@color/text_name"/>
-
-                                <TextView
-                                    android:layout_width="16dp"
-                                    android:layout_height="16dp"
-                                    android:fontFamily="@font/roboto_light"
-                                    android:text=""
-                                    android:textColor="@color/text_value"/>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical"
-                                android:paddingLeft="4dp"
-                                android:paddingRight="4dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:text="PCI"
-                                    android:textColor="@color/text_name"
-                                    android:textSize="12sp"/>
-
-                                <TextView
-                                    android:id="@+id/lte_pci"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_light"
-                                    android:text="320"
-                                    android:textColor="@color/text_value"
-                                    android:textSize="12sp"/>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical"
-                                android:paddingLeft="4dp"
-                                android:paddingRight="4dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:text="EARFCN"
-                                    android:textColor="@color/text_name"
-                                    android:textSize="12sp"/>
-
-                                <TextView
-                                    android:id="@+id/lte_earfcn"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_light"
-                                    android:text="123"
-                                    android:textColor="@color/text_value"
-                                    android:textSize="12sp"/>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical"
-                                android:paddingLeft="4dp"
-                                android:paddingRight="4dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:text="BANDWIDTH"
-                                    android:textColor="@color/text_name"
-                                    android:textSize="12sp"/>
-
-                                <TextView
-                                    android:id="@+id/lte_bandwidth"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_light"
-                                    android:text="222"
-                                    android:textColor="@color/text_value"
-                                    android:textSize="12sp"/>
-                            </LinearLayout>
-
-                        </LinearLayout>
-
 
                         <TextView
                             android:layout_width="match_parent"
@@ -742,13 +731,15 @@
 
 
                         <LinearLayout
+                            android:id="@+id/lteSignalStrengthView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:paddingLeft="16dp"
                             android:paddingTop="4dp"
                             android:paddingRight="16dp"
-                            android:paddingBottom="8dp">
+                            android:paddingBottom="8dp"
+                            android:visibility="gone">
 
 
                             <LinearLayout
@@ -774,7 +765,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_light"
                                     android:gravity="center"
-                                    android:text="320"
+                                    android:text="N/A"
                                     android:textColor="@color/text_value"
                                     android:textSize="12sp"/>
                             </LinearLayout>
@@ -802,7 +793,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_light"
                                     android:gravity="center"
-                                    android:text="123"
+                                    android:text="N/A"
                                     android:textColor="@color/text_value"
                                     android:textSize="12sp"/>
                             </LinearLayout>
@@ -830,7 +821,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_light"
                                     android:gravity="center"
-                                    android:text="200"
+                                    android:text="N/A"
                                     android:textColor="@color/text_value"
                                     android:textSize="12sp"/>
                             </LinearLayout>
@@ -858,7 +849,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_light"
                                     android:gravity="center"
-                                    android:text="12"
+                                    android:text="N/A"
                                     android:textColor="@color/text_value"
                                     android:textSize="12sp"/>
                             </LinearLayout>
@@ -886,11 +877,211 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_light"
                                     android:gravity="center"
-                                    android:text="12"
+                                    android:text="N/A"
                                     android:textColor="@color/text_value"
                                     android:textSize="12sp"/>
                             </LinearLayout>
 
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/signalStrength2GView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="4dp"
+                            android:paddingRight="16dp"
+                            android:paddingBottom="8dp"
+                            android:visibility="gone">
+
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:paddingLeft="4dp"
+                                android:paddingRight="4dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:gravity="center"
+                                    android:text="Signal Strength"
+                                    android:textColor="@color/text_name"
+                                    android:textSize="12sp"/>
+
+                                <TextView
+                                    android:id="@+id/sigStrength2G"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_light"
+                                    android:gravity="center"
+                                    android:text="N/A"
+                                    android:textColor="@color/text_value"
+                                    android:textSize="12sp"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:paddingLeft="4dp"
+                                android:paddingRight="4dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:gravity="center"
+                                    android:text="Timing Advance"
+                                    android:textColor="@color/text_name"
+                                    android:textSize="12sp"/>
+
+                                <TextView
+                                    android:id="@+id/timingAdvance2G"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_light"
+                                    android:gravity="center"
+                                    android:text="N/A"
+                                    android:textColor="@color/text_value"
+                                    android:textSize="12sp"/>
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/signalStrength3GView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="4dp"
+                            android:paddingRight="16dp"
+                            android:paddingBottom="8dp">
+
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:paddingLeft="4dp"
+                                android:paddingRight="4dp">
+
+                                <TextView
+                                    android:id="@+id/sigStrength3G"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_light"
+                                    android:gravity="center"
+                                    android:text="N/A"
+                                    android:textColor="@color/text_value"
+                                    android:textSize="12sp"/>
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/signalStrengthCDMAView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="4dp"
+                            android:paddingRight="16dp"
+                            android:paddingBottom="8dp"
+                            android:visibility="gone">
+
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:paddingLeft="4dp"
+                                android:paddingRight="4dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:gravity="center"
+                                    android:text="Signal Strength"
+                                    android:textColor="@color/text_name"
+                                    android:textSize="12sp"/>
+
+                                <TextView
+                                    android:id="@+id/signalStrengthCDMA"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_light"
+                                    android:gravity="center"
+                                    android:text="N/A"
+                                    android:textColor="@color/text_value"
+                                    android:textSize="12sp"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:paddingLeft="4dp"
+                                android:paddingRight="4dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:gravity="center"
+                                    android:text="ECIO"
+                                    android:textColor="@color/text_name"
+                                    android:textSize="12sp"/>
+
+                                <TextView
+                                    android:id="@+id/ecio"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_light"
+                                    android:gravity="center"
+                                    android:text="N/A"
+                                    android:textColor="@color/text_value"
+                                    android:textSize="12sp"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:paddingLeft="4dp"
+                                android:paddingRight="4dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:gravity="center"
+                                    android:text="SNR"
+                                    android:textColor="@color/text_name"
+                                    android:textSize="12sp"/>
+
+                                <TextView
+                                    android:id="@+id/snr"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_light"
+                                    android:gravity="center"
+                                    android:text="N/A"
+                                    android:textColor="@color/text_value"
+                                    android:textSize="12sp"/>
+                            </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
 
@@ -1236,367 +1427,329 @@
                 android:id="@+id/simView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone"
                 android:background="@android:drawable/dialog_holo_light_frame"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="SIM Slot 2"
+                        android:textColor="@color/text_value"
+                        android:textSize="16sp"
                         android:textStyle="normal"/>
                 </LinearLayout>
 
-                <TableLayout
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:shrinkColumns="1">
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
 
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingTop="8dp"
-                        android:paddingRight="16dp">
-
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="IMEI:"
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/imei2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp"/>
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/viewMEID2"
-                        android:paddingLeft="16dp"
-                        android:paddingTop="4dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:visibility="gone">
+                        android:text="IMEI"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="MEID:"
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/imei2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/meid2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp"/>
-                    </TableRow>
+                <LinearLayout
+                    android:id="@+id/viewMEID2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
 
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="16dp">
-
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="SIM State: "
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/simState2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp"/>
-
-                    </TableRow>
-
-
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="16dp">
-
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="SIM SN: "
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/serialN2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp"/>
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="16dp">
-
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="SIM Provider:"
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/operatorName2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp"/>
-
-                    </TableRow>
-
-
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="16dp">
-
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Country Code:"
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/simCountryCode2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp"/>
-
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="16dp">
-
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="SIM MCC:"
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/mccSPN2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp"/>
-
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="16dp">
-
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="SIM MNC:"
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/mncSPN2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp"/>
-
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="16dp">
-
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Network Provider:"
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/networkName2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp"/>
-
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="16dp">
-
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Network MCC:"
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/mccCode2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp"/>
-
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="16dp">
-
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Network MNC:"
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/mncCode2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp"/>
-
-                    </TableRow>
-
-
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="16dp">
-
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Provider Country: "
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/networkCountry2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp"/>
-
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="16dp">
-
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Network Type: "
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/networkType2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp"/>
-
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="16dp">
-
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Sim Number: "
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/phoneNumber2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp"/>
-
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingLeft="16dp"
-                        android:paddingTop="4dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:paddingBottom="8dp">
+                        android:text="MEID"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Current Cell: "
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/meid2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/cellInformation2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="N/A"
-                            android:textSize="12sp"/>
-                    </TableRow>
-                </TableLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="SIM State"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
+
+                    <TextView
+                        android:id="@+id/simState2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="SIM SN"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
+
+                    <TextView
+                        android:id="@+id/serialN2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="SIM Provider"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
+
+                    <TextView
+                        android:id="@+id/operatorName2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="Country Code"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
+
+                    <TextView
+                        android:id="@+id/simCountryCode2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="SIM MCC"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
+
+                    <TextView
+                        android:id="@+id/mccSPN2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="SIM MNC"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
+
+                    <TextView
+                        android:id="@+id/mncSPN2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="Phone Number"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle=""/>
+
+                    <TextView
+                        android:id="@+id/phoneNumber2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp"/>
+                </LinearLayout>
 
             </LinearLayout>
-
         </LinearLayout>
 
     </ScrollView>
