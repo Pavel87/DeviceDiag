@@ -184,22 +184,31 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
     @SuppressLint("MissingPermission")
     @Override
     protected void onResume() {
-        if (isPermissionEnabled) {
-            if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
-                locationManager.addGpsStatusListener(gpsStatusListener);
+        try {
+            if (isPermissionEnabled) {
+                if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
+                    locationManager.addGpsStatusListener(gpsStatusListener);
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "GPS is not available.", Toast.LENGTH_LONG).show();
         }
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        if (isPermissionEnabled) {
-            if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
-                locationManager.removeGpsStatusListener(gpsStatusListener);
-                locationManager.removeUpdates(this);
+        try {
+            if (isPermissionEnabled) {
+                if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
+                    locationManager.removeGpsStatusListener(gpsStatusListener);
+                    locationManager.removeUpdates(this);
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         super.onPause();
     }

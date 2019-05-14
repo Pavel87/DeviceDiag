@@ -262,7 +262,7 @@ public class SIMInfo extends AppCompatActivity {
 
 
                 if (isSIMInside) {
-                    if (telephonyManager.getSimOperator().length() > 2) {
+                    if (telephonyManager.getSimOperator().length() > 3) {
                         simMCC = "" + telephonyManager.getSimOperator().substring(0, 3);
                         simMNC = "" + telephonyManager.getSimOperator().substring(3);
                     }
@@ -275,7 +275,11 @@ public class SIMInfo extends AppCompatActivity {
 
 
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-                        simSerialNumber = telephonyManager.getSimSerialNumber() != null ? telephonyManager.getSimSerialNumber() : simSerialNumber;
+                        try {
+                            simSerialNumber = telephonyManager.getSimSerialNumber() != null ? telephonyManager.getSimSerialNumber() : simSerialNumber;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         telNumber = telephonyManager.getLine1Number();
                     }
                     networkTypeString = networkType(telephonyManager.getNetworkType());
