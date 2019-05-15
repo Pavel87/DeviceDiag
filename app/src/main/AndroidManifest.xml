@@ -82,6 +82,39 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+
+
+        <receiver
+            android:name=".StartupReceiver"
+            android:enabled="false">
+
+            <intent-filter>
+
+                <action
+                    android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action
+                    android:name="android.intent.action.BATTERY_LOW" />
+                <action
+                    android:name="android.intent.action.BATTERY_OKAY" />
+                <action
+                    android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action
+                    android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+                <action
+                    android:name="android.intent.action.PHONE_STATE" />
+                <action
+                    android:name="android.intent.action.PACKAGE_INSTALL" />
+                <action
+                    android:name="android.intent.action.PACKAGE_ADDED" />
+                <action
+                    android:name="android.intent.action.PACKAGE_REPLACED" />
+                <action
+                    android:name="android.intent.action.PACKAGE_CHANGED" />
+
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

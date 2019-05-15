@@ -274,8 +274,13 @@ public class SIMInfo extends AppCompatActivity {
                         simMNC = "" + telephonyManager.getSimOperator().substring(3);
                     }
                     simCountry = "" + telephonyManager.getSimCountryIso().toUpperCase();
-                    simServiceProvider = telephonyManager.getSimOperatorName();
 
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                        simServiceProvider = (telephonyManager.getSimCarrierIdName() != null) ?
+                                telephonyManager.getSimCarrierIdName().toString() : telephonyManager.getSimOperatorName();
+                    } else {
+                        simServiceProvider = telephonyManager.getSimOperatorName();
+                    }
 
                     networkServiceProvider = telephonyManager.getNetworkOperatorName() != null ? telephonyManager.getNetworkOperatorName() : getApplicationContext().getResources().getString(R.string.not_available_info);
                     networkCountryCode = telephonyManager.getNetworkCountryIso() != null ? telephonyManager.getNetworkCountryIso().toUpperCase() : getApplicationContext().getResources().getString(R.string.not_available_info);
@@ -730,8 +735,8 @@ public class SIMInfo extends AppCompatActivity {
     private String getImei(TelephonyManager telephonyManager, int slotID, boolean isSingleSim) {
         String imei = "";
         try {
-
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P || Build.VERSION.RELEASE.contains("Q")) {
+            String s = Build.VERSION.RELEASE;
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P || Build.VERSION.RELEASE.contains("10")) {
                 imei = getResources().getString(R.string.not_available_info);
             } else if (isSingleSim) {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
@@ -766,10 +771,6 @@ public class SIMInfo extends AppCompatActivity {
         }
         return meid;
     }
-
-
-
-
 
 
     @SuppressLint("MissingPermission")
