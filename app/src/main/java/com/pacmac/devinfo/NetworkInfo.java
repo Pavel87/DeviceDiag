@@ -58,18 +58,27 @@ public class NetworkInfo extends AppCompatActivity {
     private LinearLayout wifiDetail, supportedFeatures, addressView, downstreamBandwidthView, upstreamBandwidthView;
 
     private boolean isWiFi = false;
-    AlertDialog progress = null;
     private final Handler mHandler = new Handler();
     private Runnable timer;
     private String roamingStr = null;
     private String bssidTemp = null;
     private ShareActionProvider mShareActionProvider;
     private ScanResult scanResult = null;
+    private boolean isPermissionEnabled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network_info);
+
+        // Check if user disabled LOCATION permission at some point
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), Utility.LOCATION_PERMISSION);
+        }
+        if (!isPermissionEnabled) {
+            Utility.requestPermissions(this, Utility.LOCATION_PERMISSION);
+        }
+
 
         if (savedInstanceState != null) {
             roamingStr = savedInstanceState.getString("lastRoaming");
@@ -79,7 +88,8 @@ public class NetworkInfo extends AppCompatActivity {
         wifiConnected = findViewById(R.id.wifiConn);
         wanConnected = findViewById(R.id.wanConn);
 
-        //WiFi fields
+
+
 
         ssidField = findViewById(R.id.ssidField);
         bssidField = findViewById(R.id.bssidField);
@@ -198,24 +208,6 @@ public class NetworkInfo extends AppCompatActivity {
 
             }
         }
-
-        progress = new CenterProgress(this);
-    }
-
-    public void showProgressBar(boolean isHidden) {
-
-        if (isHidden) {
-            progress.setCancelable(false);
-            progress.show();
-        } else
-            //progress.hide();
-            if (progress != null && progress.isShowing()) {
-                try {
-                    progress.dismiss();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
     }
 
     public int getFrequency(String bssid) {
@@ -258,12 +250,15 @@ public class NetworkInfo extends AppCompatActivity {
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         if (wifiInfo == null)
             return null;
-        List<ScanResult> wifiScanList = wifiManager.getScanResults();
-        if (wifiScanList == null || wifiScanList.size() == 0)
-            return null;
-        for (int i = 0; i < wifiScanList.size(); i++) {
-            if (bssid.equals(wifiScanList.get(i).BSSID)) {
-                return wifiScanList.get(i);
+
+        if (isPermissionEnabled) {
+            List<ScanResult> wifiScanList = wifiManager.getScanResults();
+            if (wifiScanList == null || wifiScanList.size() == 0)
+                return null;
+            for (int i = 0; i < wifiScanList.size(); i++) {
+                if (bssid.equals(wifiScanList.get(i).BSSID)) {
+                    return wifiScanList.get(i);
+                }
             }
         }
         return null;

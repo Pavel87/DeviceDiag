@@ -1,5 +1,6 @@
 package com.pacmac.devinfo;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -20,7 +21,7 @@ public class Utility {
 
 
     public final static int MY_PERMISSIONS_REQUEST = 8;
-
+    public static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
     /**
      * This method will check if permission is granted at runtime
      */

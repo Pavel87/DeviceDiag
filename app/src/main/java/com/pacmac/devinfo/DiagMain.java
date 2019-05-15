@@ -1,8 +1,6 @@
 package com.pacmac.devinfo;
 
-import android.Manifest;
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -10,14 +8,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ShareActionProvider;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -30,7 +24,6 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
 
-    private static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
     private boolean isPermissionEnabled = true;
 
     @Override
@@ -41,10 +34,10 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
 
         // Check if user disabled LOCATION permission at some point
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
+            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), Utility.LOCATION_PERMISSION);
         }
         if (!isPermissionEnabled) {
-            Utility.requestPermissions(this, LOCATION_PERMISSION);
+            Utility.requestPermissions(this, Utility.LOCATION_PERMISSION);
         }
 
         // Set up the action bar.
@@ -83,17 +76,17 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
 
         // Check if user disabled LOCATION permission at some point
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
+            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), Utility.LOCATION_PERMISSION);
         }
         if (!isPermissionEnabled) {
-            Utility.requestPermissions(this, LOCATION_PERMISSION);
+            Utility.requestPermissions(this, Utility.LOCATION_PERMISSION);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
-        isPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
+        isPermissionEnabled = Utility.checkPermission(getApplicationContext(), Utility.LOCATION_PERMISSION);
     }
 
     @Override
@@ -110,6 +103,9 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
+
+
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -171,18 +167,16 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
         dialog.setContentView(R.layout.exit_dialog);
         dialog.setCancelable(true);
 
-        Button yesButton= (Button) dialog.findViewById(R.id.yesExit);
+        Button yesButton= dialog.findViewById(R.id.yesExit);
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 moveTaskToBack(true);
-//                android.os.Process.killProcess(android.os.Process.myPid());
-//                System.exit(1);
                 finishAffinity();
             }
         });
 
-        Button noButton= (Button) dialog.findViewById(R.id.noExit);
+        Button noButton = dialog.findViewById(R.id.noExit);
         noButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

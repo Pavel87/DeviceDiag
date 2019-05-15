@@ -87,6 +87,13 @@ public class SIMInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sim_info_new);
 
+
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        if (telephonyManager.getPhoneType() == 0) {
+            Toast.makeText(getApplicationContext(), "There is no WAN radio available", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
             isPermissionEnabled = Utility.checkPermission(getApplicationContext(), PHONE_PERMISSION);
             isLocPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
@@ -294,14 +301,6 @@ public class SIMInfo extends AppCompatActivity {
                     networkName.setText(networkServiceProvider);
                     providerCountry.setText(networkCountryCode);
                     networkType.setText(networkTypeString);
-
-
-//                    if (isLocPermissionEnabled) {
-//                        mAdapter = new CellInfoAdapter();
-//                        cellInformation.setText(getCellTower(telephonyManager));
-//                    } else {
-//                        Utility.requestPermissions(this, LOCATION_PERMISSION);
-//                    }
                 }
             } else if (!isPermissionEnabled) {
                 imeiNumber.setTextColor(Color.RED);
@@ -309,7 +308,6 @@ public class SIMInfo extends AppCompatActivity {
                 simState.setTextColor(Color.RED);
                 simState.setText("NO SIM CARD DETECTED");
             } else {
-                Toast.makeText(getApplicationContext(), "There is no WAN radio available", Toast.LENGTH_LONG).show();
                 imeiNumber.setTextColor(Color.RED);
                 imeiNumber.setText("No WAN DETECTED");
                 simState.setTextColor(Color.RED);
@@ -732,7 +730,10 @@ public class SIMInfo extends AppCompatActivity {
     private String getImei(TelephonyManager telephonyManager, int slotID, boolean isSingleSim) {
         String imei = "";
         try {
-            if (isSingleSim) {
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P || Build.VERSION.RELEASE.contains("Q")) {
+                imei = getResources().getString(R.string.not_available_info);
+            } else if (isSingleSim) {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
                     imei = telephonyManager.getImei();
                 } else {
