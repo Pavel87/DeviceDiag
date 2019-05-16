@@ -87,21 +87,6 @@ public class SIMInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sim_info_new);
 
-
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        if (telephonyManager.getPhoneType() == 0) {
-            Toast.makeText(getApplicationContext(), "There is no WAN radio available", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), PHONE_PERMISSION);
-            isLocPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
-            if (!isPermissionEnabled) {
-                Utility.displayExplanationForPermission(this, getResources().getString(R.string.phone_permission_msg), PHONE_PERMISSION);
-            }
-        }
-
         signalStrengthTempView = findViewById(R.id.signalStrength2GView);
 
         simCount = (TextView) findViewById(R.id.simCount);
@@ -172,8 +157,21 @@ public class SIMInfo extends AppCompatActivity {
 //        mRecyclerView.setAdapter(mAdapter);
 
 
-        simCount.setText(String.valueOf(isMultiSIM() ? 2 : 1));
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        if (telephonyManager.getPhoneType() == 0) {
+            Toast.makeText(getApplicationContext(), "There is no WAN radio available", Toast.LENGTH_LONG).show();
+            return;
+        }
 
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), PHONE_PERMISSION);
+            isLocPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
+            if (!isPermissionEnabled) {
+                Utility.displayExplanationForPermission(this, getResources().getString(R.string.phone_permission_msg), PHONE_PERMISSION);
+            }
+        }
+
+        simCount.setText(String.valueOf(isMultiSIM() ? 2 : 1));
         if (isMultiSIM()) {
             findViewById(R.id.simView2).setVisibility(View.VISIBLE);
         }
@@ -617,8 +615,12 @@ public class SIMInfo extends AppCompatActivity {
 
                     @Override
                     public void run() {
-                        if (isPermissionEnabled) {
-                            updateData();
+                        try {
+                            if (isPermissionEnabled) {
+                                updateData();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 });

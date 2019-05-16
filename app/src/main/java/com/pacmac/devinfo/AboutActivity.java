@@ -102,6 +102,7 @@ public class AboutActivity extends AppCompatActivity {
                             .setText(bodyText)
                             .setChooserTitle("Choose Service:")
                             .startChooser();
+                    dialog.dismiss();
                 } else {
                     Toast.makeText(getApplicationContext(), "Feedback is empty.", Toast.LENGTH_SHORT).show();
                 }
