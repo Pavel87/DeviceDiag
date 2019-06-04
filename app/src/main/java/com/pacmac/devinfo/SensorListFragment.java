@@ -135,7 +135,7 @@ public class SensorListFragment extends Fragment {
         }
         sb.append("\n\n");
         sb.append(getResources().getString(R.string.shareTextTitle1));
-        setShareIntent(createShareIntent(sb));
+        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getResources().getString(R.string.title_activity_sensor_list), sb));
     }
 
     // SHARE CPU INFO VIA ACTION_SEND
@@ -150,21 +150,4 @@ public class SensorListFragment extends Fragment {
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
         updateShareIntent();
     }
-
-    // Call to update the share intent
-    private void setShareIntent(Intent shareIntent) {
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(shareIntent);
-        }
-    }
-
-    private Intent createShareIntent(StringBuilder sb) {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, Build.MODEL + "\t-\t"
-                + getResources().getString(R.string.title_activity_sensor_list));
-        return shareIntent;
-    }
-
 }

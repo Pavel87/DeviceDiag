@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.pacmac.devinfo">
+    package="com.pacmac.devinfo">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false"/>
-    <uses-feature android:name="android.hardware.location.gps"/>
+        android:required="false" />
+
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <application
         android:name=".DeviceDiagApp"
@@ -29,9 +30,9 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -39,82 +40,75 @@
             android:label="@string/title_activity_cpu_info"
             android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         <activity
             android:name=".BatteryInfo"
-            android:label="@string/title_activity_battery_info"/>
+            android:label="@string/title_activity_battery_info" />
         <activity
             android:name=".SIMInfo"
-            android:label="@string/title_activity_siminfo"/>
+            android:label="@string/title_activity_siminfo" />
         <activity
             android:name=".GPSInfo"
-            android:label="@string/activity_title_gps_information"/>
+            android:label="@string/activity_title_gps_information" />
         <activity
             android:name=".NMEAfeed"
-            android:label="@string/title_activity_nmeafeed"/>
+            android:label="@string/title_activity_nmeafeed" />
         <activity
             android:name=".SensorsInfo"
-            android:label="@string/title_activity_sensor_list"/>
+            android:label="@string/title_activity_sensor_list" />
         <activity
             android:name=".DisplayInfo"
-            android:label="@string/title_activity_display_info"/>
+            android:label="@string/title_activity_display_info" />
         <activity
             android:name=".NetworkInfo"
             android:label="@string/title_activity_network_info"
-            android:windowSoftInputMode="adjustNothing"/>
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".MemoryInfo"
-            android:label="@string/title_activity_memory_info"/>
+            android:label="@string/title_activity_memory_info" />
         <activity
             android:name=".CameraInfo"
-            android:label="@string/title_activity_camera_info"/>
+            android:label="@string/title_activity_camera_info" />
         <activity
             android:name=".AboutActivity"
-            android:label="@string/title_activity_about"/>
+            android:label="@string/title_activity_about" />
+
+        <activity
+            android:name=".BuildPropertiesActivity"
+            android:label="@string/title_activity_build_properties"
+            android:parentActivityName=".DiagMain">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
 
         <service
             android:name="com.tutelatechnologies.sdk.framework.TutelaSDKService"
             android:enabled="true"
-            android:permission="android.permission.BIND_JOB_SERVICE"
-            />
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-
-
         <receiver
             android:name=".StartupReceiver"
             android:enabled="false">
-
             <intent-filter>
-
-                <action
-                    android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-                <action
-                    android:name="android.intent.action.BATTERY_LOW" />
-                <action
-                    android:name="android.intent.action.BATTERY_OKAY" />
-                <action
-                    android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-                <action
-                    android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-                <action
-                    android:name="android.intent.action.PHONE_STATE" />
-                <action
-                    android:name="android.intent.action.PACKAGE_INSTALL" />
-                <action
-                    android:name="android.intent.action.PACKAGE_ADDED" />
-                <action
-                    android:name="android.intent.action.PACKAGE_REPLACED" />
-                <action
-                    android:name="android.intent.action.PACKAGE_CHANGED" />
-
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.BATTERY_LOW" />
+                <action android:name="android.intent.action.BATTERY_OKAY" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.intent.action.PACKAGE_INSTALL" />
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.PACKAGE_CHANGED" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>

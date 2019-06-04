@@ -200,23 +200,6 @@ public class BatteryInfo extends AppCompatActivity {
         return true;
     }
 
-    // Call to update the share intent
-    private void setShareIntent(Intent shareIntent) {
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(shareIntent);
-        }
-    }
-
-    private Intent createShareIntent(StringBuilder sb) {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, Build.MODEL + "\t-\t"
-                + getResources().getString(R.string.title_activity_battery_info));
-        return shareIntent;
-    }
-
-
     private void updateShareIntent() {
 
         StringBuilder sb = new StringBuilder();
@@ -246,7 +229,7 @@ public class BatteryInfo extends AppCompatActivity {
         sb.append("\n\n");
 
         sb.append(getResources().getString(R.string.shareTextTitle1));
-        setShareIntent(createShareIntent(sb));
+        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getApplicationContext().getResources().getString(R.string.title_activity_battery_info), sb));
     }
 
 

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.pacmac.devinfo.BuildPropertiesActivity">
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/propsList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/resultView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1"
+        tools:itemCount="50"
+        tools:listitem="@layout/build_property_row" />
+
+
+    <LinearLayout
+        android:id="@+id/resultView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    <TextView
+        android:id="@+id/propertyCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/dark_act_bg"
+        android:textColor="@color/textColorPrimary"
+        android:padding="4dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:fontFamily="@font/roboto_medium"
+        android:elevation="12dp"
+        android:text="15 / 469" />
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

@@ -5,12 +5,19 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.hardware.Sensor;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
+import android.support.v7.widget.ShareActionProvider;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by pacmac on 2016-10-04.
@@ -162,6 +169,61 @@ public class Utility {
         if (size >= Eb) return floatForm((double) size / Eb) + " EB";
 
         return "convertion error";
+    }
+
+
+    public static List<BuildProperty> getBuildPropsList(Context context) {
+
+        List<BuildProperty> list = new ArrayList<>();
+
+        try {
+            Process process = Runtime.getRuntime().exec("getprop");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            int i;
+            char[] buffer = new char[4096];
+            StringBuilder sb = new StringBuilder();
+            while ((i = reader.read(buffer)) > 0) {
+                String line = new String(buffer, 0, i);
+                sb.append(line);
+            }
+
+            String[] props = sb.toString().split("\n");
+
+            for (String propRaw : props) {
+                String[] propRawSplitted = propRaw.split(": ");
+
+                String key = propRawSplitted[0].substring(1, propRawSplitted[0].length()-1);
+                String value = (propRawSplitted[1].length() >2 ? propRawSplitted[1].substring(1, propRawSplitted[1].length()-1) : context.getResources().getString(R.string.not_available_info));
+                list.add(new BuildProperty(key, value));
+            }
+        } catch (Exception e) {
+            // This can happen if timeout triggers
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    static Intent createShareIntent(Context context) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, context.getResources().getString(R.string.shareTextEmpty));
+        return shareIntent;
+    }
+
+    // Call to update the share intent
+    static void setShareIntent(ShareActionProvider mShareActionProvider, Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
+    }
+
+    static Intent createShareIntent(String title, StringBuilder sb) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, Build.MODEL + "\t-\t"
+                + title);
+        return shareIntent;
     }
 
 }

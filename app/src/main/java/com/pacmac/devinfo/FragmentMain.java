@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -31,6 +32,7 @@ public class FragmentMain extends Fragment {
     TextView androidVer;
     TextView bootloader;
     TextView radio;
+    Button buildPropsButton;
 
     public FragmentMain() {
     }
@@ -54,6 +56,7 @@ public class FragmentMain extends Fragment {
         androidVer = (TextView) rootView.findViewById(R.id.androidVer);
         bootloader = rootView.findViewById(R.id.bootloader);
         radio = rootView.findViewById(R.id.radio);
+        buildPropsButton = rootView.findViewById(R.id.buildPropsBtn);
 
         return rootView;
     }
@@ -87,6 +90,13 @@ public class FragmentMain extends Fragment {
         buildNumber.setText(Build.DISPLAY);
         bootloader.setText(Build.BOOTLOADER);
         androidVer.setText(Build.VERSION.RELEASE + "  API:" + Build.VERSION.SDK_INT);
+
+        buildPropsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), BuildPropertiesActivity.class));
+            }
+        });
     }
 
     private void updateShareIntent() {
@@ -114,10 +124,9 @@ public class FragmentMain extends Fragment {
         sb.append("\n\n");
 
         sb.append(getResources().getString(R.string.shareTextTitle1));
-        setShareIntent(createShareIntent(sb));
+        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getResources().getString(R.string.title_activity_main_info), sb));
     }
 
-    // SHARE CPU INFO VIA ACTION_SEND
     private ShareActionProvider mShareActionProvider;
 
 
@@ -129,21 +138,4 @@ public class FragmentMain extends Fragment {
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
         updateShareIntent();
     }
-
-    // Call to update the share intent
-    private void setShareIntent(Intent shareIntent) {
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(shareIntent);
-        }
-    }
-
-    private Intent createShareIntent(StringBuilder sb) {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, Build.MODEL + "\t-\t"
-                + getResources().getString(R.string.title_activity_main_info));
-        return shareIntent;
-    }
-
 }

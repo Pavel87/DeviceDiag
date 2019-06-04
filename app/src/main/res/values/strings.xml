@@ -13,6 +13,7 @@
     <string name="title_activity_nmeafeed">NMEA feed</string>
     <string name="title_activity_sensor_list">Available Sensors</string>
     <string name="title_activity_display_info">Display Information</string>
+    <string name="title_activity_build_properties">Device Build Properties</string>
     <string name="connected_info">Connected</string>
     <string name="available_info">Available</string>
     <string name="not_available_info">Not Available</string>
@@ -25,9 +26,12 @@
     <string name="title_activity_about">About Device Info</string>
     <string name="yes_string">YES</string>
     <string name="no_string">NO</string>
+    <string name="action_search">Search</string>
+    <string name="search_hint">Search build properties</string>
     <string name="rateit">Rate It!</string>
     <string name="no_thanks">Later</string>
     <string name="cancel">Cancel</string>
+    <string name="show_buildprop">Device Properties</string>
     <string name="request_perm">Request</string>
     <string name="ping_error_3">Enter the IP or hostname</string>
     <string name="shareTextEmpty">No info available yet</string>

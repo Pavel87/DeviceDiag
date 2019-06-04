@@ -311,14 +311,28 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:gravity="bottom"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
                 android:layout_width="match_parent"
+                android:layout_height="152dp"
+                android:layout_gravity="center"
+                android:scaleType="fitStart"
+                android:src="@drawable/pcb" />
+
+            <Button
+                android:id="@+id/buildPropsBtn"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:src="@drawable/pcb"/>
+                android:layout_gravity="center"
+                android:background="@drawable/button_cust_blue"
+                android:elevation="2dp"
+                android:text="@string/show_buildprop"
+                android:fontFamily="@font/roboto"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"/>
 
         </LinearLayout>
 
