@@ -1,6 +1,9 @@
 package com.pacmac.devinfo;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -18,11 +21,12 @@ import android.widget.Button;
 
 import java.util.Locale;
 
-
 public class DiagMain extends AppCompatActivity implements ActionBar.TabListener {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
+    private final static String MAIN_PREF_FILE = "de_vi_ce";
+    private final static String VERSION_KEY = "version_key";
 
     private boolean isPermissionEnabled = true;
 
@@ -30,7 +34,6 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diag_main);
-
 
         // Check if user disabled LOCATION permission at some point
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -69,8 +72,8 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
             // the TabListener interface, as the callback (listener) for when
             // this tab is selected.
             actionBar.addTab(actionBar.newTab()
-                            .setText(mSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
+                    .setText(mSectionsPagerAdapter.getPageTitle(i))
+                    .setTabListener(this));
         }
 
 
@@ -81,12 +84,19 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
         if (!isPermissionEnabled) {
             Utility.requestPermissions(this, Utility.LOCATION_PERMISSION);
         }
+
+        if (isPermissionEnabled && checkIfAppUpdated()) {
+            startActivity(new Intent(getApplicationContext(), NewFeaturesActivity.class));
+        }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         isPermissionEnabled = Utility.checkPermission(getApplicationContext(), Utility.LOCATION_PERMISSION);
+        if (isPermissionEnabled && checkIfAppUpdated()) {
+            startActivity(new Intent(getApplicationContext(), NewFeaturesActivity.class));
+        }
     }
 
     @Override
@@ -103,8 +113,6 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
-
-
 
 
     /**
@@ -160,14 +168,14 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
     }
 
 
-    private void showExitAlert(){
+    private void showExitAlert() {
 
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.exit_dialog);
         dialog.setCancelable(true);
 
-        Button yesButton= dialog.findViewById(R.id.yesExit);
+        Button yesButton = dialog.findViewById(R.id.yesExit);
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -185,5 +193,29 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
         });
 
         dialog.show();
+    }
+
+
+    private boolean checkIfAppUpdated() {
+        SharedPreferences preferences = getSharedPreferences(MAIN_PREF_FILE, MODE_PRIVATE);
+        int versionCode = preferences.getInt(VERSION_KEY, 0);
+        int appVersionCode = -1;
+        try {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                appVersionCode = (int) (getPackageManager().getPackageInfo(getPackageName(), 0).getLongVersionCode() & 0x0000FFFF);
+            } else {
+                appVersionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (appVersionCode != versionCode) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt(VERSION_KEY, appVersionCode);
+            editor.apply();
+            return true;
+        }
+        return false;
     }
 }

@@ -126,17 +126,14 @@ public class BatteryInfo extends AppCompatActivity {
                         timeToFull.setText((timeToFullLong >= 0) ? timeToFullLong + " ms" : getResources().getString(R.string.not_available_info));
                     }
                 }
-                updateShareIntent();
             }
         };
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         registerReceiver(batteryUpdates, intentFilter);
-        updateShareIntent();
     }
 
     @Override
@@ -187,20 +184,29 @@ public class BatteryInfo extends AppCompatActivity {
 
 
     // SHARE CPU INFO VIA ACTION_SEND
-    private ShareActionProvider mShareActionProvider;
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_share, menu);
-
-        MenuItem item = menu.findItem(R.id.menu_item_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-        updateShareIntent();
         return true;
     }
 
-    private void updateShareIntent() {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.menu_item_share) {
+            Utility.exporData(BatteryInfo.this, getResources().getString(R.string.title_activity_battery_info), updateExportMessage());
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    private String updateExportMessage() {
 
         StringBuilder sb = new StringBuilder();
         sb.append(getResources().getString(R.string.shareTextTitle1));
@@ -229,7 +235,7 @@ public class BatteryInfo extends AppCompatActivity {
         sb.append("\n\n");
 
         sb.append(getResources().getString(R.string.shareTextTitle1));
-        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getApplicationContext().getResources().getString(R.string.title_activity_battery_info), sb));
+        return sb.toString();
     }
 
 

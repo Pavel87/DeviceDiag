@@ -1,6 +1,5 @@
 package com.pacmac.devinfo;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,15 +15,10 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -62,7 +56,6 @@ public class NetworkInfo extends AppCompatActivity {
     private Runnable timer;
     private String roamingStr = null;
     private String bssidTemp = null;
-    private ShareActionProvider mShareActionProvider;
     private ScanResult scanResult = null;
     private boolean isPermissionEnabled = false;
 
@@ -87,9 +80,6 @@ public class NetworkInfo extends AppCompatActivity {
 
         wifiConnected = findViewById(R.id.wifiConn);
         wanConnected = findViewById(R.id.wanConn);
-
-
-
 
         ssidField = findViewById(R.id.ssidField);
         bssidField = findViewById(R.id.bssidField);
@@ -278,7 +268,6 @@ public class NetworkInfo extends AppCompatActivity {
                         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                         updateView(wifiManager);
                         checkRadioStates();
-                        updateShareIntent();
                     }
                 });
                 mHandler.postDelayed(this, 5000);
@@ -508,16 +497,27 @@ public class NetworkInfo extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_share, menu);
-
-        MenuItem item = menu.findItem(R.id.menu_item_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getApplicationContext()));
         return true;
     }
 
-    private void updateShareIntent() {
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.menu_item_share) {
+            Utility.exporData(NetworkInfo.this, getResources().getString(R.string.title_activity_network_info), collectNetworkInfoForExport());
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    private String collectNetworkInfoForExport() {
 
         StringBuilder sb = new StringBuilder();
         sb.append(getResources().getString(R.string.shareTextTitle1));
@@ -528,7 +528,6 @@ public class NetworkInfo extends AppCompatActivity {
         sb.append("\n\n");
 
         if (isWiFi) {
-
             //body
             sb.append("SSID:\t\t" + ssidField.getText().toString());
             sb.append("\n");
@@ -618,7 +617,7 @@ public class NetworkInfo extends AppCompatActivity {
         }
         sb.append("\n\n");
         sb.append(getResources().getString(R.string.shareTextTitle1));
-        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getApplicationContext().getResources().getString(R.string.title_activity_network_info), sb));
+        return sb.toString();
     }
 }
 

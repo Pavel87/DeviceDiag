@@ -48,4 +48,11 @@
     <string name="loc_permission_msg">Location permission is currently disabled. To be able to obtain location information you need to accept location permission.</string>
     <string name="phone_permission_msg">Read phone state permission is currently disabled. To be able to obtain SIM and phone information you need to accept this permission.</string>
     <string name="storage_permission_msg">Storage permission is currently disabled. To be able to read storage capacity you need to accept this permission.</string>
+
+    <string name="what_is_new">What is new</string>
+    <string name="new_features1">- Device Properties:</string>
+    <string name="new_features2">Added list of all device properties also known as build properties. These can be accessed from main screen. You can also filter the rows and display only subset of properties and all data can be exported.</string>
+    <string name="new_features3">- Data Export:</string>
+    <string name="new_features4">Improved logic for exporting data.</string>
+
 </resources>

@@ -1,14 +1,10 @@
 package com.pacmac.devinfo;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ShareActionProvider;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -23,9 +19,6 @@ public class DisplayInfo extends AppCompatActivity {
             diagonalInch, screenDP, layoutSize, drawSize, name;
     Point size = new Point();
     Display display;
-    private final Handler mHandler = new Handler();
-    private Runnable timer;
-    private ShareActionProvider mShareActionProvider;
 
 
     @Override
@@ -194,16 +187,25 @@ public class DisplayInfo extends AppCompatActivity {
     // SHARE VIA ACTION_SEND
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_share, menu);
-
-        MenuItem item = menu.findItem(R.id.menu_item_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getApplicationContext()));
         return true;
     }
 
-    private void updateShareIntent() {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.menu_item_share) {
+            Utility.exporData(DisplayInfo.this, getResources().getString(R.string.title_activity_display_info), collectDisplayInfoForExport());
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private String collectDisplayInfoForExport() {
 
         StringBuilder sb = new StringBuilder();
         sb.append(getResources().getString(R.string.shareTextTitle1));
@@ -240,31 +242,17 @@ public class DisplayInfo extends AppCompatActivity {
         sb.append("\n\n");
 
         sb.append(getResources().getString(R.string.shareTextTitle1));
-        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getApplicationContext().getResources().getString(R.string.title_activity_display_info), sb));
+        return sb.toString();
     }
 
 
     @Override
     public void onResume() {
         super.onResume();
-        timer = new Runnable() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        updateShareIntent();
-                    }
-                });
-            }
-        };
-        mHandler.postDelayed(timer, 1000);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mHandler.removeCallbacks(timer);
     }
 }

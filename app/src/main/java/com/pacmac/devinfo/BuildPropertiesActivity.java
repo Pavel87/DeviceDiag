@@ -4,13 +4,11 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -30,14 +28,12 @@ public class BuildPropertiesActivity extends AppCompatActivity implements BuildP
 
     private List<BuildProperty> buildPropertyList = new ArrayList<>();
 
-    private ShareActionProvider mShareActionProvider;
     private int allPropertiesCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_build_properties);
-
 
         mRecyclerView = findViewById(R.id.propsList);
         mRecyclerView.setHasFixedSize(false);
@@ -63,12 +59,17 @@ public class BuildPropertiesActivity extends AppCompatActivity implements BuildP
     }
 
     @Override
+    public void onBackPressed() {
+        if (!searchView.isIconified()) {
+            searchView.setIconified(true);
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_build_props, menu);
-
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menu.findItem(R.id.action_share));
-        updateShareIntent();
-//        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getApplicationContext()));
 
         // Associate searchable configuration with the SearchView
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -98,15 +99,6 @@ public class BuildPropertiesActivity extends AppCompatActivity implements BuildP
     }
 
     @Override
-    public void onBackPressed() {
-        if (!searchView.isIconified()) {
-            searchView.setIconified(true);
-            return;
-        }
-        super.onBackPressed();
-    }
-
-    @Override
     public void onFilterResult(int size) {
         propertyCountView.setText(String.format(Locale.ENGLISH, "%d / %d", size, allPropertiesCount));
     }
@@ -118,22 +110,21 @@ public class BuildPropertiesActivity extends AppCompatActivity implements BuildP
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        updateShareIntent();
 
         if (id == R.id.action_search_build_prop) {
             return true;
         }
 
         if (id == R.id.menu_item_share) {
+            Utility.exporData(BuildPropertiesActivity.this, getResources().getString(R.string.title_activity_build_properties), updateMessageForExport());
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-
     //TODO fix share intents to be available all since activity start
-    private void updateShareIntent() {
+    private String updateMessageForExport() {
         StringBuilder sb = new StringBuilder();
         sb.append(getResources().getString(R.string.shareTextTitle1));
         sb.append("\n");
@@ -149,6 +140,6 @@ public class BuildPropertiesActivity extends AppCompatActivity implements BuildP
         }
         sb.append("\n");
         sb.append(getResources().getString(R.string.shareTextTitle1));
-        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getApplicationContext().getResources().getString(R.string.title_activity_build_properties), sb));
+        return sb.toString();
     }
 }

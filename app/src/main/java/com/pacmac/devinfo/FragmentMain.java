@@ -99,7 +99,7 @@ public class FragmentMain extends Fragment {
         });
     }
 
-    private void updateShareIntent() {
+    private String collectMainInfoForExport() {
 
         StringBuilder sb = new StringBuilder();
         sb.append(getResources().getString(R.string.shareTextTitle1));
@@ -124,18 +124,26 @@ public class FragmentMain extends Fragment {
         sb.append("\n\n");
 
         sb.append(getResources().getString(R.string.shareTextTitle1));
-        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getResources().getString(R.string.title_activity_main_info), sb));
+        return sb.toString();
     }
-
-    private ShareActionProvider mShareActionProvider;
 
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_share, menu);
+    }
 
-        MenuItem item = menu.findItem(R.id.menu_item_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-        updateShareIntent();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.menu_item_share) {
+            Utility.exporData(getActivity(), getResources().getString(R.string.title_activity_main_info), collectMainInfoForExport());
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

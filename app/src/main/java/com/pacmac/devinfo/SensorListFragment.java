@@ -3,14 +3,10 @@ package com.pacmac.devinfo;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,8 +25,6 @@ public class SensorListFragment extends Fragment {
     private SensorAdapter sensorAdapter;
     private OnFragmentInteractionListener mListener;
 
-    Handler shareIntentHandler;
-    Runnable runnableShareIntent;
 
     public SensorListFragment() {
     }
@@ -87,32 +81,7 @@ public class SensorListFragment extends Fragment {
         void onFragmentInteraction(int sensorType);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        runnableShareIntent = new Runnable() {
-            @Override
-            public void run() {
-                updateShareIntent();
-            }
-        };
-        shareIntentHandler = new Handler();
-        shareIntentHandler.postDelayed(runnableShareIntent, 700);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        try {
-            if (shareIntentHandler != null) {
-                shareIntentHandler.removeCallbacks(runnableShareIntent);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void updateShareIntent() {
+    private String collectSensorInfoForExport() {
 
         StringBuilder sb = new StringBuilder();
         sb.append(getResources().getString(R.string.shareTextTitle1));
@@ -135,19 +104,26 @@ public class SensorListFragment extends Fragment {
         }
         sb.append("\n\n");
         sb.append(getResources().getString(R.string.shareTextTitle1));
-        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getResources().getString(R.string.title_activity_sensor_list), sb));
+        return sb.toString();
     }
-
-    // SHARE CPU INFO VIA ACTION_SEND
-    private ShareActionProvider mShareActionProvider;
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_share, menu);
+    }
 
-        MenuItem item = menu.findItem(R.id.menu_item_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-        updateShareIntent();
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.menu_item_share) {
+            Utility.exporData(getActivity(), getResources().getString(R.string.title_activity_sensor_list), collectSensorInfoForExport());
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -1,13 +1,10 @@
 package com.pacmac.devinfo;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,15 +45,12 @@ public class CPUInfo extends AppCompatActivity {
     private String currentFrequency = "unknown";
     private String maxFrequency = "unknown";
 
-
     private GraphView graph;
     private LineGraphSeries<DataPoint> seriesLive;
     private double graphLastXValue = 0d;
     private final Handler mHandler = new Handler();
     private Runnable timer;
     private float usage = 0;
-    private ShareActionProvider mShareActionProvider;
-    private boolean isInfoCollected = false;
 
 
     @Override
@@ -113,9 +107,6 @@ public class CPUInfo extends AppCompatActivity {
             @Override
             public void run() {
                 updateGraph();
-                if (!isInfoCollected) {
-                    updateShareIntent();        // WILL UPDATE SHARE INTENT ONLY ONCE AS DATA IS STATIC
-                }
                 mHandler.postDelayed(this, 300);
 
                 runOnUiThread(new Runnable() {
@@ -399,18 +390,26 @@ public class CPUInfo extends AppCompatActivity {
     // SHARE CPU INFO VIA ACTION_SEND
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_share, menu);
-
-        MenuItem item = menu.findItem(R.id.menu_item_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getApplicationContext()));
         return true;
     }
 
-    private void updateShareIntent() {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-        isInfoCollected = true;
+        if (id == R.id.menu_item_share) {
+            Utility.exporData(CPUInfo.this, getResources().getString(R.string.title_activity_cpu_info), collectCPUInfoForExport());
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private String collectCPUInfoForExport() {
+
         StringBuilder sb = new StringBuilder();
         sb.append(getResources().getString(R.string.shareTextTitle1));
         sb.append("\n");
@@ -432,7 +431,7 @@ public class CPUInfo extends AppCompatActivity {
         sb.append("\n\n");
 
         sb.append(getResources().getString(R.string.shareTextTitle1));
-        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getApplicationContext().getResources().getString(R.string.title_activity_cpu_info), sb));
+        return sb.toString();
     }
 
 

@@ -1,6 +1,7 @@
 package com.pacmac.devinfo;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,12 +9,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.widget.ShareActionProvider;
+import android.telephony.TelephonyManager;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -29,6 +34,7 @@ public class Utility {
 
     public final static int MY_PERMISSIONS_REQUEST = 8;
     public static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
+
     /**
      * This method will check if permission is granted at runtime
      */
@@ -43,11 +49,11 @@ public class Utility {
 
 
     public static void requestPermissions(Activity activity, String permission) {
-            // No explanation needed, we can request the permission.
-            ActivityCompat.requestPermissions(activity, new String[]{permission}, MY_PERMISSIONS_REQUEST);
+        // No explanation needed, we can request the permission.
+        ActivityCompat.requestPermissions(activity, new String[]{permission}, MY_PERMISSIONS_REQUEST);
     }
 
-    public static void displayExplanationForPermission(Activity act, String msg, final String permission){
+    public static void displayExplanationForPermission(Activity act, String msg, final String permission) {
 
         final Activity mActivity = act;
         AlertDialog.Builder builder = new AlertDialog.Builder(act, 0)
@@ -69,59 +75,111 @@ public class Utility {
     }
 
     public static String getSensorName(int type) {
-        switch(type){
-            case Sensor.TYPE_ACCELEROMETER: return "Acccelerometer";
-            case Sensor.TYPE_MAGNETIC_FIELD: return "Magnetic Field";
-            case Sensor.TYPE_ORIENTATION: return "Orientation";
-            case Sensor.TYPE_GYROSCOPE: return "Gyroscope";
-            case Sensor.TYPE_LIGHT: return "Light";
-            case Sensor.TYPE_PRESSURE: return "Pressure";
-            case Sensor.TYPE_TEMPERATURE: return "Temperature";
-            case Sensor.TYPE_PROXIMITY: return "Proximity";
-            case Sensor.TYPE_GRAVITY: return "Gravity";
-            case Sensor.TYPE_LINEAR_ACCELERATION: return "Linear Acceleration";
-            case Sensor.TYPE_ROTATION_VECTOR: return "Rotation Vector";
-            case Sensor.TYPE_RELATIVE_HUMIDITY: return "Relative Humidity";
-            case Sensor.TYPE_AMBIENT_TEMPERATURE: return "Ambient Temperature";
-            case Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED: return "Mag. Field Uncalibrated";
-            case Sensor.TYPE_GAME_ROTATION_VECTOR: return "Game Rotation Vector";
-            case Sensor.TYPE_GYROSCOPE_UNCALIBRATED: return "Gyroscope Uncalibrated";
-            case Sensor.TYPE_SIGNIFICANT_MOTION: return "Significant Motion Trigger";
-            case Sensor.TYPE_STEP_DETECTOR: return "Step Detector";
-            case Sensor.TYPE_STEP_COUNTER: return "Step Counter";
-            case Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR: return "Geomagnetic Rotation";
-            case Sensor.TYPE_HEART_RATE: return "Heart Rate";
-            case Sensor.TYPE_POSE_6DOF: return "POSE 6DOF";
-            case Sensor.TYPE_STATIONARY_DETECT: return "Stationary Detector";
-            case Sensor.TYPE_MOTION_DETECT: return "Motion Detector";
-            case Sensor.TYPE_HEART_BEAT: return "Heart Beat";
-            case Sensor.TYPE_LOW_LATENCY_OFFBODY_DETECT: return "Low Latency Off-Body";
-            case Sensor.TYPE_ACCELEROMETER_UNCALIBRATED: return "Accelerometer Uncalibrated";
-            case SensorsInfo.TYPE_TILT_DETECTOR: return "Tilt Detector";
-            case SensorsInfo.TYPE_WAKE_GESTURE: return "Wake Gesture Detector";
-            case SensorsInfo.TYPE_PICK_UP_GESTURE: return "Pick Up Detector";
-            case SensorsInfo.TYPE_GLANCE_GESTURE: return "Glance Gesture";
-            case SensorsInfo.TYPE_WRIST_TILT_GESTURE: return "Wrist Tilt";
-            case SensorsInfo.TYPE_DEVICE_ORIENTATION: return "Device Orientation";
-            case SensorsInfo.TYPE_DYNAMIC_SENSOR_META: return "Dynamic Sensor Meta";
-            case SensorsInfo.TYPE_BASIC_GESTURES: return "Basic Gestures";
-            case SensorsInfo.TYPE_TAP: return "Tap";
-            case SensorsInfo.TYPE_FACING: return "Facing";
-            case SensorsInfo.TYPE_TILT: return "Tilt";
-            case SensorsInfo.TYPE_ABSOLUTE_MOTION_DETECTOR: return "Absolute Motion";
-            case SensorsInfo.TYPE_RELATIVE_MOTION_DETECTOR: return "Relative Motion";
-            case SensorsInfo.TYPE_PEDOMETER: return "Pedometer";
-            case SensorsInfo.TYPE_PEDESTRIAN_ACTIVITY_MONITOR: return "Pedestrian Monitor";
-            case SensorsInfo.TYPE_CYWEE_HAND_UP: return "Hand Up Sensor";
-            case SensorsInfo.TYPE_CYWEE_PICKUP: return "Pick Up Sensor";
-            case SensorsInfo.TYPE_CYWEE_FLIP: return "Flip Sensor";
-            case SensorsInfo.TYPE_GOOGLE_TEMPERATURE_BOSH: return "Temperature Sensor";
-            case SensorsInfo.TYPE_GOOGLE_SENSORS_SYNC: return "Sensors Sync";
-            case SensorsInfo.TYPE_GOOGLE_DOUBLE_TWIST: return "Double Twist";
-            case SensorsInfo.TYPE_GOOGLE_DOUBLE_TAP: return "Double Tap";
-            case SensorsInfo.TYPE_MOTION_ACCEL: return "Motion Accel";
-            case SensorsInfo.TYPE_COARSE_MOTION_CLASSIFIER: return "Coarse Motion Classifier";
-            default: return String.valueOf(type);
+        switch (type) {
+            case Sensor.TYPE_ACCELEROMETER:
+                return "Acccelerometer";
+            case Sensor.TYPE_MAGNETIC_FIELD:
+                return "Magnetic Field";
+            case Sensor.TYPE_ORIENTATION:
+                return "Orientation";
+            case Sensor.TYPE_GYROSCOPE:
+                return "Gyroscope";
+            case Sensor.TYPE_LIGHT:
+                return "Light";
+            case Sensor.TYPE_PRESSURE:
+                return "Pressure";
+            case Sensor.TYPE_TEMPERATURE:
+                return "Temperature";
+            case Sensor.TYPE_PROXIMITY:
+                return "Proximity";
+            case Sensor.TYPE_GRAVITY:
+                return "Gravity";
+            case Sensor.TYPE_LINEAR_ACCELERATION:
+                return "Linear Acceleration";
+            case Sensor.TYPE_ROTATION_VECTOR:
+                return "Rotation Vector";
+            case Sensor.TYPE_RELATIVE_HUMIDITY:
+                return "Relative Humidity";
+            case Sensor.TYPE_AMBIENT_TEMPERATURE:
+                return "Ambient Temperature";
+            case Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED:
+                return "Mag. Field Uncalibrated";
+            case Sensor.TYPE_GAME_ROTATION_VECTOR:
+                return "Game Rotation Vector";
+            case Sensor.TYPE_GYROSCOPE_UNCALIBRATED:
+                return "Gyroscope Uncalibrated";
+            case Sensor.TYPE_SIGNIFICANT_MOTION:
+                return "Significant Motion Trigger";
+            case Sensor.TYPE_STEP_DETECTOR:
+                return "Step Detector";
+            case Sensor.TYPE_STEP_COUNTER:
+                return "Step Counter";
+            case Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR:
+                return "Geomagnetic Rotation";
+            case Sensor.TYPE_HEART_RATE:
+                return "Heart Rate";
+            case Sensor.TYPE_POSE_6DOF:
+                return "POSE 6DOF";
+            case Sensor.TYPE_STATIONARY_DETECT:
+                return "Stationary Detector";
+            case Sensor.TYPE_MOTION_DETECT:
+                return "Motion Detector";
+            case Sensor.TYPE_HEART_BEAT:
+                return "Heart Beat";
+            case Sensor.TYPE_LOW_LATENCY_OFFBODY_DETECT:
+                return "Low Latency Off-Body";
+            case Sensor.TYPE_ACCELEROMETER_UNCALIBRATED:
+                return "Accelerometer Uncalibrated";
+            case SensorsInfo.TYPE_TILT_DETECTOR:
+                return "Tilt Detector";
+            case SensorsInfo.TYPE_WAKE_GESTURE:
+                return "Wake Gesture Detector";
+            case SensorsInfo.TYPE_PICK_UP_GESTURE:
+                return "Pick Up Detector";
+            case SensorsInfo.TYPE_GLANCE_GESTURE:
+                return "Glance Gesture";
+            case SensorsInfo.TYPE_WRIST_TILT_GESTURE:
+                return "Wrist Tilt";
+            case SensorsInfo.TYPE_DEVICE_ORIENTATION:
+                return "Device Orientation";
+            case SensorsInfo.TYPE_DYNAMIC_SENSOR_META:
+                return "Dynamic Sensor Meta";
+            case SensorsInfo.TYPE_BASIC_GESTURES:
+                return "Basic Gestures";
+            case SensorsInfo.TYPE_TAP:
+                return "Tap";
+            case SensorsInfo.TYPE_FACING:
+                return "Facing";
+            case SensorsInfo.TYPE_TILT:
+                return "Tilt";
+            case SensorsInfo.TYPE_ABSOLUTE_MOTION_DETECTOR:
+                return "Absolute Motion";
+            case SensorsInfo.TYPE_RELATIVE_MOTION_DETECTOR:
+                return "Relative Motion";
+            case SensorsInfo.TYPE_PEDOMETER:
+                return "Pedometer";
+            case SensorsInfo.TYPE_PEDESTRIAN_ACTIVITY_MONITOR:
+                return "Pedestrian Monitor";
+            case SensorsInfo.TYPE_CYWEE_HAND_UP:
+                return "Hand Up Sensor";
+            case SensorsInfo.TYPE_CYWEE_PICKUP:
+                return "Pick Up Sensor";
+            case SensorsInfo.TYPE_CYWEE_FLIP:
+                return "Flip Sensor";
+            case SensorsInfo.TYPE_GOOGLE_TEMPERATURE_BOSH:
+                return "Temperature Sensor";
+            case SensorsInfo.TYPE_GOOGLE_SENSORS_SYNC:
+                return "Sensors Sync";
+            case SensorsInfo.TYPE_GOOGLE_DOUBLE_TWIST:
+                return "Double Twist";
+            case SensorsInfo.TYPE_GOOGLE_DOUBLE_TAP:
+                return "Double Tap";
+            case SensorsInfo.TYPE_MOTION_ACCEL:
+                return "Motion Accel";
+            case SensorsInfo.TYPE_COARSE_MOTION_CLASSIFIER:
+                return "Coarse Motion Classifier";
+            default:
+                return String.valueOf(type);
 //            default: return "Unknown";
         }
     }
@@ -147,11 +205,10 @@ public class Utility {
     }
 
 
-
-
     private static String floatForm(double d) {
         return new DecimalFormat("#.##").format(d);
     }
+
     public static String bytesToHuman(long size) {
         long Kb = 1 * 1024;
         long Mb = Kb * 1024;
@@ -192,8 +249,8 @@ public class Utility {
             for (String propRaw : props) {
                 String[] propRawSplitted = propRaw.split(": ");
 
-                String key = propRawSplitted[0].substring(1, propRawSplitted[0].length()-1);
-                String value = (propRawSplitted[1].length() >2 ? propRawSplitted[1].substring(1, propRawSplitted[1].length()-1) : context.getResources().getString(R.string.not_available_info));
+                String key = propRawSplitted[0].substring(1, propRawSplitted[0].length() - 1);
+                String value = (propRawSplitted[1].length() > 2 ? propRawSplitted[1].substring(1, propRawSplitted[1].length() - 1) : context.getResources().getString(R.string.not_available_info));
                 list.add(new BuildProperty(key, value));
             }
         } catch (Exception e) {
@@ -203,27 +260,66 @@ public class Utility {
         return list;
     }
 
-    static Intent createShareIntent(Context context) {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, context.getResources().getString(R.string.shareTextEmpty));
-        return shareIntent;
-    }
+    static void exporData(Activity activity, String subject, String bodyText) {
 
-    // Call to update the share intent
-    static void setShareIntent(ShareActionProvider mShareActionProvider, Intent shareIntent) {
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(shareIntent);
+        if (is5GPhone() && Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            String extras = "If you see any information below this please forward this message to \"pacmac.dev@gmail.com\" as this information will help to " +
+                    "improve this application while running on 5G capable phones. \n\n";
+            String info5G = get5GExtraData(activity.getApplicationContext());
+            ShareCompat.IntentBuilder.from(activity)
+                    .setType("message/rfc822")
+                    .addEmailTo("")
+                    .addEmailBcc("pacmac.dev@gmail.com")
+                    .setSubject(Build.MODEL + "\t-\t" + subject)
+                    .setText(bodyText + "\n\n\n\n\n\n\n\n\n" + extras + info5G)
+                    .setChooserTitle("Share via:")
+                    .startChooser();
+        } else {
+            ShareCompat.IntentBuilder.from(activity)
+                    .setType("message/rfc822")
+                    .addEmailTo("")
+                    .setSubject(Build.MODEL + "\t-\t" + subject)
+                    .setText(bodyText)
+                    .setChooserTitle("Share via:")
+                    .startChooser();
         }
     }
 
-    static Intent createShareIntent(String title, StringBuilder sb) {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, Build.MODEL + "\t-\t"
-                + title);
-        return shareIntent;
+    private static boolean is5GPhone() {
+        return Build.MODEL.contains("SM-G977") || Build.MODEL.contains("GM1915");
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private static String get5GExtraData(Context context) {
+        StringBuilder sb = new StringBuilder("5G phone - info - only for test purpose\n");
+        try {
+            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            @SuppressLint("MissingPermission")
+            String allCellInfoString = telephonyManager.getAllCellInfo().toString();
+            sb.append(allCellInfoString);
+
+            sb.append("TM: ");
+            Method[] tmMethods = telephonyManager.getClass().getDeclaredMethods();
+            for (Method method : tmMethods) {
+                sb.append(method.getName());
+            }
+            if (checkPermission(context, Manifest.permission.READ_PHONE_STATE)) {
+                Method[] ssMethods = telephonyManager.getServiceState().getClass().getDeclaredMethods();
+                Field[] ssFields = telephonyManager.getServiceState().getClass().getDeclaredFields();
+
+                sb.append("SS methods: ");
+                for (Method method : ssMethods) {
+                    sb.append(method.getName());
+                }
+                sb.append("SS fields: ");
+                for (Field field : ssFields) {
+                    sb.append(field.getName());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sb.toString();
     }
 
 }

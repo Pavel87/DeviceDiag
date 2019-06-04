@@ -4,17 +4,14 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.ShareActionProvider;
 import android.telephony.CellInfo;
 import android.telephony.CellInfoCdma;
 import android.telephony.CellInfoGsm;
@@ -71,7 +68,6 @@ public class SIMInfo extends AppCompatActivity {
 
     private boolean isSIMInside = false;
 
-    private ShareActionProvider mShareActionProvider;
     private final Handler mHandler = new Handler();
     private Runnable timer;
 
@@ -338,10 +334,6 @@ public class SIMInfo extends AppCompatActivity {
                 nai.setText(naiString != null ? naiString : getApplicationContext().getResources().getString(R.string.not_available_info));
             }
         }
-
-
-        updateShareIntent();
-
     }
 
     private String getSimState(TelephonyManager telephonyManager, int slotID, boolean isSingleSIM) {
@@ -521,19 +513,28 @@ public class SIMInfo extends AppCompatActivity {
     }
 
 
-    // SHARE VIA ACTION_SEND
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_share, menu);
-
-        MenuItem item = menu.findItem(R.id.menu_item_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getApplicationContext()));
         return true;
     }
 
-    private void updateShareIntent() {
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.menu_item_share) {
+            Utility.exporData(SIMInfo.this, getResources().getString(R.string.title_activity_siminfo), collectTelephonyInfoForExport());
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private String collectTelephonyInfoForExport() {
 
         StringBuilder sb = new StringBuilder();
         sb.append(getResources().getString(R.string.shareTextTitle1));
@@ -575,7 +576,7 @@ public class SIMInfo extends AppCompatActivity {
         sb.append("\n\n");
 
         sb.append(getResources().getString(R.string.shareTextTitle1));
-        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getResources().getString(R.string.title_activity_siminfo), sb));
+        return sb.toString();
     }
 
     @Override

@@ -306,8 +306,6 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
             ((GpsInfoLocation) fragment).displayGPSData(longitude, latitude, altitude,
                     speed, accuracy, bearing, lastFix);
         }
-
-        updateShareIntent();
     }
 
     @Override
@@ -335,6 +333,19 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
         }
     }
 
+    private void showSatListFrag() {
+        fragment = new GPSSatelitesListFrag();
+        ft = getSupportFragmentManager().beginTransaction().replace(R.id.gpsPortrait, fragment, FRAG_GPS_SATS);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.addToBackStack(FRAG_GPS_SATS);
+        ft.commit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_gps, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -347,29 +358,15 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
             return true;
         }
 
+        if (id == R.id.menu_item_share) {
+            Utility.exporData(GPSInfo.this, getResources().getString(R.string.activity_title_gps_information), collectGPSDataForExport());
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
-    private void showSatListFrag() {
-        fragment = new GPSSatelitesListFrag();
-        ft = getSupportFragmentManager().beginTransaction().replace(R.id.gpsPortrait, fragment, FRAG_GPS_SATS);
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        ft.addToBackStack(FRAG_GPS_SATS);
-        ft.commit();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.menu_gps, menu);
-
-        MenuItem item = menu.findItem(R.id.menu_item_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getApplicationContext()));
-        return true;
-    }
-
-    private void updateShareIntent() {
+    private String collectGPSDataForExport() {
 
         if (lastFix != null) {
             StringBuilder sb = new StringBuilder();
@@ -397,8 +394,9 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
             sb.append("\n\n");
 
             sb.append(getResources().getString(R.string.shareTextTitle1));
-            Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getApplicationContext().getResources().getString(R.string.activity_title_gps_information), sb));
+            return sb.toString();
         }
+        return getResources().getString(R.string.shareTextEmpty);
     }
 
 

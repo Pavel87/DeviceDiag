@@ -67,10 +67,10 @@
                 android:background="@drawable/button_cust_blue"
                 android:elevation="2dp"
                 android:text="@string/rate_app"
+                android:fontFamily="@font/roboto"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="16sp" />
 
 
             <Button
@@ -82,10 +82,10 @@
                 android:background="@drawable/button_cust_blue"
                 android:elevation="2dp"
                 android:text="@string/send_feedback"
+                android:fontFamily="@font/roboto"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="16sp" />
 
         </LinearLayout>
     </ScrollView>

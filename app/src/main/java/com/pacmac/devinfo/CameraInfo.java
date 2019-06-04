@@ -2,12 +2,10 @@ package com.pacmac.devinfo;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
@@ -19,7 +17,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -37,11 +34,14 @@ public class CameraInfo extends AppCompatActivity {
     private Camera camera;
     private Spinner spinnner;
     private boolean isLoaded = false;
-    private ShareActionProvider mShareActionProvider;
+
+    private boolean isGeneralInfoSelected = true;
 
     private static final String CAMERA_PERMISSION = Manifest.permission.CAMERA;
     private boolean isPermissionEnabled = true;
 
+    String generalInfoExport = "";
+    String specificCameraInfo = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +125,7 @@ public class CameraInfo extends AppCompatActivity {
                 if (item > 0) { // 1 of the cammera selected
                     tabGeneral.setVisibility(View.GONE);
                     tabCamSpec.setVisibility(View.VISIBLE);
+                    isGeneralInfoSelected = false;
                     //get camera params
                     try {
                         camera = Camera.open(item - 1);
@@ -137,6 +138,7 @@ public class CameraInfo extends AppCompatActivity {
                     }
 
                 } else {   /// GENERAL TAB SELECTED
+                    isGeneralInfoSelected = true;
                     tabCamSpec.setVisibility(View.GONE);
                     tabGeneral.setVisibility(View.VISIBLE);
                     showGeneralInfo();
@@ -208,7 +210,9 @@ public class CameraInfo extends AppCompatActivity {
             }
         }
 
-        updateShareIntentGeneral(sAutoFocus, sManualPP, sManualSensor, sCapFull, sCapRaw, sFlashSupport, sExtSupport);
+        if (generalInfoExport.length() == 0) {
+            generalInfoExport = getExportDataForGeneralScreen(sAutoFocus, sManualPP, sManualSensor, sCapFull, sCapRaw, sFlashSupport, sExtSupport);
+        }
     }
 
 
@@ -308,9 +312,16 @@ public class CameraInfo extends AppCompatActivity {
         videoSizes.setText(getVidDetail(parameters));
 
 
-        // update SHARE INTENT WITH CAM PARAMETERS
+        // update data for EXPORT
         StringBuilder sb = new StringBuilder();
 
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        sb.append("\n");
+        sb.append(Build.MODEL + "\t-\t" + getResources().getString(R.string.title_activity_camera_info));
+        sb.append("\n");
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        sb.append("\n\n");
+        //body
         sb.append("Vertical View Angle:\t\t" + vertAngle + "°");
         sb.append("\n");
         sb.append("Horizontal View Angle:\t\t" + horizontalAngle + "°");
@@ -342,7 +353,8 @@ public class CameraInfo extends AppCompatActivity {
         sb.append("\n");
         sb.append("Supported Video Sizes [w x h]:\n" + getVidDetail(parameters));
         sb.append("\n\n");
-        updateShareIntentCamSpecific(sb);
+        sb.append(getResources().getString(R.string.shareTextTitle1));
+        specificCameraInfo = sb.toString();
     }
 
 
@@ -396,19 +408,33 @@ public class CameraInfo extends AppCompatActivity {
     // SHARE VIA ACTION_SEND
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_share, menu);
-
-        MenuItem item = menu.findItem(R.id.menu_item_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getApplicationContext()));
         return true;
     }
 
-    private void updateShareIntentGeneral(boolean sAutoFocus, boolean sManualPP,
-                                          boolean sManualSensor, boolean sCapFull,
-                                          boolean sCapRaw, boolean sFlashSupport,
-                                          boolean sExtSupport) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.menu_item_share) {
+            if (isGeneralInfoSelected) {
+                Utility.exporData(CameraInfo.this, getResources().getString(R.string.title_activity_camera_info), generalInfoExport);
+            } else {
+                Utility.exporData(CameraInfo.this, getResources().getString(R.string.title_activity_camera_info), specificCameraInfo);
+            }
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private String getExportDataForGeneralScreen(boolean sAutoFocus, boolean sManualPP,
+                                                 boolean sManualSensor, boolean sCapFull,
+                                                 boolean sCapRaw, boolean sFlashSupport,
+                                                 boolean sExtSupport) {
 
         StringBuilder sb = new StringBuilder();
         sb.append(getResources().getString(R.string.shareTextTitle1));
@@ -434,25 +460,7 @@ public class CameraInfo extends AppCompatActivity {
         sb.append("\n\n");
 
         sb.append(getResources().getString(R.string.shareTextTitle1));
-        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getApplicationContext().getResources().getString(R.string.title_activity_camera_info), sb));
-    }
-
-    private void updateShareIntentCamSpecific(StringBuilder body) {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(getResources().getString(R.string.shareTextTitle1));
-        sb.append("\n");
-        sb.append(Build.MODEL + "\t-\t" + getResources().getString(R.string.title_activity_camera_info));
-        sb.append("\n");
-        sb.append(getResources().getString(R.string.shareTextTitle1));
-        sb.append("\n\n");
-
-        //body
-        sb.append(body);
-
-        sb.append(getResources().getString(R.string.shareTextTitle1));
-        Utility.setShareIntent(mShareActionProvider, Utility.createShareIntent(getApplicationContext().getResources().getString(R.string.title_activity_camera_info), sb));
-
+        return sb.toString();
     }
 
     @Override
