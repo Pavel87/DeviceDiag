@@ -2,97 +2,80 @@ package com.pacmac.devinfo;
 
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import java.util.ArrayList;
+
+import java.util.List;
 
 /**
  * Created by pacmac on 6/27/2015.
  */
-public class SateliteAdapter extends ArrayAdapter<Satelites> {
+public class SateliteAdapter extends RecyclerView.Adapter<SateliteAdapter.MyViewHolder> {
 
-    private Context context;
+    private List<Satelites> mDataset;
 
-    public SateliteAdapter(Context context,ArrayList<Satelites> satelites) {
-        super(context, 0, satelites);
+    public SateliteAdapter(List<Satelites> mDataset) {
+        this.mDataset = mDataset;
+    }
 
-        this.context = context;
+    public void updateSatellites(List<Satelites> mDataset) {
+        this.mDataset = mDataset;
+        notifyDataSetChanged();
     }
 
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        Satelites satelite = getItem(position);
-
-        Viewholder viewHolder;
-        if (convertView == null) {
-            viewHolder = new Viewholder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.satelite_list_item, null);
-            viewHolder.idT = (TextView) convertView.findViewById(R.id.satId);
-            viewHolder.snrT = (TextView) convertView.findViewById(R.id.satSNR);
-            viewHolder.pnrT = (TextView) convertView.findViewById(R.id.satPNR);
-            viewHolder.azimuthT =(TextView) convertView.findViewById(R.id.satAzimuth);
-            viewHolder.elevationT = (TextView) convertView.findViewById(R.id.satElevation);
-            convertView.setTag(viewHolder);
-        }
-        else{
-            viewHolder = (Viewholder) convertView.getTag();
-        }
-        viewHolder.idT.setText(""+satelite.getID());
-        viewHolder.pnrT.setText(""+satelite.getPnr());
-        viewHolder.snrT.setText(String.format("%.1f",satelite.getSnr()));
-        viewHolder.azimuthT.setText(""+satelite.getAzimuth());
-        viewHolder.elevationT.setText(""+satelite.getElevation());
-
-        return convertView;
-    }
-
-    @Override
-    public Satelites getItem(int position) {
-        return super.getItem(position);
-    }
-
-    @Override
-    public int getCount() {
-        return super.getCount();
-    }
-
-    @Override
-    public void addAll(Satelites... items) {
-        super.addAll(items);
-    }
-
-    @Override
-    public void add(Satelites object) {
-        super.add(object);
-    }
-
-    @Override
-    public void clear() {
-        super.clear();
-    }
-
-    @Override
-    public void remove(Satelites object) {
-        super.remove(object);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return super.getItemId(position);
-    }
-
-
-    public static class Viewholder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
         TextView idT;
         TextView snrT;
         TextView pnrT;
         TextView azimuthT;
         TextView elevationT;
+
+
+        public MyViewHolder(View v) {
+            super(v);
+            idT = v.findViewById(R.id.satId);
+            snrT = v.findViewById(R.id.satSNR);
+            pnrT = v.findViewById(R.id.satPNR);
+            azimuthT = v.findViewById(R.id.satAzimuth);
+            elevationT = v.findViewById(R.id.satElevation);
+        }
+    }
+
+    // Create new views (invoked by the layout manager)
+    @Override
+    public SateliteAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        // create a new view
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.satelite_list_item, parent, false);
+        SateliteAdapter.MyViewHolder vh = new SateliteAdapter.MyViewHolder(v);
+        return vh;
+    }
+
+    // Replace the contents of a view (invoked by the layout manager)
+    @Override
+    public void onBindViewHolder(SateliteAdapter.MyViewHolder viewHolder, int position) {
+        // - get element from your dataset at this position
+        // - replace the contents of the view with that element
+
+        viewHolder.idT.setText("" + mDataset.get(position).getID());
+        viewHolder.pnrT.setText("" + mDataset.get(position).getPnr());
+        viewHolder.snrT.setText(String.format("%.1f", mDataset.get(position).getSnr()));
+        viewHolder.azimuthT.setText("" + mDataset.get(position).getAzimuth());
+        viewHolder.elevationT.setText("" + mDataset.get(position).getElevation());
+    }
+
+    // Return the size of your dataset (invoked by the layout manager)
+    @Override
+    public int getItemCount() {
+        if (mDataset == null) {
+            return 0;
+        }
+        return mDataset.size();
     }
 }
 

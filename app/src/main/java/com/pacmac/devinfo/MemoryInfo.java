@@ -63,7 +63,7 @@ public class MemoryInfo extends AppCompatActivity {
 
         mainScrollView = findViewById(R.id.mainScrollView);
 
-        mRecyclerView = findViewById(R.id.storageListView);
+        mRecyclerView = findViewById(R.id.storageRecyclerView);
         mRecyclerView.setHasFixedSize(false);
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getApplicationContext());

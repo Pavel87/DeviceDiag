@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/dark_act_bg"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:background="@color/dark_act_bg"
+              android:orientation="vertical">
 
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/listSensors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:elevation="2dip"
+        tools:itemCount="6"
+        tools:listitem="@layout/sensor_item"
         android:background="@drawable/list_border_line"
         android:smoothScrollbar="true"
         android:scrollbars="none">
 
-    </ListView>
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,11 +105,16 @@ public class CameraInfo extends AppCompatActivity {
 
             for (int i = 0; i < amountOfCameras; i++) {
 
-                Camera.getCameraInfo(i, cameraInfo);
-                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                    arrayList.add((i + 1) + ": Front Cam");
-                } else
-                    arrayList.add((i + 1) + ": Rear Cam");
+                try {
+                    Camera.getCameraInfo(i, cameraInfo);
+                    if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                        arrayList.add((i + 1) + ": Front Cam");
+                    } else
+                        arrayList.add((i + 1) + ": Rear Cam");
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Error accessing camera: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
             }
 
             ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, arrayList);

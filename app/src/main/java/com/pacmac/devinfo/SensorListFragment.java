@@ -3,10 +3,14 @@ package com.pacmac.devinfo;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,7 +24,9 @@ import java.util.List;
 
 public class SensorListFragment extends Fragment {
 
-    private ListView list;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+
     private SensorManager sensorManager;
     private SensorAdapter sensorAdapter;
     private OnFragmentInteractionListener mListener;
@@ -37,7 +43,7 @@ public class SensorListFragment extends Fragment {
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         List<Sensor> deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
 
-        sensorAdapter = new SensorAdapter(getActivity().getApplicationContext(), deviceSensors);
+        sensorAdapter = new SensorAdapter(assetListClickListener, deviceSensors);
     }
 
     @Override
@@ -45,18 +51,23 @@ public class SensorListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.sensors_layout, container, false);
-        list = v.findViewById(R.id.listSensors);
-        list.setAdapter(sensorAdapter);
-
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Sensor currentSensor = (Sensor) adapterView.getItemAtPosition(i);
-                mListener.onFragmentInteraction(currentSensor.getType());
-            }
-        });
+        recyclerView = v.findViewById(R.id.listSensors);
+        mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(sensorAdapter);
         return v;
     }
+
+    private View.OnClickListener assetListClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
+            int position = viewHolder.getAdapterPosition();
+            Sensor currentSensor = sensorAdapter.getItem(position);
+            mListener.onFragmentInteraction(currentSensor.getType());
+        }
+    };
 
 
     @Override

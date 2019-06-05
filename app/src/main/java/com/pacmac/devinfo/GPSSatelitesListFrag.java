@@ -2,6 +2,8 @@ package com.pacmac.devinfo;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +17,13 @@ import java.util.ArrayList;
 public class GPSSatelitesListFrag extends Fragment {
 
     //fields
-    private ListView list;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+
     private SateliteAdapter mAdapter;
     private int satSizePrev = 0;
 
-    private ArrayList<Satelites> satelites = new ArrayList<Satelites>();
+    private ArrayList<Satelites> satelites = new ArrayList<>();
 
     public GPSSatelitesListFrag() {
         //default constructor
@@ -48,25 +52,22 @@ public class GPSSatelitesListFrag extends Fragment {
         } else {
             satelites.add(new Satelites(0, 0, 0, 0, 0));
         }
-        //list + adapter inicialization
-        list = (ListView) view.findViewById(R.id.sateliteList);
-        mAdapter = new SateliteAdapter(getActivity().getApplicationContext(), satelites);
-        View header = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.satelites_header, null);
-        list.addHeaderView(header);
-        list.setAdapter(mAdapter);
+        mRecyclerView = view.findViewById(R.id.sateliteList);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mAdapter = new SateliteAdapter(satelites);
+        mRecyclerView.setAdapter(mAdapter);
 
 
         return view;
     }
 
-
-    public void invalidateListView(ArrayList<Satelites> sats) {
+    public void updateSatellites(ArrayList<Satelites> sats) {
         if (sats.size() != satSizePrev && sats.size() > 0) {
             satSizePrev = sats.size();
             this.satelites = sats;
-            mAdapter = new SateliteAdapter(getActivity().getApplicationContext(), satelites);
-            list.setAdapter(mAdapter);
+            mAdapter.updateSatellites(satelites);
         }
-
     }
 }

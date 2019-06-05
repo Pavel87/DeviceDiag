@@ -3,7 +3,6 @@ package com.pacmac.devinfo;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -18,7 +17,6 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
@@ -162,7 +160,7 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
                             }
 
                             if (fragment instanceof GPSSatelitesListFrag && fragment.isVisible() && fragment != null)
-                                ((GPSSatelitesListFrag) fragment).invalidateListView(satelites);
+                                ((GPSSatelitesListFrag) fragment).updateSatellites(satelites);
                             break;
 
 
