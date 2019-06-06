@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0D47A1</color>
     <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="textColorPrimary">#0B0E14</color>
-    <color name="windowBackground">#E3F2FD</color>
-    <color name="navigationBarColor">#01193F</color>
     <color name="colorAccent">#7A4B6A8B</color>
-    <color name="edit_bg">#fff1f1f1</color>
     <color name="dark_act_bg">#BDCAD2</color>
 
 
@@ -15,7 +11,6 @@
     <color name="blue_ab">#2196F3</color>
     <color name="ac_background">#E3F2FD</color>
     <color name="tab_highlight">#64FFDA</color>
-    <color name="transparent">#00000000</color>
     <color name="log_bg">#7986CB</color>
     <color name="btn_blue">#3F51B5</color>
     <color name="connected_clr">#44743C</color>

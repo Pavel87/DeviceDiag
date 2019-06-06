@@ -46,7 +46,6 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/sensorDetailBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"

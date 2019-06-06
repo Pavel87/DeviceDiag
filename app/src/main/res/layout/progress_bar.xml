@@ -5,7 +5,6 @@
     android:orientation="vertical">
 
     <ProgressBar
-        android:id="@+id/progressPing"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
