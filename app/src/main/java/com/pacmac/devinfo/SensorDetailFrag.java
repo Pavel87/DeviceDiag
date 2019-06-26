@@ -247,17 +247,24 @@ public class SensorDetailFrag extends Fragment {
         sensorReading2 = v.findViewById(R.id.sensorReading2);
         sensorReading3 = v.findViewById(R.id.sensorReading3);
 
-        String name = sensor.getName();
-        String vendor = sensor.getVendor();
-        float power = sensor.getPower();
-        float maxRange = sensor.getMaximumRange();
+        if (sensor != null) {
+            String name = sensor.getName();
+            String vendor = sensor.getVendor();
+            float power = sensor.getPower();
+            float maxRange = sensor.getMaximumRange();
 
-        nameTxt.setText(name);
-        vendorTxt.setText(vendor);
-        powerTxt.setText(power + " mA");
-        maxRangeTxt.setText(String.format("%.2f ", maxRange) + getUnits(sensor.getType()));
-        sensorReading2.setText("...");
-
+            nameTxt.setText(name);
+            vendorTxt.setText(vendor);
+            powerTxt.setText(power + " mA");
+            maxRangeTxt.setText(String.format("%.2f ", maxRange) + getUnits(sensor.getType()));
+            sensorReading2.setText("...");
+        } else {
+            nameTxt.setText("TYPE: " + getSensorType());
+            vendorTxt.setText("Unknown");
+            powerTxt.setText("Unknown");
+            maxRangeTxt.setText(String.format(""));
+            sensorReading2.setText("...");
+        }
         return v;
     }
 
@@ -275,14 +282,17 @@ public class SensorDetailFrag extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mSensorManager.registerListener(sensorEventListener, sensor, 5 * 1000 * 1000);
-
+        if (sensor != null) {
+            mSensorManager.registerListener(sensorEventListener, sensor, 5 * 1000 * 1000);
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mSensorManager.unregisterListener(sensorEventListener);
+        if (sensor != null) {
+            mSensorManager.unregisterListener(sensorEventListener);
+        }
     }
 
 

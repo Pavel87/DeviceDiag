@@ -2,6 +2,7 @@ package com.pacmac.devinfo;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -18,7 +19,6 @@ import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -36,15 +36,6 @@ import java.util.List;
 
 public class GPSInfo extends AppCompatActivity implements LocationListener {
 
-    String gpsInfo = null;
-    String timeToFix = "Waiting...";
-    String longitude = null;
-    String latitude = null;
-    String altitude = null;
-    String speed = null;
-    String accuracy = null;
-    String bearing = null;
-    String lastFix = null;
     private final String FRAG_GPS_INFO = GpsInfoLocation.class.getSimpleName();
     private final String FRAG_GPS_SATS = GPSSatelitesListFrag.class.getSimpleName();
     private final String FRAG_SAVE = "frag_save";
@@ -53,14 +44,11 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
     private LocationManager locationManager;
     private GpsStatus.Listener gpsStatusListener;
 
-    private Iterable<GpsSatellite> gpsSatelites;
-    private ArrayList<Satelites> satelites = new ArrayList<Satelites>();
-    double locLat, locLong;
-
     private boolean enabled = false;
     private Fragment fragment;
     FragmentTransaction ft = null;
-    private ShareActionProvider mShareActionProvider;
+
+    GPSModel gpsViewModel;
 
     private static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
     private boolean isPermissionEnabled = true;
@@ -84,6 +72,10 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gps_info_base);
+
+        gpsViewModel = ViewModelProviders.of(this).get(GPSModel.class);
+
+
 
         // Check if user disabled LOCATION permission at some point
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -130,44 +122,39 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
 
                     switch (event) {
                         case GpsStatus.GPS_EVENT_FIRST_FIX:
-                            timeToFix = gpsStatus.getTimeToFirstFix() + " ms";
-                            gpsInfo = "First Fix";
+                            gpsViewModel.getGpsLocationInfoObject().setTimeToFix(gpsStatus.getTimeToFirstFix() + " ms");
+                            gpsViewModel.getGpsLocationInfoObject().setGpsInfo("First Fix");
                             break;
 
                         case GpsStatus.GPS_EVENT_STARTED:
-                            gpsInfo = "Starting";
+                            gpsViewModel.getGpsLocationInfoObject().setGpsInfo("Starting");
                             break;
 
                         case GpsStatus.GPS_EVENT_STOPPED:
-                            gpsInfo = "Inactive";
+                            gpsViewModel.getGpsLocationInfoObject().setGpsInfo("Inactive");
                             break;
 
                         case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-                            gpsInfo = "Active";
-                            satelites.clear();
-                            gpsSatelites = gpsStatus.getSatellites();
-                            Iterator<GpsSatellite> satelliteIterator = gpsSatelites.iterator();
+                            gpsViewModel.getGpsLocationInfoObject().setGpsInfo("Active");
+                            Iterator<GpsSatellite> satelliteIterator = gpsStatus.getSatellites().iterator();
+                            List<Satelites> satelitesList = new ArrayList<>();
                             int i = 1;
+
                             while (satelliteIterator.hasNext()) {
                                 GpsSatellite satellite = satelliteIterator.next();
                                 if (satellite.usedInFix()) {
-                                    //  Log.d("TAG", "sat:" + (i) + ": PNR:" + satellite.getPrn() + ",SNR:" + String.format("%.02f", satellite.getSnr()) + ",azimuth:" + satellite.getAzimuth() + ",elevation:" + satellite.getElevation() + "\n\n");
-                                    satelites.add(new Satelites(i, satellite.getSnr(), satellite.getPrn(), satellite.getAzimuth(), satellite.getElevation()));
+                                    satelitesList.add(new Satelites(i, satellite.getSnr(), satellite.getPrn(), satellite.getAzimuth(), satellite.getElevation()));
                                     //
                                     i++;
                                 }
 
                             }
-
-                            if (fragment instanceof GPSSatelitesListFrag && fragment.isVisible() && fragment != null)
-                                ((GPSSatelitesListFrag) fragment).updateSatellites(satelites);
-                            break;
-
-
+                            gpsViewModel.getGpsLocationInfoObject().setSatelliteCount(satelitesList.size());
+                            gpsViewModel.updateSatellites(satelitesList);
                     }
 
-                    if (fragment instanceof GpsInfoLocation && fragment.isVisible() && fragment != null)
-                        ((GpsInfoLocation) fragment).displayGPSStatus(gpsInfo, timeToFix);
+
+                    gpsViewModel.updateGPSInfoLiveData();
                 }
 
             };
@@ -213,10 +200,8 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
 
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(final Location location) {
 
-        locLat = location.getLatitude();
-        locLong = location.getLongitude();
         boolean isConnected = false;
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         android.net.NetworkInfo networkInfo;
@@ -244,7 +229,7 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
                     Geocoder geocoder = new Geocoder(getApplicationContext());
                     if (geocoder.isPresent()) {
                         try {
-                            List<Address> addresses = geocoder.getFromLocation(locLat, locLong, 1);
+                            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                             if (addresses == null || addresses.size() == 0) return;
                             String street = addresses.get(0).getThoroughfare();
                             String numHouse = addresses.get(0).getSubThoroughfare();
@@ -291,19 +276,14 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
         int minute = cal.get(Calendar.MINUTE);
         int second = cal.get(Calendar.SECOND);
 
-        // display Location on screen
-        lastFix = hour + ":" + String.format("%02d", minute) + ":" + String.format("%02d", second);
-        latitude = location.getLatitude() + "";
-        longitude = location.getLongitude() + "";
-        altitude = String.format("%.01f", location.getAltitude()) + " m";
-        speed = speedInt + " km/s";
-        accuracy = String.format("%.01f", location.getAccuracy()) + " m";
-        bearing = String.format("%.02f", location.getBearing()) + "°";
-
-        if (fragment instanceof GpsInfoLocation && fragment.isVisible()) {
-            ((GpsInfoLocation) fragment).displayGPSData(longitude, latitude, altitude,
-                    speed, accuracy, bearing, lastFix);
-        }
+        gpsViewModel.getGpsLocationInfoObject().setLastFix(hour + ":" + String.format("%02d", minute) + ":" + String.format("%02d", second));
+        gpsViewModel.getGpsLocationInfoObject().setLatitudeS(String.valueOf(location.getLatitude()));
+        gpsViewModel.getGpsLocationInfoObject().setLongitudeS(String.valueOf(location.getLongitude()));
+        gpsViewModel.getGpsLocationInfoObject().setAltitudeS(String.format("%.01f", location.getAltitude()) + " m");
+        gpsViewModel.getGpsLocationInfoObject().setSpeedS(speedInt + " km/s");
+        gpsViewModel.getGpsLocationInfoObject().setAccuracyS(String.format("%.01f", location.getAccuracy()) + " m");
+        gpsViewModel.getGpsLocationInfoObject().setBearingS(String.format("%.02f", location.getBearing()) + "°");
+        gpsViewModel.updateGPSInfoLiveData();
     }
 
     @Override
@@ -366,7 +346,7 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
 
     private String collectGPSDataForExport() {
 
-        if (lastFix != null) {
+        if (gpsViewModel.getGpsLocationInfoObject().getLastFix() != null && gpsViewModel.getGpsLocationInfoObject().getLastFix().length() != 0) {
             StringBuilder sb = new StringBuilder();
             sb.append(getResources().getString(R.string.shareTextTitle1));
             sb.append("\n");
@@ -375,20 +355,22 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
             sb.append(getResources().getString(R.string.shareTextTitle1));
             sb.append("\n\n");
             //body
-            sb.append("Last location:\t\t" + lastFix);
+            sb.append("Last location:\t\t" + gpsViewModel.getGpsLocationInfoObject().getLastFix());
             sb.append("\n");
-            sb.append("Time to first fix:\t\t" + timeToFix);
+            sb.append("Time to first fix:\t\t" + gpsViewModel.getGpsLocationInfoObject().getTimeToFix());
             sb.append("\n");
             sb.append("Location:\t\t");
-            sb.append(latitude + ", " + longitude);
+            sb.append(gpsViewModel.getGpsLocationInfoObject().getLatitudeS() + ", " + gpsViewModel.getGpsLocationInfoObject().getLongitudeS());
             sb.append("\n");
-            sb.append("Altitude:\t\t" + altitude);
+            sb.append("Altitude:\t\t" + gpsViewModel.getGpsLocationInfoObject().getAltitudeS());
             sb.append("\n");
-            sb.append("Speed:\t\t" + speed);
+            sb.append("Speed:\t\t" + gpsViewModel.getGpsLocationInfoObject().getSpeedS());
             sb.append("\n");
-            sb.append("Accuracy:\t\t" + accuracy);
+            sb.append("Accuracy:\t\t" + gpsViewModel.getGpsLocationInfoObject().getAccuracyS());
             sb.append("\n");
-            sb.append("Bearing:\t\t" + bearing);
+            sb.append("Bearing:\t\t" + gpsViewModel.getGpsLocationInfoObject().getBearingS());
+            sb.append("\n");
+            sb.append("Satellites used:\t\t" + gpsViewModel.getGpsLocationInfoObject().getSatelliteCount());
             sb.append("\n\n");
 
             sb.append(getResources().getString(R.string.shareTextTitle1));

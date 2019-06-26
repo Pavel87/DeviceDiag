@@ -1,13 +1,16 @@
 package com.pacmac.devinfo;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Locale;
 
 
 public class GpsInfoLocation extends Fragment {
@@ -23,11 +27,12 @@ public class GpsInfoLocation extends Fragment {
     private TextView timeToFix;
     private TextView longitude, latitude;
     private TextView altitude, speed;
-    private TextView accuracy, bearing;
+    private TextView accuracy, bearing, satellitesCount;
     private TextView lastFix;
     private Button nMEAStart;
 
     private LocationManager locationManager;
+    GPSModel gpsViewModel;
 
     public GpsInfoLocation() {
         // Required empty public constructor
@@ -47,16 +52,17 @@ public class GpsInfoLocation extends Fragment {
         View view = inflater.inflate(R.layout.gps_info, container, false);
 
         //TextViews
-        gpsInfo = (TextView) view.findViewById(R.id.gpsInfo);
-        timeToFix = (TextView) view.findViewById(R.id.timeToFirstFix);
-        latitude = (TextView) view.findViewById(R.id.latitude);
-        longitude = (TextView) view.findViewById(R.id.longitude);
-        altitude = (TextView) view.findViewById(R.id.altitude);
-        speed = (TextView) view.findViewById(R.id.speed);
-        accuracy = (TextView) view.findViewById(R.id.accuracy);
-        bearing = (TextView) view.findViewById(R.id.bearing);
-        lastFix = (TextView) view.findViewById(R.id.locUpdate);
-        nMEAStart = (Button) view.findViewById(R.id.nmeaStart);
+        gpsInfo = view.findViewById(R.id.gpsInfo);
+        timeToFix = view.findViewById(R.id.timeToFirstFix);
+        latitude = view.findViewById(R.id.latitude);
+        longitude = view.findViewById(R.id.longitude);
+        altitude = view.findViewById(R.id.altitude);
+        speed = view.findViewById(R.id.speed);
+        accuracy = view.findViewById(R.id.accuracy);
+        bearing = view.findViewById(R.id.bearing);
+        satellitesCount = view.findViewById(R.id.satellitesCount);
+        lastFix = view.findViewById(R.id.locUpdate);
+        nMEAStart = view.findViewById(R.id.nmeaStart);
 
         nMEAStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,28 +77,26 @@ public class GpsInfoLocation extends Fragment {
 
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-       /* if (activity instanceof GPSSatListFragInitListener) {
-            mGPSSatButtonListener = (GPSSatListFragInitListener) activity;
-        } else {
-            throw new RuntimeException(activity.getApplicationContext().toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        gpsViewModel = ViewModelProviders.of(getActivity()).get(GPSModel.class);
+
+        gpsViewModel.getUpToDateLocationInfo().observe(this, new Observer<GPSModel.GPSLocationInfoObject>() {
+            @Override
+            public void onChanged(@Nullable GPSModel.GPSLocationInfoObject gpsLocationInfoObject) {
+                latitude.setText((gpsLocationInfoObject.getLatitudeS()!= null)? gpsLocationInfoObject.getLatitudeS() : "");
+                longitude.setText((gpsLocationInfoObject.getLongitudeS()!= null)? gpsLocationInfoObject.getLongitudeS() : "");
+                altitude.setText((gpsLocationInfoObject.getAltitudeS() != null) ? gpsLocationInfoObject.getAltitudeS() : "");
+                speed.setText((gpsLocationInfoObject.getSpeedS()!= null)? gpsLocationInfoObject.getSpeedS() : "");
+                accuracy.setText((gpsLocationInfoObject.getAccuracyS()!= null)? gpsLocationInfoObject.getAccuracyS() : "");
+                bearing.setText((gpsLocationInfoObject.getBearingS()!= null)? gpsLocationInfoObject.getBearingS() : "");
+                lastFix.setText((gpsLocationInfoObject.getLastFix()!= null)? gpsLocationInfoObject.getLastFix() : "");
+                gpsInfo.setText((gpsLocationInfoObject.getGpsInfo()!= null)? gpsLocationInfoObject.getGpsInfo() : "");
+                timeToFix.setText((gpsLocationInfoObject.getTimeToFix()!= null)? gpsLocationInfoObject.getTimeToFix() : "");
+                satellitesCount.setText(String.format(Locale.ENGLISH, "%d", gpsLocationInfoObject.getSatelliteCount()));
+            }
+        });
+
     }
-
-    /*  public interface GPSSatListFragInitListener {
-        void onGPSSatListFragRequest();
-    }*/
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-      //  mGPSSatButtonListener = null;
-    }
-
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -100,7 +104,6 @@ public class GpsInfoLocation extends Fragment {
 
 
         if (getActivity().getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
-
 
             locationManager = (LocationManager) getActivity().getApplicationContext().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
 
@@ -127,7 +130,7 @@ public class GpsInfoLocation extends Fragment {
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-
+                                dialogInterface.dismiss();
                             }
                         });
 
@@ -141,7 +144,6 @@ public class GpsInfoLocation extends Fragment {
     public void showAlertOnDisabled() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
         builder
                 .setMessage("GPS Location Service is turned off. Do you want to turn GPS Location on?")
                 .setCancelable(true)
@@ -161,32 +163,5 @@ public class GpsInfoLocation extends Fragment {
 
         AlertDialog gpsAlertDialog = builder.create();
         gpsAlertDialog.show();
-
-    }
-
-
-    public void displayGPSData(String longitudeS,
-                               String latitudeS,
-                               String altitudeS,
-                               String speedS,
-                               String accuracyS,
-                               String bearingS,
-                               String lastFix) {
-
-        // display Location on screen
-            latitude.setText((latitudeS!= null)? latitudeS : "");
-            longitude.setText((longitudeS!= null)? longitudeS : "");
-            altitude.setText((altitudeS != null) ? altitudeS : "");
-            speed.setText((speedS!= null)? speedS : "");
-            accuracy.setText((accuracyS!= null)? accuracyS : "");
-            bearing.setText((bearingS!= null)? bearingS : "");
-            this.lastFix.setText((lastFix!= null)? lastFix : "");
-    }
-
-    public void displayGPSStatus(String gpsInfoS, String gpsTimeToFirstFix) {
-        // display Location on screen
-            gpsInfo.setText((gpsInfoS!= null)? gpsInfoS : "");
-            timeToFix.setText((gpsTimeToFirstFix!= null)? gpsTimeToFirstFix : "");
-
     }
 }
