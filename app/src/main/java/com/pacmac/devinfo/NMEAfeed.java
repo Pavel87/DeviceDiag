@@ -2,7 +2,6 @@ package com.pacmac.devinfo;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -11,7 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
@@ -356,6 +355,6 @@ public class NMEAfeed extends AppCompatActivity implements OnNmeaMessageListener
         }
 
         String timeDate = hour + ":" + minute + ":" + second + ":" + milis + " " + day + "/" + month + ": ";
-        html = html + "<font color=\"" + getResources().getColor(android.support.v7.appcompat.R.color.abc_primary_text_material_dark) + "\">" + "<b>" + timeDate + "</b>" + "</font>" + s + "<br>";
+        html = html + "<font color=\"" + getResources().getColor(R.color.abc_primary_text_material_dark) + "\">" + "<b>" + timeDate + "</b>" + "</font>" + s + "<br>";
     }
 }

@@ -5,10 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 
 
 /**
@@ -47,17 +46,15 @@ public class FragmentMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_diag_main, container, false);
-
-        modelName = (TextView) rootView.findViewById(R.id.modelName);
-        serialNumber = (TextView) rootView.findViewById(R.id.serialNumber);
-        manufacturer = (TextView) rootView.findViewById(R.id.manufacturer);
-        hardWare = (TextView) rootView.findViewById(R.id.hardware);
-        buildNumber = (TextView) rootView.findViewById(R.id.buildNumber);
-        androidVer = (TextView) rootView.findViewById(R.id.androidVer);
+        modelName = rootView.findViewById(R.id.modelName);
+        serialNumber = rootView.findViewById(R.id.serialNumber);
+        manufacturer = rootView.findViewById(R.id.manufacturer);
+        hardWare = rootView.findViewById(R.id.hardware);
+        buildNumber = rootView.findViewById(R.id.buildNumber);
+        androidVer = rootView.findViewById(R.id.androidVer);
         bootloader = rootView.findViewById(R.id.bootloader);
         radio = rootView.findViewById(R.id.radio);
         buildPropsButton = rootView.findViewById(R.id.buildPropsBtn);
-
         return rootView;
     }
 

@@ -3,7 +3,6 @@ package com.pacmac.devinfo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.tutelatechnologies.sdk.framework.TutelaSDKFactory;
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by pacmac on 5/26/2015.
@@ -35,12 +34,6 @@ public class FragmentDetails extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.frag_details, container, false);
 
-        try {
-            TutelaSDKFactory.getTheSDK().initializeWithApiKey(DeviceDiagApp.REG_KEY,
-                    getActivity().getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         gridView = rootView.findViewById(R.id.gridViewMain);
         gridView.setAdapter(new DetailAdapter(getActivity().getApplicationContext(), mThumbIds));

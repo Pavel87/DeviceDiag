@@ -1,8 +1,8 @@
 package com.pacmac.devinfo;
 
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.telephony.CellInfo;
 import android.telephony.CellInfoLte;
 import android.view.LayoutInflater;
