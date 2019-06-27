@@ -134,70 +134,6 @@ public class NetworkInfo extends AppCompatActivity {
 
         checkRadioStates();
 
-        // show WiFi detail
-
-        if (isWiFi) {
-
-            WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-            updateView(wifiManager);
-            wifiDetail.setVisibility(View.VISIBLE);
-            addressView.setVisibility(View.VISIBLE);
-
-            if (Build.VERSION.SDK_INT >= 21) {
-
-                supportedFeatures.setVisibility(View.VISIBLE);
-
-                ghzBand = findViewById(R.id.bandSupport);
-                devToAp = findViewById(R.id.deviceToApRtt);
-                p2p = findViewById(R.id.wifiDirectSupport);
-                offloadedConn = findViewById(R.id.offLoadConn);
-                powerReport = findViewById(R.id.powerReport);
-                scanAlways = findViewById(R.id.scanAlwaysAvailable);
-                tdlsSupport = findViewById(R.id.tdlsSupported);
-                dppSupport = findViewById(R.id.dppSupport);
-                oweSupport = findViewById(R.id.oweSupport);
-                wpa3SAESupport = findViewById(R.id.wpa3SAESupport);
-                wpa3SuiteBSSupport = findViewById(R.id.wpa3SuiteBSSupport);
-
-                _ghzBand = wifiManager.is5GHzBandSupported();
-                _powerReport = wifiManager.isEnhancedPowerReportingSupported();
-                _devToAp = wifiManager.isDeviceToApRttSupported();
-                _p2p = wifiManager.isP2pSupported();
-                _offloadedConn = wifiManager.isPreferredNetworkOffloadSupported();
-                _scanAlways = wifiManager.isScanAlwaysAvailable();
-                _tdlsSupport = wifiManager.isTdlsSupported();
-
-                if (_ghzBand) {
-                    ghzBand.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
-                }
-                if (_powerReport)
-                    powerReport.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
-
-                if (_devToAp)
-                    devToAp.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
-
-                if (_p2p)
-                    p2p.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
-
-                if (_offloadedConn)
-                    offloadedConn.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
-
-                if (_scanAlways)
-                    scanAlways.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
-
-                if (_tdlsSupport)
-                    tdlsSupport.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
-
-
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-                    dppSupport.setImageDrawable(getResources().getDrawable(R.drawable.cancel, null));
-                    oweSupport.setImageDrawable(getResources().getDrawable(R.drawable.cancel, null));
-                    wpa3SAESupport.setImageDrawable(getResources().getDrawable(R.drawable.cancel, null));
-                    wpa3SuiteBSSupport.setImageDrawable(getResources().getDrawable(R.drawable.cancel, null));
-                }
-
-            }
-        }
     }
 
     public int getFrequency(String bssid) {
@@ -448,6 +384,7 @@ public class NetworkInfo extends AppCompatActivity {
             wifiConnected.setTextColor(Color.RED);
             wifiConnected.setText(getString(R.string.not_present));
         }
+        getWifiFeatures();
 
         // check WAN state and if present in device
         if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
@@ -488,6 +425,105 @@ public class NetworkInfo extends AppCompatActivity {
             }
         }
     }
+
+    private void getWifiFeatures() {
+        // show WiFi detail
+
+        if (isWiFi) {
+
+            WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            updateView(wifiManager);
+            wifiDetail.setVisibility(View.VISIBLE);
+            addressView.setVisibility(View.VISIBLE);
+
+            if (Build.VERSION.SDK_INT >= 21) {
+
+                supportedFeatures.setVisibility(View.VISIBLE);
+
+                ghzBand = findViewById(R.id.bandSupport);
+                devToAp = findViewById(R.id.deviceToApRtt);
+                p2p = findViewById(R.id.wifiDirectSupport);
+                offloadedConn = findViewById(R.id.offLoadConn);
+                powerReport = findViewById(R.id.powerReport);
+                scanAlways = findViewById(R.id.scanAlwaysAvailable);
+                tdlsSupport = findViewById(R.id.tdlsSupported);
+                dppSupport = findViewById(R.id.dppSupport);
+                oweSupport = findViewById(R.id.oweSupport);
+                wpa3SAESupport = findViewById(R.id.wpa3SAESupport);
+                wpa3SuiteBSSupport = findViewById(R.id.wpa3SuiteBSSupport);
+
+                _ghzBand = wifiManager.is5GHzBandSupported();
+                _powerReport = wifiManager.isEnhancedPowerReportingSupported();
+                _devToAp = wifiManager.isDeviceToApRttSupported();
+                _p2p = wifiManager.isP2pSupported();
+                _offloadedConn = wifiManager.isPreferredNetworkOffloadSupported();
+                _scanAlways = wifiManager.isScanAlwaysAvailable();
+                _tdlsSupport = wifiManager.isTdlsSupported();
+
+                if (_ghzBand) {
+                    ghzBand.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
+                }
+                if (_powerReport)
+                    powerReport.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
+
+                if (_devToAp)
+                    devToAp.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
+
+                if (_p2p)
+                    p2p.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
+
+                if (_offloadedConn)
+                    offloadedConn.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
+
+                if (_scanAlways)
+                    scanAlways.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
+
+                if (_tdlsSupport)
+                    tdlsSupport.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
+
+
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                    dppSupport.setImageDrawable(getResources().getDrawable(R.drawable.cancel, null));
+                    oweSupport.setImageDrawable(getResources().getDrawable(R.drawable.cancel, null));
+                    wpa3SAESupport.setImageDrawable(getResources().getDrawable(R.drawable.cancel, null));
+                    wpa3SuiteBSSupport.setImageDrawable(getResources().getDrawable(R.drawable.cancel, null));
+                } else {
+
+
+
+
+                    _dppSupport = wifiManager.isEasyConnectSupported();
+                    _oweSupport = wifiManager.isEnhancedOpenSupported();
+                    _wpa3SAESupport = wifiManager.isWpa3SaeSupported();
+                    _wpa3SuiteBSSupport = wifiManager.isWpa3SuiteBSupported();
+
+                    if (_dppSupport) {
+                        dppSupport.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
+                    } else {
+                        dppSupport.setImageDrawable(getResources().getDrawable(R.drawable.cancel, null));
+                    }
+                    if (_oweSupport) {
+                        oweSupport.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
+                    } else {
+                        oweSupport.setImageDrawable(getResources().getDrawable(R.drawable.cancel, null));
+                    }
+                    if (_wpa3SAESupport) {
+                        wpa3SAESupport.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
+                    } else {
+                        wpa3SAESupport.setImageDrawable(getResources().getDrawable(R.drawable.cancel, null));
+                    }
+                    if (_wpa3SuiteBSSupport) {
+                        wpa3SuiteBSSupport.setImageDrawable(getResources().getDrawable(R.drawable.tick, null));
+                    } else {
+                        wpa3SuiteBSSupport.setImageDrawable(getResources().getDrawable(R.drawable.cancel, null));
+                    }
+
+                }
+
+            }
+        }
+    }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -606,6 +642,7 @@ public class NetworkInfo extends AppCompatActivity {
                 sb.append("\n");
                 sb.append("WPA3-Enterprise Suite-B-192:\t\t" + (_wpa3SuiteBSSupport ? "YES" : " NO"));
             }
+
         } else {
             if (Build.VERSION.SDK_INT > 22) {
                 sb.append("Dowsntream Bandwidth:\t\t" + downstreamBandwidth.getText().toString() + "kbps");

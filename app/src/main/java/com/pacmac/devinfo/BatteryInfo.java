@@ -7,9 +7,7 @@ import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -100,18 +98,22 @@ public class BatteryInfo extends AppCompatActivity {
 
                     // Battery capacity in microampere-hours, as an integer.
                     int chargeCounterInt = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER);
-                    chargeCounter.setText(String.valueOf(chargeCounterInt) + " mAH");
+                    chargeCounter.setText(String.valueOf(chargeCounterInt/1000) + " uAH");
 
                     // Average battery current in microamperes, as an integer. Positive values indicate net current
                     // entering the battery from a charge source, negative values indicate net current discharging from
                     // the battery. The time period over which the average is computed may depend on the fuel gauge hardware and its configuration.
                     int avgCurrentInt = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_AVERAGE);
-                    currentAvg.setText(String.valueOf(avgCurrentInt) + " mA");
+                    if (avgCurrentInt != Integer.MAX_VALUE) {
+                    currentAvg.setText(String.valueOf(avgCurrentInt) + " uA");
+                    } else {
+
+                    }
 
                     // Instantaneous battery current in microamperes, as an integer. Positive values indicate
                     // net current entering the battery from a charge source, negative values indicate net current discharging from the battery.
                     int actualCurrentInt = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW);
-                    currentActual.setText(String.valueOf(actualCurrentInt) + " mA");
+                    currentActual.setText(String.valueOf(actualCurrentInt) + " uA");
 
                     // Battery remaining energy in nanowatt-hours, as a long integer.
                     long remainingEnergyInt = batteryManager.getLongProperty(BatteryManager.BATTERY_PROPERTY_ENERGY_COUNTER);

@@ -1,10 +1,12 @@
 package com.pacmac.devinfo;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.OnNmeaMessageListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,7 +32,8 @@ import java.io.IOException;
 import java.util.Calendar;
 
 
-public class NMEAfeed extends AppCompatActivity implements GpsStatus.NmeaListener, LocationListener {
+@TargetApi(24)
+public class NMEAfeed extends AppCompatActivity implements OnNmeaMessageListener, LocationListener {
 
     private TextView nmeaUpdate;
     private Button nmeaRollButton;
@@ -53,7 +56,6 @@ public class NMEAfeed extends AppCompatActivity implements GpsStatus.NmeaListene
     private boolean isNMEAListenerOn = false;
     private static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,10 +63,10 @@ public class NMEAfeed extends AppCompatActivity implements GpsStatus.NmeaListene
 
         final AppCompatActivity activity = this;
 
-        nmeaUpdate = (TextView) findViewById(R.id.nmeaUpdate);
-        nmeaRollButton = (Button) findViewById(R.id.nmeaRollButton);
-        saveCheckBox = (CheckBox) findViewById(R.id.saveTofile);
-        mScrollView = (ScrollView) findViewById(R.id.mScrollView);
+        nmeaUpdate = findViewById(R.id.nmeaUpdate);
+        nmeaRollButton = findViewById(R.id.nmeaRollButton);
+        saveCheckBox = findViewById(R.id.saveTofile);
+        mScrollView = findViewById(R.id.mScrollView);
 
         saveCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -114,6 +116,14 @@ public class NMEAfeed extends AppCompatActivity implements GpsStatus.NmeaListene
                     if (isNMEAListenerOn) {
                         mHandler.removeCallbacks(timer);
                         isNMEAListenerOn = false;
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+                            locationManager.removeNmeaListener(NMEAfeed.this);
+                        } else {
+
+                        }
+
                         locationManager.removeNmeaListener(NMEAfeed.this);
                         locationManager.removeUpdates(NMEAfeed.this);
                         nmeaRollButton.setText("Start");
@@ -274,43 +284,6 @@ public class NMEAfeed extends AppCompatActivity implements GpsStatus.NmeaListene
 
 
     @Override
-    public void onNmeaReceived(long l, String s) {
-
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(l);
-
-        int hour = cal.get(Calendar.HOUR_OF_DAY);
-        int minute = cal.get(Calendar.MINUTE);
-        int second = cal.get(Calendar.SECOND);
-        int milis = cal.get(Calendar.MILLISECOND);
-
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        int month = cal.get(Calendar.MONTH);
-
-        if (isSaveToSDCard) {
-            count++;
-            if (count >= MAX_LOG_LINES) {
-                count = 1;
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        saveToFile(Html.fromHtml(html));
-
-                    }
-                }).start();
-            }
-        }
-
-        if (html.split("<br>").length > MAX_LOG_LINES) {
-            html = html.substring(html.indexOf("<br>") + 4);
-        }
-
-        String timeDate = hour + ":" + minute + ":" + second + ":" + milis + " " + day + "/" + month + ": ";
-        html = html + "<font color=\"" + getResources().getColor(android.support.v7.appcompat.R.color.abc_primary_text_material_dark) + "\">" + "<b>" + timeDate + "</b>" + "</font>" + s + "<br>";
-    }
-
-    @Override
     public void onLocationChanged(Location location) {
 
     }
@@ -351,4 +324,38 @@ public class NMEAfeed extends AppCompatActivity implements GpsStatus.NmeaListene
 
     }
 
+    @Override
+    public void onNmeaMessage(String s, long l) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(l);
+
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        int minute = cal.get(Calendar.MINUTE);
+        int second = cal.get(Calendar.SECOND);
+        int milis = cal.get(Calendar.MILLISECOND);
+
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int month = cal.get(Calendar.MONTH);
+
+        if (isSaveToSDCard) {
+            count++;
+            if (count >= MAX_LOG_LINES) {
+                count = 1;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        saveToFile(Html.fromHtml(html));
+
+                    }
+                }).start();
+            }
+        }
+
+        if (html.split("<br>").length > MAX_LOG_LINES) {
+            html = html.substring(html.indexOf("<br>") + 4);
+        }
+
+        String timeDate = hour + ":" + minute + ":" + second + ":" + milis + " " + day + "/" + month + ": ";
+        html = html + "<font color=\"" + getResources().getColor(android.support.v7.appcompat.R.color.abc_primary_text_material_dark) + "\">" + "<b>" + timeDate + "</b>" + "</font>" + s + "<br>";
+    }
 }

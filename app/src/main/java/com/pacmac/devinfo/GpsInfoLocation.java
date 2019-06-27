@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -67,8 +69,12 @@ public class GpsInfoLocation extends Fragment {
         nMEAStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getApplicationContext(), NMEAfeed.class);
-                startActivity(intent);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Intent intent = new Intent(getActivity().getApplicationContext(), NMEAfeed.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getContext(), "NMEA fead is available in Android Nougat and newer.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
