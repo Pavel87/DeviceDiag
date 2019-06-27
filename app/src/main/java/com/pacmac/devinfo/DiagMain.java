@@ -214,6 +214,9 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
             SharedPreferences.Editor editor = preferences.edit();
             editor.putInt(VERSION_KEY, appVersionCode);
             editor.apply();
+            if (versionCode == 0) {
+                return false;
+            }
             return true;
         }
         return false;
