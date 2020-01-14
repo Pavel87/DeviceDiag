@@ -260,20 +260,6 @@ public class Utility {
     }
 
     static void exporData(Activity activity, String subject, String bodyText) {
-
-        if (is5GPhone() && Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            String extras = "If you see any information below this please forward this message to \"pacmac.dev@gmail.com\" as this information will help to " +
-                    "improve this application while running on 5G capable phones. \n\n";
-            String info5G = get5GExtraData(activity.getApplicationContext());
-            ShareCompat.IntentBuilder.from(activity)
-                    .setType("message/rfc822")
-                    .addEmailTo("")
-                    .addEmailBcc("pacmac.dev@gmail.com")
-                    .setSubject(Build.MODEL + "\t-\t" + subject)
-                    .setText(bodyText + "\n\n\n\n\n\n\n\n\n" + extras + info5G)
-                    .setChooserTitle("Share via:")
-                    .startChooser();
-        } else {
             ShareCompat.IntentBuilder.from(activity)
                     .setType("message/rfc822")
                     .addEmailTo("")
@@ -281,44 +267,7 @@ public class Utility {
                     .setText(bodyText)
                     .setChooserTitle("Share via:")
                     .startChooser();
-        }
-    }
-
-    private static boolean is5GPhone() {
-        return Build.MODEL.contains("SM-G977") || Build.MODEL.contains("GM1915");
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private static String get5GExtraData(Context context) {
-        StringBuilder sb = new StringBuilder("5G phone - info - only for test purpose\n");
-        try {
-            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            @SuppressLint("MissingPermission")
-            String allCellInfoString = telephonyManager.getAllCellInfo().toString();
-            sb.append(allCellInfoString);
-
-            sb.append("TM: ");
-            Method[] tmMethods = telephonyManager.getClass().getDeclaredMethods();
-            for (Method method : tmMethods) {
-                sb.append(method.getName());
-            }
-            if (checkPermission(context, Manifest.permission.READ_PHONE_STATE)) {
-                Method[] ssMethods = telephonyManager.getServiceState().getClass().getDeclaredMethods();
-                Field[] ssFields = telephonyManager.getServiceState().getClass().getDeclaredFields();
-
-                sb.append("SS methods: ");
-                for (Method method : ssMethods) {
-                    sb.append(method.getName());
-                }
-                sb.append("SS fields: ");
-                for (Field field : ssFields) {
-                    sb.append(field.getName());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return sb.toString();
+//        }
     }
 
 }
