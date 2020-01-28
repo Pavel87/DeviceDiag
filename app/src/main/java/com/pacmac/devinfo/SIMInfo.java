@@ -9,9 +9,12 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.telephony.CellInfo;
 import android.telephony.CellInfoCdma;
 import android.telephony.CellInfoGsm;
@@ -35,6 +38,8 @@ import java.util.List;
 
 public class SIMInfo extends AppCompatActivity {
 
+    private String NOT_AVAILABLE;
+
     private TextView simState, simState2;
     private TextView serialN, serialN2;
     private TextView imeiNumber, imeiNumber2;
@@ -44,12 +49,14 @@ public class SIMInfo extends AppCompatActivity {
     private TextView simCountryCode, simCountryCode2;
     private TextView mccSpn, mccSpn2;
     private TextView mncSpn, mncSpn2;
+    private TextView groupIdLevel1Slot0, groupIdLevel1Slot1, simCarrierId, typeAllocationCode, typeAllocationCode2;
     private TextView phoneNumber, phoneNumber2;
     private TextView providerCountry, providerCountry2;
     private TextView networkType, networkType2;
     private TextView sigStrength2G, sigStrength3G, timingAdvance2G, signalStrengthCDMA, ecio, snr;
     private TextView meid, meid2;
     private LinearLayout signalStrengthTempView;
+    private View groupIdView, simCarrierIdView, tacView, tacView2;
 
 
     private TextView simCount;
@@ -72,7 +79,7 @@ public class SIMInfo extends AppCompatActivity {
     private Runnable timer;
 
     boolean isLocPermissionEnabled = true;
-    boolean isPermissionEnabled = true;
+    boolean isPhonePermissionEnabled = true;
     private static final String PHONE_PERMISSION = Manifest.permission.READ_PHONE_STATE;
     private static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -82,15 +89,16 @@ public class SIMInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sim_info_new);
-
+        NOT_AVAILABLE = getApplicationContext().getResources().getString(R.string.not_available_info);
         signalStrengthTempView = findViewById(R.id.signalStrength2GView);
 
-        simCount = (TextView) findViewById(R.id.simCount);
-        imsiNumber = (TextView) findViewById(R.id.imsiNumber);
-        dataActivity = (TextView) findViewById(R.id.dataActivity);
-        dataState = (TextView) findViewById(R.id.dataState);
-        phoneRadio = (TextView) findViewById(R.id.phoneRadio);
-        nai = (TextView) findViewById(R.id.nai);
+        simCount = findViewById(R.id.simCount);
+        imsiNumber = findViewById(R.id.imsiNumber);
+        dataActivity = findViewById(R.id.dataActivity);
+        dataState = findViewById(R.id.dataState);
+        phoneRadio = findViewById(R.id.phoneRadio);
+        nai = findViewById(R.id.nai);
+
 
         mccLabel = findViewById(R.id.mccLabel);
         mncLabel = findViewById(R.id.mncLabel);
@@ -122,6 +130,16 @@ public class SIMInfo extends AppCompatActivity {
         rfChannel = findViewById(R.id.rfChannel);
         bsicOrBandwidth = findViewById(R.id.bsicOrBandwidth);
 
+
+        groupIdView = findViewById(R.id.simGroupIdLevelView);
+        simCarrierIdView = findViewById(R.id.simCarrierIdView);
+        tacView = findViewById(R.id.tacView);
+        tacView2 = findViewById(R.id.tacView2);
+
+        groupIdLevel1Slot0 = findViewById(R.id.simGroupIdLevel);
+        simCarrierId = findViewById(R.id.simCarrierId);
+        typeAllocationCode = findViewById(R.id.typeAllocationCode);
+        typeAllocationCode2 = findViewById(R.id.typeAllocationCode2);
 
         spnName = findViewById(R.id.operatorName);
         simCountryCode = findViewById(R.id.simCountryCode);
@@ -160,9 +178,9 @@ public class SIMInfo extends AppCompatActivity {
         }
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), PHONE_PERMISSION);
+            isPhonePermissionEnabled = Utility.checkPermission(getApplicationContext(), PHONE_PERMISSION);
             isLocPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
-            if (!isPermissionEnabled) {
+            if (!isPhonePermissionEnabled) {
                 Utility.displayExplanationForPermission(this, getResources().getString(R.string.phone_permission_msg), PHONE_PERMISSION);
             }
         }
@@ -172,7 +190,7 @@ public class SIMInfo extends AppCompatActivity {
             findViewById(R.id.simView2).setVisibility(View.VISIBLE);
         }
 
-        if (isPermissionEnabled) {
+        if (isPhonePermissionEnabled) {
             // update view with phone data
             updateData();
         }
@@ -200,6 +218,7 @@ public class SIMInfo extends AppCompatActivity {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP && isMultiSIM()) {
 
             SubscriptionManager subscriptionManager = (SubscriptionManager) getSystemService(TELEPHONY_SUBSCRIPTION_SERVICE);
+            @SuppressLint("MissingPermission")
             List<SubscriptionInfo> list = subscriptionManager.getActiveSubscriptionInfoList();
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -220,6 +239,12 @@ public class SIMInfo extends AppCompatActivity {
                         imeiNumber.setText(imei != null ? imei : "N/A");
                         simCountryCode.setText(info.getCountryIso() != null ? info.getCountryIso().toUpperCase() : "N/A");
                         meid.setText(getMEID(telephonyManager, 0));
+                        groupIdView.setVisibility(View.VISIBLE);
+                        groupIdLevel1Slot0.setText(getOutput(telephonyManager, "getGroupIdLevel1", 0));
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+                            tacView.setVisibility(View.VISIBLE);
+                            typeAllocationCode.setText(getTAC(telephonyManager, 0));
+                        }
 
                     } else if (info.getSimSlotIndex() == 1) {
                         simState2.setText(getSimState(telephonyManager, 1, false));
@@ -232,6 +257,11 @@ public class SIMInfo extends AppCompatActivity {
                         imeiNumber2.setText(imei2 != null ? imei2 : "N/A");
                         simCountryCode2.setText(info.getCountryIso() != null ? info.getCountryIso().toUpperCase() : "N/A");
                         meid2.setText(getMEID(telephonyManager, 1));
+//                        groupIdLevel1Slot1.setText(getOutput(telephonyManager, "getGroupIdLevel1", 1));
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+                            tacView2.setVisibility(View.VISIBLE);
+                            typeAllocationCode2.setText(getTAC(telephonyManager, 1));
+                        }
                     }
                 }
             }
@@ -240,27 +270,32 @@ public class SIMInfo extends AppCompatActivity {
             simState.setText(getSimState(telephonyManager, 0, true));
             String imei = getImei(telephonyManager, 0, true);
 
-            String simSerialNumber = getApplicationContext().getResources().getString(R.string.not_available_info);
-            String simMCC = getApplicationContext().getResources().getString(R.string.not_available_info);
-            String simMNC = getApplicationContext().getResources().getString(R.string.not_available_info);
-            String simServiceProvider = getApplicationContext().getResources().getString(R.string.not_available_info);
-            String simCountry = getApplicationContext().getResources().getString(R.string.not_available_info);
-            String networkServiceProvider = getApplicationContext().getResources().getString(R.string.not_available_info);
-            String networkMCC = getApplicationContext().getResources().getString(R.string.not_available_info);
-            String networkMNC = getApplicationContext().getResources().getString(R.string.not_available_info);
-            String networkCountryCode = getApplicationContext().getResources().getString(R.string.not_available_info);
-            String networkTypeString = getApplicationContext().getResources().getString(R.string.not_available_info);
-            String telNumber = getApplicationContext().getResources().getString(R.string.not_available_info);
+            String simSerialNumber = NOT_AVAILABLE;
+            String simMCC = NOT_AVAILABLE;
+            String simMNC = NOT_AVAILABLE;
+            String simServiceProvider = NOT_AVAILABLE;
+            String simCarrierIdText = NOT_AVAILABLE;
+            String simCountry = NOT_AVAILABLE;
+            String networkServiceProvider = NOT_AVAILABLE;
+            String networkCountryCode = NOT_AVAILABLE;
+            String networkTypeString = NOT_AVAILABLE;
+            String telNumber = NOT_AVAILABLE;
+            String tac = NOT_AVAILABLE;
 
             if (imei != "" && imei != null) {
 
                 imeiNumber.setText(imei);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     findViewById(R.id.viewMEID).setVisibility(View.VISIBLE);
+                    @SuppressLint("MissingPermission")
                     String meID = telephonyManager.getMeid();
                     meid.setText(meID != null ? meID : getApplicationContext().getResources().getString(R.string.not_available_info));
                 }
 
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+                    tacView.setVisibility(View.VISIBLE);
+                    typeAllocationCode.setText(getTAC(telephonyManager, 0));
+                }
 
                 if (isSIMInside) {
                     if (telephonyManager.getSimOperator().length() > 3) {
@@ -272,6 +307,10 @@ public class SIMInfo extends AppCompatActivity {
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
                         simServiceProvider = (telephonyManager.getSimCarrierIdName() != null) ?
                                 telephonyManager.getSimCarrierIdName().toString() : telephonyManager.getSimOperatorName();
+                        if (telephonyManager.getSimCarrierId() != Integer.MAX_VALUE) {
+                            simCarrierIdView.setVisibility(View.VISIBLE);
+                            simCarrierIdText = String.valueOf(telephonyManager.getSimCarrierId());
+                        }
                     } else {
                         simServiceProvider = telephonyManager.getSimOperatorName();
                     }
@@ -296,12 +335,14 @@ public class SIMInfo extends AppCompatActivity {
                     mncSpn.setText(simMNC);
                     serialN.setText(simSerialNumber);
                     phoneNumber.setText(telNumber);
-
+                    groupIdView.setVisibility(View.VISIBLE);
+                    groupIdLevel1Slot0.setText(getGroupIdLevel(telephonyManager));
+                    simCarrierId.setText(simCarrierIdText);
                     networkName.setText(networkServiceProvider);
                     providerCountry.setText(networkCountryCode);
                     networkType.setText(networkTypeString);
                 }
-            } else if (!isPermissionEnabled) {
+            } else if (!isPhonePermissionEnabled) {
                 imeiNumber.setTextColor(Color.RED);
                 imeiNumber.setText("No WAN DETECTED");
                 simState.setTextColor(Color.RED);
@@ -312,11 +353,6 @@ public class SIMInfo extends AppCompatActivity {
                 simState.setTextColor(Color.RED);
                 simState.setText("NO SIM CARD DETECTED");
             }
-
-            /** MULTISIM pre API 22 **/
-        } else {
-
-
         }
 
 
@@ -593,7 +629,7 @@ public class SIMInfo extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            if (isPermissionEnabled) {
+                            if (isPhonePermissionEnabled) {
                                 updateData();
                             }
                         } catch (Exception e) {
@@ -618,9 +654,14 @@ public class SIMInfo extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
+
         if (requestCode == Utility.MY_PERMISSIONS_REQUEST) {
-            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), PHONE_PERMISSION);
+            isPhonePermissionEnabled = Utility.checkPermission(getApplicationContext(), PHONE_PERMISSION);
             isLocPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
+
+            if (isPhonePermissionEnabled) {
+                updateData();
+            }
         }
     }
 
@@ -749,6 +790,22 @@ public class SIMInfo extends AppCompatActivity {
             e.printStackTrace();
         }
         return meid;
+    }
+
+    @SuppressLint("MissingPermission")
+    private String getGroupIdLevel(TelephonyManager telephonyManager) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            String groupIdLevel1 = telephonyManager.getGroupIdLevel1();
+            return groupIdLevel1 == null ? getApplicationContext().getResources().getString(R.string.not_available_info) : groupIdLevel1;
+        }
+        return getApplicationContext().getResources().getString(R.string.not_available_info);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    private String getTAC(TelephonyManager telephonyManager, int slot) {
+        String tac = telephonyManager.getTypeAllocationCode(slot);
+
+        return (tac != null) ? tac : NOT_AVAILABLE;
     }
 
 

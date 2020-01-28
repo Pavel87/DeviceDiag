@@ -1,13 +1,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/dark_act_bg"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                tools:context="com.pacmac.devinfo.SIMInfo">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_act_bg"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.pacmac.devinfo.SIMInfo">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -53,7 +53,7 @@
                             android:textAllCaps="true"
                             android:textColor="@color/text_name"
                             android:textSize="14sp"
-                            android:textStyle=""/>
+                            android:textStyle="" />
 
                         <TextView
                             android:id="@+id/simCount"
@@ -64,7 +64,7 @@
                             android:gravity="end"
                             android:text="@string/not_available_info"
                             android:textColor="@color/text_value"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -86,7 +86,7 @@
                             android:textAllCaps="true"
                             android:textColor="@color/text_name"
                             android:textSize="14sp"
-                            android:textStyle=""/>
+                            android:textStyle="" />
 
                         <TextView
                             android:id="@+id/imsiNumber"
@@ -97,7 +97,7 @@
                             android:gravity="end"
                             android:text="@string/not_available_info"
                             android:textColor="@color/text_value"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
                     </LinearLayout>
 
 
@@ -122,7 +122,7 @@
                             android:textAllCaps="true"
                             android:textColor="@color/text_name"
                             android:textSize="14sp"
-                            android:textStyle=""/>
+                            android:textStyle="" />
 
                         <TextView
                             android:id="@+id/nai"
@@ -133,7 +133,7 @@
                             android:gravity="end"
                             android:text="@string/not_available_info"
                             android:textColor="@color/text_value"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
                     </LinearLayout>
 
 
@@ -156,7 +156,7 @@
                             android:textAllCaps="true"
                             android:textColor="@color/text_name"
                             android:textSize="14sp"
-                            android:textStyle=""/>
+                            android:textStyle="" />
 
                         <TextView
                             android:id="@+id/phoneRadio"
@@ -167,7 +167,7 @@
                             android:gravity="end"
                             android:text="@string/not_available_info"
                             android:textColor="@color/text_value"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -189,7 +189,7 @@
                             android:textAllCaps="true"
                             android:textColor="@color/text_name"
                             android:textSize="14sp"
-                            android:textStyle=""/>
+                            android:textStyle="" />
 
                         <TextView
                             android:id="@+id/dataState"
@@ -200,7 +200,7 @@
                             android:gravity="end"
                             android:text="@string/not_available_info"
                             android:textColor="@color/text_value"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -222,7 +222,7 @@
                             android:textAllCaps="true"
                             android:textColor="@color/text_name"
                             android:textSize="14sp"
-                            android:textStyle=""/>
+                            android:textStyle="" />
 
                         <TextView
                             android:id="@+id/dataActivity"
@@ -233,7 +233,7 @@
                             android:gravity="end"
                             android:text="@string/not_available_info"
                             android:textColor="@color/text_value"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -261,7 +261,7 @@
                         android:text="Current Network"
                         android:textColor="@color/text_value"
                         android:textSize="16sp"
-                        android:textStyle="normal"/>
+                        android:textStyle="normal" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -283,7 +283,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/networkName"
@@ -294,7 +294,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -316,7 +316,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/networkClass"
@@ -327,7 +327,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -350,7 +350,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/mccCode"
@@ -361,7 +361,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -384,7 +384,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/mncCode"
@@ -395,7 +395,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -418,7 +418,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/cid"
@@ -429,7 +429,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -453,7 +453,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/lac"
@@ -464,7 +464,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -488,7 +488,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/pciAndPsc"
@@ -499,7 +499,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -521,7 +521,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/networkType"
@@ -532,7 +532,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -556,7 +556,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/rfChannel"
@@ -567,7 +567,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -591,7 +591,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/bsicOrBandwidth"
@@ -602,7 +602,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
 
@@ -625,7 +625,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/networkCountry"
@@ -636,7 +636,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -658,7 +658,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/signalLevel"
@@ -669,7 +669,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -691,7 +691,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/asuLevel"
@@ -702,7 +702,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -725,7 +725,7 @@
                             android:fontFamily="@font/roboto_medium"
                             android:gravity="center"
                             android:text="Signal Strength [dBm]"
-                            android:textColor="@color/text_value"/>
+                            android:textColor="@color/text_value" />
 
 
                         <LinearLayout
@@ -755,7 +755,7 @@
                                     android:gravity="center"
                                     android:text="RSRP"
                                     android:textColor="@color/text_name"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
 
                                 <TextView
                                     android:id="@+id/lte_rsrp"
@@ -765,7 +765,7 @@
                                     android:gravity="center"
                                     android:text="N/A"
                                     android:textColor="@color/text_value"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -783,7 +783,7 @@
                                     android:gravity="center"
                                     android:text="RSRQ"
                                     android:textColor="@color/text_name"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
 
                                 <TextView
                                     android:id="@+id/lte_rsrq"
@@ -793,7 +793,7 @@
                                     android:gravity="center"
                                     android:text="N/A"
                                     android:textColor="@color/text_value"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -811,7 +811,7 @@
                                     android:gravity="center"
                                     android:text="RSSNR"
                                     android:textColor="@color/text_name"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
 
                                 <TextView
                                     android:id="@+id/lte_rssnr"
@@ -821,7 +821,7 @@
                                     android:gravity="center"
                                     android:text="N/A"
                                     android:textColor="@color/text_value"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -839,7 +839,7 @@
                                     android:gravity="center"
                                     android:text="CQI"
                                     android:textColor="@color/text_name"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
 
                                 <TextView
                                     android:id="@+id/lte_cqi"
@@ -849,7 +849,7 @@
                                     android:gravity="center"
                                     android:text="N/A"
                                     android:textColor="@color/text_value"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -867,7 +867,7 @@
                                     android:gravity="center"
                                     android:text="TA"
                                     android:textColor="@color/text_name"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
 
                                 <TextView
                                     android:id="@+id/lte_ta"
@@ -877,7 +877,7 @@
                                     android:gravity="center"
                                     android:text="N/A"
                                     android:textColor="@color/text_value"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -909,7 +909,7 @@
                                     android:gravity="center"
                                     android:text="Signal Strength"
                                     android:textColor="@color/text_name"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
 
                                 <TextView
                                     android:id="@+id/sigStrength2G"
@@ -919,7 +919,7 @@
                                     android:gravity="center"
                                     android:text="N/A"
                                     android:textColor="@color/text_value"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -937,7 +937,7 @@
                                     android:gravity="center"
                                     android:text="Timing Advance"
                                     android:textColor="@color/text_name"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
 
                                 <TextView
                                     android:id="@+id/timingAdvance2G"
@@ -947,7 +947,7 @@
                                     android:gravity="center"
                                     android:text="N/A"
                                     android:textColor="@color/text_value"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -957,11 +957,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:visibility="gone"
                             android:paddingLeft="16dp"
                             android:paddingTop="4dp"
                             android:paddingRight="16dp"
-                            android:paddingBottom="8dp">
+                            android:paddingBottom="8dp"
+                            android:visibility="gone">
 
 
                             <LinearLayout
@@ -980,7 +980,7 @@
                                     android:gravity="center"
                                     android:text="N/A"
                                     android:textColor="@color/text_value"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -1012,7 +1012,7 @@
                                     android:gravity="center"
                                     android:text="Signal Strength"
                                     android:textColor="@color/text_name"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
 
                                 <TextView
                                     android:id="@+id/signalStrengthCDMA"
@@ -1022,7 +1022,7 @@
                                     android:gravity="center"
                                     android:text="N/A"
                                     android:textColor="@color/text_value"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -1040,7 +1040,7 @@
                                     android:gravity="center"
                                     android:text="ECIO"
                                     android:textColor="@color/text_name"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
 
                                 <TextView
                                     android:id="@+id/ecio"
@@ -1050,7 +1050,7 @@
                                     android:gravity="center"
                                     android:text="N/A"
                                     android:textColor="@color/text_value"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -1068,7 +1068,7 @@
                                     android:gravity="center"
                                     android:text="SNR"
                                     android:textColor="@color/text_name"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
 
                                 <TextView
                                     android:id="@+id/snr"
@@ -1078,7 +1078,7 @@
                                     android:gravity="center"
                                     android:text="N/A"
                                     android:textColor="@color/text_value"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
@@ -1116,7 +1116,7 @@
                         android:text="SIM Slot 1"
                         android:textColor="@color/text_value"
                         android:textSize="16sp"
-                        android:textStyle="normal"/>
+                        android:textStyle="normal" />
                 </LinearLayout>
 
 
@@ -1139,7 +1139,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/imei"
@@ -1150,7 +1150,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1173,7 +1173,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/meid"
@@ -1184,7 +1184,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1202,11 +1202,11 @@
                         android:fontFamily="@font/roboto_medium"
                         android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:text="SIM State"
+                        android:text="STATUS"
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/simState"
@@ -1217,7 +1217,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1235,11 +1235,11 @@
                         android:fontFamily="@font/roboto_medium"
                         android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:text="SIM SN"
+                        android:text="SERIAL NUMBER"
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/serialN"
@@ -1250,7 +1250,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1268,11 +1268,11 @@
                         android:fontFamily="@font/roboto_medium"
                         android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:text="SIM Provider"
+                        android:text="PROVIDER NAME"
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/operatorName"
@@ -1283,7 +1283,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1305,7 +1305,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/simCountryCode"
@@ -1316,7 +1316,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1334,11 +1334,11 @@
                         android:fontFamily="@font/roboto_medium"
                         android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:text="SIM MCC"
+                        android:text="MCC"
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/mccSPN"
@@ -1349,7 +1349,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1367,11 +1367,11 @@
                         android:fontFamily="@font/roboto_medium"
                         android:paddingEnd="16dp"
                         android:paddingRight="16dp"
-                        android:text="SIM MNC"
+                        android:text="MNC"
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/mncSPN"
@@ -1382,7 +1382,111 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/simGroupIdLevelView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="Group Id Level1"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
+
+                    <TextView
+                        android:id="@+id/simGroupIdLevel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/simCarrierIdView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="CARRIER ID"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
+
+                    <TextView
+                        android:id="@+id/simCarrierId"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tacView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="TAC"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
+
+                    <TextView
+                        android:id="@+id/typeAllocationCode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1404,7 +1508,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/phoneNumber"
@@ -1415,7 +1519,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -1425,9 +1529,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:visibility="gone"
                 android:background="@android:drawable/dialog_holo_light_frame"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1444,7 +1548,7 @@
                         android:text="SIM Slot 2"
                         android:textColor="@color/text_value"
                         android:textSize="16sp"
-                        android:textStyle="normal"/>
+                        android:textStyle="normal" />
                 </LinearLayout>
 
 
@@ -1467,7 +1571,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/imei2"
@@ -1478,7 +1582,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1501,7 +1605,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/meid2"
@@ -1512,7 +1616,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1534,7 +1638,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/simState2"
@@ -1545,7 +1649,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1567,7 +1671,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/serialN2"
@@ -1578,7 +1682,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1600,7 +1704,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/operatorName2"
@@ -1611,7 +1715,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1633,7 +1737,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/simCountryCode2"
@@ -1644,7 +1748,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1666,7 +1770,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/mccSPN2"
@@ -1677,7 +1781,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1699,7 +1803,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/mncSPN2"
@@ -1710,7 +1814,42 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tacView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="4dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingEnd="16dp"
+                        android:paddingRight="16dp"
+                        android:text="TAC"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_name"
+                        android:textSize="14sp"
+                        android:textStyle="" />
+
+                    <TextView
+                        android:id="@+id/typeAllocationCode2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="end"
+                        android:text="@string/not_available_info"
+                        android:textColor="@color/text_value"
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1732,7 +1871,7 @@
                         android:textAllCaps="true"
                         android:textColor="@color/text_name"
                         android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:textStyle="" />
 
                     <TextView
                         android:id="@+id/phoneNumber2"
@@ -1743,7 +1882,7 @@
                         android:gravity="end"
                         android:text="@string/not_available_info"
                         android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
             </LinearLayout>
