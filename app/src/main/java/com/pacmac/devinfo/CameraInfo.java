@@ -6,8 +6,10 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ShareActionProvider;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,36 +51,36 @@ public class CameraInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_info);
 
-        tabCamSpec = (LinearLayout) findViewById(R.id.tabCamSpec);
+        tabCamSpec = findViewById(R.id.tabCamSpec);
         tabGeneral = findViewById(R.id.tabGeneral);
 
-        vertical = (TextView) findViewById(R.id.vertical);
-        horizontal = (TextView) findViewById(R.id.horizontal);
-        focalLength = (TextView) findViewById(R.id.focalLength);
-        minMaxEV = (TextView) findViewById(R.id.minMaxEV);
-        zoomRatios = (TextView) findViewById(R.id.zoomRatios);
-        faceDetection = (TextView) findViewById(R.id.faceDetection);
-        focusAreas = (TextView) findViewById(R.id.focusAreas);
-        smoothZoom = (TextView) findViewById(R.id.smoothZoom);
-        orientation = (TextView) findViewById(R.id.camOrientation);
-        videoSnapshot = (TextView) findViewById(R.id.videoSnapshot);
-        videoStab = (TextView) findViewById(R.id.videoStab);
-        autoExposure = (TextView) findViewById(R.id.autoExposure);
-        autoWhiteBalance = (TextView) findViewById(R.id.autoWhiteBalance);
-        jpegQuality = (TextView) findViewById(R.id.jpegQuality);
-        picSizes = (TextView) findViewById(R.id.picSizes);
-        videoSizes = (TextView) findViewById(R.id.videoSizes);
-        resPicAmount = (TextView) findViewById(R.id.resPicAmount);
-        resVidAmount = (TextView) findViewById(R.id.resVidAmount);
+        vertical = findViewById(R.id.vertical);
+        horizontal = findViewById(R.id.horizontal);
+        focalLength = findViewById(R.id.focalLength);
+        minMaxEV = findViewById(R.id.minMaxEV);
+        zoomRatios = findViewById(R.id.zoomRatios);
+        faceDetection = findViewById(R.id.faceDetection);
+        focusAreas = findViewById(R.id.focusAreas);
+        smoothZoom = findViewById(R.id.smoothZoom);
+        orientation =  findViewById(R.id.camOrientation);
+        videoSnapshot = findViewById(R.id.videoSnapshot);
+        videoStab =  findViewById(R.id.videoStab);
+        autoExposure = findViewById(R.id.autoExposure);
+        autoWhiteBalance = findViewById(R.id.autoWhiteBalance);
+        jpegQuality = findViewById(R.id.jpegQuality);
+        picSizes = findViewById(R.id.picSizes);
+        videoSizes = findViewById(R.id.videoSizes);
+        resPicAmount = findViewById(R.id.resPicAmount);
+        resVidAmount = findViewById(R.id.resVidAmount);
 
-        autoFocus = (ImageView) findViewById(R.id.autoFocus);
-        manualPP = (ImageView) findViewById(R.id.manualPP);
-        manualSensor = (ImageView) findViewById(R.id.manualSensor);
-        capRaw = (ImageView) findViewById(R.id.capRaw);
-        capFull = (ImageView) findViewById(R.id.capFull);
-        flashSupport = (ImageView) findViewById(R.id.flashSupport);
-        extSupport = (ImageView) findViewById(R.id.extSupport);
-        spinnner = (Spinner) findViewById(R.id.spinner);
+        autoFocus = findViewById(R.id.autoFocus);
+        manualPP = findViewById(R.id.manualPP);
+        manualSensor = findViewById(R.id.manualSensor);
+        capRaw = findViewById(R.id.capRaw);
+        capFull = findViewById(R.id.capFull);
+        flashSupport = findViewById(R.id.flashSupport);
+        extSupport = findViewById(R.id.extSupport);
+        spinnner = findViewById(R.id.spinner);
 
         // Check if user disabled CAMERA permission at some point
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -90,7 +92,7 @@ public class CameraInfo extends AppCompatActivity {
             getCameraInfo();
 
         } else {
-            Utility.displayExplanationForPermission(this, getResources().getString(R.string.cam_permission_msg), CAMERA_PERMISSION);
+            Utility.displayExplanationForPermission(this, getResources().getString(R.string.cam_permission_msg), new String[]{CAMERA_PERMISSION});
             //Utility.requestPermissions(this , CAMERA_PERMISSION);
         }
     }

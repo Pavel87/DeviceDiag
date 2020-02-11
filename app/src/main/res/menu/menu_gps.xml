@@ -11,7 +11,6 @@
 
     <item
         android:id="@+id/menu_item_share"
-        app:actionProviderClass="androidx.appcompat.widget.ShareActionProvider"
         android:icon="@drawable/share_white"
         android:orderInCategory="101"
         android:title="Share"

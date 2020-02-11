@@ -10,7 +10,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
@@ -53,7 +55,6 @@ public class NMEAfeed extends AppCompatActivity implements OnNmeaMessageListener
     LocationManager locationManager;
 
     private boolean isNMEAListenerOn = false;
-    private static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +80,7 @@ public class NMEAfeed extends AppCompatActivity implements OnNmeaMessageListener
 
                 if (!isPermissionEnabled) {
                     compoundButton.setChecked(false);
-                    Utility.requestPermissions(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    Utility.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
                 } else {
                     if (checked) {
                         //Log.d("TAG", "checked");
@@ -104,11 +105,11 @@ public class NMEAfeed extends AppCompatActivity implements OnNmeaMessageListener
                 // Check if user disabled LOCATION permission at some point
                 boolean isPermissionEnabled = true;
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    isPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
+                    isPermissionEnabled = Utility.checkPermission(getApplicationContext(), Utility.ACCESS_FINE_LOCATION);
                 }
 
                 if (!isPermissionEnabled) {
-                    Utility.requestPermissions(activity, LOCATION_PERMISSION);
+                    Utility.requestPermissions(activity, Utility.getLocationPermissions());
                 } else {
 
 
@@ -117,7 +118,6 @@ public class NMEAfeed extends AppCompatActivity implements OnNmeaMessageListener
                         isNMEAListenerOn = false;
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
                             locationManager.removeNmeaListener(NMEAfeed.this);
                         } else {
 
@@ -144,14 +144,21 @@ public class NMEAfeed extends AppCompatActivity implements OnNmeaMessageListener
 
                                     @Override
                                     public void run() {
-                                        nmeaUpdate.setText(Html.fromHtml(html));
+                                        if (nmeaUpdate == null || html == null)
+                                            return;
 
-                                        mScrollView.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                mScrollView.smoothScrollTo(0, nmeaUpdate.getBottom());
-                                            }
-                                        });
+                                        try {
+                                            nmeaUpdate.setText(Html.fromHtml(html));
+
+                                            mScrollView.post(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    mScrollView.smoothScrollTo(0, nmeaUpdate.getBottom());
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
                                     }
                                 });
 
@@ -265,7 +272,7 @@ public class NMEAfeed extends AppCompatActivity implements OnNmeaMessageListener
     protected void onPause() {
         if (locationManager != null) {
             locationManager.removeNmeaListener(this);
-            if (Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION))
+            if (Utility.checkPermission(getApplicationContext(), Utility.ACCESS_FINE_LOCATION))
                 locationManager.removeUpdates(this);
         }
         super.onPause();

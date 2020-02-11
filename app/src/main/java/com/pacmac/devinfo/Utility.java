@@ -1,23 +1,19 @@
 package com.pacmac.devinfo;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.os.Build;
-import androidx.annotation.RequiresApi;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ShareCompat;
 import androidx.core.content.PermissionChecker;
-import androidx.appcompat.widget.ShareActionProvider;
-import android.telephony.TelephonyManager;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -32,14 +28,24 @@ public class Utility {
 
 
     public final static int MY_PERMISSIONS_REQUEST = 8;
-    public static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
+    public static final String ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    public static final String ACCESS_BACKGROUND_LOCATION = Manifest.permission.ACCESS_BACKGROUND_LOCATION;
+    public static final String PHONE_PERMISSION = Manifest.permission.READ_PHONE_STATE;
+
+
+    public static String[] getLocationPermissions() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+            return new String[]{ACCESS_BACKGROUND_LOCATION, ACCESS_FINE_LOCATION};
+        }
+        return new String[]{ACCESS_FINE_LOCATION};
+    }
 
     /**
      * This method will check if permission is granted at runtime
      */
     public static boolean checkPermission(Context context, String permission) {
 
-        int status = PermissionChecker.checkSelfPermission(context, permission);
+        int status = context.checkCallingOrSelfPermission(permission);
         if (status == PermissionChecker.PERMISSION_GRANTED) {
             return true;
         }
@@ -47,12 +53,12 @@ public class Utility {
     }
 
 
-    public static void requestPermissions(Activity activity, String permission) {
+    public static void requestPermissions(Activity activity, String[] permissions) {
         // No explanation needed, we can request the permission.
-        ActivityCompat.requestPermissions(activity, new String[]{permission}, MY_PERMISSIONS_REQUEST);
+        ActivityCompat.requestPermissions(activity, permissions, MY_PERMISSIONS_REQUEST);
     }
 
-    public static void displayExplanationForPermission(Activity act, String msg, final String permission) {
+    public static void displayExplanationForPermission(Activity act, String msg, final String[] permissions) {
 
         final Activity mActivity = act;
         AlertDialog.Builder builder = new AlertDialog.Builder(act, 0)
@@ -60,7 +66,7 @@ public class Utility {
                 .setPositiveButton((act.getResources().getString(R.string.request_perm)), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        requestPermissions(mActivity, permission);
+                        requestPermissions(mActivity, permissions);
                     }
                 })
                 .setNegativeButton(act.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -260,14 +266,13 @@ public class Utility {
     }
 
     static void exporData(Activity activity, String subject, String bodyText) {
-            ShareCompat.IntentBuilder.from(activity)
-                    .setType("message/rfc822")
-                    .addEmailTo("")
-                    .setSubject(Build.MODEL + "\t-\t" + subject)
-                    .setText(bodyText)
-                    .setChooserTitle("Share via:")
-                    .startChooser();
-//        }
+        ShareCompat.IntentBuilder.from(activity)
+                .setType("message/rfc822")
+                .addEmailTo("")
+                .setSubject(Build.MODEL + "\t-\t" + subject)
+                .setText(bodyText)
+                .setChooserTitle("Share via:")
+                .startChooser();
     }
 
 }

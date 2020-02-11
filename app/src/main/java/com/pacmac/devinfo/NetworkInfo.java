@@ -57,7 +57,7 @@ public class NetworkInfo extends AppCompatActivity {
     private String roamingStr = null;
     private String bssidTemp = null;
     private ScanResult scanResult = null;
-    private boolean isPermissionEnabled = false;
+    private boolean isLocationPermissionEnabled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +66,10 @@ public class NetworkInfo extends AppCompatActivity {
 
         // Check if user disabled LOCATION permission at some point
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), Utility.LOCATION_PERMISSION);
+            isLocationPermissionEnabled = Utility.checkPermission(getApplicationContext(), Utility.ACCESS_FINE_LOCATION);
         }
-        if (!isPermissionEnabled) {
-            Utility.requestPermissions(this, Utility.LOCATION_PERMISSION);
+        if (!isLocationPermissionEnabled) {
+            Utility.requestPermissions(this, Utility.getLocationPermissions());
         }
 
 
@@ -177,7 +177,7 @@ public class NetworkInfo extends AppCompatActivity {
         if (wifiInfo == null)
             return null;
 
-        if (isPermissionEnabled) {
+        if (isLocationPermissionEnabled) {
             List<ScanResult> wifiScanList = wifiManager.getScanResults();
             if (wifiScanList == null || wifiScanList.size() == 0)
                 return null;

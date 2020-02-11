@@ -30,7 +30,7 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
     private final static String MAIN_PREF_FILE = "de_vi_ce";
     private final static String VERSION_KEY = "version_key";
 
-    private boolean isPermissionEnabled = true;
+    private boolean isLocationPermissionEnabled = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +46,10 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
 
         // Check if user disabled LOCATION permission at some point
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), Utility.LOCATION_PERMISSION);
+            isLocationPermissionEnabled = Utility.checkPermission(getApplicationContext(), Utility.ACCESS_FINE_LOCATION);
         }
-        if (!isPermissionEnabled) {
-            Utility.requestPermissions(this, Utility.LOCATION_PERMISSION);
+        if (!isLocationPermissionEnabled) {
+            Utility.requestPermissions(this, Utility.getLocationPermissions());
         }
 
         // Set up the action bar.
@@ -88,23 +88,24 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
 
         // Check if user disabled LOCATION permission at some point
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), Utility.LOCATION_PERMISSION);
+            isLocationPermissionEnabled = Utility.checkPermission(getApplicationContext(), Utility.ACCESS_FINE_LOCATION);
         }
-        if (!isPermissionEnabled) {
-            Utility.requestPermissions(this, Utility.LOCATION_PERMISSION);
+        if (!isLocationPermissionEnabled) {
+            Utility.requestPermissions(this, Utility.getLocationPermissions());
         }
 
-        if (isPermissionEnabled && checkIfAppUpdated()) {
-            startActivity(new Intent(getApplicationContext(), NewFeaturesActivity.class));
+        if (isLocationPermissionEnabled && checkIfAppUpdated()) {
+            //TODO uncomment for next release
+//            startActivity(new Intent(getApplicationContext(), NewFeaturesActivity.class));
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        isPermissionEnabled = Utility.checkPermission(getApplicationContext(), Utility.LOCATION_PERMISSION);
-        if (isPermissionEnabled && checkIfAppUpdated()) {
-            startActivity(new Intent(getApplicationContext(), NewFeaturesActivity.class));
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        isLocationPermissionEnabled = Utility.checkPermission(getApplicationContext(), Utility.ACCESS_FINE_LOCATION);
+        if (isLocationPermissionEnabled && checkIfAppUpdated()) {
+            //TODO uncomment for next release
+//            startActivity(new Intent(getApplicationContext(), NewFeaturesActivity.class));
         }
     }
 

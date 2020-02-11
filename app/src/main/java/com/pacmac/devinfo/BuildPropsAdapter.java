@@ -48,8 +48,10 @@ public class BuildPropsAdapter extends RecyclerView.Adapter<BuildPropsAdapter.My
 
     @Override
     public void onBindViewHolder(@NonNull BuildPropsAdapter.MyViewHolder holder, int position) {
-        holder.keyView.setText(mDataFiltered.get(position).getKey());
-        holder.valueView.setText(mDataFiltered.get(position).getValue());
+        if (position < mDataFiltered.size()) {
+            holder.keyView.setText(mDataFiltered.get(position).getKey());
+            holder.valueView.setText(mDataFiltered.get(position).getValue());
+        }
     }
 
     @Override

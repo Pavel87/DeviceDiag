@@ -2,8 +2,8 @@ package com.pacmac.devinfo;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +18,9 @@ import androidx.fragment.app.Fragment;
 public class FragmentDetails extends Fragment {
 
     private GridView gridView;
+
+    boolean isLocPermissionEnabled = true;
+    boolean isPhonePermissionEnabled = true;
 
     private Integer[] mThumbIds = {
             R.drawable.cpuimg, R.drawable.ramimg,
@@ -41,8 +44,6 @@ public class FragmentDetails extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Log.d("TAG", "position: " + position);
-
                 switch (position) {
                     case 0:
                         Intent i = new Intent(getActivity(), CPUInfo.class);
@@ -70,6 +71,18 @@ public class FragmentDetails extends Fragment {
                             startActivity(i);
                         break;
                     case 5:
+                        isLocPermissionEnabled = Utility.checkPermission(getContext(), Utility.ACCESS_FINE_LOCATION);
+                        isPhonePermissionEnabled = Utility.checkPermission(getContext(), Utility.PHONE_PERMISSION);
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+                            if (!isPhonePermissionEnabled) {
+                                Utility.displayExplanationForPermission(getActivity(), getResources().getString(R.string.phone_permission_msg), new String[]{Utility.PHONE_PERMISSION});
+                                return;
+                            }
+                            if (!isLocPermissionEnabled) {
+                                Utility.displayExplanationForPermission(getActivity(), getResources().getString(R.string.location_permission_msg), Utility.getLocationPermissions());
+                                return;
+                            }
+                        }
                         i = new Intent(getActivity(), SIMInfo.class);
                         if (i.resolveActivity(getActivity().getPackageManager()) != null)
                             startActivity(i);

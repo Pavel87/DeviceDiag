@@ -73,7 +73,9 @@ public class FragmentMain extends Fragment {
 
         modelName.setText(Build.MODEL);
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+            view.findViewById(R.id.serialNumberLayout).setVisibility(View.GONE);
+        } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
                 serialNumber.setText(Build.getSerial());
             }
@@ -107,8 +109,10 @@ public class FragmentMain extends Fragment {
         sb.append("\n\n");
 
         //body
-        sb.append("Serial Number:\t\t" + serialNumber.getText().toString());
-        sb.append("\n");
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            sb.append("Serial Number:\t\t" + serialNumber.getText().toString());
+            sb.append("\n");
+        }
         sb.append("Manufacturer:\t\t" + manufacturer.getText().toString());
         sb.append("\n");
         sb.append("Hardware Code Name:\t\t" + hardWare.getText().toString());

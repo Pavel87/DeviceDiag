@@ -51,7 +51,7 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
     GPSModel gpsViewModel;
 
     private static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
-    private boolean isPermissionEnabled = true;
+    private boolean isLocationPermissionEnabled = true;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -79,10 +79,10 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
 
         // Check if user disabled LOCATION permission at some point
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            isPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
+            isLocationPermissionEnabled = Utility.checkPermission(getApplicationContext(), Utility.ACCESS_FINE_LOCATION);
         }
-        if (!isPermissionEnabled) {
-            Utility.requestPermissions(this, LOCATION_PERMISSION);
+        if (!isLocationPermissionEnabled) {
+            Utility.requestPermissions(this, Utility.getLocationPermissions());
         }
         // PORTRAIT
 
@@ -159,7 +159,7 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
 
             };
 
-        } else if (isPermissionEnabled) {
+        } else if (isLocationPermissionEnabled) {
             Toast.makeText(getApplicationContext(), "GPS is not available on this device.", Toast.LENGTH_LONG).show();
         }
 
@@ -170,7 +170,7 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
     @Override
     protected void onResume() {
         try {
-            if (isPermissionEnabled) {
+            if (isLocationPermissionEnabled) {
                 if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
                     locationManager.addGpsStatusListener(gpsStatusListener);
@@ -186,7 +186,7 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
     @Override
     protected void onPause() {
         try {
-            if (isPermissionEnabled) {
+            if (isLocationPermissionEnabled) {
                 if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
                     locationManager.removeGpsStatusListener(gpsStatusListener);
                     locationManager.removeUpdates(this);
@@ -383,6 +383,6 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
-        isPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
+        isLocationPermissionEnabled = Utility.checkPermission(getApplicationContext(), Utility.ACCESS_FINE_LOCATION);
     }
 }

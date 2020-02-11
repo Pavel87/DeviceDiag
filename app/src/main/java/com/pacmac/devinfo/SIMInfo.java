@@ -9,12 +9,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.telephony.CellInfo;
 import android.telephony.CellInfoCdma;
 import android.telephony.CellInfoGsm;
@@ -32,6 +26,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -68,21 +66,10 @@ public class SIMInfo extends AppCompatActivity {
 
     private TextView mccLabel, mncLabel, cidLabel, lacLabel, pciAndPscLabel, rfChannelLabel, bwOrBSICLabel;
 
-
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
     private boolean isSIMInside = false;
 
     private final Handler mHandler = new Handler();
     private Runnable timer;
-
-    boolean isLocPermissionEnabled = true;
-    boolean isPhonePermissionEnabled = true;
-    private static final String PHONE_PERMISSION = Manifest.permission.READ_PHONE_STATE;
-    private static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
-
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
@@ -161,28 +148,10 @@ public class SIMInfo extends AppCompatActivity {
         meid2 = findViewById(R.id.meid2);
 
 
-//        mRecyclerView = findViewById(R.id.cellList);
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-//        mRecyclerView.setHasFixedSize(true);
-//        mLayoutManager = new LinearLayoutManager(getApplicationContext());
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//        mAdapter = new CellInfoAdapter(new ArrayList<CellInfo>());
-//        mRecyclerView.setAdapter(mAdapter);
-
-
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         if (telephonyManager.getPhoneType() == 0) {
             Toast.makeText(getApplicationContext(), "There is no WAN radio available", Toast.LENGTH_LONG).show();
             return;
-        }
-
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            isPhonePermissionEnabled = Utility.checkPermission(getApplicationContext(), PHONE_PERMISSION);
-            isLocPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
-            if (!isPhonePermissionEnabled) {
-                Utility.displayExplanationForPermission(this, getResources().getString(R.string.phone_permission_msg), PHONE_PERMISSION);
-            }
         }
 
         simCount.setText(String.valueOf(isMultiSIM() ? 2 : 1));
@@ -190,10 +159,7 @@ public class SIMInfo extends AppCompatActivity {
             findViewById(R.id.simView2).setVisibility(View.VISIBLE);
         }
 
-        if (isPhonePermissionEnabled) {
-            // update view with phone data
-            updateData();
-        }
+        updateData();
     }
 
 
@@ -205,13 +171,7 @@ public class SIMInfo extends AppCompatActivity {
             return;
         }
 
-
-        if (isLocPermissionEnabled) {
-//            ((CellInfoAdapter) mAdapter).updateData(telephonyManager.getAllCellInfo());
-            getCellTower(telephonyManager);
-        } else {
-            Utility.requestPermissions(this, LOCATION_PERMISSION);
-        }
+        getCellTower(telephonyManager);
 
 
         /** MULTISIM    API 22+ **/
@@ -236,7 +196,11 @@ public class SIMInfo extends AppCompatActivity {
                         phoneNumber.setText(info.getNumber() != null ? info.getNumber() : "N/A");
                         serialN.setText(info.getIccId() != null ? info.getIccId() : "N/A");
                         String imei = getImei(telephonyManager, 0, false);
-                        imeiNumber.setText(imei != null ? imei : "N/A");
+                        if (imei == null) {
+                            findViewById(R.id.imei1Layout).setVisibility(View.GONE);
+                        } else {
+                            imeiNumber.setText(imei);
+                        }
                         simCountryCode.setText(info.getCountryIso() != null ? info.getCountryIso().toUpperCase() : "N/A");
                         meid.setText(getMEID(telephonyManager, 0));
                         groupIdView.setVisibility(View.VISIBLE);
@@ -253,8 +217,14 @@ public class SIMInfo extends AppCompatActivity {
                         spnName2.setText(info.getCarrierName() != null ? info.getCarrierName() : "N/A");
                         phoneNumber2.setText(info.getNumber() != null ? info.getNumber() : "N/A");
                         serialN2.setText(info.getIccId() != null ? info.getIccId() : "N/A");
+
+
                         String imei2 = getImei(telephonyManager, 1, false);
-                        imeiNumber2.setText(imei2 != null ? imei2 : "N/A");
+                        if (imei2 == null) {
+                            findViewById(R.id.imei2Layout).setVisibility(View.GONE);
+                        } else {
+                            imeiNumber2.setText(imei2);
+                        }
                         simCountryCode2.setText(info.getCountryIso() != null ? info.getCountryIso().toUpperCase() : "N/A");
                         meid2.setText(getMEID(telephonyManager, 1));
 //                        groupIdLevel1Slot1.setText(getOutput(telephonyManager, "getGroupIdLevel1", 1));
@@ -268,7 +238,6 @@ public class SIMInfo extends AppCompatActivity {
             /** SINGLE SIM **/
         } else if (!isMultiSIM()) {
             simState.setText(getSimState(telephonyManager, 0, true));
-            String imei = getImei(telephonyManager, 0, true);
 
             String simSerialNumber = NOT_AVAILABLE;
             String simMCC = NOT_AVAILABLE;
@@ -282,13 +251,20 @@ public class SIMInfo extends AppCompatActivity {
             String telNumber = NOT_AVAILABLE;
             String tac = NOT_AVAILABLE;
 
-            if (imei != "" && imei != null) {
+            String imei = getImei(telephonyManager, 0, true);
+            if (imei == null) {
+                findViewById(R.id.imei1Layout).setVisibility(View.GONE);
+            } else {
+                imeiNumber.setText(imei);
+            }
+
+            if (imei != null || telephonyManager.getPhoneType() != 0) {
 
                 imeiNumber.setText(imei);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     findViewById(R.id.viewMEID).setVisibility(View.VISIBLE);
                     @SuppressLint("MissingPermission")
-                    String meID = telephonyManager.getMeid();
+                    String meID = getMEID(telephonyManager, 0);
                     meid.setText(meID != null ? meID : getApplicationContext().getResources().getString(R.string.not_available_info));
                 }
 
@@ -321,7 +297,9 @@ public class SIMInfo extends AppCompatActivity {
 
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
                         try {
-                            simSerialNumber = telephonyManager.getSimSerialNumber() != null ? telephonyManager.getSimSerialNumber() : simSerialNumber;
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                                simSerialNumber = telephonyManager.getSimSerialNumber() != null ? telephonyManager.getSimSerialNumber() : simSerialNumber;
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -342,11 +320,6 @@ public class SIMInfo extends AppCompatActivity {
                     providerCountry.setText(networkCountryCode);
                     networkType.setText(networkTypeString);
                 }
-            } else if (!isPhonePermissionEnabled) {
-                imeiNumber.setTextColor(Color.RED);
-                imeiNumber.setText("No WAN DETECTED");
-                simState.setTextColor(Color.RED);
-                simState.setText("NO SIM CARD DETECTED");
             } else {
                 imeiNumber.setTextColor(Color.RED);
                 imeiNumber.setText("No WAN DETECTED");
@@ -357,18 +330,19 @@ public class SIMInfo extends AppCompatActivity {
 
 
         // GENERAL INFORMATION
-
-        if (isLocPermissionEnabled) {
-            dataActivity.setText(dataActivityQuery(telephonyManager.getDataActivity()));
-            dataState.setText(dataConnState(telephonyManager.getDataState()));
-            phoneRadio.setText(getPhoneRadio(telephonyManager.getPhoneType()));
+        dataActivity.setText(dataActivityQuery(telephonyManager.getDataActivity()));
+        dataState.setText(dataConnState(telephonyManager.getDataState()));
+        phoneRadio.setText(getPhoneRadio(telephonyManager.getPhoneType()));
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             imsiNumber.setText(telephonyManager.getSubscriberId());
+        } else {
+            findViewById(R.id.imsiLayout).setVisibility(View.GONE);
+        }
 
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
-                findViewById(R.id.viewNAI).setVisibility(View.VISIBLE);
-                String naiString = telephonyManager.getNai();
-                nai.setText(naiString != null ? naiString : getApplicationContext().getResources().getString(R.string.not_available_info));
-            }
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+            findViewById(R.id.viewNAI).setVisibility(View.VISIBLE);
+            String naiString = telephonyManager.getNai();
+            nai.setText(naiString != null ? naiString : getApplicationContext().getResources().getString(R.string.not_available_info));
         }
     }
 
@@ -456,8 +430,23 @@ public class SIMInfo extends AppCompatActivity {
     }
 
     private String networkType(int value) {
-        switch (value) {
 
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+            switch (value) {
+                case TelephonyManager.NETWORK_TYPE_GSM:
+                    return "GSM";
+                case TelephonyManager.NETWORK_TYPE_TD_SCDMA:
+                    return "TD-SCDMA";
+                case TelephonyManager.NETWORK_TYPE_IWLAN:
+                    return "IWLAN";
+                case 19:
+                    return "LTE CA";
+                case 20:
+                    return "5G NR";
+            }
+        }
+
+        switch (value) {
             case TelephonyManager.NETWORK_TYPE_1xRTT:
                 return "1xRTT";
             case TelephonyManager.NETWORK_TYPE_CDMA:
@@ -582,10 +571,13 @@ public class SIMInfo extends AppCompatActivity {
         //body
         sb.append("SIM Serial Number: " + serialN.getText().toString());
         sb.append("\n");
-        sb.append("IMEI: " + imeiNumber.getText().toString());
-        sb.append("\n");
-        sb.append("IMSI: " + imsiNumber.getText().toString());
-        sb.append("\n");
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            sb.append("IMEI: " + imeiNumber.getText().toString());
+            sb.append("\n");
+
+            sb.append("IMSI: " + imsiNumber.getText().toString());
+            sb.append("\n");
+        }
         sb.append("Phone Radio Type: " + phoneRadio.getText().toString());
         sb.append("\n");
         sb.append("SIM Provider Name: " + spnName.getText().toString());
@@ -629,9 +621,9 @@ public class SIMInfo extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            if (isPhonePermissionEnabled) {
-                                updateData();
-                            }
+//                            if (isPhonePermissionEnabled && isLocPermissionEnabled) {
+                            updateData();
+//                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -650,21 +642,6 @@ public class SIMInfo extends AppCompatActivity {
             mHandler.removeCallbacks(timer);
         }
     }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-
-        if (requestCode == Utility.MY_PERMISSIONS_REQUEST) {
-            isPhonePermissionEnabled = Utility.checkPermission(getApplicationContext(), PHONE_PERMISSION);
-            isLocPermissionEnabled = Utility.checkPermission(getApplicationContext(), LOCATION_PERMISSION);
-
-            if (isPhonePermissionEnabled) {
-                updateData();
-            }
-        }
-    }
-
 
     private static final String SIM_COUNT_QLC1 = "ro.multisim.simslotcount";
     private static final String SIM_COUNT_QLC2 = "ro.hw.dualsim";
@@ -753,11 +730,11 @@ public class SIMInfo extends AppCompatActivity {
 
     @SuppressLint("MissingPermission")
     private String getImei(TelephonyManager telephonyManager, int slotID, boolean isSingleSim) {
-        String imei = "";
+        String imei = null;
         try {
             String s = Build.VERSION.RELEASE;
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P || Build.VERSION.RELEASE.contains("10")) {
-                imei = getResources().getString(R.string.not_available_info);
+                return null;
             } else if (isSingleSim) {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
                     imei = telephonyManager.getImei();
@@ -779,12 +756,15 @@ public class SIMInfo extends AppCompatActivity {
 
     @SuppressLint("MissingPermission")
     private String getMEID(TelephonyManager telephonyManager, int slotID) {
-        String meid = "N/A";
+        String meid = NOT_AVAILABLE;
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
                 findViewById(R.id.viewMEID).setVisibility(View.VISIBLE);
                 findViewById(R.id.viewMEID2).setVisibility(View.VISIBLE);
                 meid = telephonyManager.getMeid(slotID);
+                if (meid == null) {
+                    return NOT_AVAILABLE;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -808,10 +788,26 @@ public class SIMInfo extends AppCompatActivity {
         return (tac != null) ? tac : NOT_AVAILABLE;
     }
 
+    @SuppressLint("MissingPermission")
+    static List<CellInfo> getAllCellInfo(Context context, TelephonyManager telephonyManager) {
+        if (telephonyManager == null)
+            return null;
+        try {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                return telephonyManager.getAllCellInfo();
+            } else {
+                return CellInfoFutureTask.getAllCellInfoBlocking(telephonyManager);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     @SuppressLint("MissingPermission")
     private String getCellTower(TelephonyManager telephonyManager) {
-        List<CellInfo> cellInfo = telephonyManager.getAllCellInfo();
+        List<CellInfo> cellInfo = getAllCellInfo(getApplicationContext(), telephonyManager);
         networkClass.setText(getNetworkClass(getApplicationContext(), telephonyManager.getNetworkType()));
 
         String currentCellInfo = "Unknown";
@@ -1139,7 +1135,7 @@ public class SIMInfo extends AppCompatActivity {
     public static String getNetworkClass(Context context, int networkType) {
         switch (networkType) {
             case TelephonyManager.NETWORK_TYPE_GPRS:
-            case TelephonyManager.NETWORK_TYPE_GSM:
+            case 16:
             case TelephonyManager.NETWORK_TYPE_EDGE:
             case TelephonyManager.NETWORK_TYPE_CDMA:
             case TelephonyManager.NETWORK_TYPE_1xRTT:

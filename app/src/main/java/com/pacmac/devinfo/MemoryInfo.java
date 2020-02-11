@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.StatFs;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -44,7 +46,6 @@ public class MemoryInfo extends AppCompatActivity {
     public static final int TYPE_DATA = 0;
     public static final int TYPE_INTERNAL_SD = 1;
     public static final int TYPE_EXTERNAL_SD = 2;
-
 
 
     @Override
@@ -86,17 +87,17 @@ public class MemoryInfo extends AppCompatActivity {
         }
         // GET STORAGE
         if (!isPermissionEnabled) {
-            Utility.displayExplanationForPermission(this, getResources().getString(R.string.storage_permission_msg), STORAGE_PERMISSION);
+            Utility.displayExplanationForPermission(this, getResources().getString(R.string.storage_permission_msg), new String[]{STORAGE_PERMISSION});
         } else {
             getAndDisplayStorage(getApplicationContext());
             ((StorageAdapter) mAdapter).updateData(listStorage);
         }
 
         try {
-           String memorychip = Utility.getDeviceProperty("ro.boot.hardware.ddr");
-           String[] chipelements = memorychip.split(",");
-           ramHardware.setText(chipelements[1] + " " + chipelements[2] + " - " + chipelements[0]);
-           findViewById(R.id.ramchipView).setVisibility(View.VISIBLE);
+            String memorychip = Utility.getDeviceProperty("ro.boot.hardware.ddr");
+            String[] chipelements = memorychip.split(",");
+            ramHardware.setText(chipelements[1] + " " + chipelements[2] + " - " + chipelements[0]);
+            findViewById(R.id.ramchipView).setVisibility(View.VISIBLE);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -122,7 +123,6 @@ public class MemoryInfo extends AppCompatActivity {
     }
 
 
-
     private void getAndDisplayStorage(final Context context) {
         //retrieve STORAGE OPTIONS
         listStorage = getDeviceStorage(context);
@@ -137,7 +137,7 @@ public class MemoryInfo extends AppCompatActivity {
             }
             storageTotal.setText(Utility.bytesToHuman(total));
             storageAvailable.setText(Utility.bytesToHuman(free));
-            storageUsed.setText(Utility.bytesToHuman(total-free));
+            storageUsed.setText(Utility.bytesToHuman(total - free));
             if (listStorage.size() < 2) {
                 mRecyclerView.setVisibility(View.GONE);
             } else {
@@ -203,7 +203,7 @@ public class MemoryInfo extends AppCompatActivity {
      *
      * @return The free and total disk space in a Bundle form.
      */
-    protected static  List<StorageSpace> getDeviceStorage(Context cont) {
+    protected static List<StorageSpace> getDeviceStorage(Context cont) {
 
         List<StorageSpace> listStorage = new ArrayList<>();
         List<String> listPaths = new ArrayList<>();
@@ -211,7 +211,7 @@ public class MemoryInfo extends AppCompatActivity {
         // This part will identify the total/free space in internal user accessible storage ("/data")
         try {
             listStorage.add(new StorageSpace(TYPE_DATA, getTotalMemoryForPath(Environment.getDataDirectory().toString()), getFreeMemoryForPath(Environment.getDataDirectory().toString())));
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -222,7 +222,7 @@ public class MemoryInfo extends AppCompatActivity {
         // The following checks to see if the application has requested those permissions
         // If permission to read primary/secondary storage is granted we will search and read
         // primary(built in) SD and external(removable) SD card
-        if(Utility.checkPermission(cont, STORAGE_PERMISSION)) {
+        if (Utility.checkPermission(cont, STORAGE_PERMISSION)) {
             try {
                 // getSDPaths is searching for secondary(removable) storages and put its paths in list
                 listPaths = getSDPaths();
@@ -325,6 +325,7 @@ public class MemoryInfo extends AppCompatActivity {
         }
         return total;
     }
+
     /**
      * Method measure free space of given storage
      *
@@ -371,10 +372,13 @@ public class MemoryInfo extends AppCompatActivity {
 
 
     public static String getTypeString(int type) {
-        switch(type) {
-            case TYPE_DATA: return "Internal Storage";
-            case TYPE_INTERNAL_SD: return "Internal SD";
-            case TYPE_EXTERNAL_SD: return "SDCard";
+        switch (type) {
+            case TYPE_DATA:
+                return "Internal Storage";
+            case TYPE_INTERNAL_SD:
+                return "Internal SD";
+            case TYPE_EXTERNAL_SD:
+                return "SDCard";
         }
         return "UNKNOWN";
     }

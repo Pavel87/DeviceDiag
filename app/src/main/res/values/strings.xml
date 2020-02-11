@@ -42,7 +42,8 @@
     <string name="app_author">© Device Info by pacmac 2019.</string>
     <string name="rta_dialog_message">If you like using this app, would you mind taking a moment to rate it? It won\'t take more than a minute. Thank you for your support!</string>
     <string name="cam_permission_msg">Camera permission is currently disabled. To be able to obtain camera parameters you need to accept camera permission.</string>
-    <string name="phone_permission_msg">Read phone state permission is currently disabled. To be able to obtain SIM and phone information you need to accept this permission.</string>
+    <string name="phone_permission_msg">Read phone state permission is currently disabled. To be able to access SIM and mobile network status you need to accept this permission. You can revoke permission anytime from phone Settings.</string>
+    <string name="location_permission_msg">Location permission is required in order to display information about mobile network environment.</string>
     <string name="storage_permission_msg">Storage permission is currently disabled. To be able to read storage capacity you need to accept this permission.</string>
 
     <string name="what_is_new">What is new</string>
