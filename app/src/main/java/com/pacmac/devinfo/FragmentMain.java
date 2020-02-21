@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.app.ActivityCompat;
@@ -24,6 +25,7 @@ import androidx.fragment.app.Fragment;
 public class FragmentMain extends Fragment {
 
     TextView modelName;
+    LinearLayout serialNumberLayout;
     TextView serialNumber;
     TextView manufacturer;
     TextView hardWare;
@@ -55,6 +57,7 @@ public class FragmentMain extends Fragment {
         bootloader = rootView.findViewById(R.id.bootloader);
         radio = rootView.findViewById(R.id.radio);
         buildPropsButton = rootView.findViewById(R.id.buildPropsBtn);
+        serialNumberLayout = rootView.findViewById(R.id.serialNumberLayout);
         return rootView;
     }
 
@@ -74,7 +77,7 @@ public class FragmentMain extends Fragment {
         modelName.setText(Build.MODEL);
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-            view.findViewById(R.id.serialNumberLayout).setVisibility(View.GONE);
+            serialNumberLayout.setVisibility(View.GONE);
         } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
                 serialNumber.setText(Build.getSerial());
