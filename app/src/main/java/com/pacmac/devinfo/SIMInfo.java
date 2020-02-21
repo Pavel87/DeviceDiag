@@ -339,7 +339,7 @@ public class SIMInfo extends AppCompatActivity {
             findViewById(R.id.imsiLayout).setVisibility(View.GONE);
         }
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1 && Build.VERSION.SDK_INT < 30 && !Build.VERSION.RELEASE.contains("R")) {
             findViewById(R.id.viewNAI).setVisibility(View.VISIBLE);
             String naiString = telephonyManager.getNai();
             nai.setText(naiString != null ? naiString : getApplicationContext().getResources().getString(R.string.not_available_info));
