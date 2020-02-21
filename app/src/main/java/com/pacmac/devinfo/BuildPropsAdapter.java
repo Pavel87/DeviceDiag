@@ -69,7 +69,7 @@ public class BuildPropsAdapter extends RecyclerView.Adapter<BuildPropsAdapter.My
                     mDataFiltered = mData;
                 } else {
                     List<BuildProperty> filteredList = new ArrayList<>();
-                    for (BuildProperty property : mDataFiltered) {
+                    for (BuildProperty property : mData) {
 
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
