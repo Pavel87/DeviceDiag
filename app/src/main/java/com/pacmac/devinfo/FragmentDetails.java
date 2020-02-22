@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -66,9 +67,13 @@ public class FragmentDetails extends Fragment {
                             startActivity(i);
                         break;
                     case 4:
-                        i = new Intent(getActivity(), GPSInfo.class);
-                        if (i.resolveActivity(getActivity().getPackageManager()) != null)
-                            startActivity(i);
+                        if (Utility.hasGPS(getContext())) {
+                            i = new Intent(getActivity(), GPSInfo.class);
+                            if (i.resolveActivity(getActivity().getPackageManager()) != null)
+                                startActivity(i);
+                        } else {
+                            Toast.makeText(getContext(), "GPS is not available on this device.", Toast.LENGTH_LONG).show();
+                        }
                         break;
                     case 5:
                         isLocPermissionEnabled = Utility.checkPermission(getContext(), Utility.ACCESS_FINE_LOCATION);

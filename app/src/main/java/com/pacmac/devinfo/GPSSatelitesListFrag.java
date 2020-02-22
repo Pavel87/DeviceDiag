@@ -1,20 +1,20 @@
 package com.pacmac.devinfo;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by pacmac on 2/5/2016.
@@ -32,7 +32,6 @@ public class GPSSatelitesListFrag extends Fragment {
     public GPSSatelitesListFrag() {
         //default constructor
     }
-
 
 
     @Override
@@ -55,22 +54,10 @@ public class GPSSatelitesListFrag extends Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        gpsViewModel = ViewModelProviders.of(getActivity()).get(GPSModel.class);
+        gpsViewModel = new ViewModelProvider(getActivity()).get(GPSModel.class);
 
 
         List<Satelites> satelitesList = gpsViewModel.getSatellites().getValue();
-
-
-        gpsViewModel.getSatellites().observe(this, new Observer<List<Satelites>>() {
-            @Override
-            public void onChanged(@Nullable List<Satelites> satellites) {
-                Log.d("PACMAC", "OnCHANGED: " + satellites.size());
-//                if (satellites.size() != satSizePrev && satellites.size() > 0) {
-                    mAdapter.updateSatellites(satellites);
-                    satSizePrev = satellites.size();
-//                }
-            }
-        });
 
         if (satelitesList != null) {
             satSizePrev = satelitesList.size();
@@ -80,8 +67,23 @@ public class GPSSatelitesListFrag extends Fragment {
             satelitesList.add(new Satelites(0, 0, 0, 0, 0));
         }
 
-        mAdapter = new SateliteAdapter(satelitesList);
+        mAdapter = new SateliteAdapter(new ArrayList<Satelites>());
         mRecyclerView.setAdapter(mAdapter);
+
+        gpsViewModel.getSatellites().observe(this, new Observer<List<Satelites>>() {
+            @Override
+            public void onChanged(@Nullable List<Satelites> satellites) {
+                if (satellites == null) {
+                    satellites = new ArrayList<>();
+                }
+                mAdapter.updateSatellites(satellites);
+                satSizePrev = satellites.size();
+            }
+        });
+
+
+
+
 
     }
 

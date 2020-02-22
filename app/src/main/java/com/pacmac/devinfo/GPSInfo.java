@@ -2,6 +2,8 @@ package com.pacmac.devinfo;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -73,8 +75,7 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gps_info_base);
 
-        gpsViewModel = ViewModelProviders.of(this).get(GPSModel.class);
-
+        gpsViewModel = new ViewModelProvider(this).get(GPSModel.class);
 
 
         // Check if user disabled LOCATION permission at some point
@@ -105,7 +106,11 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
         if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
 
             locationManager = (LocationManager) getApplicationContext().getSystemService(getApplicationContext().LOCATION_SERVICE);
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                gpsViewModel.getGpsLocationInfoObject().setGnssYearOfHardware(locationManager.getGnssYearOfHardware());
+            }
             // check if GPS provider is enabled
+
             enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             if (!enabled && fragment.isVisible()) {
                 ((GpsInfoLocation) fragment).showAlertOnDisabled();

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.os.Build;
 
@@ -273,6 +274,12 @@ public class Utility {
                 .setText(bodyText)
                 .setChooserTitle("Share via:")
                 .startChooser();
+    }
+
+    public static boolean hasGPS(Context context){
+        PackageManager packageManager = context.getPackageManager();
+        boolean hasGPS = packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
+        return hasGPS;
     }
 
 }

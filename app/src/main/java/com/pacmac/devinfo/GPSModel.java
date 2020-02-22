@@ -52,6 +52,7 @@ public class GPSModel extends ViewModel {
         private String timeToFix = "";
         private String gpsInfo = "Unknown";
         private int satelliteCount = 0;
+        private int gnssYearOfHardware = -1;
 
 
         public void setLongitudeS(String longitudeS) {
@@ -92,6 +93,14 @@ public class GPSModel extends ViewModel {
 
         public void setGpsInfo(String gpsInfo) {
             this.gpsInfo = gpsInfo;
+        }
+
+        public void setGnssYearOfHardware(int gnssYearOfHardware) {
+            this.gnssYearOfHardware = gnssYearOfHardware;
+        }
+
+        public int getGnssYearOfHardware() {
+            return gnssYearOfHardware;
         }
 
         public String getLongitudeS() {

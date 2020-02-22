@@ -47,10 +47,10 @@
     <string name="storage_permission_msg">Storage permission is currently disabled. To be able to read storage capacity you need to accept this permission.</string>
 
     <string name="what_is_new">What is new</string>
-    <string name="new_features1">- Satellite count:</string>
-    <string name="new_features2">Added satellite counter into GPS Info view.</string>
-    <string name="new_features3">- NEW WIFI Features:</string>
-    <string name="new_features4">With Android Q some devices will support following: WiFi Easy Connect, Wi-Fi Enhanced Open (OWE),  WPA3-Personal SAE, WPA3-Enterprise Suite-B-192.</string>
-    <string name="new_features5">-Crash fixes</string>
+    <string name="new_features1">- GNSS Hardware Year:</string>
+    <string name="new_features2">Added Global Navigation Satellite System year of hardware into main GPS view for phones running Anroid P and newer.</string>
+    <string name="new_features3">- Android 11(R) Preview:</string>
+    <string name="new_features4">App update to be able to run on Android 11(R) Preview version.</string>
+    <string name="new_features5">- Several Crash Fixes</string>
 
 </resources>
