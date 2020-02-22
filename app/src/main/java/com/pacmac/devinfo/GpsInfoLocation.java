@@ -108,7 +108,7 @@ public class GpsInfoLocation extends Fragment {
 
                 if (gpsLocationInfoObject.getGnssYearOfHardware() > 0) {
                     gnssHWYearView.setVisibility(View.VISIBLE);
-                    gnssHardwareYear.setText((gpsLocationInfoObject.getGnssYearOfHardware()));
+                    gnssHardwareYear.setText(String.format(Locale.ENGLISH, "%d", gpsLocationInfoObject.getGnssYearOfHardware()));
                 }
             }
         });
