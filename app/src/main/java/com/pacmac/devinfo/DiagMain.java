@@ -7,22 +7,23 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 
-import com.tutelatechnologies.sdk.framework.TutelaSDK;
 import com.tutelatechnologies.sdk.framework.TutelaSDKFactory;
 
 import java.util.Locale;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager.widget.ViewPager;
 
 public class DiagMain extends AppCompatActivity implements ActionBar.TabListener {
 
@@ -33,11 +34,15 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
 
     private boolean isLocationPermissionEnabled = true;
 
+    private MainViewModel viewModel = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diag_main);
 
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        viewModel.checkIfAppIsUpToDate(getApplicationContext());
 
         try {
             TutelaSDKFactory.getTheSDK().initializeWithApiKey(DeviceDiagApp.REG_KEY, getApplicationContext());
@@ -113,6 +118,12 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
         // When the given tab is selected, switch to the corresponding page in
         // the ViewPager.
         mViewPager.setCurrentItem(tab.getPosition());
+        if (viewModel != null) {
+            if (viewModel.doesAppNeedsUpgrade() && !viewModel.isDoNotShowNewVersioDialog()) {
+                viewModel.setDoNotShowNewVersioDialog(true);
+                Utility.showUpdateAppDialog(DiagMain.this);
+            }
+        }
     }
 
     @Override

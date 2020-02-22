@@ -3,11 +3,16 @@ package com.pacmac.devinfo;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
+import android.net.Uri;
 import android.os.Build;
+import android.view.Window;
+import android.widget.Button;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ShareCompat;
@@ -280,6 +285,34 @@ public class Utility {
         PackageManager packageManager = context.getPackageManager();
         boolean hasGPS = packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
         return hasGPS;
+    }
+
+    public static void launchPlayStore(Context context) {
+        String appPackage = context.getPackageName();
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackage));
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        } else {
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackage));
+            context.startActivity(intent);
+        }
+    }
+
+    public static void showUpdateAppDialog(Context context) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_confirmation);
+        dialog.setCancelable(false);
+
+        Button yesButton = dialog.findViewById(R.id.yesExit);
+        yesButton.setOnClickListener(view -> {
+            Utility.launchPlayStore(context);
+            dialog.dismiss();
+        });
+
+        Button noButton = dialog.findViewById(R.id.noExit);
+        noButton.setOnClickListener(view -> dialog.dismiss());
+        dialog.show();
     }
 
 }

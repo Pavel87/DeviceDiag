@@ -34,22 +34,12 @@ public class AboutActivity extends AppCompatActivity {
 
 
         Button sendFeedback = findViewById(R.id.sendFeedback);
-        sendFeedback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showFeedbackDialog();
-            }
-        });
+        sendFeedback.setOnClickListener(view -> showFeedbackDialog());
 
 
         Button rating = findViewById(R.id.rateApp);
         if (!isRating) {
-            rating.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    showRateDialog();
-                }
-            });
+            rating.setOnClickListener(view -> showRateDialog());
         } else
             rating.setVisibility(View.GONE);  // if rating was submited don't show this button anymore
 
@@ -77,78 +67,64 @@ public class AboutActivity extends AppCompatActivity {
 
         Button sendAction = dialog.findViewById(R.id.positive_action);
         final EditText feedbackMsg = dialog.findViewById(R.id.feedbackMsg);
-        sendAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (feedbackMsg.getText().toString().length() > 0 || feedbackEnum != FeedbackEnum.NONE) {
-                    String subject = getResources().getString(R.string.feedback_subject);
-                    if (feedbackEnum == FeedbackEnum.THUMBS_UP) {
-                        subject += ": +1";
-                    } else if (feedbackEnum == FeedbackEnum.THUMBS_DOWN) {
-                        subject += ": -1";
-                    }
-
-                    String bodyText = "";
-                    if (feedbackMsg.getText().toString().length() > 0) {
-                        bodyText = feedbackMsg.getText().toString();
-                    } else {
-                        bodyText = feedbackEnum.name();
-                    }
-
-                    ShareCompat.IntentBuilder.from(AboutActivity.this)
-                            .setType("message/rfc822")
-                            .addEmailTo("pacmac.dev@gmail.com")
-                            .setSubject(subject)
-                            .setText(bodyText)
-                            .setChooserTitle("Choose Service:")
-                            .startChooser();
-                    dialog.dismiss();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Feedback is empty.", Toast.LENGTH_SHORT).show();
+        sendAction.setOnClickListener(view -> {
+            if (feedbackMsg.getText().toString().length() > 0 || feedbackEnum != FeedbackEnum.NONE) {
+                String subject = getResources().getString(R.string.feedback_subject);
+                if (feedbackEnum == FeedbackEnum.THUMBS_UP) {
+                    subject += ": +1";
+                } else if (feedbackEnum == FeedbackEnum.THUMBS_DOWN) {
+                    subject += ": -1";
                 }
+
+                String bodyText = "";
+                if (feedbackMsg.getText().toString().length() > 0) {
+                    bodyText = feedbackMsg.getText().toString();
+                } else {
+                    bodyText = feedbackEnum.name();
+                }
+
+                ShareCompat.IntentBuilder.from(AboutActivity.this)
+                        .setType("message/rfc822")
+                        .addEmailTo("pacmac.dev@gmail.com")
+                        .setSubject(subject)
+                        .setText(bodyText)
+                        .setChooserTitle("Choose Service:")
+                        .startChooser();
+                dialog.dismiss();
+            } else {
+                Toast.makeText(getApplicationContext(), "Feedback is empty.", Toast.LENGTH_SHORT).show();
             }
         });
 
         Button cancelAction = dialog.findViewById(R.id.cancel_action);
-        cancelAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+        cancelAction.setOnClickListener(view -> dialog.dismiss());
 
         final ImageView thumbsDown = dialog.findViewById(R.id.thumbsDown);
         final ImageView thumbsUp = dialog.findViewById(R.id.thumbsUp);
 
-        thumbsDown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (thumbsUp.isActivated()) {
-                    thumbsUp.setActivated(false);
-                }
-                if (thumbsDown.isActivated()) {
-                    thumbsDown.setActivated(false);
-                    feedbackEnum = FeedbackEnum.NONE;
-                } else {
-                    thumbsDown.setActivated(true);
-                    feedbackEnum = FeedbackEnum.THUMBS_DOWN;
-                }
+        thumbsDown.setOnClickListener(v -> {
+            if (thumbsUp.isActivated()) {
+                thumbsUp.setActivated(false);
+            }
+            if (thumbsDown.isActivated()) {
+                thumbsDown.setActivated(false);
+                feedbackEnum = FeedbackEnum.NONE;
+            } else {
+                thumbsDown.setActivated(true);
+                feedbackEnum = FeedbackEnum.THUMBS_DOWN;
             }
         });
 
-        thumbsUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (thumbsDown.isActivated()) {
-                    thumbsDown.setActivated(false);
-                }
-                if (thumbsUp.isActivated()) {
-                    thumbsUp.setActivated(false);
-                    feedbackEnum = FeedbackEnum.NONE;
-                } else {
-                    thumbsUp.setActivated(true);
-                    feedbackEnum = FeedbackEnum.THUMBS_UP;
-                }
+        thumbsUp.setOnClickListener(v -> {
+            if (thumbsDown.isActivated()) {
+                thumbsDown.setActivated(false);
+            }
+            if (thumbsUp.isActivated()) {
+                thumbsUp.setActivated(false);
+                feedbackEnum = FeedbackEnum.NONE;
+            } else {
+                thumbsUp.setActivated(true);
+                feedbackEnum = FeedbackEnum.THUMBS_UP;
             }
         });
 
@@ -165,30 +141,14 @@ public class AboutActivity extends AppCompatActivity {
         dialog.setCancelable(false);
 
         Button yesButton = dialog.findViewById(R.id.yesExit);
-        yesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String appPackage = getApplicationContext().getPackageName();
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackage));
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                } else {
-                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackage));
-                    startActivity(intent);
-                }
-                setPreferences();  // will hide the RATE IT button
-                dialog.dismiss();
-            }
+        yesButton.setOnClickListener(view -> {
+            Utility.launchPlayStore(AboutActivity.this);
+            setPreferences();  // will hide the RATE IT button
+            dialog.dismiss();
         });
 
-        Button noButton = (Button) dialog.findViewById(R.id.noExit);
-        noButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
+        Button noButton = dialog.findViewById(R.id.noExit);
+        noButton.setOnClickListener(view -> dialog.dismiss());
         dialog.show();
     }
 

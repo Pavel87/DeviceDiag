@@ -24,6 +24,9 @@
     <string name="title_activity_about">About Device Info</string>
     <string name="yes_string">YES</string>
     <string name="no_string">NO</string>
+    <string name="new_version_title">NEW VERSION AVAILABLE</string>
+    <string name="new_version_content">Update to new version to get all new features and crash fixes.</string>
+    <string name="update">Update</string>§
     <string name="action_search">Search</string>
     <string name="search_hint">Search build properties</string>
     <string name="rateit">Rate It!</string>
@@ -35,7 +38,7 @@
     <string name="shareTextTitle1">**********************************</string>
     <string name="exit_msg">Do you want to exit?</string>
     <string name="send_feedback">Send Feedback</string>
-    <string name="rate_app">Rate now!</string>
+    <string name="rate_app">SUBMIT RATING</string>
     <string name="feedback_subject">Device Info Feedback</string>
     <string name="version_text">Version: </string>
     <string name="app_description">Device Info is an application which queries data from android device and obtain HW features which are normally not available through user interface. It contains several modules visible from main menu. Device Info application also offers a possibility to test GPS and network using ping command.\n\nGoogle Play and the Google Play logo are trademarks of Google LLC.</string>
