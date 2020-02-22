@@ -10,11 +10,15 @@ import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.annotation.Nullable;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.Locale;
 
 import static java.lang.StrictMath.cos;
 import static java.lang.StrictMath.sqrt;
@@ -31,7 +35,6 @@ public class SensorDetailFrag extends Fragment {
 
     private static final float EPSILON = 0.05f;
     private static final float NS2S = 1.0f / 1000000000.0f;
-    float[] values;
     private final float[] deltaRotationVector = new float[4];
     private float timestamp;
 
@@ -52,35 +55,43 @@ public class SensorDetailFrag extends Fragment {
     SensorEventListener sensorEventListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
-            //  values = sensorEvent.values;
+
+            float[] sensorsValues = new float[]{0.0f, 0.0f, 0.0f};
+
+            for (int i = 0; i < sensorEvent.values.length; i++) {
+                if (i < 3) {
+                    sensorsValues[i] = sensorEvent.values[i];
+                }
+            }
+
             switch (sensor.getType()) {
 
                 case Sensor.TYPE_LOW_LATENCY_OFFBODY_DETECT:
-                    if (sensorEvent.values[0] > 0) {
+                    if (sensorsValues[0] > 0) {
                         sensorReading2.setText("ON Body");
                     } else {
                         sensorReading2.setText("OFF Body");
                     }
                     break;
                 case Sensor.TYPE_STEP_DETECTOR:
-                    sensorReading2.setText(String.valueOf("Step Detected"));
+                    sensorReading2.setText("Step Detected");
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            sensorReading2.setText(String.valueOf(""));
+                            sensorReading2.setText("");
                         }
                     }, 2500);
                     break; // return "Step Detector";
                 case Sensor.TYPE_STEP_COUNTER:
                 case SensorsInfo.TYPE_PEDOMETER:
-                    double steps = sensorEvent.values[0];
-                    if(stepCounter == 3) {
+                    double steps = sensorsValues[0];
+                    if (stepCounter == 3) {
                         stepCounter = 0;
                     }
-                    if(stepCounter == 0) {
-                        sensorReading1.setText(String.format("%.0f ", steps) + getUnits(sensorEvent.sensor.getType()) + (steps < 2.0 ? "" : "s"));
-                    } else if(stepCounter == 1) {
-                        sensorReading2.setText(String.format("%.0f ", steps) + getUnits(sensorEvent.sensor.getType()) + (steps < 2.0 ? "" : "s"));
+                    if (stepCounter == 0) {
+                        sensorReading1.setText(String.format(Locale.ENGLISH, "%.0f ", steps) + getUnits(sensorEvent.sensor.getType()) + (steps < 2.0 ? "" : "s"));
+                    } else if (stepCounter == 1) {
+                        sensorReading2.setText(String.format(Locale.ENGLISH, "%.0f ", steps) + getUnits(sensorEvent.sensor.getType()) + (steps < 2.0 ? "" : "s"));
 
                     } else {
                         sensorReading3.setText(String.format("%.0f ", steps) + getUnits(sensorEvent.sensor.getType()) + (steps < 2.0 ? "" : "s"));
@@ -88,93 +99,58 @@ public class SensorDetailFrag extends Fragment {
                     stepCounter++;
                     break; // return "Step Counter";
                 case Sensor.TYPE_ORIENTATION:
-                    sensorReading1.setText(String.format("Azimuth: %.0f ", sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
-                    sensorReading2.setText(String.format("Pitch: %.2f ", sensorEvent.values[1]) + getUnits(sensorEvent.sensor.getType()));
-                    sensorReading3.setText(String.format("Roll: %.2f ", sensorEvent.values[2]) + getUnits(sensorEvent.sensor.getType()));
+                    sensorReading1.setText(String.format(Locale.ENGLISH, "Azimuth: %.0f ", sensorsValues[0]) + getUnits(sensorEvent.sensor.getType()));
+                    sensorReading2.setText(String.format(Locale.ENGLISH, "Pitch: %.2f ", sensorsValues[1]) + getUnits(sensorEvent.sensor.getType()));
+                    sensorReading3.setText(String.format(Locale.ENGLISH, "Roll: %.2f ", sensorsValues[2]) + getUnits(sensorEvent.sensor.getType()));
                     break; // return "Orientation";
+                case Sensor.TYPE_PROXIMITY:
+                    if (sensorsValues[0] == 0) {
+                        sensorReading2.setText("NEAR DETECTION");
+                    } else if (sensorsValues[0] == sensorEvent.sensor.getMaximumRange()) {
+                        sensorReading2.setText("FAR DETECTION");
+                    } else {
+                        sensorReading2.setText(String.format(Locale.ENGLISH, "%.2f %s", sensorsValues[0], getUnits(sensorEvent.sensor.getType())));
+                    }
+                    break;
+                case Sensor.TYPE_SIGNIFICANT_MOTION:
+                    break; // return "Significant Motion Trigger";
+                case Sensor.TYPE_HEART_BEAT:
+                    if (sensorsValues[0] > 0) {
+                        sensorReading2.setText("Detected");
+                    } else {
+                        sensorReading2.setText("No Heart Beat");
+                    }
+                    break;
+                case Sensor.TYPE_MAGNETIC_FIELD:
+                case Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED:
+                    sensorReading1.setText(String.format(Locale.ENGLISH, "X: %.0f %s", sensorsValues[0], getUnits(sensorEvent.sensor.getType())));
+                    sensorReading2.setText(String.format(Locale.ENGLISH, "Y: %.0f %s", sensorsValues[1], getUnits(sensorEvent.sensor.getType())));
+                    sensorReading3.setText(String.format(Locale.ENGLISH, "Z: %.0f %s", sensorsValues[2], getUnits(sensorEvent.sensor.getType())));
+                    break;
+                case Sensor.TYPE_ACCELEROMETER:
+                case Sensor.TYPE_ACCELEROMETER_UNCALIBRATED:
+                case Sensor.TYPE_POSE_6DOF:
+                case Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR:
+                case Sensor.TYPE_GRAVITY:
+                case Sensor.TYPE_LINEAR_ACCELERATION:
+                case Sensor.TYPE_ROTATION_VECTOR:
+                case Sensor.TYPE_GAME_ROTATION_VECTOR:
+                case Sensor.TYPE_GYROSCOPE:
+                case Sensor.TYPE_GYROSCOPE_UNCALIBRATED:
+                    sensorReading1.setText(String.format(Locale.ENGLISH, "X: %.1f ", sensorsValues[0]));
+                    sensorReading2.setText(String.format(Locale.ENGLISH, "Y: %.1f ", sensorsValues[1]));
+                    sensorReading3.setText(String.format(Locale.ENGLISH, "Z: %.1f ", sensorsValues[2]));
+                    break;
+
                 case Sensor.TYPE_LIGHT:
                 case Sensor.TYPE_PRESSURE:
                 case Sensor.TYPE_TEMPERATURE:
                 case Sensor.TYPE_RELATIVE_HUMIDITY:
                 case Sensor.TYPE_AMBIENT_TEMPERATURE:
                 case SensorsInfo.TYPE_GOOGLE_TEMPERATURE_BOSH:
-                    sensorReading2.setText(String.format("%.2f ", sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
-                    break;
-                case Sensor.TYPE_PROXIMITY:
-                    if (sensorEvent.values[0] == 0) {
-                        sensorReading2.setText("NEAR DETECTION");
-                    } else if (sensorEvent.values[0] == sensorEvent.sensor.getMaximumRange()) {
-                        sensorReading2.setText("FAR DETECTION");
-                    } else {
-                        sensorReading2.setText(String.format("%.2f ", sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
-                    }
-                    break;
-                case Sensor.TYPE_SIGNIFICANT_MOTION:
-                    break; // return "Significant Motion Trigger";
-                case Sensor.TYPE_HEART_RATE:
-                    sensorReading2.setText(String.format("%.2f ", sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
-                    break; // return "Heart Rate";
-                case Sensor.TYPE_STATIONARY_DETECT:
-                    sensorReading2.setText(String.format("%.2f ", sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
-                    break;
                 case Sensor.TYPE_MOTION_DETECT:
-                    sensorReading2.setText(String.format("%.2f ", sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
-                    break;
-                case Sensor.TYPE_HEART_BEAT:
-                    if (sensorEvent.values[0] > 0) {
-                        sensorReading2.setText("Detected");
-                    } else {
-                        sensorReading2.setText("No Heart Beat");
-                    }
-                    break;
-                case Sensor.TYPE_GRAVITY:
-                    sensorReading1.setText(String.format("X: %.1f ", sensorEvent.values[0]));
-                    sensorReading2.setText(String.format("Y: %.1f ", sensorEvent.values[1]));
-                    sensorReading3.setText(String.format("Z: %.1f ", sensorEvent.values[2]));
-                    break;
-                case Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR:
-                    sensorReading1.setText(String.format("X: %.1f ", sensorEvent.values[0]));
-                    sensorReading2.setText(String.format("Y: %.1f ", sensorEvent.values[1]));
-                    sensorReading3.setText(String.format("Z: %.1f ", sensorEvent.values[2]));
-                    break; // return "Geomagnetic Rotation";
-                case Sensor.TYPE_POSE_6DOF:
-                    sensorReading1.setText(String.format("X: %.1f ", sensorEvent.values[0]));
-                    sensorReading2.setText(String.format("Y: %.1f ", sensorEvent.values[1]));
-                    sensorReading3.setText(String.format("Z: %.1f ", sensorEvent.values[2]));
-                    break;
-                case Sensor.TYPE_ACCELEROMETER:
-                case Sensor.TYPE_ACCELEROMETER_UNCALIBRATED:
-                    sensorReading1.setText(String.format("X: %.1f ", sensorEvent.values[0]));
-                    sensorReading2.setText(String.format("Y: %.1f ", sensorEvent.values[1]));
-                    sensorReading3.setText(String.format("Z: %.1f ", sensorEvent.values[2]));
-                    break;
-                case Sensor.TYPE_LINEAR_ACCELERATION:
-                    sensorReading1.setText(String.format("X: %.1f ", sensorEvent.values[0]));
-                    sensorReading2.setText(String.format("Y: %.1f ", sensorEvent.values[1]));
-                    sensorReading3.setText(String.format("Z: %.1f ", sensorEvent.values[2]));
-                    break;
-                case Sensor.TYPE_ROTATION_VECTOR:
-                    sensorReading1.setText(String.format("X: %.1f ", sensorEvent.values[0]));
-                    sensorReading2.setText(String.format("Y: %.1f ", sensorEvent.values[1]));
-                    sensorReading3.setText(String.format("Z: %.1f ", sensorEvent.values[2]));
-                    break;
-                case Sensor.TYPE_MAGNETIC_FIELD:
-                case Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED:
-                    sensorReading1.setText(String.format("X: %.0f ", sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
-                    sensorReading2.setText(String.format("Y: %.0f ", sensorEvent.values[1]) + getUnits(sensorEvent.sensor.getType()));
-                    sensorReading3.setText(String.format("Z: %.0f ", sensorEvent.values[2]) + getUnits(sensorEvent.sensor.getType()));
-                    break;
-                case Sensor.TYPE_GAME_ROTATION_VECTOR:
-                    sensorReading1.setText(String.format("X: %.1f ", sensorEvent.values[0]));
-                    sensorReading2.setText(String.format("Y: %.1f ", sensorEvent.values[1]));
-                    sensorReading3.setText(String.format("Z: %.1f ", sensorEvent.values[2]));
-                    break; // return "Game Rotation Vector";
-                case Sensor.TYPE_GYROSCOPE:
-                case Sensor.TYPE_GYROSCOPE_UNCALIBRATED:
-                    sensorReading1.setText(String.format("X: %.1f ", sensorEvent.values[0]));
-                    sensorReading2.setText(String.format("Y: %.1f ", sensorEvent.values[1]));
-                    sensorReading3.setText(String.format("Z: %.1f ", sensorEvent.values[2]));
-                    break;
+                case Sensor.TYPE_STATIONARY_DETECT:
+                case Sensor.TYPE_HEART_RATE:
                 case SensorsInfo.TYPE_TILT_DETECTOR:
                 case SensorsInfo.TYPE_WAKE_GESTURE:
                 case SensorsInfo.TYPE_PICK_UP_GESTURE:
@@ -197,7 +173,7 @@ public class SensorDetailFrag extends Fragment {
                 case SensorsInfo.TYPE_GOOGLE_DOUBLE_TAP:
                 case SensorsInfo.TYPE_MOTION_ACCEL:
                 case SensorsInfo.TYPE_COARSE_MOTION_CLASSIFIER:
-                    sensorReading2.setText(String.format("%.2f ", sensorEvent.values[0]) + getUnits(sensorEvent.sensor.getType()));
+                    sensorReading2.setText(String.format(Locale.ENGLISH, "%.2f %s", sensorsValues[0], getUnits(sensorEvent.sensor.getType())));
                 default:
                     break;
             }
@@ -294,8 +270,6 @@ public class SensorDetailFrag extends Fragment {
             mSensorManager.unregisterListener(sensorEventListener);
         }
     }
-
-
 
 
     // GYRO START
