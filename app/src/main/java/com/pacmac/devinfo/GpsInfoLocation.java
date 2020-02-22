@@ -1,8 +1,6 @@
 package com.pacmac.devinfo;
 
 import android.app.AlertDialog;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,22 +8,28 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 
 public class GpsInfoLocation extends Fragment {
 
     private TextView gpsInfo;
+    private TextView gnssHardwareYear;
+    private LinearLayout gnssHWYearView;
     private TextView timeToFix;
     private TextView longitude, latitude;
     private TextView altitude, speed;
@@ -55,6 +59,8 @@ public class GpsInfoLocation extends Fragment {
 
         //TextViews
         gpsInfo = view.findViewById(R.id.gpsInfo);
+        gnssHardwareYear = view.findViewById(R.id.gnssHardwareYear);
+        gnssHWYearView = view.findViewById(R.id.gnssHWYearView);
         timeToFix = view.findViewById(R.id.timeToFirstFix);
         latitude = view.findViewById(R.id.latitude);
         longitude = view.findViewById(R.id.longitude);
@@ -84,21 +90,26 @@ public class GpsInfoLocation extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        gpsViewModel = ViewModelProviders.of(getActivity()).get(GPSModel.class);
+        gpsViewModel = new ViewModelProvider(getActivity()).get(GPSModel.class);
 
         gpsViewModel.getUpToDateLocationInfo().observe(this, new Observer<GPSModel.GPSLocationInfoObject>() {
             @Override
             public void onChanged(@Nullable GPSModel.GPSLocationInfoObject gpsLocationInfoObject) {
-                latitude.setText((gpsLocationInfoObject.getLatitudeS()!= null)? gpsLocationInfoObject.getLatitudeS() : "");
-                longitude.setText((gpsLocationInfoObject.getLongitudeS()!= null)? gpsLocationInfoObject.getLongitudeS() : "");
+                latitude.setText((gpsLocationInfoObject.getLatitudeS() != null) ? gpsLocationInfoObject.getLatitudeS() : "");
+                longitude.setText((gpsLocationInfoObject.getLongitudeS() != null) ? gpsLocationInfoObject.getLongitudeS() : "");
                 altitude.setText((gpsLocationInfoObject.getAltitudeS() != null) ? gpsLocationInfoObject.getAltitudeS() : "");
-                speed.setText((gpsLocationInfoObject.getSpeedS()!= null)? gpsLocationInfoObject.getSpeedS() : "");
-                accuracy.setText((gpsLocationInfoObject.getAccuracyS()!= null)? gpsLocationInfoObject.getAccuracyS() : "");
-                bearing.setText((gpsLocationInfoObject.getBearingS()!= null)? gpsLocationInfoObject.getBearingS() : "");
-                lastFix.setText((gpsLocationInfoObject.getLastFix()!= null)? gpsLocationInfoObject.getLastFix() : "");
-                gpsInfo.setText((gpsLocationInfoObject.getGpsInfo()!= null)? gpsLocationInfoObject.getGpsInfo() : "");
-                timeToFix.setText((gpsLocationInfoObject.getTimeToFix()!= null)? gpsLocationInfoObject.getTimeToFix() : "");
+                speed.setText((gpsLocationInfoObject.getSpeedS() != null) ? gpsLocationInfoObject.getSpeedS() : "");
+                accuracy.setText((gpsLocationInfoObject.getAccuracyS() != null) ? gpsLocationInfoObject.getAccuracyS() : "");
+                bearing.setText((gpsLocationInfoObject.getBearingS() != null) ? gpsLocationInfoObject.getBearingS() : "");
+                lastFix.setText((gpsLocationInfoObject.getLastFix() != null) ? gpsLocationInfoObject.getLastFix() : "");
+                gpsInfo.setText((gpsLocationInfoObject.getGpsInfo() != null) ? gpsLocationInfoObject.getGpsInfo() : "");
+                timeToFix.setText((gpsLocationInfoObject.getTimeToFix() != null) ? gpsLocationInfoObject.getTimeToFix() : "");
                 satellitesCount.setText(String.format(Locale.ENGLISH, "%d", gpsLocationInfoObject.getSatelliteCount()));
+
+                if (gpsLocationInfoObject.getGnssYearOfHardware() > 0) {
+                    gnssHWYearView.setVisibility(View.VISIBLE);
+                    gnssHardwareYear.setText(String.format(Locale.ENGLISH, "%d", gpsLocationInfoObject.getGnssYearOfHardware()));
+                }
             }
         });
 
@@ -128,7 +139,7 @@ public class GpsInfoLocation extends Fragment {
                                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                                 try {
                                     startActivity(intent);
-                                } catch (Exception e){
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }

@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 
+import com.tutelatechnologies.sdk.framework.TutelaSDK;
 import com.tutelatechnologies.sdk.framework.TutelaSDKFactory;
 
 import java.util.Locale;
@@ -95,8 +96,7 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
         }
 
         if (isLocationPermissionEnabled && checkIfAppUpdated()) {
-            //TODO uncomment for next release
-//            startActivity(new Intent(getApplicationContext(), NewFeaturesActivity.class));
+            startActivity(new Intent(getApplicationContext(), NewFeaturesActivity.class));
         }
     }
 
@@ -104,8 +104,7 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         isLocationPermissionEnabled = Utility.checkPermission(getApplicationContext(), Utility.ACCESS_FINE_LOCATION);
         if (isLocationPermissionEnabled && checkIfAppUpdated()) {
-            //TODO uncomment for next release
-//            startActivity(new Intent(getApplicationContext(), NewFeaturesActivity.class));
+            startActivity(new Intent(getApplicationContext(), NewFeaturesActivity.class));
         }
     }
 

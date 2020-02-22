@@ -111,17 +111,17 @@ public class NMEAfeed extends AppCompatActivity implements OnNmeaMessageListener
                 if (!isPermissionEnabled) {
                     Utility.requestPermissions(activity, Utility.getLocationPermissions());
                 } else {
-
+                    // IllegalArgumentException thrown sometimes
 
                     if (isNMEAListenerOn) {
                         mHandler.removeCallbacks(timer);
                         isNMEAListenerOn = false;
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            locationManager.removeNmeaListener(NMEAfeed.this);
-                        } else {
-
-                        }
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                            locationManager.removeNmeaListener(NMEAfeed.this);
+//                        } else {
+//
+//                        }
 
                         locationManager.removeNmeaListener(NMEAfeed.this);
                         locationManager.removeUpdates(NMEAfeed.this);

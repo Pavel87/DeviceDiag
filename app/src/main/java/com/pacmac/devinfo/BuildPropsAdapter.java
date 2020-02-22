@@ -1,8 +1,6 @@
 package com.pacmac.devinfo;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +11,16 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class BuildPropsAdapter extends RecyclerView.Adapter<BuildPropsAdapter.MyViewHolder> implements Filterable {
 
     private Context context;
     private List<BuildProperty> mData;
     private List<BuildProperty> mDataFiltered;
     private FilterResultCallback listener;
+
 
     public BuildPropsAdapter(Context context, List<BuildProperty> mData, FilterResultCallback listener) {
         this.context = context;
@@ -64,34 +66,35 @@ public class BuildPropsAdapter extends RecyclerView.Adapter<BuildPropsAdapter.My
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
+//                synchronized (syncListObject) {
                 String charString = charSequence.toString();
-                if (charString.isEmpty()) {
-                    mDataFiltered = mData;
-                } else {
-                    List<BuildProperty> filteredList = new ArrayList<>();
-                    for (BuildProperty property : mData) {
+                List<BuildProperty> filteredList = new ArrayList<>();
 
+                if (charString.isEmpty()) {
+                    filteredList = mData;
+                } else {
+                    for (BuildProperty property : mData) {
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
                         if (property.getKey().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(property);
                         }
                     }
-                    mDataFiltered = filteredList;
                 }
 
                 FilterResults filterResults = new FilterResults();
-                filterResults.values = mDataFiltered;
+                filterResults.values = filteredList;
                 return filterResults;
+//                }
             }
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 mDataFiltered = (List<BuildProperty>) filterResults.values;
-                if(listener != null)  {
+                notifyDataSetChanged();
+                if (listener != null) {
                     listener.onFilterResult(mDataFiltered.size());
                 }
-                notifyDataSetChanged();
             }
         };
     }

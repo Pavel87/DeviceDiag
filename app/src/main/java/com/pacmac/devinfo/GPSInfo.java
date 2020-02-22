@@ -2,7 +2,10 @@ package com.pacmac.devinfo;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -16,9 +19,11 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -73,8 +78,7 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gps_info_base);
 
-        gpsViewModel = ViewModelProviders.of(this).get(GPSModel.class);
-
+        gpsViewModel = new ViewModelProvider(this).get(GPSModel.class);
 
 
         // Check if user disabled LOCATION permission at some point
@@ -105,7 +109,11 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
         if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
 
             locationManager = (LocationManager) getApplicationContext().getSystemService(getApplicationContext().LOCATION_SERVICE);
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                gpsViewModel.getGpsLocationInfoObject().setGnssYearOfHardware(locationManager.getGnssYearOfHardware());
+            }
             // check if GPS provider is enabled
+
             enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             if (!enabled && fragment.isVisible()) {
                 ((GpsInfoLocation) fragment).showAlertOnDisabled();
@@ -202,69 +210,64 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
     @Override
     public void onLocationChanged(final Location location) {
 
-        boolean isConnected = false;
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        android.net.NetworkInfo networkInfo;
+        new Thread(new Runnable() {
 
-        // check WIFI state and if present in device
-        if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI)) {
-            networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            isConnected = networkInfo.isConnectedOrConnecting();
-        } else if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
-            networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-            isConnected = networkInfo.isConnectedOrConnecting();
-        }
+            @Override
+            public void run() {
 
+                boolean isConnected = false;
+                ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                android.net.NetworkInfo networkInfo;
 
-        if (isConnected) {
-            // geocoder will resolve
-
-
-            new Thread(new Runnable() {
-
-                @Override
-                public void run() {
-
-                    // TODO don't do this on every loc update - check for distance to update 
-                    Geocoder geocoder = new Geocoder(getApplicationContext());
-                    if (geocoder.isPresent()) {
-                        try {
-                            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                            if (addresses == null || addresses.size() == 0) return;
-                            String street = addresses.get(0).getThoroughfare();
-                            String numHouse = addresses.get(0).getSubThoroughfare();
-                            String city = addresses.get(0).getSubAdminArea();
-                            String postalCode = addresses.get(0).getPostalCode();
-
-                            street = street == null ? "" : street;
-                            numHouse = numHouse == null ? "" : numHouse;
-                            city = city == null ? "" : city;
-                            postalCode = postalCode == null ? "" : postalCode;
-
-
-                            //display address in ACTION BAR
-                            runOnUiThread(new RunnableShowTitle(street, numHouse, city, postalCode) {
-                                @Override
-                                public void run() {
-                                    getSupportActionBar().setTitle(getStreet() + " " + getNumHouse());
-                                    getSupportActionBar().setSubtitle(getCity() + " " + getPostalCode());
-                                }
-                            });
-
-
-                        } catch (IOException ex) {
-                            ex.printStackTrace(); // will throw if no connection to server
-                        }
-                    }
-
-
+                // check WIFI state and if present in device
+                if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI)) {
+                    networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                    isConnected = networkInfo.isConnectedOrConnecting();
+                } else if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
+                    networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+                    isConnected = networkInfo.isConnectedOrConnecting();
                 }
-            }).start();
 
-        } else {
-            getSupportActionBar().setTitle(getResources().getString(R.string.activity_title_gps_information));
-            getSupportActionBar().setSubtitle("");
-        }
+                if (!isConnected) {
+                    return;
+                }
+
+                // TODO don't do this on every loc update - check for distance to update
+                // Geocoder will resolve addreess
+                Geocoder geocoder = new Geocoder(getApplicationContext());
+                if (geocoder.isPresent()) {
+                    try {
+                        List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                        if (addresses == null || addresses.size() == 0) return;
+                        String street = addresses.get(0).getThoroughfare();
+                        String numHouse = addresses.get(0).getSubThoroughfare();
+                        String city = addresses.get(0).getSubAdminArea();
+                        String postalCode = addresses.get(0).getPostalCode();
+
+                        street = street == null ? "" : street;
+                        numHouse = numHouse == null ? "" : numHouse;
+                        city = city == null ? "" : city;
+                        postalCode = postalCode == null ? "" : postalCode;
+
+
+                        //display address in ACTION BAR
+                        runOnUiThread(new RunnableShowTitle(street, numHouse, city, postalCode) {
+                            @Override
+                            public void run() {
+                                getSupportActionBar().setTitle(getStreet() + " " + getNumHouse());
+                                getSupportActionBar().setSubtitle(getCity() + " " + getPostalCode());
+                            }
+                        });
+
+
+                    } catch (IOException ex) {
+                        ex.printStackTrace(); // will throw if no connection to server
+                    }
+                }
+
+
+            }
+        }).start();
 
 
         int speedInt = (int) (location.getSpeed() * 3.6f);
@@ -276,13 +279,27 @@ public class GPSInfo extends AppCompatActivity implements LocationListener {
         int minute = cal.get(Calendar.MINUTE);
         int second = cal.get(Calendar.SECOND);
 
-        gpsViewModel.getGpsLocationInfoObject().setLastFix(hour + ":" + String.format("%02d", minute) + ":" + String.format("%02d", second));
-        gpsViewModel.getGpsLocationInfoObject().setLatitudeS(String.valueOf(location.getLatitude()));
-        gpsViewModel.getGpsLocationInfoObject().setLongitudeS(String.valueOf(location.getLongitude()));
-        gpsViewModel.getGpsLocationInfoObject().setAltitudeS(String.format("%.01f", location.getAltitude()) + " m");
-        gpsViewModel.getGpsLocationInfoObject().setSpeedS(speedInt + " km/s");
-        gpsViewModel.getGpsLocationInfoObject().setAccuracyS(String.format("%.01f", location.getAccuracy()) + " m");
-        gpsViewModel.getGpsLocationInfoObject().setBearingS(String.format("%.02f", location.getBearing()) + "°");
+        gpsViewModel.getGpsLocationInfoObject().
+
+                setLastFix(hour + ":" + String.format("%02d", minute) + ":" + String.format("%02d", second));
+        gpsViewModel.getGpsLocationInfoObject().
+
+                setLatitudeS(String.valueOf(location.getLatitude()));
+        gpsViewModel.getGpsLocationInfoObject().
+
+                setLongitudeS(String.valueOf(location.getLongitude()));
+        gpsViewModel.getGpsLocationInfoObject().
+
+                setAltitudeS(String.format("%.01f", location.getAltitude()) + " m");
+        gpsViewModel.getGpsLocationInfoObject().
+
+                setSpeedS(speedInt + " km/s");
+        gpsViewModel.getGpsLocationInfoObject().
+
+                setAccuracyS(String.format("%.01f", location.getAccuracy()) + " m");
+        gpsViewModel.getGpsLocationInfoObject().
+
+                setBearingS(String.format("%.02f", location.getBearing()) + "°");
         gpsViewModel.updateGPSInfoLiveData();
     }
 

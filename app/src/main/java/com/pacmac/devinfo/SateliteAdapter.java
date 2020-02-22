@@ -2,6 +2,7 @@ package com.pacmac.devinfo;
 
 
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +17,18 @@ public class SateliteAdapter extends RecyclerView.Adapter<SateliteAdapter.MyView
 
     private List<Satelites> mDataset;
 
+    private Object sync = new Object();
+
+
     public SateliteAdapter(List<Satelites> mDataset) {
         this.mDataset = mDataset;
     }
 
     public void updateSatellites(List<Satelites> mDataset) {
-        this.mDataset = mDataset;
-        notifyDataSetChanged();
+        synchronized (sync) {
+            this.mDataset = mDataset;
+            notifyDataSetChanged();
+        }
     }
 
 
@@ -60,12 +66,15 @@ public class SateliteAdapter extends RecyclerView.Adapter<SateliteAdapter.MyView
     public void onBindViewHolder(SateliteAdapter.MyViewHolder viewHolder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-
-        viewHolder.idT.setText("" + mDataset.get(position).getID());
-        viewHolder.pnrT.setText("" + mDataset.get(position).getPnr());
-        viewHolder.snrT.setText(String.format("%.1f", mDataset.get(position).getSnr()));
-        viewHolder.azimuthT.setText("" + mDataset.get(position).getAzimuth());
-        viewHolder.elevationT.setText("" + mDataset.get(position).getElevation());
+        synchronized (sync) {
+            if (position < mDataset.size()) {
+                viewHolder.idT.setText("" + mDataset.get(position).getID());
+                viewHolder.pnrT.setText("" + mDataset.get(position).getPnr());
+                viewHolder.snrT.setText(String.format("%.1f", mDataset.get(position).getSnr()));
+                viewHolder.azimuthT.setText("" + mDataset.get(position).getAzimuth());
+                viewHolder.elevationT.setText("" + mDataset.get(position).getElevation());
+            }
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
