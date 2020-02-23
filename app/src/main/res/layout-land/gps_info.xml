@@ -112,6 +112,42 @@
                             android:textSize="14sp"/>
                     </LinearLayout>
 
+
+                    <LinearLayout
+                        android:id="@+id/gnssHWYearView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="8dp"
+                        android:paddingRight="16dp"
+                        android:visibility="gone"
+                        android:paddingBottom="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="GNSS Hardware Year"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_name"
+                            android:textSize="14sp"
+                            android:textStyle=""/>
+
+                        <TextView
+                            android:id="@+id/gnssHardwareYear"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text=""
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

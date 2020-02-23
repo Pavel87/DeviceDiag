@@ -196,21 +196,13 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
         dialog.setCancelable(true);
 
         Button yesButton = dialog.findViewById(R.id.yesExit);
-        yesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                moveTaskToBack(true);
-                finishAffinity();
-            }
+        yesButton.setOnClickListener(view -> {
+            moveTaskToBack(true);
+            finishAffinity();
         });
 
         Button noButton = dialog.findViewById(R.id.noExit);
-        noButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+        noButton.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
     }
