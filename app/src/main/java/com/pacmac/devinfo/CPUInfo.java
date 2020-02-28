@@ -199,9 +199,12 @@ public class CPUInfo extends AppCompatActivity {
         featuresCPU.setText(features);
         cpuMaxFrequency.setText(maxFrequency + " GHz");
         cpuCurrentFreq.setText(currentFrequency + " GHz");
-        if (hardware.equals("unknown")) {
+        if (hardware.equals("unknown") || hardware.equals("")) {
             try {
                 hardware = Utility.getDeviceProperty(BOARD_PLATFORM).toUpperCase();
+                if (hardware.length() == 0) {
+                    hardware = Build.HARDWARE;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
