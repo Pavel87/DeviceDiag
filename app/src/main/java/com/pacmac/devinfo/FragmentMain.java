@@ -18,6 +18,9 @@ import android.widget.TextView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 
 /**
  * Created by pacmac on 5/26/2015.
@@ -66,6 +69,10 @@ public class FragmentMain extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        AdView mAdView = view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         String radioFW = Build.getRadioVersion();
         if (radioFW != null) {
             radio.setText(radioFW);
@@ -93,12 +100,7 @@ public class FragmentMain extends Fragment {
         bootloader.setText(Build.BOOTLOADER);
         androidVer.setText(Build.VERSION.RELEASE + "  API:" + Build.VERSION.SDK_INT);
 
-        buildPropsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), BuildPropertiesActivity.class));
-            }
-        });
+        buildPropsButton.setOnClickListener(v -> startActivity(new Intent(getContext(), BuildPropertiesActivity.class)));
     }
 
     private String collectMainInfoForExport() {

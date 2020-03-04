@@ -8,13 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-
-import com.tutelatechnologies.sdk.framework.TutelaSDKFactory;
-
-import java.util.Locale;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +19,13 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.tutelatechnologies.sdk.framework.TutelaSDKFactory;
+
+import java.util.Locale;
 
 public class DiagMain extends AppCompatActivity implements ActionBar.TabListener {
 
@@ -40,6 +42,13 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diag_main);
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         viewModel.checkIfAppIsUpToDate(getApplicationContext());

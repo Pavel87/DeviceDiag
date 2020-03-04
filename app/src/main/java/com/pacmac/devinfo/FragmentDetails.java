@@ -4,6 +4,7 @@ package com.pacmac.devinfo;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,14 +21,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 /**
  * Created by pacmac on 5/26/2015.
  */
 public class FragmentDetails extends Fragment {
 
     private GridView gridView;
-
-    private MainViewModel mainViewModel;
 
     boolean isLocPermissionEnabled = true;
     boolean isPhonePermissionEnabled = true;
@@ -46,20 +48,16 @@ public class FragmentDetails extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
-    }
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            AdView mAdView = view.findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.frag_details, container, false);
-
-        mainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-
-        gridView = rootView.findViewById(R.id.gridViewMain);
+        gridView = view.findViewById(R.id.gridViewMain);
         gridView.setAdapter(new DetailAdapter(getActivity().getApplicationContext(), mThumbIds));
-
-        gridView.setOnItemClickListener((adapterView, view, position, l) -> {
+        gridView.setOnItemClickListener((adapterView, gridViewItem, position, l) -> {
             switch (position) {
                 case 0:
                     Intent i = new Intent(getActivity(), CPUInfo.class);
@@ -130,7 +128,10 @@ public class FragmentDetails extends Fragment {
                     break;
             }
         });
+    }
 
-        return rootView;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.frag_details, container, false);
     }
 }

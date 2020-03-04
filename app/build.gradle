@@ -20,13 +20,18 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "banner_id_1", "ca-app-pub-9192035457575047/1516826451"
+            resValue "string", "banner_id_2", "ca-app-pub-9192035457575047/9450817484"
+        }
+        debug {
+            resValue "string", "banner_id_1", "ca-app-pub-3940256099942544/6300978111"
+            resValue "string", "banner_id_2", "ca-app-pub-3940256099942544/6300978111"
         }
     }
     flavorDimensions "default"
     productFlavors {
         free {
             applicationId = "com.pacmac.devicediag.free"
-//            versionName = "1.9.6"
         }
     }
     sourceSets { main { java.srcDirs = ['src/main/java'] } }
@@ -43,11 +48,11 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
 
-    implementation 'androidx.appcompat:appcompat:1.2.0-alpha02'
+    implementation 'androidx.appcompat:appcompat:1.2.0-alpha03'
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
-    implementation 'com.google.android.gms:play-services-ads:16.0.0'
+    implementation 'com.google.android.gms:play-services-ads:19.0.0'
     implementation 'com.jjoe64:graphview:4.2.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

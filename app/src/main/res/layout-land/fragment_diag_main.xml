@@ -1,342 +1,363 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_act_bg">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_margin="32dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/list_border_line"
-        android:orientation="horizontal"
-        android:paddingLeft="16dp"
-        android:paddingTop="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/mainView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="3">
+            android:layout_centerInParent="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/list_border_line"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"
+            android:paddingRight="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/adView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="vertical"
-                android:paddingTop="16dp"
-                android:paddingRight="32dp"
-                android:paddingBottom="16dp">
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="3">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="4dp">
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="32dp"
+                    android:paddingRight="32dp"
+                    android:paddingBottom="16dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingEnd="16dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="8dp"
                         android:paddingRight="16dp"
-                        android:text="Model"
-                        android:textAllCaps="true"
-                        android:textColor="@color/text_name"
-                        android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:paddingBottom="4dp">
 
-                    <TextView
-                        android:id="@+id/modelName"
-                        android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="Model"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_name"
+                            android:textSize="14sp"
+                            android:textStyle="" />
+
+                        <TextView
+                            android:id="@+id/modelName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text="N/A"
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/serialNumberLayout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto_light"
-                        android:gravity="end"
-                        android:text="N/A"
-                        android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/serialNumberLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="4dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingEnd="16dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="8dp"
                         android:paddingRight="16dp"
-                        android:text="Serial Number"
-                        android:textAllCaps="true"
-                        android:textColor="@color/text_name"
-                        android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:paddingBottom="4dp">
 
-                    <TextView
-                        android:id="@+id/serialNumber"
-                        android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="Serial Number"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_name"
+                            android:textSize="14sp"
+                            android:textStyle="" />
+
+                        <TextView
+                            android:id="@+id/serialNumber"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text="N/A"
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto_light"
-                        android:gravity="end"
-                        android:text="N/A"
-                        android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="4dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingEnd="16dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="8dp"
                         android:paddingRight="16dp"
-                        android:text="Manufacturer"
-                        android:textAllCaps="true"
-                        android:textColor="@color/text_name"
-                        android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:paddingBottom="4dp">
 
-                    <TextView
-                        android:id="@+id/manufacturer"
-                        android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="Manufacturer"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_name"
+                            android:textSize="14sp"
+                            android:textStyle="" />
+
+                        <TextView
+                            android:id="@+id/manufacturer"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text="N/A"
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto_light"
-                        android:gravity="end"
-                        android:text="N/A"
-                        android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="4dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingEnd="16dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="8dp"
                         android:paddingRight="16dp"
-                        android:text="Hardware"
-                        android:textAllCaps="true"
-                        android:textColor="@color/text_name"
-                        android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:paddingBottom="4dp">
 
-                    <TextView
-                        android:id="@+id/hardware"
-                        android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="Hardware"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_name"
+                            android:textSize="14sp"
+                            android:textStyle="" />
+
+                        <TextView
+                            android:id="@+id/hardware"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text="N/A"
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto_light"
-                        android:gravity="end"
-                        android:text="N/A"
-                        android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="4dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingEnd="16dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="8dp"
                         android:paddingRight="16dp"
-                        android:text="Build Number"
-                        android:textAllCaps="true"
-                        android:textColor="@color/text_name"
-                        android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:paddingBottom="4dp">
 
-                    <TextView
-                        android:id="@+id/buildNumber"
-                        android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="Build Number"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_name"
+                            android:textSize="14sp"
+                            android:textStyle="" />
+
+                        <TextView
+                            android:id="@+id/buildNumber"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text="N/A"
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto_light"
-                        android:gravity="end"
-                        android:text="N/A"
-                        android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="4dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingEnd="16dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="8dp"
                         android:paddingRight="16dp"
-                        android:text="Bootloader"
-                        android:textAllCaps="true"
-                        android:textColor="@color/text_name"
-                        android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:paddingBottom="4dp">
 
-                    <TextView
-                        android:id="@+id/bootloader"
-                        android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="Bootloader"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_name"
+                            android:textSize="14sp"
+                            android:textStyle="" />
+
+                        <TextView
+                            android:id="@+id/bootloader"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text="N/A"
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto_light"
-                        android:gravity="end"
-                        android:text="N/A"
-                        android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="4dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingEnd="16dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="8dp"
                         android:paddingRight="16dp"
-                        android:text="Radio Firmware"
-                        android:textAllCaps="true"
-                        android:textColor="@color/text_name"
-                        android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:paddingBottom="4dp">
 
-                    <TextView
-                        android:id="@+id/radio"
-                        android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="Radio Firmware"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_name"
+                            android:textSize="14sp"
+                            android:textStyle="" />
+
+                        <TextView
+                            android:id="@+id/radio"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text="N/A"
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto_light"
-                        android:gravity="end"
-                        android:text="N/A"
-                        android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="4dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingEnd="16dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="8dp"
                         android:paddingRight="16dp"
-                        android:text="OS Version"
-                        android:textAllCaps="true"
-                        android:textColor="@color/text_name"
-                        android:textSize="14sp"
-                        android:textStyle=""/>
+                        android:paddingBottom="4dp">
 
-                    <TextView
-                        android:id="@+id/androidVer"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto_light"
-                        android:gravity="end"
-                        android:text="N/A"
-                        android:textColor="@color/text_value"
-                        android:textSize="14sp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingEnd="16dp"
+                            android:paddingRight="16dp"
+                            android:text="OS Version"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_name"
+                            android:textSize="14sp"
+                            android:textStyle="" />
+
+                        <TextView
+                            android:id="@+id/androidVer"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="end"
+                            android:text="N/A"
+                            android:textColor="@color/text_value"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="152dp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/pcb" />
+
+                <Button
+                    android:id="@+id/buildPropsBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_cust_blue"
+                    android:elevation="2dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/show_buildprop"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center"
-            android:orientation="vertical">
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="4dp"
+            android:background="@color/dark_act_bg"
+            app:adSize="FULL_BANNER"
+            app:adUnitId="@string/banner_id_1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainView" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="152dp"
-                android:layout_gravity="center"
-                android:scaleType="fitStart"
-                android:src="@drawable/pcb" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <Button
-                android:id="@+id/buildPropsBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/button_cust_blue"
-                android:elevation="2dp"
-                android:text="@string/show_buildprop"
-                android:fontFamily="@font/roboto"
-                android:textAllCaps="true"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="16sp"/>
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

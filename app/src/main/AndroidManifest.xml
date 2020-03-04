@@ -98,6 +98,10 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-9192035457575047~8525087939"/>
+
         <receiver
             android:name=".StartupReceiver"
             android:enabled="false">

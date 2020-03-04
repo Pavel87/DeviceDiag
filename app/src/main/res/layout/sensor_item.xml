@@ -16,7 +16,7 @@
             android:padding="16dp"
             android:layout_gravity="center"
             android:text="24"
-            android:textColor="@color/abc_input_method_navigation_guard" />
+            android:textColor="@color/text_name" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -30,9 +30,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
-                android:text="Sensor_Type_sdasdasdasdaasdasdasdas"
+                android:text="Sensor Type"
                 android:textAllCaps="true"
-                android:textColor="@color/abc_input_method_navigation_guard"
+                android:textColor="@color/text_name"
                 android:textSize="14sp" />
 
             <TextView
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Manufacturer"
-                android:textColor="@color/abc_input_method_navigation_guard"
+                android:textColor="@color/text_name"
                 android:textSize="12sp"
                 android:textStyle="italic" />
         </LinearLayout>

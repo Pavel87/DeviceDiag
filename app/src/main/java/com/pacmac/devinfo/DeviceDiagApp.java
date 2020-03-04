@@ -2,7 +2,6 @@ package com.pacmac.devinfo;
 
 import android.app.Application;
 
-import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.tutelatechnologies.sdk.framework.TutelaSDKFactory;
 
 /**
@@ -15,26 +14,9 @@ public class DeviceDiagApp extends Application {
     public void onCreate() {
         super.onCreate();
         try {
-            TutelaSDKFactory.getTheSDK().initializeWithApiKey(REG_KEY, this);
+            TutelaSDKFactory.getTheSDK().initializeWithApiKey(REG_KEY, getApplicationContext());
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    AdvertisingIdClient.Info adInfo = AdvertisingIdClient.getAdvertisingIdInfo(getApplicationContext());
-                    if (adInfo != null) {
-                        if(!adInfo.isLimitAdTrackingEnabled()) {
-                            TutelaSDKFactory.getTheSDK().setAaid(adInfo.getId(), getApplicationContext());
-
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
     }
 }
