@@ -118,17 +118,14 @@ public class NetworkInfo extends AppCompatActivity {
 
 
         // Open ICMP PING tool in market store
-        findViewById(R.id.icmpPingTool).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String appPackage = "com.pacmac.pinger";
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackage));
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                } else {
-                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackage));
-                    startActivity(intent);
-                }
+        findViewById(R.id.icmpPingTool).setOnClickListener(view -> {
+            String appPackage = "com.pacmac.pinger";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackage));
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            } else {
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackage));
+                startActivity(intent);
             }
         });
 
