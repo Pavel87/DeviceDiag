@@ -35,14 +35,10 @@ public class Utility {
 
     public final static int MY_PERMISSIONS_REQUEST = 8;
     public static final String ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
-    public static final String ACCESS_BACKGROUND_LOCATION = Manifest.permission.ACCESS_BACKGROUND_LOCATION;
     public static final String PHONE_PERMISSION = Manifest.permission.READ_PHONE_STATE;
 
 
     public static String[] getLocationPermissions() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-            return new String[]{ACCESS_BACKGROUND_LOCATION, ACCESS_FINE_LOCATION};
-        }
         return new String[]{ACCESS_FINE_LOCATION};
     }
 

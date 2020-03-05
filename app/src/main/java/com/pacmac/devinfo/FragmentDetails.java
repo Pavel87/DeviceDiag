@@ -1,28 +1,22 @@
 package com.pacmac.devinfo;
 
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 /**
  * Created by pacmac on 5/26/2015.
@@ -51,7 +45,7 @@ public class FragmentDetails extends Fragment {
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             AdView mAdView = view.findViewById(R.id.adView);
-            AdRequest adRequest = new AdRequest.Builder().build();
+            AdRequest adRequest = new AdRequest.Builder().addTestDevice("430BFEE479F599FBF9E3BD6716680F8C").build();
             mAdView.loadAd(adRequest);
         }
 

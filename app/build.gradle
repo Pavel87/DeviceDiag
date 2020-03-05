@@ -11,8 +11,8 @@ android {
         applicationId "com.pacmac.devicediag"
         minSdkVersion 17
         targetSdkVersion 29
-        versionCode 54
-        versionName "1.9.96"
+        versionCode 55
+        versionName "1.9.97"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

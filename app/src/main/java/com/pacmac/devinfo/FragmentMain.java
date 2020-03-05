@@ -70,7 +70,7 @@ public class FragmentMain extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         AdView mAdView = view.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("430BFEE479F599FBF9E3BD6716680F8C").build();
         mAdView.loadAd(adRequest);
 
         String radioFW = Build.getRadioVersion();
