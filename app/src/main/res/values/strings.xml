@@ -15,6 +15,7 @@
     <string name="connected_info">Connected</string>
     <string name="available_info">Available</string>
     <string name="not_available_info">Not Available</string>
+    <string name="error">Error</string>
     <string name="not_available_in_API">Not available in API:</string>
     <string name="not_present">Not Present</string>
     <string name="activity_title_gps_information">GPS Information</string>
@@ -55,5 +56,29 @@
     <string name="new_features3">- Android 11(R) Preview Support:</string>
     <string name="new_features4">Added support for Android 11(R) Preview version.</string>
     <string name="new_features5">- Several Crash Fixes</string>
+    <string name="title_activity_cellular_info">Cellular Info</string>
+
+    <string name="cell_phone_sim_tab">SIM</string>
+    <string name="cell_network_tab">Network</string>
+
+    <string name="supported">Supported</string>
+    <string name="not_supported">Not Supported</string>
+
+    <string name="mcc">MCC</string>
+    <string name="mnc">MNC</string>
+    <string name="spn">Service Provider Name</string>
+    <string name="country_iso">SIM Country Code</string>
+    <string name="carrier_id">Carrier ID</string>
+    <string name="sim_serial_number">Serial Number</string>
+    <string name="imsi">IMSI</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="voicemail_number">Voice Mail Number</string>
+    <string name="tac">Type Allocation Code</string>
+    <string name="manufacturer_code">Manufacturer Code</string>
+    <string name="imei">IMEI</string>
+    <string name="meid">MEID</string>
+
+
+    <string name="simID">SIM Slot %d</string>
 
 </resources>

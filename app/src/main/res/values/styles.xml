@@ -1,14 +1,14 @@
 <resources>
 
-<!-- Base application theme. -->
-<style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
-    <item name="colorPrimary">@color/tabs</item>
-    <item name="colorPrimaryDark">@color/tabs</item>
-    <item name="android:tabWidgetStyle">@color/tabs</item>
-    <item name="android:colorBackground">@color/background_material_light</item>
-    <item name="colorAccent">@color/tab_highlight</item>
-    <item name="actionBarTabStyle">@style/MyTabs</item>
-</style>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/tabs</item>
+        <item name="colorPrimaryDark">@color/tabs</item>
+        <item name="android:tabWidgetStyle">@color/tabs</item>
+        <item name="android:colorBackground">@color/background_material_light</item>
+        <item name="colorAccent">@color/tab_highlight</item>
+        <item name="actionBarTabStyle">@style/MyTabs</item>
+    </style>
 
     <style name="MyTabs" parent="@style/Widget.AppCompat.ActionBar.TabView">
 
@@ -22,6 +22,31 @@
         <!-- Used for the bottom line when not selected / focused -->
         <item name="colorControlNormal">#9e9e9e</item>
         <!-- colorControlActivated & colorControlHighlight use the colorAccent color by default -->
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="LabelStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ValueStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="fontFamily">@font/roboto</item>
     </style>
 
 </resources>

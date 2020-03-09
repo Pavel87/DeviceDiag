@@ -95,7 +95,8 @@ public class FragmentDetails extends Fragment {
                             return;
                         }
                     }
-                    i = new Intent(getActivity(), SIMInfo.class);
+                    i = new Intent(getActivity(), CellularInfo.class);
+//                    i = new Intent(getActivity(), SIMInfo.class);
                     if (i.resolveActivity(getActivity().getPackageManager()) != null)
                         startActivity(i);
                     break;

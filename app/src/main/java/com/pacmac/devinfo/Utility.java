@@ -191,7 +191,7 @@ public class Utility {
         }
     }
 
-    protected static String getDeviceProperty(String key) throws Exception {
+    public static String getDeviceProperty(String key) throws Exception {
         String result = "";
         Class<?> systemPropClass = Class.forName("android.os.SystemProperties");
 

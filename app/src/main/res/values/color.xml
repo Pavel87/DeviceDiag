@@ -16,7 +16,10 @@
     <color name="connected_clr">#44743C</color>
     <color name="graph_filling">#7A4B6A8B</color>
 
+    <color name="text_primary">#DE000000</color>
+    <color name="text_secondary">#99000000</color>
 
+    <color name="divider">#55000000</color>
 
 
     <color name="text_name">#404047</color>
