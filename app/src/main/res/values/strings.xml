@@ -60,6 +60,7 @@
 
     <string name="cell_phone_sim_tab">SIM</string>
     <string name="cell_network_tab">Network</string>
+    <string name="carrier_config_tab">Config</string>
 
     <string name="supported">Supported</string>
     <string name="not_supported">Not Supported</string>

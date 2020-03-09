@@ -1,9 +1,12 @@
 package com.pacmac.devinfo.ui.main;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
+import android.os.PersistableBundle;
 import android.telephony.TelephonyManager;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
@@ -19,17 +22,8 @@ public class CellularViewModel extends ViewModel {
 
     private MutableLiveData<List<UIObject>> basicInfo = new MutableLiveData<>();
     private MutableLiveData<List<List<UIObject>>> simInfos = new MutableLiveData<>();
+    private MutableLiveData<List<UIObject>> carrierConfig = new MutableLiveData<>();
 
-    private MutableLiveData<Integer> mIndex = new MutableLiveData<>();
-    private LiveData<String> mText = Transformations.map(mIndex, input -> "Hello world from section: " + input);
-
-    public void setIndex(int index) {
-        mIndex.setValue(index);
-    }
-
-    public LiveData<String> getText() {
-        return mText;
-    }
 
     public MutableLiveData<List<UIObject>> getBasicInfo(Context context) {
         loadBasicPhoneInfo(context);
@@ -42,14 +36,32 @@ public class CellularViewModel extends ViewModel {
         return simInfos;
     }
 
-    private void loadSIMInfos(Context context) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public MutableLiveData<List<UIObject>> getCarrierConfig(Context context) {
+        loadCarrierConfig(context);
+        return carrierConfig;
+    }
 
-        List<List<UIObject>> list = new ArrayList<>();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void loadCarrierConfig(Context context) {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         if (telephonyManager == null) {
             return;
         }
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+            carrierConfig.postValue(MobileNetworkUtil.getCarrierConfig(telephonyManager));
+        }
+
+    }
+
+    private void loadSIMInfos(Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        if (telephonyManager == null) {
+            return;
+        }
+
+        List<List<UIObject>> list = new ArrayList<>();
         int slotCount = 0;
         try {
             slotCount = Integer.parseInt(MobileNetworkUtil.getSIMCount(context, telephonyManager).getValue());
@@ -99,13 +111,13 @@ public class CellularViewModel extends ViewModel {
 
 
     private void loadBasicPhoneInfo(Context context) {
-
-        List<UIObject> list = new ArrayList<>();
-
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         if (telephonyManager == null) {
             return;
         }
+
+        List<UIObject> list = new ArrayList<>();
+
 
         list.add(MobileNetworkUtil.getSIMCount(context, telephonyManager));
         list.add(MobileNetworkUtil.getPhoneRadio(context, telephonyManager));

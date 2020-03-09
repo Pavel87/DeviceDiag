@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.os.PersistableBundle;
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
@@ -15,10 +16,30 @@ import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.Utility;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class MobileNetworkUtil {
 
+    @SuppressLint("MissingPermission")
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static List<UIObject> getCarrierConfig(TelephonyManager telephonyManager) {
+        PersistableBundle persistableBundle = telephonyManager.getCarrierConfig();
+
+        List<UIObject> list = new ArrayList<>();
+
+        if (persistableBundle != null && persistableBundle.size() > 0) {
+
+            for (String key : persistableBundle.keySet()) {
+                String prettyKey = key.replace("_", " ").toUpperCase();
+                list.add(new UIObject(prettyKey, String.valueOf(persistableBundle.get(key))));
+            }
+
+
+        }
+        return list;
+    }
 
     public static UIObject getSIMCount(Context context, TelephonyManager telephonyManager) {
         int slotCount = -1;
@@ -584,5 +605,6 @@ public class MobileNetworkUtil {
         }
         return result;
     }
+
 
 }

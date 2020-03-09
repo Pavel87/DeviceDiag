@@ -1,6 +1,7 @@
 package com.pacmac.devinfo.ui.main;
 
 import android.content.Context;
+import android.os.Build;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -17,7 +18,7 @@ import com.pacmac.devinfo.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.cell_phone_sim_tab, R.string.cell_network_tab};
+    private static final int[] TAB_TITLES = new int[]{R.string.cell_phone_sim_tab, R.string.cell_network_tab, R.string.carrier_config_tab};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -27,9 +28,15 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
-        return MainPhoneSIMInfoFragment.newInstance(position + 1);
+        switch (position) {
+            case 0:
+                return MainPhoneSIMInfoFragment.newInstance();
+            case 1:
+                return ActiveNetworkFragment.newInstance();
+            case 2:
+                return CarrierConfigFragment.newInstance();
+        }
+        return MainPhoneSIMInfoFragment.newInstance();
     }
 
     @Nullable
@@ -40,7 +47,10 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // Show 2 total pages.
-        return 2;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return 3;
+        } else {
+            return 2;
+        }
     }
 }

@@ -43,10 +43,7 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diag_main);
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
+        MobileAds.initialize(this, initializationStatus -> {
         });
 
 

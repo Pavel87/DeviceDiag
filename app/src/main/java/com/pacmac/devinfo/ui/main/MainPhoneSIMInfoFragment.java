@@ -25,8 +25,6 @@ import java.util.List;
  */
 public class MainPhoneSIMInfoFragment extends Fragment {
 
-    private static final String ARG_SECTION_NUMBER = "section_number";
-
     private CellularViewModel cellularViewModel;
 
     private RecyclerView basicRecyclerView;
@@ -37,11 +35,8 @@ public class MainPhoneSIMInfoFragment extends Fragment {
     private SIMInfoAdapter simInfoAdapter;
 
 
-    public static MainPhoneSIMInfoFragment newInstance(int index) {
+    public static MainPhoneSIMInfoFragment newInstance() {
         MainPhoneSIMInfoFragment fragment = new MainPhoneSIMInfoFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(ARG_SECTION_NUMBER, index);
-        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -49,11 +44,6 @@ public class MainPhoneSIMInfoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         cellularViewModel = new ViewModelProvider(getActivity()).get(CellularViewModel.class);
-        int index = 1;
-        if (getArguments() != null) {
-            index = getArguments().getInt(ARG_SECTION_NUMBER);
-        }
-        cellularViewModel.setIndex(index);
     }
 
     @Override
@@ -73,7 +63,6 @@ public class MainPhoneSIMInfoFragment extends Fragment {
 
         Observer<List<UIObject>> basicObserver = uiObjects -> basicItemAdapter.updateData(uiObjects);
         cellularViewModel.getBasicInfo(getContext()).observe(getViewLifecycleOwner(), basicObserver);
-
 
 
         simRecyclerView = view.findViewById(R.id.simList);
