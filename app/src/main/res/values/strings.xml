@@ -68,6 +68,10 @@
     <string name="mcc">MCC</string>
     <string name="mnc">MNC</string>
     <string name="spn">Service Provider Name</string>
+    <string name="network_gen">Network Generation</string>
+    <string name="network_type">Network Type</string>
+    <string name="voice_network_type">Voice Network Type</string>
+    <string name="data_network_type">Data Network Type</string>
     <string name="country_iso">SIM Country Code</string>
     <string name="carrier_id">Carrier ID</string>
     <string name="sim_serial_number">Serial Number</string>
@@ -78,6 +82,18 @@
     <string name="manufacturer_code">Manufacturer Code</string>
     <string name="imei">IMEI</string>
     <string name="meid">MEID</string>
+    <string name="iccid">ICC ID</string>
+    <string name="embedded">Is Embedded</string>
+    <string name="network_country_code">Country Code</string>
+    <string name="data_enabled">Data Enabled</string>
+    <string name="data_roaming_enabled">Data Roaming Enabled</string>
+    <string name="forbidden_plmns">Forbidden PLMNs</string>
+    <string name="service_state">Voice Service State</string>
+    <string name="nr_status">5G Status</string>
+    <string name="ends_status">ENDC Status</string>
+    <string name="cell_bandwidths">LTE CA Bandwidths</string>
+    <string name="duplex_mode">LTE CA Duplex Mode</string>
+    <string name="lte_cal">Carrier Aggregation</string>
 
 
     <string name="simID">SIM Slot %d</string>

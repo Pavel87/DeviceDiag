@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.os.PersistableBundle;
+import android.telephony.ServiceState;
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
@@ -309,6 +310,45 @@ public class MobileNetworkUtil {
         return new UIObject(context.getResources().getString(R.string.country_iso), countryISO);
     }
 
+
+    @SuppressLint("NewApi")
+    public static UIObject getICCID(Context context, int slotID) {
+
+        SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+        if (subscriptionManager == null) {
+            return new UIObject(context.getResources().getString(R.string.iccid),
+                    context.getResources().getString(R.string.not_available_info));
+        }
+        @SuppressLint("MissingPermission")
+        SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+        if (subscriptionInfo == null) {
+            return new UIObject(context.getResources().getString(R.string.iccid),
+                    context.getResources().getString(R.string.not_available_info));
+        } else {
+            return new UIObject(context.getResources().getString(R.string.iccid),
+                    subscriptionInfo.getIccId());
+        }
+    }
+
+    @SuppressLint("NewApi")
+    public static UIObject isEmbedded(Context context, int slotID) {
+        SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+        if (subscriptionManager == null) {
+            return new UIObject(context.getResources().getString(R.string.embedded),
+                    context.getResources().getString(R.string.not_available_info));
+        }
+        @SuppressLint("MissingPermission")
+        SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+        if (subscriptionInfo == null) {
+            return new UIObject(context.getResources().getString(R.string.embedded),
+                    context.getResources().getString(R.string.not_available_info));
+        } else {
+            return new UIObject(context.getResources().getString(R.string.embedded),
+                    subscriptionInfo.isEmbedded() ?
+                            context.getResources().getString(R.string.yes_string) : context.getResources().getString(R.string.no_string));
+        }
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.P)
     public static UIObject getCarrierID(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
 
@@ -607,4 +647,592 @@ public class MobileNetworkUtil {
     }
 
 
+    /**
+     * NETWORK INFO
+     */
+    @SuppressLint("MissingPermission")
+    public static UIObject getMCC(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
+
+        if (!isMultiSIM || Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            String mccmnc = telephonyManager.getNetworkOperator();
+            if (mccmnc.length() > 3) {
+                return new UIObject(context.getResources().getString(R.string.mcc), mccmnc.substring(0, 3));
+            } else {
+                return new UIObject(context.getResources().getString(R.string.mcc),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+        } else {
+            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            if (subscriptionManager == null) {
+                return new UIObject(context.getResources().getString(R.string.mcc),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+            if (subscriptionInfo == null) {
+                return new UIObject(context.getResources().getString(R.string.mcc),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+
+            String mcc = null;
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                TelephonyManager t = telephonyManager.createForSubscriptionId(subscriptionInfo.getSubscriptionId());
+                mcc = t.getNetworkOperator();
+                if (mcc.length() > 3) {
+                    return new UIObject(context.getResources().getString(R.string.mcc), mcc.substring(0, 3));
+                } else {
+                    return new UIObject(context.getResources().getString(R.string.mcc),
+                            context.getResources().getString(R.string.not_available_info));
+                }
+            } else {
+//                mcc = String.format(Locale.ENGLISH, "%d", subscriptionInfo.getMcc());
+            }
+            if (mcc == null || mcc.equals("0")) {
+                mcc = context.getResources().getString(R.string.not_available_info);
+            }
+            return new UIObject(context.getResources().getString(R.string.mcc), mcc);
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    public static UIObject getMNC(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
+
+        if (!isMultiSIM || Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            String mccmnc = telephonyManager.getNetworkOperator();
+            if (mccmnc.length() > 3) {
+                return new UIObject(context.getResources().getString(R.string.mnc), mccmnc.substring(3));
+            } else {
+                return new UIObject(context.getResources().getString(R.string.mnc),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+        } else {
+            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            if (subscriptionManager == null) {
+                return new UIObject(context.getResources().getString(R.string.mnc),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+            if (subscriptionInfo == null) {
+                return new UIObject(context.getResources().getString(R.string.mnc),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+
+            String mcc = null;
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                TelephonyManager t = telephonyManager.createForSubscriptionId(subscriptionInfo.getSubscriptionId());
+                mcc = t.getNetworkOperator();
+                if (mcc.length() > 3) {
+                    return new UIObject(context.getResources().getString(R.string.mnc), mcc.substring(3));
+                } else {
+                    return new UIObject(context.getResources().getString(R.string.mnc),
+                            context.getResources().getString(R.string.not_available_info));
+                }
+            } else {
+//                mcc = String.format(Locale.ENGLISH, "%d", subscriptionInfo.getMcc());
+            }
+            if (mcc == null || mcc.equals("0")) {
+                mcc = context.getResources().getString(R.string.not_available_info);
+            }
+            return new UIObject(context.getResources().getString(R.string.mnc), mcc);
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    public static UIObject getNetworkSPN(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
+        String spn = null;
+        if (!isMultiSIM || Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            spn = telephonyManager.getNetworkOperatorName();
+
+        } else {
+            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            if (subscriptionManager == null) {
+                return new UIObject(context.getResources().getString(R.string.spn),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+            if (subscriptionInfo == null) {
+                return new UIObject(context.getResources().getString(R.string.spn),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                TelephonyManager t = telephonyManager.createForSubscriptionId(subscriptionInfo.getSubscriptionId());
+                spn = t.getNetworkOperatorName();
+            } else {
+//                mcc = String.format(Locale.ENGLISH, "%d", subscriptionInfo.getMcc());
+            }
+
+        }
+        if (spn == null || spn.length() == 0) {
+            spn = context.getResources().getString(R.string.not_available_info);
+        }
+        return new UIObject(context.getResources().getString(R.string.spn), spn);
+    }
+
+    @SuppressLint("MissingPermission")
+    public static UIObject getNetworkType(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
+        int type = 0;
+        if (!isMultiSIM || Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            type = telephonyManager.getNetworkType();
+        } else {
+            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            if (subscriptionManager == null) {
+                return new UIObject(context.getResources().getString(R.string.network_type),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+            if (subscriptionInfo == null) {
+                return new UIObject(context.getResources().getString(R.string.network_type),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                TelephonyManager t = telephonyManager.createForSubscriptionId(subscriptionInfo.getSubscriptionId());
+                type = t.getNetworkType();
+            } else {
+//                mcc = String.format(Locale.ENGLISH, "%d", subscriptionInfo.getMcc());
+            }
+        }
+        return new UIObject(context.getResources().getString(R.string.network_type), getNetworkTypeString(type));
+    }
+
+    @SuppressLint("MissingPermission")
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static UIObject getVoiceNetworkType(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
+        int type = 0;
+        if (!isMultiSIM) {
+            type = telephonyManager.getVoiceNetworkType();
+        } else {
+            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            if (subscriptionManager == null) {
+                return new UIObject(context.getResources().getString(R.string.voice_network_type),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+            if (subscriptionInfo == null) {
+                return new UIObject(context.getResources().getString(R.string.voice_network_type),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                TelephonyManager t = telephonyManager.createForSubscriptionId(subscriptionInfo.getSubscriptionId());
+                type = t.getVoiceNetworkType();
+            } else {
+//                mcc = String.format(Locale.ENGLISH, "%d", subscriptionInfo.getMcc());
+            }
+        }
+        return new UIObject(context.getResources().getString(R.string.voice_network_type), getNetworkTypeString(type));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @SuppressLint("MissingPermission")
+    public static UIObject getDataNetworkType(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
+        int type = 0;
+        if (!isMultiSIM) {
+            type = telephonyManager.getDataNetworkType();
+        } else {
+            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            if (subscriptionManager == null) {
+                return new UIObject(context.getResources().getString(R.string.data_network_type),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+            if (subscriptionInfo == null) {
+                return new UIObject(context.getResources().getString(R.string.data_network_type),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                TelephonyManager t = telephonyManager.createForSubscriptionId(subscriptionInfo.getSubscriptionId());
+                type = t.getDataNetworkType();
+            } else {
+//                mcc = String.format(Locale.ENGLISH, "%d", subscriptionInfo.getMcc());
+            }
+        }
+        return new UIObject(context.getResources().getString(R.string.data_network_type), getNetworkTypeString(type));
+    }
+
+
+    @SuppressLint("MissingPermission")
+    public static UIObject getGeneration(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
+        int type = 0;
+        if (!isMultiSIM || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                type = telephonyManager.getNetworkType();
+            } else {
+                type = telephonyManager.getDataNetworkType();
+            }
+        } else {
+            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            if (subscriptionManager == null) {
+                return new UIObject(context.getResources().getString(R.string.network_gen),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+            if (subscriptionInfo == null) {
+                return new UIObject(context.getResources().getString(R.string.network_gen),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                TelephonyManager t = telephonyManager.createForSubscriptionId(subscriptionInfo.getSubscriptionId());
+                type = t.getDataNetworkType();
+            } else {
+//                mcc = String.format(Locale.ENGLISH, "%d", subscriptionInfo.getMcc());
+            }
+        }
+        return new UIObject(context.getResources().getString(R.string.network_gen), getNetworkClass(context, type));
+    }
+
+
+    @SuppressLint("MissingPermission")
+    public static UIObject getNetworkCountryCode(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
+        String countryCode = null;
+        if (!isMultiSIM || Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            countryCode = telephonyManager.getNetworkCountryIso();
+
+        } else {
+            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            if (subscriptionManager == null) {
+                return new UIObject(context.getResources().getString(R.string.network_country_code),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+            if (subscriptionInfo == null) {
+                return new UIObject(context.getResources().getString(R.string.network_country_code),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                TelephonyManager t = telephonyManager.createForSubscriptionId(subscriptionInfo.getSubscriptionId());
+                countryCode = t.getNetworkCountryIso();
+            } else {
+//                mcc = String.format(Locale.ENGLISH, "%d", subscriptionInfo.getMcc());
+            }
+
+        }
+        if (countryCode == null || countryCode.length() == 0) {
+            countryCode = context.getResources().getString(R.string.not_available_info);
+        }
+        return new UIObject(context.getResources().getString(R.string.network_country_code), countryCode);
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint("MissingPermission")
+    public static UIObject isDataEnabled(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
+        boolean isDataEnabled = false;
+        if (!isMultiSIM) {
+            isDataEnabled = telephonyManager.isDataEnabled();
+        } else {
+            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            if (subscriptionManager == null) {
+                return new UIObject(context.getResources().getString(R.string.data_enabled),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+            if (subscriptionInfo == null) {
+                return new UIObject(context.getResources().getString(R.string.data_enabled),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                TelephonyManager t = telephonyManager.createForSubscriptionId(subscriptionInfo.getSubscriptionId());
+                isDataEnabled = t.isDataEnabled();
+            } else {
+//                mcc = String.format(Locale.ENGLISH, "%d", subscriptionInfo.getMcc());
+            }
+
+        }
+        return new UIObject(context.getResources().getString(R.string.data_enabled), isDataEnabled ?
+                context.getResources().getString(R.string.yes_string) : context.getResources().getString(R.string.no_string));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    @SuppressLint("MissingPermission")
+    public static UIObject isDataRoamingEnabled(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
+        boolean isDataRoamingEnabled = false;
+        if (!isMultiSIM) {
+            isDataRoamingEnabled = telephonyManager.isDataRoamingEnabled();
+        } else {
+            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            if (subscriptionManager == null) {
+                return new UIObject(context.getResources().getString(R.string.data_roaming_enabled),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+            if (subscriptionInfo == null) {
+                return new UIObject(context.getResources().getString(R.string.data_roaming_enabled),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                TelephonyManager t = telephonyManager.createForSubscriptionId(subscriptionInfo.getSubscriptionId());
+                isDataRoamingEnabled = t.isDataRoamingEnabled();
+            } else {
+//                mcc = String.format(Locale.ENGLISH, "%d", subscriptionInfo.getMcc());
+            }
+
+        }
+        return new UIObject(context.getResources().getString(R.string.data_roaming_enabled), isDataRoamingEnabled ?
+                context.getResources().getString(R.string.yes_string) : context.getResources().getString(R.string.no_string));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint("MissingPermission")
+    public static UIObject getForbiddenPlmns(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
+        String[] plmns = null;
+        if (!isMultiSIM) {
+            plmns = telephonyManager.getForbiddenPlmns();
+        } else {
+            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            if (subscriptionManager == null) {
+                return new UIObject(context.getResources().getString(R.string.forbidden_plmns),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+            if (subscriptionInfo == null) {
+                return new UIObject(context.getResources().getString(R.string.forbidden_plmns),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                TelephonyManager t = telephonyManager.createForSubscriptionId(subscriptionInfo.getSubscriptionId());
+                plmns = t.getForbiddenPlmns();
+            } else {
+//                mcc = String.format(Locale.ENGLISH, "%d", subscriptionInfo.getMcc());
+            }
+        }
+        if (plmns == null || plmns.length == 0) {
+            return new UIObject(context.getResources().getString(R.string.forbidden_plmns),
+                    context.getResources().getString(R.string.not_available_info));
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String plmn : plmns) {
+            stringBuilder.append(plmn + "  ");
+        }
+        String result = stringBuilder.toString().trim().replace("  ", ", ");
+
+        return new UIObject(context.getResources().getString(R.string.forbidden_plmns), result);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint("MissingPermission")
+    public static UIObject getVoiceServiceState(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
+        int state = -1;
+        if (!isMultiSIM) {
+            state = telephonyManager.getServiceState().getState();
+        } else {
+            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            if (subscriptionManager == null) {
+                return new UIObject(context.getResources().getString(R.string.service_state),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+            if (subscriptionInfo == null) {
+                return new UIObject(context.getResources().getString(R.string.service_state),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                TelephonyManager t = telephonyManager.createForSubscriptionId(subscriptionInfo.getSubscriptionId());
+                state = t.getServiceState().getState();
+            } else {
+//                mcc = String.format(Locale.ENGLISH, "%d", subscriptionInfo.getMcc());
+            }
+        }
+        if (state == -1) {
+            return new UIObject(context.getResources().getString(R.string.service_state),
+                    context.getResources().getString(R.string.not_available_info));
+        }
+
+        return new UIObject(context.getResources().getString(R.string.service_state), getVoiceServiceState(state));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.P)
+    @SuppressLint("MissingPermission")
+    public static UIObject getLTECABandwidths(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
+        int[] bandwidths = null;
+        if (!isMultiSIM) {
+            bandwidths = telephonyManager.getServiceState().getCellBandwidths();
+        } else {
+            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            if (subscriptionManager == null) {
+                return new UIObject(context.getResources().getString(R.string.cell_bandwidths),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+            if (subscriptionInfo == null) {
+                return new UIObject(context.getResources().getString(R.string.cell_bandwidths),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                TelephonyManager t = telephonyManager.createForSubscriptionId(subscriptionInfo.getSubscriptionId());
+                bandwidths = t.getServiceState().getCellBandwidths();
+            } else {
+//                mcc = String.format(Locale.ENGLISH, "%d", subscriptionInfo.getMcc());
+            }
+        }
+
+        if (bandwidths == null || bandwidths.length == 0) {
+            return new UIObject(context.getResources().getString(R.string.cell_bandwidths),
+                    context.getResources().getString(R.string.not_available_info));
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int bandwidth : bandwidths) {
+            stringBuilder.append(bandwidth + "  ");
+        }
+        String result = stringBuilder.toString().trim().replace("  ", "kHz ");
+
+
+        return new UIObject(context.getResources().getString(R.string.cell_bandwidths), result);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.P)
+    @SuppressLint("MissingPermission")
+    public static UIObject getLTECADuplexMode(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
+        int duplexMode = -1;
+        if (!isMultiSIM) {
+            duplexMode = telephonyManager.getServiceState().getDuplexMode();
+        } else {
+            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            if (subscriptionManager == null) {
+                return new UIObject(context.getResources().getString(R.string.duplex_mode),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+            if (subscriptionInfo == null) {
+                return new UIObject(context.getResources().getString(R.string.duplex_mode),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                TelephonyManager t = telephonyManager.createForSubscriptionId(subscriptionInfo.getSubscriptionId());
+                duplexMode = t.getServiceState().getDuplexMode();
+            } else {
+//                mcc = String.format(Locale.ENGLISH, "%d", subscriptionInfo.getMcc());
+            }
+        }
+
+        if (duplexMode < 0) {
+            return new UIObject(context.getResources().getString(R.string.duplex_mode),
+                    context.getResources().getString(R.string.not_available_info));
+        }
+
+
+        return new UIObject(context.getResources().getString(R.string.duplex_mode), getDuplexModeString(duplexMode));
+    }
+
+
+    private static String getDuplexModeString(int value) {
+        switch (value) {
+            case ServiceState.DUPLEX_MODE_FDD:
+                return "FDD";
+            case ServiceState.DUPLEX_MODE_TDD:
+                return "TDD";
+            default:
+                return "Unknown";
+        }
+    }
+
+    private static String getVoiceServiceState(int value) {
+        switch (value) {
+            case 0:
+                return "In Service";
+            case 1:
+                return "Out Of Service";
+            case 2:
+                return "Emergency Calls Only";
+            case 3:
+                return "Power Off";
+        }
+        return "Unknown";
+    }
+
+    private static String getNetworkTypeString(int value) {
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+            switch (value) {
+                case TelephonyManager.NETWORK_TYPE_GSM:
+                    return "GSM";
+                case TelephonyManager.NETWORK_TYPE_TD_SCDMA:
+                    return "TD-SCDMA";
+                case TelephonyManager.NETWORK_TYPE_IWLAN:
+                    return "IWLAN";
+                case 19:
+                    return "LTE CA";
+                case 20:
+                    return "5G (None Stand Alone)";
+            }
+        }
+
+        switch (value) {
+            case TelephonyManager.NETWORK_TYPE_1xRTT:
+                return "1xRTT";
+            case TelephonyManager.NETWORK_TYPE_CDMA:
+                return "CDMA (Either IS95A or IS95B)";
+            case TelephonyManager.NETWORK_TYPE_EDGE:
+                return "EDGE";
+            case TelephonyManager.NETWORK_TYPE_EHRPD:
+                return "eHRPD";
+            case TelephonyManager.NETWORK_TYPE_EVDO_0:
+                return "EVDO revision 0";
+            case TelephonyManager.NETWORK_TYPE_EVDO_A:
+                return "EVDO revision A";
+            case TelephonyManager.NETWORK_TYPE_EVDO_B:
+                return "EVDO revision B";
+            case TelephonyManager.NETWORK_TYPE_GPRS:
+                return "GPRS";
+            case TelephonyManager.NETWORK_TYPE_HSDPA:
+                return "HSDPA";
+            case TelephonyManager.NETWORK_TYPE_HSPA:
+                return "HSPA";
+            case TelephonyManager.NETWORK_TYPE_HSPAP:
+                return "HSPAP";
+            case TelephonyManager.NETWORK_TYPE_HSUPA:
+                return "HSUPA";
+            case TelephonyManager.NETWORK_TYPE_IDEN:
+                return "iDen";
+            case TelephonyManager.NETWORK_TYPE_LTE:
+                return "LTE";
+            case TelephonyManager.NETWORK_TYPE_UMTS:
+                return "UMTS";
+            case TelephonyManager.NETWORK_TYPE_UNKNOWN:
+                return "Uknown";
+        }
+        return "error";
+    }
+
+    private static String getNetworkClass(Context context, int networkType) {
+        switch (networkType) {
+            case TelephonyManager.NETWORK_TYPE_GPRS:
+            case 16:
+            case TelephonyManager.NETWORK_TYPE_EDGE:
+            case TelephonyManager.NETWORK_TYPE_CDMA:
+            case TelephonyManager.NETWORK_TYPE_1xRTT:
+            case TelephonyManager.NETWORK_TYPE_IDEN:
+                return "2G";
+            case TelephonyManager.NETWORK_TYPE_UMTS:
+            case TelephonyManager.NETWORK_TYPE_EVDO_0:
+            case TelephonyManager.NETWORK_TYPE_EVDO_A:
+            case TelephonyManager.NETWORK_TYPE_HSDPA:
+            case TelephonyManager.NETWORK_TYPE_HSUPA:
+            case TelephonyManager.NETWORK_TYPE_HSPA:
+            case TelephonyManager.NETWORK_TYPE_EVDO_B:
+            case TelephonyManager.NETWORK_TYPE_EHRPD:
+            case TelephonyManager.NETWORK_TYPE_HSPAP:
+            case 17:
+                return "3G";
+            case TelephonyManager.NETWORK_TYPE_LTE:
+            case TelephonyManager.NETWORK_TYPE_IWLAN:
+            case 19:
+                return "4G";
+            case 20:
+                return "5G";
+            default:
+                return context.getResources().getString(R.string.not_available_info);
+        }
+    }
 }

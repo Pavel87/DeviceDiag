@@ -1,11 +1,9 @@
 package com.pacmac.devinfo.ui.main;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,16 +19,15 @@ import com.pacmac.devinfo.UIObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class ActiveNetworkFragment extends Fragment {
 
 
     private CellularViewModel cellularViewModel;
 
-    private RecyclerView basicRecyclerView;
-    private RecyclerView.LayoutManager basicLinearLayoutManager;
-    private BasicItemAdapter basicItemAdapter;
+    private RecyclerView networkRecyclerView;
+    private RecyclerView.LayoutManager networkLinearLayoutManager;
+    private BasicItemAdapter networkItemAdapter;
 
 
     public static ActiveNetworkFragment newInstance() {
@@ -51,23 +48,16 @@ public class ActiveNetworkFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        paramCount = view.findViewById(R.id.paramCount);
-//        basicRecyclerView = view.findViewById(R.id.carrierConfigList);
-//        basicRecyclerView.setHasFixedSize(true);
-//        basicLinearLayoutManager = new LinearLayoutManager(getContext());
-//        basicRecyclerView.setLayoutManager(basicLinearLayoutManager);
-//        basicItemAdapter = new BasicItemAdapter(getContext(), new ArrayList<>());
-//        basicRecyclerView.setAdapter(basicItemAdapter);
-//        basicRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-//
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            Observer<List<UIObject>> basicObserver = uiObjects -> {
-//                basicItemAdapter.updateData(uiObjects);
-//                paramCount.setText(String.format(Locale.ENGLISH, "%d / %d", uiObjects.size(), uiObjects.size()));
-//            };
-//            cellularViewModel.getCarrierConfig(getContext()).observe(getViewLifecycleOwner(), basicObserver);
-//        }
+        networkRecyclerView = view.findViewById(R.id.networkInfo);
+        networkRecyclerView.setHasFixedSize(true);
+        networkLinearLayoutManager = new LinearLayoutManager(getContext());
+        networkRecyclerView.setLayoutManager(networkLinearLayoutManager);
+        networkItemAdapter = new BasicItemAdapter(getContext(), new ArrayList<>());
+        networkRecyclerView.setAdapter(networkItemAdapter);
+        networkRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+
+        Observer<List<UIObject>> basicObserver = uiObjects -> networkItemAdapter.updateData(uiObjects);
+        cellularViewModel.getNetworkInfos(getContext()).observe(getViewLifecycleOwner(), basicObserver);
     }
 
 }
