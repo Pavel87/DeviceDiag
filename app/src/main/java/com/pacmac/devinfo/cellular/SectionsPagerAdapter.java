@@ -1,4 +1,4 @@
-package com.pacmac.devinfo.ui.main;
+package com.pacmac.devinfo.cellular;
 
 import android.content.Context;
 import android.os.Build;

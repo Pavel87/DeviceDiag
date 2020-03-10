@@ -1,4 +1,4 @@
-package com.pacmac.devinfo;
+package com.pacmac.devinfo.cellular;
 
 import android.os.Bundle;
 
@@ -6,7 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.pacmac.devinfo.ui.main.SectionsPagerAdapter;
+import com.pacmac.devinfo.R;
+import com.pacmac.devinfo.cellular.SectionsPagerAdapter;
 
 public class CellularInfo extends AppCompatActivity {
 

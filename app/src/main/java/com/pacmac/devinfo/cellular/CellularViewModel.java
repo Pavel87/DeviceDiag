@@ -1,15 +1,11 @@
-package com.pacmac.devinfo.ui.main;
+package com.pacmac.devinfo.cellular;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
-import android.os.PersistableBundle;
 import android.telephony.TelephonyManager;
 
 import androidx.annotation.RequiresApi;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.pacmac.devinfo.UIObject;

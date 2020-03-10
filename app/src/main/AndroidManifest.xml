@@ -28,7 +28,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:name=".CellularInfo"
+            android:name=".cellular.CellularInfo"
             android:label="@string/title_activity_cellular_info"
             android:parentActivityName=".DiagMain"
             android:theme="@style/AppTheme.NoActionBar" />

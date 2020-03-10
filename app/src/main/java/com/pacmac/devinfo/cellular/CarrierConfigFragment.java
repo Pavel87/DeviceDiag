@@ -1,20 +1,14 @@
-package com.pacmac.devinfo.ui.main;
+package com.pacmac.devinfo.cellular;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,10 +16,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.pacmac.devinfo.BuildPropertiesActivity;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
-import com.pacmac.devinfo.Utility;
 
 import java.util.ArrayList;
 import java.util.List;

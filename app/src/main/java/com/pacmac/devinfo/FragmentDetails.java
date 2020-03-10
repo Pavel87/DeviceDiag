@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.pacmac.devinfo.cellular.CellularInfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

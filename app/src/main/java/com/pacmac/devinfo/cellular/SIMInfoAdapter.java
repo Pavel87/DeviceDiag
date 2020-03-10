@@ -1,4 +1,4 @@
-package com.pacmac.devinfo.ui.main;
+package com.pacmac.devinfo.cellular;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
