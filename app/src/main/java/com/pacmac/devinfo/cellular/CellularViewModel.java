@@ -2,6 +2,7 @@ package com.pacmac.devinfo.cellular;
 
 import android.content.Context;
 import android.os.Build;
+import android.telephony.ServiceState;
 import android.telephony.TelephonyManager;
 
 import androidx.annotation.RequiresApi;
@@ -20,6 +21,9 @@ public class CellularViewModel extends ViewModel {
     private MutableLiveData<List<List<UIObject>>> simInfos = new MutableLiveData<>();
     private MutableLiveData<List<UIObject>> carrierConfig = new MutableLiveData<>();
     private MutableLiveData<List<UIObject>> networkInfos = new MutableLiveData<>();
+
+
+    private ServiceState serviceState = null;
 
 
     public MutableLiveData<List<UIObject>> getBasicInfo(Context context) {
@@ -177,6 +181,8 @@ public class CellularViewModel extends ViewModel {
             // service state
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
                 list.add(MobileNetworkUtil.getVoiceServiceState(context, telephonyManager, 0, isMultiSIM));
+            } else {
+                list.add(MobileNetworkUtil.getVoiceServiceState(context, serviceState));
             }
             // network type
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
@@ -219,6 +225,28 @@ public class CellularViewModel extends ViewModel {
 
 
         networkInfos.postValue(list);
+    }
+
+
+    public void updateServiceState(ServiceState serviceState, Context context) {
+        this.serviceState = serviceState;
+        new Thread(() -> {
+            loadNetworkInfo(context);
+        }).start();
+    }
+
+    public void refreshSIMInfo(Context context) {
+        new Thread(() -> {
+            getBasicInfo(context);
+            getSimInfos(context);
+        }).start();
+    }
+
+    public void refreshNetworkInfo(Context context) {
+        new Thread(() -> {
+//
+            getNetworkInfos(context);
+        }).start();
     }
 
 }

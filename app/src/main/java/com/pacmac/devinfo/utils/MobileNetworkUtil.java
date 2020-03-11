@@ -1049,6 +1049,20 @@ public class MobileNetworkUtil {
         return new UIObject(context.getResources().getString(R.string.service_state), getVoiceServiceState(state));
     }
 
+    @SuppressLint("MissingPermission")
+    public static UIObject getVoiceServiceState(Context context, ServiceState serviceState) {
+        int state = -1;
+        if (serviceState != null) {
+            state = serviceState.getState();
+        }
+        if (state == -1) {
+            return new UIObject(context.getResources().getString(R.string.service_state),
+                    context.getResources().getString(R.string.not_available_info));
+        }
+
+        return new UIObject(context.getResources().getString(R.string.service_state), getVoiceServiceState(state));
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.P)
     @SuppressLint("MissingPermission")
     public static UIObject getLTECABandwidths(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
@@ -1091,7 +1105,7 @@ public class MobileNetworkUtil {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.P)
-    @SuppressLint("MissingPermission")
+    @SuppressLint({"MissingPermission", "WrongConstant"})
     public static UIObject getLTECADuplexMode(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
         int duplexMode = -1;
         if (!isMultiSIM) {
@@ -1120,7 +1134,6 @@ public class MobileNetworkUtil {
             return new UIObject(context.getResources().getString(R.string.duplex_mode),
                     context.getResources().getString(R.string.not_available_info));
         }
-
 
         return new UIObject(context.getResources().getString(R.string.duplex_mode), getDuplexModeString(duplexMode));
     }

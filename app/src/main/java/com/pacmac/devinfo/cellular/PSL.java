@@ -1,63 +1,82 @@
 package com.pacmac.devinfo.cellular;
 
+import android.content.Context;
 import android.telephony.CellInfo;
 import android.telephony.CellLocation;
 import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
 import android.telephony.SignalStrength;
+import android.util.Log;
 
 import java.util.List;
 
 public class PSL extends PhoneStateListener {
 
+    private CellularViewModel cellularViewModel;
+    private Context context;
 
-    public PSL() {
+    public PSL(CellularViewModel cellularViewModel, Context context) {
         super();
+        this.cellularViewModel = cellularViewModel;
+        this.context = context;
     }
 
 
     @Override
     public void onServiceStateChanged(ServiceState serviceState) {
-        super.onServiceStateChanged(serviceState);
+        if (serviceState != null && cellularViewModel != null) {
+            cellularViewModel.updateServiceState(serviceState, context);
+        }
     }
 
     @Override
     public void onCellLocationChanged(CellLocation location) {
-        super.onCellLocationChanged(location);
-    }
-
-    @Override
-    public void onDataConnectionStateChanged(int state) {
-        super.onDataConnectionStateChanged(state);
+        if (location != null) {
+            Log.d("PACMAC", location.toString());
+        }
     }
 
     @Override
     public void onDataConnectionStateChanged(int state, int networkType) {
-        super.onDataConnectionStateChanged(state, networkType);
+        Log.d("PACMAC", "DATA STATE: " + state);
+        Log.d("PACMAC", "DATA networkType: " + networkType);
+        if (cellularViewModel != null) {
+            cellularViewModel.refreshSIMInfo(context);
+            cellularViewModel.refreshNetworkInfo(context);
+        }
     }
 
     @Override
     public void onDataActivity(int direction) {
-        super.onDataActivity(direction);
+        Log.d("PACMAC", "DATA direction: " + direction);
     }
 
     @Override
     public void onSignalStrengthsChanged(SignalStrength signalStrength) {
-        super.onSignalStrengthsChanged(signalStrength);
+        if (signalStrength != null) {
+            Log.d("PACMAC", signalStrength.toString());
+        }
     }
 
     @Override
     public void onCellInfoChanged(List<CellInfo> cellInfo) {
-        super.onCellInfoChanged(cellInfo);
+        if (cellInfo != null) {
+            Log.d("PACMAC", cellInfo.toString());
+        }
     }
 
     @Override
     public void onUserMobileDataStateChanged(boolean enabled) {
-        super.onUserMobileDataStateChanged(enabled);
+        if (cellularViewModel != null) {
+            cellularViewModel.refreshNetworkInfo(context);
+        }
     }
 
     @Override
     public void onActiveDataSubscriptionIdChanged(int subId) {
-        super.onActiveDataSubscriptionIdChanged(subId);
+        if (cellularViewModel != null) {
+            cellularViewModel.refreshSIMInfo(context);
+        }
+
     }
 }
