@@ -1,6 +1,5 @@
 package com.pacmac.devinfo.cellular;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -40,15 +39,10 @@ public class CellularInfo extends AppCompatActivity {
                 | PhoneStateListener.LISTEN_DATA_ACTIVITY
                 | PhoneStateListener.LISTEN_DATA_CONNECTION_STATE
                 | PhoneStateListener.LISTEN_CELL_INFO
-                | PhoneStateListener.LISTEN_CELL_LOCATION;
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            pslListen = pslListen | PhoneStateListener.LISTEN_SERVICE_STATE;
-        }
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            pslListen = pslListen | PhoneStateListener.LISTEN_SIGNAL_STRENGTHS;
-        }
+                | PhoneStateListener.LISTEN_CELL_LOCATION
+                | PhoneStateListener.LISTEN_ACTIVE_DATA_SUBSCRIPTION_ID_CHANGE
+//                | PhoneStateListener.LISTEN_SIGNAL_STRENGTHS
+                | PhoneStateListener.LISTEN_SERVICE_STATE;
     }
 
     @Override

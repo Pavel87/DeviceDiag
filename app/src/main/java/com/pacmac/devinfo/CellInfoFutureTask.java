@@ -37,7 +37,7 @@ public class CellInfoFutureTask extends FutureTask {
         return cellInfo;
     }
 
-    static List<CellInfo> getAllCellInfoBlocking(TelephonyManager telephonyManager) {
+    public static List<CellInfo> getAllCellInfoBlocking(TelephonyManager telephonyManager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             try {
                 final CellInfoFutureTask future = new CellInfoFutureTask();

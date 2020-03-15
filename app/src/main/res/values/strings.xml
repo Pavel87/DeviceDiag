@@ -60,18 +60,67 @@
 
     <string name="cell_phone_sim_tab">SIM</string>
     <string name="cell_network_tab">Network</string>
+    <string name="cell_info_tab">Cell</string>
     <string name="carrier_config_tab">Config</string>
 
     <string name="supported">Supported</string>
     <string name="not_supported">Not Supported</string>
 
+    <string name="networkID">Network Id</string>
+    <string name="systemID">System Id</string>
+    <string name="baseStation">Base Station Id</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+
+
     <string name="mcc">MCC</string>
     <string name="mnc">MNC</string>
+    <string name="cid">Cell ID</string>
+    <string name="nci">New Radio 5G Cell Identity</string>
+    <string name="lac">Location Area Code</string>
+    <string name="psc">Primary Scrambling Code</string>
+    <string name="tracking_area_code">Tracking Area Code</string>
+    <string name="pci">Physical Cell ID</string>
+    <string name="earfcn">EARFCN</string>
+    <string name="eutran_band">EUTRAN BAND</string>
+    <string name="uarfcn">UARFCN</string>
+    <string name="nrarfcn">NR-ARFCN</string>
+    <string name="arfcn">Absolute RF Channel Number</string>
+    <string name="bsic">Base Station Identity Code</string>
+    <string name="bandwidth">Bandwidth</string>
+    <string name="connection_status">Connection Status</string>
+    <string name="cell_type">Cell Type</string>
+    <string name="cpid">Cell Parameters ID</string>
+
+
+    <string name="lte_rssi">Signal quality + CSQ</string>
+    <string name="lte_rsrp">RSRP</string>
+    <string name="lte_rsrq">RSRQ</string>
+    <string name="lte_rssnr">RSSNR</string>
+    <string name="lte_cqi">CQI</string>
+    <string name="ta">TA</string>
+    <string name="rssi">RSSI</string>
+    <string name="rscp">RSCP</string>
+    <string name="ber">Bit Error Rate</string>
+    <string name="csi_rsrp">CSI-RSRP</string>
+    <string name="csi_rsrq">CSI-RSRQ</string>
+    <string name="csi_sinr">CSI-SINR</string>
+    <string name="ss_rsrp">SS-RSRP</string>
+    <string name="ss_rsrq">SS-RSRQ</string>
+    <string name="ss_sinr">SS-SINR</string>
+    <string name="ecio">ECIO</string>
+    <string name="snr">SNR</string>
+
+    <string name="asu">Arbitrary Signal Strength</string>
+    <string name="sig_level">Signal Level</string>
+
     <string name="spn">Service Provider Name</string>
     <string name="network_gen">Network Generation</string>
     <string name="network_type">Network Type</string>
     <string name="voice_network_type">Voice Network Type</string>
     <string name="data_network_type">Data Network Type</string>
+    <string name="data_state">Data Status</string>
+    <string name="data_activity">Data Activity</string>
     <string name="country_iso">SIM Country Code</string>
     <string name="carrier_id">Carrier ID</string>
     <string name="sim_serial_number">Serial Number</string>
@@ -90,10 +139,12 @@
     <string name="forbidden_plmns">Forbidden PLMNs</string>
     <string name="service_state">Voice Service State</string>
     <string name="nr_status">5G Status</string>
-    <string name="ends_status">ENDC Status</string>
+    <string name="ends_status">E-UTRAN New Radio – Dual Connectivity</string>
+    <string name="nr_frequency">5G Frequency Range</string>
     <string name="cell_bandwidths">LTE CA Bandwidths</string>
     <string name="duplex_mode">LTE CA Duplex Mode</string>
     <string name="lte_cal">Carrier Aggregation</string>
+    <string name="cs_reject_cause">Network Reject Cause</string>
 
 
     <string name="simID">SIM Slot %d</string>

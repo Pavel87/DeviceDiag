@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/networkInfo"
+            android:id="@+id/cellInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"

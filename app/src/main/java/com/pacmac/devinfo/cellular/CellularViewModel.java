@@ -2,6 +2,7 @@ package com.pacmac.devinfo.cellular;
 
 import android.content.Context;
 import android.os.Build;
+import android.telephony.CellInfo;
 import android.telephony.ServiceState;
 import android.telephony.TelephonyManager;
 
@@ -21,30 +22,37 @@ public class CellularViewModel extends ViewModel {
     private MutableLiveData<List<List<UIObject>>> simInfos = new MutableLiveData<>();
     private MutableLiveData<List<UIObject>> carrierConfig = new MutableLiveData<>();
     private MutableLiveData<List<UIObject>> networkInfos = new MutableLiveData<>();
+    private MutableLiveData<List<UIObject>> cellInfos = new MutableLiveData<>();
 
 
     private ServiceState serviceState = null;
+//    private SignalStrength signalStrength = null;
 
+    public MutableLiveData<List<UIObject>> getCellInfos(Context context) {
+        new Thread(() -> loadCellInfos(context)).start();
+        return cellInfos;
+    }
 
     public MutableLiveData<List<UIObject>> getBasicInfo(Context context) {
-        loadBasicPhoneInfo(context);
+        new Thread(() -> loadBasicPhoneInfo(context)).start();
         return basicInfo;
     }
 
 
     public MutableLiveData<List<List<UIObject>>> getSimInfos(Context context) {
-        loadSIMInfos(context);
+        new Thread(() -> loadSIMInfos(context)).start();
         return simInfos;
     }
 
     public MutableLiveData<List<UIObject>> getNetworkInfos(Context context) {
-        loadNetworkInfo(context);
+        new Thread(() -> loadNetworkInfo(context)).start();
         return networkInfos;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public MutableLiveData<List<UIObject>> getCarrierConfig(Context context) {
-        loadCarrierConfig(context);
+        new Thread(() -> loadCarrierConfig(context)).start();
+
         return carrierConfig;
     }
 
@@ -171,82 +179,114 @@ public class CellularViewModel extends ViewModel {
 
         boolean isMultiSIM = slotCount > 1;
 
-        if (!isMultiSIM) {
-            UIObject genObject = MobileNetworkUtil.getGeneration(context, telephonyManager, 0, isMultiSIM);
+        list.add(MobileNetworkUtil.getDataState(context, telephonyManager));
+        list.add(MobileNetworkUtil.getDataActivity(context, telephonyManager));
+
+        for (int i = 0; i < slotCount; i++) {
+
+            list.add(new UIObject("Network ", String.valueOf(i + 1), 1));
+
+            UIObject genObject = MobileNetworkUtil.getGeneration(context, telephonyManager, i, isMultiSIM);
             boolean is4G = genObject.getValue().contains("4G");
             boolean is5G = genObject.getValue().contains("5G");
 
             // generation
-            list.add(MobileNetworkUtil.getGeneration(context, telephonyManager, 0, isMultiSIM));
+            list.add(MobileNetworkUtil.getGeneration(context, telephonyManager, i, isMultiSIM));
             // service state
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
-                list.add(MobileNetworkUtil.getVoiceServiceState(context, telephonyManager, 0, isMultiSIM));
+                list.add(MobileNetworkUtil.getVoiceServiceState(context, telephonyManager, i, isMultiSIM));
             } else {
                 list.add(MobileNetworkUtil.getVoiceServiceState(context, serviceState));
             }
+
+
             // network type
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                list.add(MobileNetworkUtil.getNetworkType(context, telephonyManager, 0, isMultiSIM));
+                list.add(MobileNetworkUtil.getNetworkType(context, telephonyManager, i, isMultiSIM));
             } else {
-                list.add(MobileNetworkUtil.getVoiceNetworkType(context, telephonyManager, 0, isMultiSIM));
-                list.add(MobileNetworkUtil.getDataNetworkType(context, telephonyManager, 0, isMultiSIM));
+                list.add(MobileNetworkUtil.getVoiceNetworkType(context, telephonyManager, i, isMultiSIM));
+                list.add(MobileNetworkUtil.getDataNetworkType(context, telephonyManager, i, isMultiSIM));
             }
+
             // SPN
-            list.add(MobileNetworkUtil.getNetworkSPN(context, telephonyManager, 0, isMultiSIM));
+            list.add(MobileNetworkUtil.getNetworkSPN(context, telephonyManager, i, isMultiSIM));
+//            list.add(MobileNetworkUtil.getNetworkSPN2(context, telephonyManager, serviceState, i));
             // mcc
-            list.add(MobileNetworkUtil.getMCC(context, telephonyManager, 0, isMultiSIM));
+            list.add(MobileNetworkUtil.getMCC(context, telephonyManager, i, isMultiSIM));
+//            list.add(MobileNetworkUtil.getMCC2(context, telephonyManager, serviceState, i));
             // mnc
-            list.add(MobileNetworkUtil.getMNC(context, telephonyManager, 0, isMultiSIM));
+            list.add(MobileNetworkUtil.getMNC(context, telephonyManager, i, isMultiSIM));
+//            list.add(MobileNetworkUtil.getMNC2(context, telephonyManager, serviceState, i));
+
+
             // network CC
-            list.add(MobileNetworkUtil.getNetworkCountryCode(context, telephonyManager, 0, isMultiSIM));
+            list.add(MobileNetworkUtil.getNetworkCountryCode(context, telephonyManager, i, isMultiSIM));
             // data enabled
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
-                list.add(MobileNetworkUtil.isDataEnabled(context, telephonyManager, 0, isMultiSIM));
+                list.add(MobileNetworkUtil.isDataEnabled(context, telephonyManager, i, isMultiSIM));
             }
             // data roaming enabled
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                list.add(MobileNetworkUtil.isDataRoamingEnabled(context, telephonyManager, 0, isMultiSIM));
+                list.add(MobileNetworkUtil.isDataRoamingEnabled(context, telephonyManager, i, isMultiSIM));
             }
             // forbidden PLMNs
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
                 list.add(MobileNetworkUtil.getForbiddenPlmns(context, telephonyManager, 0, isMultiSIM));
             }
-            // LTE CA bandwidths
-            if ((is4G || is5G) && Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
-                list.add(MobileNetworkUtil.getLTECADuplexMode(context, telephonyManager, 0, isMultiSIM));
-                list.add(MobileNetworkUtil.getLTECABandwidths(context, telephonyManager, 0, isMultiSIM));
+            // Reject Cause for Data Network
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                list.add(MobileNetworkUtil.getRejectCause(context, telephonyManager, i, isMultiSIM));
             }
 
+            // LTE CA bandwidths
+            if ((is4G || is5G) && Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                list.add(MobileNetworkUtil.getLTECADuplexMode(context, telephonyManager, i, isMultiSIM));
+                list.add(MobileNetworkUtil.getLTECABandwidths(context, telephonyManager, i, isMultiSIM));
 
-        } else {
+                MobileNetworkUtil.get5GStatus(context, telephonyManager, list, i, isMultiSIM);
+            }
+        }
+        networkInfos.postValue(list);
+    }
 
 
+    private void loadCellInfos(Context context) {
+
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        if (telephonyManager == null) {
+            return;
         }
 
+        List<CellInfo> cellInfos = MobileNetworkUtil.getAllCellInfo(telephonyManager);
+        if (cellInfos == null || cellInfos.size() == 0) {
+            return;
+        }
 
-        networkInfos.postValue(list);
+        this.cellInfos.postValue(MobileNetworkUtil.getCellTowerInfo(context, cellInfos));
     }
 
 
     public void updateServiceState(ServiceState serviceState, Context context) {
         this.serviceState = serviceState;
-        new Thread(() -> {
-            loadNetworkInfo(context);
-        }).start();
+        getNetworkInfos(context);
+        getCellInfos(context);
     }
 
-    public void refreshSIMInfo(Context context) {
-        new Thread(() -> {
-            getBasicInfo(context);
-            getSimInfos(context);
-        }).start();
-    }
 
     public void refreshNetworkInfo(Context context) {
-        new Thread(() -> {
-//
-            getNetworkInfos(context);
-        }).start();
+        getNetworkInfos(context);
+    }
+
+    public void refreshAll(Context context) {
+        getBasicInfo(context);
+        getSimInfos(context);
+        getNetworkInfos(context);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            getCarrierConfig(context);
+        }
+        getCellInfos(context);
+
     }
 
 }

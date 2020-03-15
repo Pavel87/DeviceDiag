@@ -5,10 +5,17 @@ public class UIObject {
     private String label;
     private String value;
     private String suffix = null;
+    private int type = 0; // 0 - default // 1 - title
 
     public UIObject(String label, String value) {
         this.label = label;
         this.value = value;
+    }
+
+    public UIObject(String label, String value, int type) {
+        this.label = label;
+        this.value = value;
+        this.type = type;
     }
 
     public UIObject(String label, String value, String suffix) {
@@ -27,5 +34,9 @@ public class UIObject {
 
     public String getSuffix() {
         return suffix;
+    }
+
+    public int getType() {
+        return type;
     }
 }

@@ -21,6 +21,7 @@
 
     <color name="divider">#55000000</color>
 
+    <color name="cell_title_bg">#58C2CBFA</color>
 
     <color name="text_name">#404047</color>
     <color name="text_value">#727E87</color>

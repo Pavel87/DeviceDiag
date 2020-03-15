@@ -18,7 +18,7 @@ import com.pacmac.devinfo.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.cell_phone_sim_tab, R.string.cell_network_tab, R.string.carrier_config_tab};
+    private static final int[] TAB_TITLES = new int[]{R.string.cell_phone_sim_tab, R.string.cell_network_tab, R.string.cell_info_tab, R.string.carrier_config_tab};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -34,6 +34,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return ActiveNetworkFragment.newInstance();
             case 2:
+                return CellTowerInfoFragment.newInstance();
+            case 3:
                 return CarrierConfigFragment.newInstance();
         }
         return MainPhoneSIMInfoFragment.newInstance();
@@ -48,9 +50,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return 3;
+            return 4;
         } else {
-            return 2;
+            return 3;
         }
     }
 }
