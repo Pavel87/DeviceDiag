@@ -2,10 +2,7 @@ package com.pacmac.devinfo.cellular;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -29,7 +26,7 @@ import java.util.Locale;
 /**
  * From API 26
  */
-public class CarrierConfigFragment extends Fragment {
+public class CarrierConfigFragment extends Fragment implements CarrierConfigAdapter.FilterResultCallback {
 
     private CellularViewModel cellularViewModel;
 
@@ -61,7 +58,7 @@ public class CarrierConfigFragment extends Fragment {
         basicRecyclerView.setHasFixedSize(true);
         basicLinearLayoutManager = new LinearLayoutManager(getContext());
         basicRecyclerView.setLayoutManager(basicLinearLayoutManager);
-        carrierConfigAdapter = new CarrierConfigAdapter(getContext(), new ArrayList<>());
+        carrierConfigAdapter = new CarrierConfigAdapter(getContext(), new ArrayList<>(), this);
         basicRecyclerView.setAdapter(carrierConfigAdapter);
         basicRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
@@ -82,5 +79,10 @@ public class CarrierConfigFragment extends Fragment {
 
 
         }
+    }
+
+    @Override
+    public void onFilterResult(int size) {
+        paramCount.setText(String.format(Locale.ENGLISH, "%d / %d", size, carrierConfigAdapter.getRawDataCount()));
     }
 }

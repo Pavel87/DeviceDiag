@@ -10,6 +10,10 @@
     <color name="tabs">#0D47A1</color>
     <color name="blue_ab">#2196F3</color>
     <color name="ac_background">#E3F2FD</color>
+    <color name="export_slot_bg">#FFFFFF</color>
+    <color name="export_slot_disabled">#CCCCCC</color>
+    <color name="export_slot_earned">#FFAB00</color>
+    <color name="export_slot_bg_stroke">#C3C2C2</color>
     <color name="tab_highlight">#64FFDA</color>
     <color name="log_bg">#7986CB</color>
     <color name="btn_blue">#3F51B5</color>

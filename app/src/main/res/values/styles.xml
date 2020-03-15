@@ -1,5 +1,15 @@
 <resources>
 
+
+    <style name="MaterialAppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="colorPrimary">@color/tabs</item>
+        <item name="colorPrimaryDark">@color/tabs</item>
+        <item name="colorAccent">@color/tab_highlight</item>
+        <!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
+        <!--        <item name="android:windowTranslucentStatus">true</item>-->
+    </style>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/tabs</item>

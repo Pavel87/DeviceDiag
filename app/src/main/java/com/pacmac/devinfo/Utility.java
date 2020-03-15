@@ -32,7 +32,6 @@ import java.util.List;
 
 public class Utility {
 
-
     public final static int MY_PERMISSIONS_REQUEST = 8;
     public static final String ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     public static final String PHONE_PERMISSION = Manifest.permission.READ_PHONE_STATE;

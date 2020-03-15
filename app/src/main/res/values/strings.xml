@@ -29,7 +29,7 @@
     <string name="new_version_content">Update to new version to get all new features and crash fixes.</string>
     <string name="update">Update</string>§
     <string name="action_search">Search</string>
-    <string name="search_hint">Search build properties</string>
+    <string name="search_hint">Search...</string>
     <string name="rateit">Rate It!</string>
     <string name="no_thanks">Later</string>
     <string name="cancel">Cancel</string>
@@ -148,5 +148,9 @@
 
 
     <string name="simID">SIM Slot %d</string>
+    <string name="export_data_description">Export data from your device in CSV file via email or using other 3rd party apps allowing sharing files.</string>
+    <string name="export_watch_ad_description">Unlock free exports by watching a short video</string>
+    <string name="earn_slot_btn_text">Earn Export</string>
+    <string name="export_btn">Export</string>
 
 </resources>

@@ -2,6 +2,8 @@ package com.pacmac.devinfo.cellular;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -15,9 +17,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.pacmac.devinfo.ExportActivity;
 import com.pacmac.devinfo.R;
+import com.pacmac.devinfo.utils.ExportTask;
+import com.pacmac.devinfo.utils.ExportUtils;
 
-public class CellularInfo extends AppCompatActivity {
+public class CellularInfo extends AppCompatActivity implements ExportTask.OnExportTaskFinished {
 
 
     private PSL psl;
@@ -26,6 +31,8 @@ public class CellularInfo extends AppCompatActivity {
     private Menu menu = null;
     private SearchView searchView;
     private CellularViewModel cellularViewModel;
+
+    private boolean isExporting = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +94,11 @@ public class CellularInfo extends AppCompatActivity {
                 | PhoneStateListener.LISTEN_DATA_CONNECTION_STATE
                 | PhoneStateListener.LISTEN_CELL_INFO
                 | PhoneStateListener.LISTEN_CELL_LOCATION
-                | PhoneStateListener.LISTEN_ACTIVE_DATA_SUBSCRIPTION_ID_CHANGE
                 | PhoneStateListener.LISTEN_SERVICE_STATE;
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+            pslListen = pslListen | PhoneStateListener.LISTEN_ACTIVE_DATA_SUBSCRIPTION_ID_CHANGE;
+        }
     }
 
     @Override
@@ -143,6 +153,10 @@ public class CellularInfo extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_item_share) {
+            if (!isExporting) {
+                isExporting = true;
+                new ExportTask(getApplicationContext(), CellularViewModel.EXPORT_FILE_NAME, this).execute(cellularViewModel);
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -155,5 +169,15 @@ public class CellularInfo extends AppCompatActivity {
             return;
         }
         super.onBackPressed();
+    }
+
+    @Override
+    public void onExportTaskFinished(String filePath) {
+        isExporting = false;
+        if (filePath != null) {
+            Intent intent = new Intent(getApplicationContext(), ExportActivity.class);
+            intent.putExtra(ExportUtils.EXPORT_FILE, filePath);
+            startActivity(intent);
+        }
     }
 }

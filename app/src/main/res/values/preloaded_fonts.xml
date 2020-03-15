@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
+        <item>@font/nunito</item>
         <item>@font/nunito_bold</item>
+        <item>@font/nunito_extralight</item>
         <item>@font/roboto</item>
         <item>@font/roboto_light</item>
         <item>@font/roboto_medium</item>

@@ -22,12 +22,14 @@ public class CarrierConfigAdapter extends RecyclerView.Adapter<RecyclerView.View
     private Context context;
     private List<UIObject> mData;
     private List<UIObject> mDataFiltered;
+    private FilterResultCallback listener;
 
 
-    public CarrierConfigAdapter(Context context, List<UIObject> mData) {
+    public CarrierConfigAdapter(Context context, List<UIObject> mData, FilterResultCallback listener) {
         this.context = context;
         this.mData = mData;
         this.mDataFiltered = mData;
+        this.listener = listener;
     }
 
     private class ContentViewHolder extends RecyclerView.ViewHolder {
@@ -117,10 +119,14 @@ public class CarrierConfigAdapter extends RecyclerView.Adapter<RecyclerView.View
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 mDataFiltered = (List<UIObject>) filterResults.values;
                 notifyDataSetChanged();
-//                if (listener != null) {
-//                    listener.onFilterResult(mDataFiltered.size());
-//                }
+                if (listener != null) {
+                    listener.onFilterResult(mDataFiltered.size());
+                }
             }
         };
+    }
+
+    interface FilterResultCallback {
+        void onFilterResult(int size);
     }
 }

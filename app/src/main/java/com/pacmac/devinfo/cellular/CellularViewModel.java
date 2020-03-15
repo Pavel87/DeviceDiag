@@ -18,6 +18,8 @@ import java.util.List;
 
 public class CellularViewModel extends ViewModel {
 
+    public static final String EXPORT_FILE_NAME = "phone_cellular_info";
+
     private MutableLiveData<List<UIObject>> basicInfo = new MutableLiveData<>();
     private MutableLiveData<List<List<UIObject>>> simInfos = new MutableLiveData<>();
     private MutableLiveData<List<UIObject>> carrierConfig = new MutableLiveData<>();
@@ -28,6 +30,41 @@ public class CellularViewModel extends ViewModel {
 
 
     private ServiceState serviceState = null;
+
+
+    public List<UIObject> getAllPhoneInfoForExport() {
+        List<UIObject> fullList = new ArrayList<>();
+
+        if (basicInfo.getValue() == null) {
+            return null;
+        }
+        fullList.addAll(basicInfo.getValue());
+
+        if (simInfos.getValue() == null) {
+            return null;
+        }
+        for (List<UIObject> simInfo : simInfos.getValue()) {
+            fullList.addAll(simInfo);
+        }
+
+        if (networkInfos.getValue() == null) {
+            return null;
+        }
+        fullList.addAll(networkInfos.getValue());
+
+
+        if (cellInfos.getValue() == null) {
+            return null;
+        }
+        fullList.addAll(cellInfos.getValue());
+
+        if (carrierConfig.getValue() == null) {
+            return null;
+        }
+        fullList.addAll(carrierConfig.getValue());
+        return fullList;
+    }
+
 
     public MutableLiveData<List<UIObject>> getCellInfos(Context context) {
         new Thread(() -> loadCellInfos(context)).start();
