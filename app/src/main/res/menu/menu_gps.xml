@@ -7,13 +7,13 @@
         android:icon="@drawable/satellite"
         android:orderInCategory="100"
         android:title="@string/action_satellites"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_item_share"
-        android:icon="@drawable/share_white"
+        android:icon="@drawable/baseline_share_white"
         android:orderInCategory="101"
         android:title="Share"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
 </menu>

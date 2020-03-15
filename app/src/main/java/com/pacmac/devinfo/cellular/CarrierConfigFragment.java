@@ -2,7 +2,10 @@ package com.pacmac.devinfo.cellular;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -32,11 +35,10 @@ public class CarrierConfigFragment extends Fragment {
 
     private RecyclerView basicRecyclerView;
     private RecyclerView.LayoutManager basicLinearLayoutManager;
-    private BasicItemAdapter basicItemAdapter;
-
+    private CarrierConfigAdapter carrierConfigAdapter;
     private TextView paramCount;
 
-    public static CarrierConfigFragment newInstance() {
+    static CarrierConfigFragment newInstance() {
         CarrierConfigFragment fragment = new CarrierConfigFragment();
         return fragment;
     }
@@ -59,70 +61,26 @@ public class CarrierConfigFragment extends Fragment {
         basicRecyclerView.setHasFixedSize(true);
         basicLinearLayoutManager = new LinearLayoutManager(getContext());
         basicRecyclerView.setLayoutManager(basicLinearLayoutManager);
-        basicItemAdapter = new BasicItemAdapter(getContext(), new ArrayList<>());
-        basicRecyclerView.setAdapter(basicItemAdapter);
+        carrierConfigAdapter = new CarrierConfigAdapter(getContext(), new ArrayList<>());
+        basicRecyclerView.setAdapter(carrierConfigAdapter);
         basicRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Observer<List<UIObject>> basicObserver = uiObjects -> {
-                basicItemAdapter.updateData(uiObjects);
+                carrierConfigAdapter.updateData(uiObjects);
                 paramCount.setText(String.format(Locale.ENGLISH, "%d / %d", uiObjects.size(), uiObjects.size()));
             };
             cellularViewModel.getCarrierConfig(getContext()).observe(getViewLifecycleOwner(), basicObserver);
+
+            Observer<String> filterObserver = filterQuery -> {
+                carrierConfigAdapter.getFilter().filter(filterQuery);
+                paramCount.setText(String.format(Locale.ENGLISH, "%d / %d",
+                        carrierConfigAdapter.getItemCount(), carrierConfigAdapter.getRawDataCount()));
+            };
+            cellularViewModel.getConfigFilter().observe(getViewLifecycleOwner(), filterObserver);
+
+
         }
     }
-
-//    SearchView searchView;
-//
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        inflater.inflate(R.menu.menu_build_props, menu);
-//
-//        // Associate searchable configuration with the SearchView
-//        SearchManager searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
-//        searchView = (SearchView) menu.findItem(R.id.action_search_build_prop)
-//                .getActionView();
-//        searchView.setSearchableInfo(searchManager
-//                .getSearchableInfo(getActivity().getComponentName()));
-//        searchView.setMaxWidth(Integer.MAX_VALUE);
-//
-//        // listening to search query text change
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                // filter recycler view when query submitted
-////                buildPropsAdapter.getFilter().filter(query);
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String query) {
-//                // filter recycler view when text is changed
-////                buildPropsAdapter.getFilter().filter(query);
-//                return false;
-//            }
-//        });
-//        return;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        if (id == R.id.action_search_build_prop) {
-//            return true;
-//        }
-//
-//        if (id == R.id.menu_item_share) {
-////            Utility.exporData(BuildPropertiesActivity.this, getResources().getString(R.string.title_activity_build_properties), updateMessageForExport());
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
 }

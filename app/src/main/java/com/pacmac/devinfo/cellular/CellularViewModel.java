@@ -24,9 +24,10 @@ public class CellularViewModel extends ViewModel {
     private MutableLiveData<List<UIObject>> networkInfos = new MutableLiveData<>();
     private MutableLiveData<List<UIObject>> cellInfos = new MutableLiveData<>();
 
+    private MutableLiveData<String> configFilter = new MutableLiveData<>("");
+
 
     private ServiceState serviceState = null;
-//    private SignalStrength signalStrength = null;
 
     public MutableLiveData<List<UIObject>> getCellInfos(Context context) {
         new Thread(() -> loadCellInfos(context)).start();
@@ -52,10 +53,16 @@ public class CellularViewModel extends ViewModel {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public MutableLiveData<List<UIObject>> getCarrierConfig(Context context) {
         new Thread(() -> loadCarrierConfig(context)).start();
-
         return carrierConfig;
     }
 
+    public MutableLiveData<String> getConfigFilter() {
+        return configFilter;
+    }
+
+    public void setConfigFilter(String query) {
+        this.configFilter.postValue(query);
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void loadCarrierConfig(Context context) {

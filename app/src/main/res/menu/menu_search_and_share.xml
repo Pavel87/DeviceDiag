@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_search_build_prop"
-        android:icon="@drawable/search_white"
+        android:id="@+id/action_search"
+        android:icon="@drawable/baseline_search_white"
         android:orderInCategory="100"
         android:title="@string/action_search"
         app:showAsAction="always"
@@ -12,8 +12,8 @@
 
     <item
         android:id="@+id/menu_item_share"
-        android:icon="@drawable/share_white"
+        android:icon="@drawable/baseline_share_white"
         android:orderInCategory="101"
         android:title="Share"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 </menu>

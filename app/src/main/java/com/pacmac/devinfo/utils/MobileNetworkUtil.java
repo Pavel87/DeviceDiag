@@ -1314,13 +1314,13 @@ public class MobileNetworkUtil {
     private static String getDataStateString(int value) {
         switch (value) {
             case TelephonyManager.DATA_DISCONNECTED:
-                return "Data Disconnecting";
+                return "Disconnected";
             case TelephonyManager.DATA_CONNECTING:
-                return "Data Connecting";
+                return "Connecting";
             case TelephonyManager.DATA_CONNECTED:
-                return "Data Connected";
+                return "Connected";
             case TelephonyManager.DATA_SUSPENDED:
-                return "Data Suspended";
+                return "Suspended";
         }
         return "Unknown";
     }
