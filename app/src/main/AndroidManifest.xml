@@ -28,7 +28,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:name=".battery.BatteryInfo2"
+            android:name=".battery.BatteryInfo"
             android:label="@string/title_activity_battery_info"
             android:theme="@style/MaterialAppTheme" />
         <activity

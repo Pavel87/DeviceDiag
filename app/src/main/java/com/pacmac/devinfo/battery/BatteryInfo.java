@@ -22,7 +22,7 @@ import com.pacmac.devinfo.utils.ExportUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BatteryInfo2 extends AppCompatActivity implements ExportTask.OnExportTaskFinished {
+public class BatteryInfo extends AppCompatActivity implements ExportTask.OnExportTaskFinished {
 
 
     private RecyclerView mRecyclerView;
@@ -35,7 +35,7 @@ public class BatteryInfo2 extends AppCompatActivity implements ExportTask.OnExpo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_battery_info2);
+        setContentView(R.layout.activity_battery_info);
 
 
         viewModel = new ViewModelProvider(this).get(BatteryViewModel.class);
