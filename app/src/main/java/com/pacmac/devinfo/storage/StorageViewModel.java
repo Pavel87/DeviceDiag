@@ -53,9 +53,6 @@ public class StorageViewModel extends ViewModel {
         List<StorageUtils.StorageSpace> listStorage = getDeviceStorage(context);
 
         if (listStorage.size() > 0) {
-
-            list.add(new UIObject("Device Storage", "", 1));
-
             if (listStorage.size() > 1) {
                 long total = 0;
                 long free = 0;
@@ -63,6 +60,8 @@ public class StorageViewModel extends ViewModel {
                     total += storage.getTotal();
                     free += storage.getFree();
                 }
+
+                list.add(new UIObject("Device Storage", "", 1));
                 StorageUtils.ByteValue totalStorage = StorageUtils.byteConvertor(total);
                 StorageUtils.ByteValue availableStorage = StorageUtils.byteConvertor(free);
                 list.add(new UIObject("TOTAL", totalStorage.getValue(), totalStorage.getUnit()));
