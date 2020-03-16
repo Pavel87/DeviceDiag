@@ -1,4 +1,4 @@
-package com.pacmac.devinfo;
+package com.pacmac.devinfo.cellular;
 
 import android.os.Build;
 import android.telephony.CellInfo;

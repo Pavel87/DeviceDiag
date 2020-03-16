@@ -28,6 +28,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
+            android:name=".battery.BatteryInfo2"
+            android:label="@string/title_activity_battery_info"
+            android:theme="@style/MaterialAppTheme" />
+        <activity
             android:name=".storage.StorageInfo"
             android:label="@string/title_activity_storage_info"
             android:theme="@style/MaterialAppTheme" />
@@ -59,9 +63,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".BatteryInfo"
-            android:label="@string/title_activity_battery_info" />
         <activity
             android:name=".GPSInfo"
             android:label="@string/activity_title_gps_information" />

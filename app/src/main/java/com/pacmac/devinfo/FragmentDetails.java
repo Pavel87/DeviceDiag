@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.pacmac.devinfo.battery.BatteryInfo2;
 import com.pacmac.devinfo.cellular.CellularInfo;
 import com.pacmac.devinfo.cpu.CPUInfo;
 import com.pacmac.devinfo.storage.StorageInfo;
@@ -77,7 +78,7 @@ public class FragmentDetails extends Fragment {
                         startActivity(i);
                     break;
                 case 2:
-                    i = new Intent(getActivity(), BatteryInfo.class);
+                    i = new Intent(getActivity(), BatteryInfo2.class);
                     if (i.resolveActivity(getActivity().getPackageManager()) != null)
                         startActivity(i);
                     break;

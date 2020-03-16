@@ -1,4 +1,4 @@
-package com.pacmac.devinfo.storage;
+package com.pacmac.devinfo.battery;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,24 +22,24 @@ import com.pacmac.devinfo.utils.ExportUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StorageInfo extends AppCompatActivity implements ExportTask.OnExportTaskFinished {
+public class BatteryInfo2 extends AppCompatActivity implements ExportTask.OnExportTaskFinished {
+
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLinearLayoutManager;
     private BasicItemAdapter mItemAdapter;
 
     private boolean isExporting = false;
-    private StorageViewModel viewModel;
-
+    private BatteryViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_storage_info);
+        setContentView(R.layout.activity_battery_info2);
 
 
-        viewModel = new ViewModelProvider(this).get(StorageViewModel.class);
-
+        viewModel = new ViewModelProvider(this).get(BatteryViewModel.class);
+        viewModel.registerReceiver(getApplicationContext());
         mRecyclerView = findViewById(R.id.recylerView);
         mRecyclerView.setHasFixedSize(true);
         mLinearLayoutManager = new LinearLayoutManager(this);
@@ -49,8 +49,20 @@ public class StorageInfo extends AppCompatActivity implements ExportTask.OnExpor
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         Observer<List<UIObject>> basicObserver = uiObjects -> mItemAdapter.updateData(uiObjects);
-        viewModel.getStorageInfo(getApplicationContext()).observe(this, basicObserver);
+        viewModel.getBatteryInfo().observe(this, basicObserver);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        viewModel.registerReceiver(getApplicationContext());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        viewModel.unRegisterReceiver(getApplicationContext());
     }
 
     // SHARE CPU INFO VIA ACTION_SEND
@@ -70,7 +82,7 @@ public class StorageInfo extends AppCompatActivity implements ExportTask.OnExpor
         if (id == R.id.menu_item_share) {
             if (!isExporting) {
                 isExporting = true;
-                new ExportTask(getApplicationContext(), StorageViewModel.EXPORT_FILE_NAME, this).execute(viewModel);
+                new ExportTask(getApplicationContext(), BatteryViewModel.EXPORT_FILE_NAME, this).execute(viewModel);
             }
             return true;
         }
