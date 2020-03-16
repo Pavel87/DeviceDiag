@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModel;
@@ -78,11 +79,11 @@ public class ExportUtils {
 
     public static void sendShareIntent(Context context, File file) {
 
-        String subject = "Device Info Export - PHONE INFO";
+        String subject = String.format("Device Info Export - %s %s", Build.MANUFACTURER,  Build.MODEL);
 
         Intent intentShareFile = new Intent(Intent.ACTION_SEND);
         intentShareFile.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
-        intentShareFile.putExtra(Intent.EXTRA_TEXT, "See your exported data in " + file.getName());
+        intentShareFile.putExtra(Intent.EXTRA_TEXT, "Data exported to " + file.getName());
 
         intentShareFile.setType(URLConnection.guessContentTypeFromName(file.getName()));
 

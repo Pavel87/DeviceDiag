@@ -18,6 +18,8 @@ import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdCallback;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.pacmac.devinfo.utils.ExportUtils;
 
 import java.io.File;
@@ -43,8 +45,9 @@ public class ExportActivity extends AppCompatActivity {
 
 
     private int slotCount = 0;
-
     private int error = -1;
+
+    private boolean isAdLoading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,20 +92,23 @@ public class ExportActivity extends AppCompatActivity {
 
 
         watchVideoBtn.setOnClickListener(v -> {
-            if (rewardedAd.isLoaded() && error != AdRequest.ERROR_CODE_NETWORK_ERROR) {
-                rewardedAd.show(ExportActivity.this, adShowCallback);
-            } else if (error == AdRequest.ERROR_CODE_NETWORK_ERROR) {
-                rewardedAd = createAndLoadRewardedAd();
-
-                Toast.makeText(getApplicationContext(), "Check your internet connection.", Toast.LENGTH_LONG).show();
-            } else {
-                Log.d("TAG", "The rewarded ad wasn't loaded yet.");
-                rewardedAd = createAndLoadRewardedAd();
+            if (!isAdLoading) {
+                if (rewardedAd.isLoaded() && error != AdRequest.ERROR_CODE_NETWORK_ERROR) {
+                    watchVideoBtn.setEnabled(false);
+                    rewardedAd.show(ExportActivity.this, adShowCallback);
+                } else if (error == AdRequest.ERROR_CODE_NETWORK_ERROR) {
+                    rewardedAd = createAndLoadRewardedAd();
+                    Toast.makeText(getApplicationContext(), "Check your internet connection.", Toast.LENGTH_LONG).show();
+                } else {
+                    Log.d("TAG", "The rewarded ad wasn't loaded yet.");
+                    rewardedAd = createAndLoadRewardedAd();
+                }
             }
         });
     }
 
     public RewardedAd createAndLoadRewardedAd() {
+        isAdLoading = true;
         RewardedAd rewardedAd = new RewardedAd(this, getResources().getString(R.string.rewarded1));
         rewardedAd.loadAd(new AdRequest.Builder().build(), adLoadCallback);
         return rewardedAd;
@@ -111,12 +117,16 @@ public class ExportActivity extends AppCompatActivity {
     private RewardedAdLoadCallback adLoadCallback = new RewardedAdLoadCallback() {
         @Override
         public void onRewardedAdLoaded() {
+            isAdLoading = false;
             error = -1;
+            watchVideoBtn.setEnabled(true);
         }
 
         @Override
         public void onRewardedAdFailedToLoad(int errorCode) {
             error = errorCode;
+            isAdLoading = false;
+            watchVideoBtn.setEnabled(true);
         }
     };
 
@@ -124,12 +134,12 @@ public class ExportActivity extends AppCompatActivity {
     private RewardedAdCallback adShowCallback = new RewardedAdCallback() {
         @Override
         public void onRewardedAdOpened() {
+            watchVideoBtn.setEnabled(false);
             rewardedAd = createAndLoadRewardedAd();
         }
 
         @Override
         public void onRewardedAdClosed() {
-            rewardedAd = createAndLoadRewardedAd();
         }
 
         @Override
@@ -142,14 +152,12 @@ public class ExportActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(getApplicationContext(), "All export slots are unlocked.", Toast.LENGTH_LONG).show();
             }
-            rewardedAd = createAndLoadRewardedAd();
         }
 
         @Override
         public void onRewardedAdFailedToShow(int errorCode) {
             // Ad failed to display.
             rewardedAd = createAndLoadRewardedAd();
-
             startActivityForResult(new Intent(getApplicationContext(), PromoActivity.class), PROMO_REQUEST_CODE);
             // TODO add my own ad withing the APP like showing WALLET APP Ad
         }

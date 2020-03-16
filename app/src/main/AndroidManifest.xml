@@ -27,7 +27,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".PromoActivity"></activity>
+
+        <activity
+            android:name=".cpu.CPUInfo"
+            android:theme="@style/MaterialAppTheme" />
+        <activity android:name=".PromoActivity" />
         <activity
             android:name=".ExportActivity"
             android:screenOrientation="portrait"
@@ -52,19 +56,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CPUInfo"
-            android:label="@string/title_activity_cpu_info"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".BatteryInfo"
             android:label="@string/title_activity_battery_info" />
-        <activity
-            android:name=".SIMInfo"
-            android:label="@string/title_activity_siminfo" />
         <activity
             android:name=".GPSInfo"
             android:label="@string/activity_title_gps_information" />

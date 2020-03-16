@@ -38,11 +38,13 @@ public class CellularViewModel extends ViewModel {
         if (basicInfo.getValue() == null) {
             return null;
         }
+        fullList.add(new UIObject("Phone & SIM Info", ""));
         fullList.addAll(basicInfo.getValue());
 
         if (simInfos.getValue() == null) {
             return null;
         }
+        fullList.add(new UIObject("", ""));
         for (List<UIObject> simInfo : simInfos.getValue()) {
             fullList.addAll(simInfo);
         }
@@ -50,17 +52,23 @@ public class CellularViewModel extends ViewModel {
         if (networkInfos.getValue() == null) {
             return null;
         }
+        fullList.add(new UIObject("", ""));
+        fullList.add(new UIObject("Active Network Info", ""));
         fullList.addAll(networkInfos.getValue());
 
 
         if (cellInfos.getValue() == null) {
             return null;
         }
+        fullList.add(new UIObject("", ""));
+        fullList.add(new UIObject("Connected Cell Info", ""));
         fullList.addAll(cellInfos.getValue());
 
         if (carrierConfig.getValue() == null) {
             return null;
         }
+        fullList.add(new UIObject("", ""));
+        fullList.add(new UIObject("Carrier Configuration", ""));
         fullList.addAll(carrierConfig.getValue());
         return fullList;
     }
