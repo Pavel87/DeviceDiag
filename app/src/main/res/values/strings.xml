@@ -20,7 +20,7 @@
     <string name="not_present">Not Present</string>
     <string name="activity_title_gps_information">GPS Information</string>
     <string name="title_activity_network_info">Network Information</string>
-    <string name="title_activity_memory_info">Memory Information</string>
+    <string name="title_activity_storage_info">Storage Information</string>
     <string name="title_activity_camera_info">Camera Information</string>
     <string name="title_activity_about">About Device Info</string>
     <string name="yes_string">YES</string>

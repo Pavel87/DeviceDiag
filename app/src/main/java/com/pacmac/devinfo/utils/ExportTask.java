@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.cellular.CellularViewModel;
 import com.pacmac.devinfo.cpu.CPUViewModel;
+import com.pacmac.devinfo.storage.StorageViewModel;
 
 import java.util.List;
 
@@ -41,6 +42,10 @@ public class ExportTask extends AsyncTask<ViewModel, Void, String> {
         }
         if (viewModels[0] instanceof CPUViewModel) {
             list = ((CPUViewModel) viewModels[0]).getCpuInfoForExport();
+            exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
+        }
+        if (viewModels[0] instanceof StorageViewModel) {
+            list = ((StorageViewModel) viewModels[0]).getStorageInfoForExport();
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
 

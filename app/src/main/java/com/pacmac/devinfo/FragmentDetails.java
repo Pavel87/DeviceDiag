@@ -15,6 +15,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.pacmac.devinfo.cellular.CellularInfo;
 import com.pacmac.devinfo.cpu.CPUInfo;
+import com.pacmac.devinfo.storage.StorageInfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +30,7 @@ public class FragmentDetails extends Fragment {
 
     boolean isLocPermissionEnabled = true;
     boolean isPhonePermissionEnabled = true;
+    boolean isStoragePermissionEnabled = true;
 
     private Integer[] mThumbIds = {
             R.drawable.cpuimg, R.drawable.ramimg,
@@ -61,7 +63,16 @@ public class FragmentDetails extends Fragment {
                         startActivity(i);
                     break;
                 case 1:
-                    i = new Intent(getActivity(), MemoryInfo.class);
+                    isStoragePermissionEnabled = Utility.checkPermission(getContext(), Utility.STORAGE_PERMISSION);
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+                        if (!isStoragePermissionEnabled) {
+                            Utility.displayExplanationForPermission(getActivity(),
+                                    getResources().getString(R.string.storage_permission_msg), new String[]{Utility.STORAGE_PERMISSION});
+                            return;
+                        }
+                    }
+
+                    i = new Intent(getActivity(), StorageInfo.class);
                     if (i.resolveActivity(getActivity().getPackageManager()) != null)
                         startActivity(i);
                     break;

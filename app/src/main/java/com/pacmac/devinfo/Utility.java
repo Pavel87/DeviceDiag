@@ -35,6 +35,7 @@ public class Utility {
     public final static int MY_PERMISSIONS_REQUEST = 8;
     public static final String ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     public static final String PHONE_PERMISSION = Manifest.permission.READ_PHONE_STATE;
+    public static final String STORAGE_PERMISSION = Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 
     public static String[] getLocationPermissions() {
@@ -211,29 +212,6 @@ public class Utility {
     }
 
 
-    private static String floatForm(double d) {
-        return new DecimalFormat("#.##").format(d);
-    }
-
-    public static String bytesToHuman(long size) {
-        long Kb = 1 * 1024;
-        long Mb = Kb * 1024;
-        long Gb = Mb * 1024;
-        long Tb = Gb * 1024;
-        long Pb = Tb * 1024;
-        long Eb = Pb * 1024;
-
-        if (size < Kb) return floatForm(size) + " Byte";
-        if (size >= Kb && size < Mb) return floatForm((double) size / Kb) + " KB";
-        if (size >= Mb && size < Gb) return floatForm((double) size / Mb) + " MB";
-        if (size >= Gb && size < Tb) return floatForm((double) size / Gb) + " GB";
-        if (size >= Tb && size < Pb) return floatForm((double) size / Tb) + " TB";
-        if (size >= Pb && size < Eb) return floatForm((double) size / Pb) + " PB";
-        if (size >= Eb) return floatForm((double) size / Eb) + " EB";
-
-        return "convertion error";
-    }
-
 
     public static List<BuildProperty> getBuildPropsList(Context context) {
 
@@ -276,7 +254,7 @@ public class Utility {
                 .startChooser();
     }
 
-    public static boolean hasGPS(Context context){
+    public static boolean hasGPS(Context context) {
         PackageManager packageManager = context.getPackageManager();
         boolean hasGPS = packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
         return hasGPS;

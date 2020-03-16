@@ -27,9 +27,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-
+        <activity
+            android:name=".storage.StorageInfo"
+            android:label="@string/title_activity_storage_info"
+            android:theme="@style/MaterialAppTheme" />
         <activity
             android:name=".cpu.CPUInfo"
+            android:label="@string/title_activity_cpu_info"
             android:theme="@style/MaterialAppTheme" />
         <activity android:name=".PromoActivity" />
         <activity
@@ -74,9 +78,6 @@
             android:name=".NetworkInfo"
             android:label="@string/title_activity_network_info"
             android:windowSoftInputMode="adjustNothing" />
-        <activity
-            android:name=".MemoryInfo"
-            android:label="@string/title_activity_memory_info" />
         <activity
             android:name=".CameraInfo"
             android:label="@string/title_activity_camera_info" />
