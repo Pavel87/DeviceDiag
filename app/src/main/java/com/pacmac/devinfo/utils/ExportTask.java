@@ -9,6 +9,7 @@ import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.battery.BatteryViewModel;
 import com.pacmac.devinfo.cellular.CellularViewModel;
 import com.pacmac.devinfo.cpu.CPUViewModel;
+import com.pacmac.devinfo.display.DisplayViewModel;
 import com.pacmac.devinfo.storage.StorageViewModel;
 
 import java.util.List;
@@ -52,6 +53,11 @@ public class ExportTask extends AsyncTask<ViewModel, Void, String> {
 
         if (viewModels[0] instanceof BatteryViewModel) {
             list = ((BatteryViewModel) viewModels[0]).getBatteryInfoForExport();
+            exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
+        }
+
+        if (viewModels[0] instanceof DisplayViewModel) {
+            list = ((DisplayViewModel) viewModels[0]).getDisplayInfoForExport();
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
 

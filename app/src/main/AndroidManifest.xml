@@ -28,6 +28,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
+            android:name=".display.DisplayInfo"
+            android:label="@string/title_activity_display_info"
+            android:theme="@style/MaterialAppTheme" />
+        <activity
             android:name=".battery.BatteryInfo"
             android:label="@string/title_activity_battery_info"
             android:theme="@style/MaterialAppTheme" />
@@ -72,9 +76,6 @@
         <activity
             android:name=".SensorsInfo"
             android:label="@string/title_activity_sensor_list" />
-        <activity
-            android:name=".DisplayInfo"
-            android:label="@string/title_activity_display_info" />
         <activity
             android:name=".NetworkInfo"
             android:label="@string/title_activity_network_info"
