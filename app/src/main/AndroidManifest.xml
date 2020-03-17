@@ -27,7 +27,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-
+        <activity
+            android:name=".gps.GPSInfo"
+            android:label="@string/activity_title_gps_information"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".wifi.NetworkInfo"
             android:label="@string/title_activity_network_info"
@@ -72,12 +75,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".GPSInfo"
-            android:label="@string/activity_title_gps_information" />
-        <activity
-            android:name=".NMEAfeed"
-            android:label="@string/title_activity_nmeafeed" />
         <activity
             android:name=".SensorsInfo"
             android:label="@string/title_activity_sensor_list" />

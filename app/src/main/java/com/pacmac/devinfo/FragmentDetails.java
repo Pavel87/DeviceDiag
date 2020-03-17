@@ -21,6 +21,7 @@ import com.pacmac.devinfo.battery.BatteryInfo;
 import com.pacmac.devinfo.cellular.CellularInfo;
 import com.pacmac.devinfo.cpu.CPUInfo;
 import com.pacmac.devinfo.display.DisplayInfo;
+import com.pacmac.devinfo.gps.GPSInfo;
 import com.pacmac.devinfo.storage.StorageInfo;
 import com.pacmac.devinfo.wifi.NetworkInfo;
 
@@ -91,6 +92,13 @@ public class FragmentDetails extends Fragment {
                     break;
                 case 4:
                     if (Utility.hasGPS(getContext())) {
+                        isLocPermissionEnabled = Utility.checkPermission(getContext(), Utility.ACCESS_FINE_LOCATION);
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+                            if (!isLocPermissionEnabled) {
+                                Utility.displayExplanationForPermission(getActivity(), getResources().getString(R.string.location_permission_msg), Utility.getLocationPermissions());
+                                return;
+                            }
+                        }
                         i = new Intent(getActivity(), GPSInfo.class);
                         if (i.resolveActivity(getActivity().getPackageManager()) != null)
                             startActivity(i);

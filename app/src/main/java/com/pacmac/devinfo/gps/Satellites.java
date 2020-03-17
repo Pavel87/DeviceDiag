@@ -1,30 +1,34 @@
-package com.pacmac.devinfo;
+package com.pacmac.devinfo.gps;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+import java.util.Locale;
 
 /**
  * Created by pacmac on 6/27/2015.
  */
 
 // ACTIVE SATELITES STORAGE
-public class Satelites implements Parcelable {
+public class Satellites implements Parcelable {
     private int id, pnr;
     private float snr, azimuth, elevation;
 
-    public static final Creator<Satelites> CREATOR = new Creator<Satelites>() {
+    public static final Creator<Satellites> CREATOR = new Creator<Satellites>() {
         @Override
-        public Satelites createFromParcel(Parcel in) {
-            return new Satelites(in);
+        public Satellites createFromParcel(Parcel in) {
+            return new Satellites(in);
         }
 
         @Override
-        public Satelites[] newArray(int size) {
-            return new Satelites[size];
+        public Satellites[] newArray(int size) {
+            return new Satellites[size];
         }
     };
 
-    public int getID(){
+    public int getID() {
         return id;
     }
 
@@ -44,7 +48,7 @@ public class Satelites implements Parcelable {
         return elevation;
     }
 
-    public Satelites(int id, float snr, int pnr, float azimuth, float elevation) {
+    public Satellites(int id, float snr, int pnr, float azimuth, float elevation) {
 
         this.id = id;
         this.snr = snr;
@@ -55,7 +59,7 @@ public class Satelites implements Parcelable {
 
     // constructor for parcelable
 
-    public Satelites(Parcel source){
+    public Satellites(Parcel source) {
         this.id = source.readInt();
         this.pnr = source.readInt();
         this.snr = source.readFloat();
@@ -79,4 +83,9 @@ public class Satelites implements Parcelable {
         parcel.writeFloat(elevation);
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return String.format(Locale.ENGLISH, "%d,%.1f,%.1f,%.1f", pnr, snr, azimuth, elevation);
+    }
 }

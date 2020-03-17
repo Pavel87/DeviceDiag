@@ -152,5 +152,8 @@
     <string name="export_watch_ad_description">Unlock free exports by watching a short video</string>
     <string name="earn_slot_btn_text">Get Reward</string>
     <string name="export_btn">Export</string>
+    <string name="main_tab">Main</string>
+    <string name="sat_tab">Satellites</string>
+    <string name="nmea_tab">NMEA</string>
 
 </resources>

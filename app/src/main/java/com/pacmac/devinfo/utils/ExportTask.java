@@ -2,6 +2,7 @@ package com.pacmac.devinfo.utils;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.Html;
 
 import androidx.lifecycle.ViewModel;
 
@@ -10,6 +11,7 @@ import com.pacmac.devinfo.battery.BatteryViewModel;
 import com.pacmac.devinfo.cellular.CellularViewModel;
 import com.pacmac.devinfo.cpu.CPUViewModel;
 import com.pacmac.devinfo.display.DisplayViewModel;
+import com.pacmac.devinfo.gps.GPSViewModel;
 import com.pacmac.devinfo.storage.StorageViewModel;
 import com.pacmac.devinfo.wifi.NetworkViewModel;
 
@@ -65,6 +67,20 @@ public class ExportTask extends AsyncTask<ViewModel, Void, String> {
         if (viewModels[0] instanceof NetworkViewModel) {
             list = ((NetworkViewModel) viewModels[0]).getWifiInfoForExport();
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
+        }
+
+        if (viewModels[0] instanceof GPSViewModel) {
+
+            if (fileName.equals(GPSViewModel.EXPORT_FILE_NAME)) {
+                list = ((GPSViewModel) viewModels[0]).getMainGPSDataForExport();
+                exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
+            } else {
+                StringBuilder sb = new StringBuilder();
+                sb.append("=============NMEA FEED===============\n");
+                sb.append(Html.fromHtml(((GPSViewModel) viewModels[0]).getMessageLive().getValue()));
+                exportFilePath = ExportUtils.writeDataToTXT(context, sb.toString(), fileName);
+                return exportFilePath;
+            }
         }
 
         if (list == null) {

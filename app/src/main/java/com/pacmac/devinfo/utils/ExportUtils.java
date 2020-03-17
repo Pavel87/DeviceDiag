@@ -83,6 +83,40 @@ public class ExportUtils {
         }
     }
 
+    public static String writeDataToTXT(Context context, String data, String reportName) {
+
+        File exportFile = new File(context.getFilesDir(), reportName);
+        try {
+            if (exportFile.exists()) {
+                exportFile.delete();
+            }
+            exportFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        BufferedWriter out = null;
+        try {
+            out = new BufferedWriter(new FileWriter(exportFile.getAbsolutePath(), true));
+
+            out.write(data);
+            out.flush();
+            out.close();
+            return exportFile.getAbsolutePath();
+        } catch (Exception e) {
+            try {
+                if (out != null) {
+                    out.flush();
+                    out.close();
+                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     public static void sendShareIntent(Context context, File file) {
 

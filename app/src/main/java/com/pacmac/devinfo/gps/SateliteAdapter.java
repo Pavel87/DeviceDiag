@@ -1,4 +1,4 @@
-package com.pacmac.devinfo;
+package com.pacmac.devinfo.gps;
 
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.pacmac.devinfo.R;
+
 import java.util.List;
 
 /**
@@ -15,16 +17,16 @@ import java.util.List;
  */
 public class SateliteAdapter extends RecyclerView.Adapter<SateliteAdapter.MyViewHolder> {
 
-    private List<Satelites> mDataset;
+    private List<Satellites> mDataset;
 
     private Object sync = new Object();
 
 
-    public SateliteAdapter(List<Satelites> mDataset) {
+    public SateliteAdapter(List<Satellites> mDataset) {
         this.mDataset = mDataset;
     }
 
-    public void updateSatellites(List<Satelites> mDataset) {
+    public void updateSatellites(List<Satellites> mDataset) {
         synchronized (sync) {
             this.mDataset = mDataset;
             notifyDataSetChanged();
