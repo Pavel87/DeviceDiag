@@ -22,6 +22,7 @@ import com.pacmac.devinfo.cellular.CellularInfo;
 import com.pacmac.devinfo.cpu.CPUInfo;
 import com.pacmac.devinfo.display.DisplayInfo;
 import com.pacmac.devinfo.storage.StorageInfo;
+import com.pacmac.devinfo.wifi.NetworkInfo;
 
 /**
  * Created by pacmac on 5/26/2015.
@@ -127,6 +128,13 @@ public class FragmentDetails extends Fragment {
                         startActivity(i);
                     break;
                 case 8:
+                    isLocPermissionEnabled = Utility.checkPermission(getContext(), Utility.ACCESS_FINE_LOCATION);
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+                        if (!isLocPermissionEnabled) {
+                            Utility.displayExplanationForPermission(getActivity(), getResources().getString(R.string.location_permission_msg), Utility.getLocationPermissions());
+                            return;
+                        }
+                    }
                     i = new Intent(getActivity(), NetworkInfo.class);
                     if (i.resolveActivity(getActivity().getPackageManager()) != null)
                         startActivity(i);

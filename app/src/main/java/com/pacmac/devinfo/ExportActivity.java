@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,8 @@ public class ExportActivity extends AppCompatActivity {
     private AppCompatImageView slot4;
     private AppCompatImageView slot5;
 
+    private ProgressBar progressBar;
+
 
     private int slotCount = 0;
     private int error = -1;
@@ -65,6 +69,9 @@ public class ExportActivity extends AppCompatActivity {
         exportBtn = findViewById(R.id.exportButton);
         watchVideoBtn = findViewById(R.id.watchVideoBtn);
         exportSlotCounter = findViewById(R.id.exportSlotCounter);
+
+        progressBar = findViewById(R.id.progress);
+        progressBar.setVisibility(View.VISIBLE);
 
         sharedPreferences = getSharedPreferences(ExportUtils.EXPORT_SHARED_PREF_FILE, MODE_PRIVATE);
         slotCount = sharedPreferences.getInt(EXPORT_SLOT_AVAILABLE, 0);
@@ -98,10 +105,12 @@ public class ExportActivity extends AppCompatActivity {
                     rewardedAd.show(ExportActivity.this, adShowCallback);
                 } else if (error == AdRequest.ERROR_CODE_NETWORK_ERROR) {
                     rewardedAd = createAndLoadRewardedAd();
+                    progressBar.setVisibility(View.VISIBLE);
                     Toast.makeText(getApplicationContext(), "Check your internet connection.", Toast.LENGTH_LONG).show();
                 } else {
                     Log.d("TAG", "The rewarded ad wasn't loaded yet.");
                     rewardedAd = createAndLoadRewardedAd();
+                    progressBar.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -120,6 +129,7 @@ public class ExportActivity extends AppCompatActivity {
             isAdLoading = false;
             error = -1;
             watchVideoBtn.setEnabled(true);
+            progressBar.setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -127,6 +137,7 @@ public class ExportActivity extends AppCompatActivity {
             error = errorCode;
             isAdLoading = false;
             watchVideoBtn.setEnabled(true);
+            progressBar.setVisibility(View.INVISIBLE);
         }
     };
 

@@ -1,4 +1,11 @@
-package com.pacmac.devinfo.display;
+package com.pacmac.devinfo.wifi;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -6,13 +13,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.Display;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.pacmac.devinfo.ExportActivity;
 import com.pacmac.devinfo.R;
@@ -24,22 +24,33 @@ import com.pacmac.devinfo.utils.ExportUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DisplayInfo extends AppCompatActivity implements ExportTask.OnExportTaskFinished {
+public class NetworkInfo extends AppCompatActivity implements ExportTask.OnExportTaskFinished {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLinearLayoutManager;
     private BasicItemAdapter mItemAdapter;
 
     private boolean isExporting = false;
-    private DisplayViewModel viewModel;
+    private NetworkViewModel viewModel;
+
+    private Handler handler = null;
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (viewModel != null) {
+                viewModel.getWifiInfo(getApplicationContext());
+            }
+            handler.postDelayed(this, 1000);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_info);
+        setContentView(R.layout.activity_network_info);
 
-
-        viewModel = new ViewModelProvider(this).get(DisplayViewModel.class);
+        handler = new Handler();
+        viewModel = new ViewModelProvider(this).get(NetworkViewModel.class);
         mRecyclerView = findViewById(R.id.recylerView);
         mRecyclerView.setHasFixedSize(true);
         mLinearLayoutManager = new LinearLayoutManager(this);
@@ -49,14 +60,33 @@ public class DisplayInfo extends AppCompatActivity implements ExportTask.OnExpor
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         Observer<List<UIObject>> basicObserver = uiObjects -> mItemAdapter.updateData(uiObjects);
+        viewModel.getWifiInfo(getApplicationContext()).observe(this, basicObserver);
 
-        Display display = getWindowManager().getDefaultDisplay();
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getMetrics(metrics);
 
-        viewModel.getDisplayInfo(getApplicationContext(), display, metrics).observe(this, basicObserver);
+        // Open ICMP PING tool in market store
+        findViewById(R.id.icmpPingTool).setOnClickListener(view -> {
+            String appPackage = "com.pacmac.pinger";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackage));
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            } else {
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackage));
+                startActivity(intent);
+            }
+        });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        handler.postDelayed(runnable, 1000);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable);
+    }
 
     // SHARE CPU INFO VIA ACTION_SEND
     @Override
@@ -75,7 +105,7 @@ public class DisplayInfo extends AppCompatActivity implements ExportTask.OnExpor
         if (id == R.id.menu_item_share) {
             if (!isExporting) {
                 isExporting = true;
-                new ExportTask(getApplicationContext(), DisplayViewModel.EXPORT_FILE_NAME, this).execute(viewModel);
+                new ExportTask(getApplicationContext(), NetworkViewModel.EXPORT_FILE_NAME, this).execute(viewModel);
             }
             return true;
         }

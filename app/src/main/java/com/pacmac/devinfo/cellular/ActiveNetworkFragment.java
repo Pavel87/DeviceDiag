@@ -44,12 +44,12 @@ public class ActiveNetworkFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_active_network, container, false);
+        return inflater.inflate(R.layout.default_info, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        networkRecyclerView = view.findViewById(R.id.networkInfo);
+        networkRecyclerView = view.findViewById(R.id.recylerView);
         networkRecyclerView.setHasFixedSize(true);
         networkLinearLayoutManager = new LinearLayoutManager(getContext());
         networkRecyclerView.setLayoutManager(networkLinearLayoutManager);

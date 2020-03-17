@@ -5,14 +5,13 @@ import android.content.ClipDescription;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 
 import androidx.core.content.FileProvider;
-import androidx.lifecycle.ViewModel;
 
+import com.pacmac.devinfo.R;
+import com.pacmac.devinfo.ThreeState;
 import com.pacmac.devinfo.UIObject;
-import com.pacmac.devinfo.cellular.CellularViewModel;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -48,7 +47,15 @@ public class ExportUtils {
 
             StringBuilder sb = new StringBuilder();
             for (UIObject data : records) {
-                if (data.getSuffix() == null) {
+                if (data.getType() == 2) {
+                    String state = context.getResources().getString(R.string.not_available_info);
+                    if (data.getState() == ThreeState.YES) {
+                        state = "YES";
+                    } else if (data.getState() == ThreeState.NO) {
+                        state = "NO";
+                    }
+                    sb.append(String.format(Locale.ENGLISH, "%s,%s\n", data.getLabel(), state));
+                } else if (data.getSuffix() == null) {
                     sb.append(String.format(Locale.ENGLISH, "%s,%s\n",
                             data.getLabel(), data.getValue()));
                 } else {
@@ -79,7 +86,7 @@ public class ExportUtils {
 
     public static void sendShareIntent(Context context, File file) {
 
-        String subject = String.format("Device Info Export - %s %s", Build.MANUFACTURER,  Build.MODEL);
+        String subject = String.format("Device Info Export - %s %s", Build.MANUFACTURER, Build.MODEL);
 
         Intent intentShareFile = new Intent(Intent.ACTION_SEND);
         intentShareFile.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);

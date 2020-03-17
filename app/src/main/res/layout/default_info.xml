@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -5,15 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="4dp"
-    android:paddingBottom="4dp"
-    tools:context="com.pacmac.devinfo.cellular.MainPhoneSIMInfoFragment">
+    android:paddingBottom="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/networkInfo"
+            android:id="@+id/recylerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"

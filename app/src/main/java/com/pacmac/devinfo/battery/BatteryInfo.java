@@ -34,7 +34,7 @@ public class BatteryInfo extends AppCompatActivity implements ExportTask.OnExpor
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_battery_info);
+        setContentView(R.layout.default_info);
         
         viewModel = new ViewModelProvider(this).get(BatteryViewModel.class);
         viewModel.registerReceiver(getApplicationContext());

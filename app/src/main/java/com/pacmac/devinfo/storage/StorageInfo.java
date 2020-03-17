@@ -35,7 +35,7 @@ public class StorageInfo extends AppCompatActivity implements ExportTask.OnExpor
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_storage_info);
+        setContentView(R.layout.default_info);
 
 
         viewModel = new ViewModelProvider(this).get(StorageViewModel.class);

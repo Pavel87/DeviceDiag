@@ -27,6 +27,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+
+        <activity
+            android:name=".wifi.NetworkInfo"
+            android:label="@string/title_activity_network_info"
+            android:theme="@style/MaterialAppTheme" />
         <activity
             android:name=".display.DisplayInfo"
             android:label="@string/title_activity_display_info"
@@ -76,10 +81,6 @@
         <activity
             android:name=".SensorsInfo"
             android:label="@string/title_activity_sensor_list" />
-        <activity
-            android:name=".NetworkInfo"
-            android:label="@string/title_activity_network_info"
-            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".CameraInfo"
             android:label="@string/title_activity_camera_info" />

@@ -44,12 +44,12 @@ public class CellTowerInfoFragment  extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_cell_tower, container, false);
+        return inflater.inflate(R.layout.default_info, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        cellRecyclerView = view.findViewById(R.id.cellInfo);
+        cellRecyclerView = view.findViewById(R.id.recylerView);
         cellRecyclerView.setHasFixedSize(true);
         cellLinearLayoutManager = new LinearLayoutManager(getContext());
         cellRecyclerView.setLayoutManager(cellLinearLayoutManager);

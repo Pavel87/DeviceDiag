@@ -38,7 +38,7 @@ public class CPUInfo extends AppCompatActivity implements ExportTask.OnExportTas
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cpu);
+        setContentView(R.layout.default_info);
         handler = new Handler();
         viewModel = new ViewModelProvider(this).get(CPUViewModel.class);
 

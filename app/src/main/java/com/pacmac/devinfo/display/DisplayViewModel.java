@@ -41,7 +41,6 @@ public class DisplayViewModel extends ViewModel {
         list.add(DisplayUtils.getLayoutSize(context));
         list.add(DisplayUtils.getType(display));
         list.add(DisplayUtils.getDrawType(metrics));
-        list.add(DisplayUtils.getDrawType(metrics));
 
         displayInfo.postValue(list);
     }

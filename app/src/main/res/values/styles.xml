@@ -34,6 +34,12 @@
         <!-- colorControlActivated & colorControlHighlight use the colorAccent color by default -->
     </style>
 
+
+    <style name="DeviceInfoProgress" parent="MaterialAppTheme">
+        <item name="colorAccent">@color/tabs</item>
+    </style>
+
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
