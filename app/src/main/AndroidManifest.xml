@@ -59,14 +59,14 @@
         <activity
             android:name=".cellular.CellularInfo"
             android:label="@string/title_activity_cellular_info"
-            android:parentActivityName=".DiagMain"
+            android:parentActivityName=".main.DiagMain"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".DiagMain"
+            android:name=".main.DiagMain"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -87,7 +87,7 @@
         <activity
             android:name=".config.BuildPropertiesActivity"
             android:label="@string/title_activity_build_properties"
-            android:parentActivityName=".DiagMain">
+            android:parentActivityName=".main.DiagMain">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />

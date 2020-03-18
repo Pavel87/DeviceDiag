@@ -13,6 +13,7 @@ import com.pacmac.devinfo.config.BuildPropertiesViewModel;
 import com.pacmac.devinfo.cpu.CPUViewModel;
 import com.pacmac.devinfo.display.DisplayViewModel;
 import com.pacmac.devinfo.gps.GPSViewModel;
+import com.pacmac.devinfo.main.MainViewModel;
 import com.pacmac.devinfo.storage.StorageViewModel;
 import com.pacmac.devinfo.wifi.NetworkViewModel;
 
@@ -42,6 +43,10 @@ public class ExportTask extends AsyncTask<ViewModel, Void, String> {
         List<UIObject> list = null;
         String exportFilePath = null;
 
+        if (viewModels[0] instanceof MainViewModel) {
+            list = ((MainViewModel) viewModels[0]).getMainInfoForExport();
+            exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
+        }
         if (viewModels[0] instanceof CellularViewModel) {
             list = ((CellularViewModel) viewModels[0]).getAllPhoneInfoForExport();
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
@@ -54,17 +59,14 @@ public class ExportTask extends AsyncTask<ViewModel, Void, String> {
             list = ((StorageViewModel) viewModels[0]).getStorageInfoForExport();
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
-
         if (viewModels[0] instanceof BatteryViewModel) {
             list = ((BatteryViewModel) viewModels[0]).getBatteryInfoForExport();
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
-
         if (viewModels[0] instanceof DisplayViewModel) {
             list = ((DisplayViewModel) viewModels[0]).getDisplayInfoForExport();
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
-
         if (viewModels[0] instanceof NetworkViewModel) {
             list = ((NetworkViewModel) viewModels[0]).getWifiInfoForExport();
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);

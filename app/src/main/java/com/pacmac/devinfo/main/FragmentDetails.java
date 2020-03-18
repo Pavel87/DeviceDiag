@@ -1,4 +1,4 @@
-package com.pacmac.devinfo;
+package com.pacmac.devinfo.main;
 
 
 import android.content.Intent;
@@ -17,6 +17,12 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.pacmac.devinfo.AboutActivity;
+import com.pacmac.devinfo.CameraInfo;
+import com.pacmac.devinfo.DetailAdapter;
+import com.pacmac.devinfo.R;
+import com.pacmac.devinfo.SensorsInfo;
+import com.pacmac.devinfo.Utility;
 import com.pacmac.devinfo.battery.BatteryInfo;
 import com.pacmac.devinfo.cellular.CellularInfo;
 import com.pacmac.devinfo.cpu.CPUInfo;
@@ -53,7 +59,7 @@ public class FragmentDetails extends Fragment {
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             AdView mAdView = view.findViewById(R.id.adView);
-            AdRequest adRequest = new AdRequest.Builder().addTestDevice("430BFEE479F599FBF9E3BD6716680F8C").build();
+            AdRequest adRequest = new AdRequest.Builder().build();
             mAdView.loadAd(adRequest);
         }
 

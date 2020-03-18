@@ -1,4 +1,4 @@
-package com.pacmac.devinfo;
+package com.pacmac.devinfo.main;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -21,8 +21,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.pacmac.devinfo.DeviceDiagApp;
+import com.pacmac.devinfo.NewFeaturesActivity;
+import com.pacmac.devinfo.R;
+import com.pacmac.devinfo.Utility;
 import com.tutelatechnologies.sdk.framework.TutelaSDKFactory;
 
 import java.util.Locale;

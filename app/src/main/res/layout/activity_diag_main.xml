@@ -4,4 +4,4 @@
                                      android:layout_width="match_parent"
                                      android:layout_height="match_parent"
                                      android:background="@color/dark_act_bg"
-                                     tools:context=".DiagMain" />
+                                     tools:context=".main.DiagMain" />
