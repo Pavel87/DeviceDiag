@@ -52,7 +52,7 @@ public class GPSInfo extends AppCompatActivity implements LocationListener, Expo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gps_info2);
+        setContentView(R.layout.activity_tabs);
 
         viewModel = new ViewModelProvider(this).get(GPSViewModel.class);
 

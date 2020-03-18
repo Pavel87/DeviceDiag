@@ -9,6 +9,7 @@
         <!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
         <!--        <item name="android:windowTranslucentStatus">true</item>-->
     </style>
+
     <style name="MaterialAppThemeNoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/tabs</item>
         <item name="colorPrimaryDark">@color/tabs</item>

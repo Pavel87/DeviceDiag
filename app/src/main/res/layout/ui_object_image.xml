@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp">
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
 
     <TextView
         android:id="@+id/label"
@@ -22,10 +22,9 @@
         android:id="@+id/stateImage"
         android:layout_width="22dp"
         android:layout_height="22dp"
-        android:layout_marginTop="4dp"
-        android:paddingTop="2dp"
-        android:layout_marginBottom="4dp"
-        android:src="@drawable/maybe"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:src="@drawable/cancel"
         android:layout_marginRight="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/label"
         app:layout_constraintEnd_toEndOf="parent"

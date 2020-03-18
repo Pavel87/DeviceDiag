@@ -18,12 +18,12 @@ import androidx.fragment.app.Fragment;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.pacmac.devinfo.AboutActivity;
-import com.pacmac.devinfo.CameraInfo;
 import com.pacmac.devinfo.DetailAdapter;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.SensorsInfo;
 import com.pacmac.devinfo.Utility;
 import com.pacmac.devinfo.battery.BatteryInfo;
+import com.pacmac.devinfo.camera.CameraInfo;
 import com.pacmac.devinfo.cellular.CellularInfo;
 import com.pacmac.devinfo.cpu.CPUInfo;
 import com.pacmac.devinfo.display.DisplayInfo;
@@ -126,7 +126,6 @@ public class FragmentDetails extends Fragment {
                         }
                     }
                     i = new Intent(getActivity(), CellularInfo.class);
-//                    i = new Intent(getActivity(), SIMInfo.class);
                     if (i.resolveActivity(getActivity().getPackageManager()) != null)
                         startActivity(i);
                     break;

@@ -155,5 +155,7 @@
     <string name="main_tab">Main</string>
     <string name="sat_tab">Satellites</string>
     <string name="nmea_tab">NMEA</string>
+    <string name="tab_general">General</string>
+    <string name="tab_camera">Camera</string>
 
 </resources>

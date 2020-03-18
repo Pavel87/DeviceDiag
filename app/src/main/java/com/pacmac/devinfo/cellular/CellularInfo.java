@@ -37,7 +37,7 @@ public class CellularInfo extends AppCompatActivity implements ExportTask.OnExpo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cellular_info);
+        setContentView(R.layout.activity_tabs);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

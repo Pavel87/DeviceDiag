@@ -21,7 +21,7 @@ import com.pacmac.devinfo.UIObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CellTowerInfoFragment  extends Fragment {
+public class CellTowerInfoFragment extends Fragment {
 
 
     private CellularViewModel cellularViewModel;

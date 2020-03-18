@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.battery.BatteryViewModel;
+import com.pacmac.devinfo.camera.CameraViewModel;
 import com.pacmac.devinfo.cellular.CellularViewModel;
 import com.pacmac.devinfo.config.BuildPropertiesViewModel;
 import com.pacmac.devinfo.cpu.CPUViewModel;
@@ -73,6 +74,11 @@ public class ExportTask extends AsyncTask<ViewModel, Void, String> {
         }
         if (viewModels[0] instanceof BuildPropertiesViewModel) {
             list = ((BuildPropertiesViewModel) viewModels[0]).getBuildPropertiesForExport();
+            exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
+        }
+
+        if (viewModels[0] instanceof CameraViewModel) {
+            list = ((CameraViewModel) viewModels[0]).getCameraDataForExport();
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
 

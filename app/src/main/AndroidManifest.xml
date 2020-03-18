@@ -28,6 +28,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
+            android:name=".camera.CameraInfo"
+            android:label="@string/title_activity_camera_info"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".gps.GPSInfo"
             android:label="@string/activity_title_gps_information"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -78,9 +82,6 @@
         <activity
             android:name=".SensorsInfo"
             android:label="@string/title_activity_sensor_list" />
-        <activity
-            android:name=".CameraInfo"
-            android:label="@string/title_activity_camera_info" />
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about" />
