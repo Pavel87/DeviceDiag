@@ -1,8 +1,8 @@
-package com.pacmac.devinfo;
+package com.pacmac.devinfo.config;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,48 +10,66 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.pacmac.devinfo.BasicItemAdapterWithFilter;
+import com.pacmac.devinfo.ExportActivity;
+import com.pacmac.devinfo.PropertiesDivider;
+import com.pacmac.devinfo.R;
+import com.pacmac.devinfo.UIObject;
+import com.pacmac.devinfo.utils.ExportTask;
+import com.pacmac.devinfo.utils.ExportUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class BuildPropertiesActivity extends AppCompatActivity implements BuildPropsAdapter.FilterResultCallback {
+public class BuildPropertiesActivity extends AppCompatActivity implements ExportTask.OnExportTaskFinished, BasicItemAdapterWithFilter.FilterResultCallback {
 
-    private TextView propertyCountView;
+    private TextView paramCount;
     private SearchView searchView;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private BuildPropsAdapter buildPropsAdapter;
+    private BasicItemAdapterWithFilter basicItemAdapterWithFilter;
 
-    private List<BuildProperty> buildPropertyList = new ArrayList<>();
-
+    private BuildPropertiesViewModel viewModel;
     private int allPropertiesCount = 0;
+    private boolean isExporting = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_build_properties);
-
-        mRecyclerView = findViewById(R.id.propsList);
+        setContentView(R.layout.config_list_layout);
+        viewModel = new ViewModelProvider(this).get(BuildPropertiesViewModel.class);
+        mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(false);
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         // specify an adapter (see also next example)
 
-        buildPropertyList = Utility.getBuildPropsList(getApplicationContext());
-
-        buildPropsAdapter = new BuildPropsAdapter(getApplicationContext(), buildPropertyList, this);
-        mRecyclerView.setAdapter(buildPropsAdapter);
+        basicItemAdapterWithFilter = new BasicItemAdapterWithFilter(getApplicationContext(), new ArrayList<>(), this);
+        mRecyclerView.setAdapter(basicItemAdapterWithFilter);
         mRecyclerView.addItemDecoration(new PropertiesDivider(this, DividerItemDecoration.VERTICAL, 16));
-        propertyCountView = findViewById(R.id.propertyCount);
+        paramCount = findViewById(R.id.paramCount);
+        Observer<List<UIObject>> basicObserver = uiObjects -> {
+            if (uiObjects != null && uiObjects.size() != 0) {
+                basicItemAdapterWithFilter.updateData(uiObjects);
+                allPropertiesCount = uiObjects.size();
+                paramCount.setText(String.format(Locale.ENGLISH, "%d / %d", uiObjects.size(), uiObjects.size()));
+            }
+        };
+        viewModel.getBuildProperties(getApplicationContext()).observe(this, basicObserver);
+    }
 
-        allPropertiesCount = buildPropertyList.size();
-        propertyCountView.setText(String.format(Locale.ENGLISH, "%d / %d", allPropertiesCount, allPropertiesCount));
+    @Override
+    public void onFilterResult(int size) {
+        paramCount.setText(String.format(Locale.ENGLISH, "%d / %d", size, allPropertiesCount));
     }
 
     @Override
@@ -85,25 +103,19 @@ public class BuildPropertiesActivity extends AppCompatActivity implements BuildP
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // filter recycler view when query submitted
-                buildPropsAdapter.getFilter().filter(query);
+                basicItemAdapterWithFilter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String query) {
                 // filter recycler view when text is changed
-                buildPropsAdapter.getFilter().filter(query);
+                basicItemAdapterWithFilter.getFilter().filter(query);
                 return false;
             }
         });
         return true;
     }
-
-    @Override
-    public void onFilterResult(int size) {
-        propertyCountView.setText(String.format(Locale.ENGLISH, "%d / %d", size, allPropertiesCount));
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -117,30 +129,22 @@ public class BuildPropertiesActivity extends AppCompatActivity implements BuildP
         }
 
         if (id == R.id.menu_item_share) {
-            Utility.exporData(BuildPropertiesActivity.this, getResources().getString(R.string.title_activity_build_properties), updateMessageForExport());
-            return true;
+            if (!isExporting) {
+                isExporting = true;
+                new ExportTask(getApplicationContext(), BuildPropertiesViewModel.EXPORT_FILE_NAME, this).execute(viewModel);
+            }
         }
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
-    //TODO fix share intents to be available all since activity start
-    private String updateMessageForExport() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getResources().getString(R.string.shareTextTitle1));
-        sb.append("\n");
-        sb.append(Build.MODEL + "\t-\t" + getResources().getString(R.string.title_activity_build_properties));
-        sb.append("\n");
-        sb.append(getResources().getString(R.string.shareTextTitle1));
-        sb.append("\n\n");
-        //body
 
-        for (BuildProperty buildProperty : buildPropertyList) {
-            sb.append(buildProperty.getKey() + ": " + buildProperty.getValue());
-            sb.append("\n");
+    @Override
+    public void onExportTaskFinished(String filePath) {
+        isExporting = false;
+        if (filePath != null) {
+            Intent intent = new Intent(getApplicationContext(), ExportActivity.class);
+            intent.putExtra(ExportUtils.EXPORT_FILE, filePath);
+            startActivity(intent);
         }
-        sb.append("\n");
-        sb.append(getResources().getString(R.string.shareTextTitle1));
-        return sb.toString();
     }
 }

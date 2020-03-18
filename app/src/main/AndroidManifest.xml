@@ -85,7 +85,7 @@
             android:name=".AboutActivity"
             android:label="@string/title_activity_about" />
         <activity
-            android:name=".BuildPropertiesActivity"
+            android:name=".config.BuildPropertiesActivity"
             android:label="@string/title_activity_build_properties"
             android:parentActivityName=".DiagMain">
             <meta-data

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.battery.BatteryViewModel;
 import com.pacmac.devinfo.cellular.CellularViewModel;
+import com.pacmac.devinfo.config.BuildPropertiesViewModel;
 import com.pacmac.devinfo.cpu.CPUViewModel;
 import com.pacmac.devinfo.display.DisplayViewModel;
 import com.pacmac.devinfo.gps.GPSViewModel;
@@ -66,6 +67,10 @@ public class ExportTask extends AsyncTask<ViewModel, Void, String> {
 
         if (viewModels[0] instanceof NetworkViewModel) {
             list = ((NetworkViewModel) viewModels[0]).getWifiInfoForExport();
+            exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
+        }
+        if (viewModels[0] instanceof BuildPropertiesViewModel) {
+            list = ((BuildPropertiesViewModel) viewModels[0]).getBuildPropertiesForExport();
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
 

@@ -212,10 +212,9 @@ public class Utility {
     }
 
 
+    public static List<UIObject> getBuildPropsList(Context context) {
 
-    public static List<BuildProperty> getBuildPropsList(Context context) {
-
-        List<BuildProperty> list = new ArrayList<>();
+        List<UIObject> list = new ArrayList<>();
 
         try {
             Process process = Runtime.getRuntime().exec("getprop");
@@ -232,10 +231,9 @@ public class Utility {
 
             for (String propRaw : props) {
                 String[] propRawSplitted = propRaw.split(": ");
-
                 String key = propRawSplitted[0].substring(1, propRawSplitted[0].length() - 1);
                 String value = (propRawSplitted[1].length() > 2 ? propRawSplitted[1].substring(1, propRawSplitted[1].length() - 1) : context.getResources().getString(R.string.not_available_info));
-                list.add(new BuildProperty(key, value));
+                list.add(new UIObject(key, value));
             }
         } catch (Exception e) {
             // This can happen if timeout triggers

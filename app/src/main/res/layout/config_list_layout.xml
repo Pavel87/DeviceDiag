@@ -3,19 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.pacmac.devinfo.BuildPropertiesActivity">
+    android:layout_height="match_parent">
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/propsList"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/resultView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_weight="1"
         tools:itemCount="50"
-        tools:listitem="@layout/build_property_row" />
+        tools:listitem="@layout/ui_object_item" />
 
 
     <LinearLayout
@@ -28,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/propertyCount"
+            android:id="@+id/paramCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/dark_act_bg"
@@ -36,7 +35,7 @@
             android:fontFamily="@font/roboto_medium"
             android:gravity="center"
             android:padding="4dp"
-            android:text="15 / 469"
+            android:text="0 / 0"
             android:textAlignment="center"
             android:textColor="@color/textColorPrimary"
             android:textSize="12sp" />

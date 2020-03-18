@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.pacmac.devinfo.BasicItemAdapterWithFilter;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
 
@@ -26,13 +27,13 @@ import java.util.Locale;
 /**
  * From API 26
  */
-public class CarrierConfigFragment extends Fragment implements CarrierConfigAdapter.FilterResultCallback {
+public class CarrierConfigFragment extends Fragment implements BasicItemAdapterWithFilter.FilterResultCallback {
 
     private CellularViewModel cellularViewModel;
 
     private RecyclerView basicRecyclerView;
     private RecyclerView.LayoutManager basicLinearLayoutManager;
-    private CarrierConfigAdapter carrierConfigAdapter;
+    private BasicItemAdapterWithFilter basicItemAdapterWithFilter;
     private TextView paramCount;
 
     static CarrierConfigFragment newInstance() {
@@ -48,41 +49,40 @@ public class CarrierConfigFragment extends Fragment implements CarrierConfigAdap
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_carrier_config, container, false);
+        return inflater.inflate(R.layout.config_list_layout, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         paramCount = view.findViewById(R.id.paramCount);
-        basicRecyclerView = view.findViewById(R.id.carrierConfigList);
+        basicRecyclerView = view.findViewById(R.id.recyclerView);
         basicRecyclerView.setHasFixedSize(true);
         basicLinearLayoutManager = new LinearLayoutManager(getContext());
         basicRecyclerView.setLayoutManager(basicLinearLayoutManager);
-        carrierConfigAdapter = new CarrierConfigAdapter(getContext(), new ArrayList<>(), this);
-        basicRecyclerView.setAdapter(carrierConfigAdapter);
+        basicItemAdapterWithFilter = new BasicItemAdapterWithFilter(getContext(), new ArrayList<>(), this);
+        basicRecyclerView.setAdapter(basicItemAdapterWithFilter);
         basicRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Observer<List<UIObject>> basicObserver = uiObjects -> {
-                carrierConfigAdapter.updateData(uiObjects);
+                basicItemAdapterWithFilter.updateData(uiObjects);
                 paramCount.setText(String.format(Locale.ENGLISH, "%d / %d", uiObjects.size(), uiObjects.size()));
             };
             cellularViewModel.getCarrierConfig(getContext()).observe(getViewLifecycleOwner(), basicObserver);
 
             Observer<String> filterObserver = filterQuery -> {
-                carrierConfigAdapter.getFilter().filter(filterQuery);
+                basicItemAdapterWithFilter.getFilter().filter(filterQuery);
                 paramCount.setText(String.format(Locale.ENGLISH, "%d / %d",
-                        carrierConfigAdapter.getItemCount(), carrierConfigAdapter.getRawDataCount()));
+                        basicItemAdapterWithFilter.getItemCount(), basicItemAdapterWithFilter.getRawDataCount()));
             };
             cellularViewModel.getConfigFilter().observe(getViewLifecycleOwner(), filterObserver);
-
 
         }
     }
 
     @Override
     public void onFilterResult(int size) {
-        paramCount.setText(String.format(Locale.ENGLISH, "%d / %d", size, carrierConfigAdapter.getRawDataCount()));
+        paramCount.setText(String.format(Locale.ENGLISH, "%d / %d", size, basicItemAdapterWithFilter.getRawDataCount()));
     }
 }

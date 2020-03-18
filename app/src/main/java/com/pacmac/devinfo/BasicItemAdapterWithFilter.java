@@ -1,4 +1,4 @@
-package com.pacmac.devinfo.cellular;
+package com.pacmac.devinfo;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -17,7 +17,7 @@ import com.pacmac.devinfo.UIObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CarrierConfigAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
+public class BasicItemAdapterWithFilter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
     private Context context;
     private List<UIObject> mData;
@@ -25,7 +25,7 @@ public class CarrierConfigAdapter extends RecyclerView.Adapter<RecyclerView.View
     private FilterResultCallback listener;
 
 
-    public CarrierConfigAdapter(Context context, List<UIObject> mData, FilterResultCallback listener) {
+    public BasicItemAdapterWithFilter(Context context, List<UIObject> mData, FilterResultCallback listener) {
         this.context = context;
         this.mData = mData;
         this.mDataFiltered = mData;
@@ -126,7 +126,7 @@ public class CarrierConfigAdapter extends RecyclerView.Adapter<RecyclerView.View
         };
     }
 
-    interface FilterResultCallback {
+    public interface FilterResultCallback {
         void onFilterResult(int size);
     }
 }

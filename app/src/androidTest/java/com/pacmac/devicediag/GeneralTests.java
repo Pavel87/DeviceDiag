@@ -4,7 +4,7 @@ import android.content.Context;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
 
-import com.pacmac.devinfo.BuildProperty;
+import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.Utility;
 
 import org.junit.Assert;
@@ -26,7 +26,7 @@ public class GeneralTests {
 
     @Test
     public void testGetprop() {
-        List<BuildProperty> list = Utility.getBuildPropsList(context);
+        List<UIObject> list = Utility.getBuildPropsList(context);
         Assert.assertTrue(list.size() > 0);
     }
 }
