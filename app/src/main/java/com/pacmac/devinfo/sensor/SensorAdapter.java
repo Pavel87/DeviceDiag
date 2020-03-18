@@ -1,11 +1,15 @@
-package com.pacmac.devinfo;
+package com.pacmac.devinfo.sensor;
 
 import android.hardware.Sensor;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.pacmac.devinfo.R;
 
 import java.util.List;
 
@@ -22,6 +26,11 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.MyViewHold
     public SensorAdapter(View.OnClickListener onClickListener, List<Sensor> sensors) {
         this.sensors = sensors;
         this.onClickListener = onClickListener;
+    }
+
+    public void updateSensors(List<Sensor> newList) {
+        this.sensors = newList;
+        notifyDataSetChanged();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -73,7 +82,4 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.MyViewHold
         return sensors.get(position);
     }
 
-    public List<Sensor> getSensors(){
-        return sensors;
-    }
 }

@@ -80,7 +80,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SensorsInfo"
+            android:name=".sensor.SensorsInfo"
             android:label="@string/title_activity_sensor_list" />
         <activity
             android:name=".AboutActivity"

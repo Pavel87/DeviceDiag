@@ -1,4 +1,4 @@
-package com.pacmac.devinfo;
+package com.pacmac.devinfo.gps;
 
 /**
  * Created by pacmac on 2/10/2016.

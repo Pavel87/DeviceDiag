@@ -11,7 +11,6 @@
         android:id="@+id/listSensors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:elevation="2dip"
         tools:itemCount="6"
         tools:listitem="@layout/sensor_item"

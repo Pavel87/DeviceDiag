@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacmac.devinfo.BasicItemAdapterWithFilter;
 import com.pacmac.devinfo.ExportActivity;
-import com.pacmac.devinfo.PropertiesDivider;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.utils.ExportTask;
@@ -55,7 +54,7 @@ public class BuildPropertiesActivity extends AppCompatActivity implements Export
 
         basicItemAdapterWithFilter = new BasicItemAdapterWithFilter(getApplicationContext(), new ArrayList<>(), this);
         mRecyclerView.setAdapter(basicItemAdapterWithFilter);
-        mRecyclerView.addItemDecoration(new PropertiesDivider(this, DividerItemDecoration.VERTICAL, 16));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         paramCount = findViewById(R.id.paramCount);
         Observer<List<UIObject>> basicObserver = uiObjects -> {
             if (uiObjects != null && uiObjects.size() != 0) {
@@ -126,6 +125,9 @@ public class BuildPropertiesActivity extends AppCompatActivity implements Export
 
         if (id == R.id.action_search) {
             return true;
+        }
+        if (id == android.R.id.home) {
+            onBackPressed();
         }
 
         if (id == R.id.menu_item_share) {

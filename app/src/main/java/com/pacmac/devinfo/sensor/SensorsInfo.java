@@ -1,11 +1,15 @@
-package com.pacmac.devinfo;
+package com.pacmac.devinfo.sensor;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.util.Log;
+
+import com.pacmac.devinfo.R;
 
 
 /**
@@ -56,7 +60,7 @@ public class SensorsInfo extends AppCompatActivity implements SensorListFragment
         setContentView(R.layout.sensor_base);
 
 
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
 
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean(FRAGMENT, false)) {
@@ -109,7 +113,7 @@ public class SensorsInfo extends AppCompatActivity implements SensorListFragment
     }
 
     private void showSensorDetailFrag(int sensorType) {
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.sensorFragLayout, SensorDetailFrag.newInstance(sensorType), FRAGMENT);
         fragmentTransaction.addToBackStack(null);

@@ -18,10 +18,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.ShareCompat;
 import androidx.core.content.PermissionChecker;
 
+import com.pacmac.devinfo.sensor.SensorsInfo;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -15,6 +15,7 @@ import com.pacmac.devinfo.cpu.CPUViewModel;
 import com.pacmac.devinfo.display.DisplayViewModel;
 import com.pacmac.devinfo.gps.GPSViewModel;
 import com.pacmac.devinfo.main.MainViewModel;
+import com.pacmac.devinfo.sensor.SensorViewModel;
 import com.pacmac.devinfo.storage.StorageViewModel;
 import com.pacmac.devinfo.wifi.NetworkViewModel;
 
@@ -79,6 +80,11 @@ public class ExportTask extends AsyncTask<ViewModel, Void, String> {
 
         if (viewModels[0] instanceof CameraViewModel) {
             list = ((CameraViewModel) viewModels[0]).getCameraDataForExport();
+            exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
+        }
+
+        if (viewModels[0] instanceof SensorViewModel) {
+            list = ((SensorViewModel) viewModels[0]).getSensorListForExport();
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
 

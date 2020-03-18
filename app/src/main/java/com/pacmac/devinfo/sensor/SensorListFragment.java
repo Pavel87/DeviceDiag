@@ -1,15 +1,9 @@
-package com.pacmac.devinfo;
+package com.pacmac.devinfo.sensor;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
-import android.hardware.SensorManager;
-import android.os.Build;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,17 +11,34 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.pacmac.devinfo.ExportActivity;
+import com.pacmac.devinfo.R;
+import com.pacmac.devinfo.battery.BatteryViewModel;
+import com.pacmac.devinfo.utils.ExportTask;
+import com.pacmac.devinfo.utils.ExportUtils;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class SensorListFragment extends Fragment {
+public class SensorListFragment extends Fragment implements ExportTask.OnExportTaskFinished {
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
+    private boolean isExporting = false;
 
-    private SensorManager sensorManager;
     private SensorAdapter sensorAdapter;
     private OnFragmentInteractionListener mListener;
 
+    private SensorViewModel viewModel;
 
     public SensorListFragment() {
     }
@@ -37,23 +48,32 @@ public class SensorListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
-        List<Sensor> deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
 
-        sensorAdapter = new SensorAdapter(assetListClickListener, deviceSensors);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.sensors_layout, container, false);
-        recyclerView = v.findViewById(R.id.listSensors);
-        mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        View v = inflater.inflate(R.layout.default_info, container, false);
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        viewModel = new ViewModelProvider(this).get(SensorViewModel.class);
+
+        recyclerView = view.findViewById(R.id.recylerView);
+        mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+
+        sensorAdapter = new SensorAdapter(assetListClickListener, new ArrayList<>());
         recyclerView.setAdapter(sensorAdapter);
-        return v;
+
+        Observer<List<Sensor>> sensorObserver = sensors -> sensorAdapter.updateSensors(sensors);
+        viewModel.getSensorList(getContext()).observe(getViewLifecycleOwner(), sensorObserver);
     }
 
     private View.OnClickListener assetListClickListener = new View.OnClickListener() {
@@ -89,37 +109,10 @@ public class SensorListFragment extends Fragment {
         void onFragmentInteraction(int sensorType);
     }
 
-    private String collectSensorInfoForExport() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(getResources().getString(R.string.shareTextTitle1));
-        sb.append("\n");
-        sb.append(Build.MODEL + "\t-\t" + getResources().getString(R.string.title_activity_sensor_list));
-        sb.append("\n");
-        sb.append(getResources().getString(R.string.shareTextTitle1));
-        sb.append("\n\n");
-
-        //body
-        for (int i = 0; i < sensorAdapter.getSensors().size(); i++) {
-            sb.append(i + 1);
-            sb.append(", ");
-            sb.append(sensorAdapter.getSensors().get(i).getVendor());
-            sb.append(", ");
-            sb.append(sensorAdapter.getSensors().get(i).getName().toUpperCase());
-            sb.append(", ");
-            sb.append(sensorAdapter.getSensors().get(i).getPower()).append("mA");
-            sb.append("\n");
-        }
-        sb.append("\n\n");
-        sb.append(getResources().getString(R.string.shareTextTitle1));
-        return sb.toString();
-    }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_share, menu);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -129,9 +122,23 @@ public class SensorListFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.menu_item_share) {
-            Utility.exporData(getActivity(), getResources().getString(R.string.title_activity_sensor_list), collectSensorInfoForExport());
+            if (!isExporting) {
+                isExporting = true;
+                new ExportTask(getContext(), SensorViewModel.EXPORT_FILE_NAME, this).execute(viewModel);
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onExportTaskFinished(String filePath) {
+        isExporting = false;
+        if (filePath != null) {
+            Intent intent = new Intent(getContext(), ExportActivity.class);
+            intent.putExtra(ExportUtils.EXPORT_FILE, filePath);
+            startActivity(intent);
+        }
     }
 }

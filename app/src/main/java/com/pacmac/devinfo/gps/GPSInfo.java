@@ -28,7 +28,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.pacmac.devinfo.ExportActivity;
 import com.pacmac.devinfo.R;
-import com.pacmac.devinfo.RunnableShowTitle;
 import com.pacmac.devinfo.utils.ExportTask;
 import com.pacmac.devinfo.utils.ExportUtils;
 
