@@ -50,6 +50,7 @@ public class ExportActivity extends AppCompatActivity {
     private int error = -1;
 
     private boolean isAdLoading = false;
+    private boolean userClick = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,6 @@ public class ExportActivity extends AppCompatActivity {
         exportSlotCounter = findViewById(R.id.exportSlotCounter);
 
         progressBar = findViewById(R.id.progress);
-        progressBar.setVisibility(View.VISIBLE);
 
         sharedPreferences = getSharedPreferences(ExportUtils.EXPORT_SHARED_PREF_FILE, MODE_PRIVATE);
         slotCount = sharedPreferences.getInt(EXPORT_SLOT_AVAILABLE, 0);
@@ -97,13 +97,14 @@ public class ExportActivity extends AppCompatActivity {
 
 
         watchVideoBtn.setOnClickListener(v -> {
+            userClick = true;
+            progressBar.setVisibility(View.VISIBLE);
             if (!isAdLoading) {
                 if (rewardedAd.isLoaded() && error != AdRequest.ERROR_CODE_NETWORK_ERROR) {
                     watchVideoBtn.setEnabled(false);
                     rewardedAd.show(ExportActivity.this, adShowCallback);
                 } else if (error == AdRequest.ERROR_CODE_NETWORK_ERROR) {
                     rewardedAd = createAndLoadRewardedAd();
-                    progressBar.setVisibility(View.VISIBLE);
                     Toast.makeText(getApplicationContext(), "Check your internet connection.", Toast.LENGTH_LONG).show();
                 } else {
                     Log.d("TAG", "The rewarded ad wasn't loaded yet.");
@@ -128,12 +129,17 @@ public class ExportActivity extends AppCompatActivity {
             error = -1;
             watchVideoBtn.setEnabled(true);
             progressBar.setVisibility(View.INVISIBLE);
+            if (userClick) {
+                rewardedAd.show(ExportActivity.this, adShowCallback);
+            }
+            userClick = false;
         }
 
         @Override
         public void onRewardedAdFailedToLoad(int errorCode) {
             error = errorCode;
             isAdLoading = false;
+            userClick = false;
             watchVideoBtn.setEnabled(true);
             progressBar.setVisibility(View.INVISIBLE);
         }
@@ -145,6 +151,7 @@ public class ExportActivity extends AppCompatActivity {
         public void onRewardedAdOpened() {
             watchVideoBtn.setEnabled(false);
             rewardedAd = createAndLoadRewardedAd();
+            progressBar.setVisibility(View.INVISIBLE);
         }
 
         @Override
