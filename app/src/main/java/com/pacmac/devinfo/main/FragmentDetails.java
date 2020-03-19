@@ -41,6 +41,7 @@ public class FragmentDetails extends Fragment {
     boolean isLocPermissionEnabled = true;
     boolean isPhonePermissionEnabled = true;
     boolean isStoragePermissionEnabled = true;
+    boolean isCameraPermissionEnabled = true;
 
     private Integer[] mThumbIds = {
             R.drawable.cpuimg, R.drawable.ramimg,
@@ -81,7 +82,6 @@ public class FragmentDetails extends Fragment {
                             return;
                         }
                     }
-
                     i = new Intent(getActivity(), StorageInfo.class);
                     if (i.resolveActivity(getActivity().getPackageManager()) != null)
                         startActivity(i);
@@ -92,6 +92,15 @@ public class FragmentDetails extends Fragment {
                         startActivity(i);
                     break;
                 case 3:
+                    isCameraPermissionEnabled = Utility.checkPermission(getContext(), Utility.CAMERA_PERMISSION);
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+                        if (!isCameraPermissionEnabled) {
+                            Utility.displayExplanationForPermission(getActivity(),
+                                    getResources().getString(R.string.cam_permission_msg), new String[]{Utility.CAMERA_PERMISSION});
+                            return;
+                        }
+                    }
+
                     i = new Intent(getActivity(), CameraInfo.class);
                     if (i.resolveActivity(getActivity().getPackageManager()) != null)
                         startActivity(i);

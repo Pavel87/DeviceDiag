@@ -45,6 +45,7 @@ public class Utility {
     public static final String ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     public static final String PHONE_PERMISSION = Manifest.permission.READ_PHONE_STATE;
     public static final String STORAGE_PERMISSION = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+    public static final String CAMERA_PERMISSION = Manifest.permission.CAMERA;
 
 
     public static String[] getLocationPermissions() {
