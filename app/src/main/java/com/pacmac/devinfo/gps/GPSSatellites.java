@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacmac.devinfo.R;
+import com.pacmac.devinfo.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,9 @@ public class GPSSatellites extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        Utility.showBannerAdView(view, getContext(), R.string.banner_id_12);
+
         mRecyclerView = view.findViewById(R.id.recylerView);
         mRecyclerView.setHasFixedSize(true);
         mLinearLayoutManager = new LinearLayoutManager(getContext());

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,9 +15,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.cellular.BasicItemAdapter;
+import com.pacmac.devinfo.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +51,8 @@ public class CameraGeneralFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        Utility.showBannerAdView(view, getContext(), R.string.banner_id_5);
 
         mRecyclerView = view.findViewById(R.id.recylerView);
         mRecyclerView.setHasFixedSize(true);

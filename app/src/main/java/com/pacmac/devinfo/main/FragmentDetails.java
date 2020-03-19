@@ -21,7 +21,7 @@ import com.pacmac.devinfo.AboutActivity;
 import com.pacmac.devinfo.DetailAdapter;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.sensor.SensorsInfo;
-import com.pacmac.devinfo.Utility;
+import com.pacmac.devinfo.utils.Utility;
 import com.pacmac.devinfo.battery.BatteryInfo;
 import com.pacmac.devinfo.camera.CameraInfo;
 import com.pacmac.devinfo.cellular.CellularInfo;

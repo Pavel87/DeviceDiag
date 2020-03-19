@@ -3,6 +3,8 @@ package com.pacmac.devinfo;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
+import com.pacmac.devinfo.utils.Utility;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -42,19 +44,14 @@ public class CheckAppVersionTask {
                 if (appVersion.equals(serverAppVersionString)) {
                     status = UpToDateEnum.YES;
                 } else {
-                    String[] serverVersions = serverAppVersionString.split("\\.");
-                    for (int i = 0; i < serverVersions.length; i++) {
-                        if (Integer.valueOf(versions[i]) < Integer.valueOf(serverVersions[i])) {
-                            status = UpToDateEnum.NO;
-                            break;
-                        }
-                    }
+                    status = Utility.hasVersionIncreased(versions, serverAppVersionString);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
     }
+
 
     private final static String APP_VERSION_CHECK_URL = "https://deviceinfo-23048.firebaseapp.com/version.html";
 

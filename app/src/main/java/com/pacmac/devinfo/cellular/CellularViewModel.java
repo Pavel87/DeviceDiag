@@ -11,7 +11,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.pacmac.devinfo.UIObject;
-import com.pacmac.devinfo.utils.MobileNetworkUtil;
 
 import java.util.ArrayList;
 import java.util.List;

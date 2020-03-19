@@ -1,4 +1,4 @@
-package com.pacmac.devinfo.utils;
+package com.pacmac.devinfo.export;
 
 import android.content.ClipData;
 import android.content.ClipDescription;

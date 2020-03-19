@@ -24,7 +24,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.pacmac.devinfo.DeviceDiagApp;
 import com.pacmac.devinfo.NewFeaturesActivity;
 import com.pacmac.devinfo.R;
-import com.pacmac.devinfo.Utility;
+import com.pacmac.devinfo.utils.Utility;
 import com.tutelatechnologies.sdk.framework.TutelaSDKFactory;
 
 import java.util.Locale;

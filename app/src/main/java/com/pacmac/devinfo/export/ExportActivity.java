@@ -1,4 +1,4 @@
-package com.pacmac.devinfo;
+package com.pacmac.devinfo.export;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,11 +20,11 @@ import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdCallback;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
-import com.pacmac.devinfo.utils.ExportUtils;
+import com.pacmac.devinfo.R;
 
 import java.io.File;
 
-import static com.pacmac.devinfo.utils.ExportUtils.EXPORT_SLOT_AVAILABLE;
+import static com.pacmac.devinfo.export.ExportUtils.EXPORT_SLOT_AVAILABLE;
 
 public class ExportActivity extends AppCompatActivity {
 

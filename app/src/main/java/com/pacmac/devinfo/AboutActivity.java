@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pacmac.devinfo.utils.Utility;
+
 public class AboutActivity extends AppCompatActivity {
 
     private final String WAS_RATED = "ratingDone";

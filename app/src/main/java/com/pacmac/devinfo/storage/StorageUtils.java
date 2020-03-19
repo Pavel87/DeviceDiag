@@ -6,7 +6,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 
-import com.pacmac.devinfo.Utility;
+import com.pacmac.devinfo.utils.Utility;
 
 import java.io.BufferedReader;
 import java.io.File;

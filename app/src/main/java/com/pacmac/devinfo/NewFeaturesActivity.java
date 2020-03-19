@@ -16,12 +16,7 @@ public class NewFeaturesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_features);
 
         ImageView exitBtn = findViewById(R.id.exitButton);
-        exitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        exitBtn.setOnClickListener(v -> onBackPressed());
 
         // Open WALLET app in market store
         findViewById(R.id.walletGoogle).setOnClickListener(view -> {

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -12,12 +14,16 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.pacmac.devinfo.ExportActivity;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.pacmac.devinfo.export.ExportActivity;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.cellular.BasicItemAdapter;
-import com.pacmac.devinfo.utils.ExportTask;
-import com.pacmac.devinfo.utils.ExportUtils;
+import com.pacmac.devinfo.export.ExportTask;
+import com.pacmac.devinfo.export.ExportUtils;
+import com.pacmac.devinfo.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +41,9 @@ public class BatteryInfo extends AppCompatActivity implements ExportTask.OnExpor
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.default_info);
-        
+
+        Utility.showBannerAdView(this.findViewById(android.R.id.content), getApplicationContext(), R.string.banner_id_4);
+
         viewModel = new ViewModelProvider(this).get(BatteryViewModel.class);
         viewModel.registerReceiver(getApplicationContext());
         mRecyclerView = findViewById(R.id.recylerView);

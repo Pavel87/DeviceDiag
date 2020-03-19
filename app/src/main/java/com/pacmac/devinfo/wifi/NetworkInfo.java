@@ -14,12 +14,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.pacmac.devinfo.ExportActivity;
+import com.pacmac.devinfo.export.ExportActivity;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.cellular.BasicItemAdapter;
-import com.pacmac.devinfo.utils.ExportTask;
-import com.pacmac.devinfo.utils.ExportUtils;
+import com.pacmac.devinfo.export.ExportTask;
+import com.pacmac.devinfo.export.ExportUtils;
 
 import java.util.ArrayList;
 import java.util.List;

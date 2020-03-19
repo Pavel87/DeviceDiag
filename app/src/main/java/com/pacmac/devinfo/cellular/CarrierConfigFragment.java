@@ -54,6 +54,7 @@ public class CarrierConfigFragment extends Fragment implements BasicItemAdapterW
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
         paramCount = view.findViewById(R.id.paramCount);
         basicRecyclerView = view.findViewById(R.id.recyclerView);
         basicRecyclerView.setHasFixedSize(true);

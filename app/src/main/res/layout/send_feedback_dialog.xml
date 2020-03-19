@@ -19,7 +19,7 @@
         android:layout_marginRight="24dp"
         android:fontFamily="@font/roboto"
         android:text="@string/send_feedback"
-        android:textColor="#DE000000"
+        android:textColor="@color/text_primary"
         android:textSize="20sp" />
 
     <LinearLayout
@@ -88,8 +88,9 @@
 
         <Button
             android:id="@+id/cancel_action"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            style="?android:attr/borderlessButtonStyle"
             android:textColor="@color/material_deep_teal_500"
+            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="4dp"
@@ -98,11 +99,12 @@
 
         <Button
             android:id="@+id/positive_action"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            style="?android:attr/borderlessButtonStyle"
             android:textColor="@color/material_deep_teal_500"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
+            android:textSize="18sp"
             android:fontFamily="@font/roboto"
             android:text="SEND" />
 

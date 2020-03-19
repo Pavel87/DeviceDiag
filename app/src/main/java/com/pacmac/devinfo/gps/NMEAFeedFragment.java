@@ -22,6 +22,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.pacmac.devinfo.R;
+import com.pacmac.devinfo.utils.Utility;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -58,6 +59,8 @@ public class NMEAFeedFragment extends Fragment implements OnNmeaMessageListener 
     @SuppressLint("MissingPermission")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        Utility.showBannerAdView(view, getContext(), R.string.banner_id_13);
 
         nmeaUpdate = view.findViewById(R.id.nmeaUpdate);
         startButton = view.findViewById(R.id.nmeaRollButton);

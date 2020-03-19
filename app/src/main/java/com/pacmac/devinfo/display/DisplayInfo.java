@@ -14,12 +14,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.pacmac.devinfo.ExportActivity;
+import com.pacmac.devinfo.export.ExportActivity;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.cellular.BasicItemAdapter;
-import com.pacmac.devinfo.utils.ExportTask;
-import com.pacmac.devinfo.utils.ExportUtils;
+import com.pacmac.devinfo.export.ExportTask;
+import com.pacmac.devinfo.export.ExportUtils;
+import com.pacmac.devinfo.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ public class DisplayInfo extends AppCompatActivity implements ExportTask.OnExpor
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_info);
 
+        Utility.showBannerAdView(this.findViewById(android.R.id.content), getApplicationContext(), R.string.banner_id_16);
 
         viewModel = new ViewModelProvider(this).get(DisplayViewModel.class);
         mRecyclerView = findViewById(R.id.recylerView);

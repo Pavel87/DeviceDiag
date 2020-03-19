@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
+import com.pacmac.devinfo.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,8 @@ public class CellTowerInfoFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Utility.showBannerAdView(view, getContext(), R.string.banner_id_7);
+
         cellRecyclerView = view.findViewById(R.id.recylerView);
         cellRecyclerView.setHasFixedSize(true);
         cellLinearLayoutManager = new LinearLayoutManager(getContext());

@@ -17,8 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/new_version_title"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/material_blue_grey_950"
+            android:fontFamily="@font/nunito_bold"
+            android:textColor="@color/text_primary"
             android:textSize="18sp" />
 
     </LinearLayout>
@@ -34,6 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
+            android:textColor="@color/text_secondary"
             android:text="@string/new_version_content"
             android:textSize="18sp" />
 

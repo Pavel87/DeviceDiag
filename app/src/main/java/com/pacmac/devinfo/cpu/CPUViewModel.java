@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.pacmac.devinfo.UIObject;
-import com.pacmac.devinfo.Utility;
+import com.pacmac.devinfo.utils.Utility;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -88,7 +88,7 @@ public class CPUViewModel extends ViewModel {
         try {
             while ((line = br.readLine()) != null) {
 
-                Log.d("PACMAC", line);
+//                Log.d("PACMAC", line);
 
                 if (line.startsWith("Processor\t:")) {
                     int i = line.indexOf(":");

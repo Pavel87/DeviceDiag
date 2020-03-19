@@ -9,7 +9,7 @@ import android.telephony.TelephonyManager;
 import androidx.core.app.ActivityCompat;
 
 import com.pacmac.devinfo.UIObject;
-import com.pacmac.devinfo.utils.MobileNetworkUtil;
+import com.pacmac.devinfo.cellular.MobileNetworkUtil;
 
 import java.util.Locale;
 

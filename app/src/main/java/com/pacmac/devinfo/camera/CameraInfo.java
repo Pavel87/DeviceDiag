@@ -11,10 +11,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.pacmac.devinfo.ExportActivity;
+import com.pacmac.devinfo.export.ExportActivity;
 import com.pacmac.devinfo.R;
-import com.pacmac.devinfo.utils.ExportTask;
-import com.pacmac.devinfo.utils.ExportUtils;
+import com.pacmac.devinfo.export.ExportTask;
+import com.pacmac.devinfo.export.ExportUtils;
 
 public class CameraInfo extends AppCompatActivity implements ExportTask.OnExportTaskFinished {
 

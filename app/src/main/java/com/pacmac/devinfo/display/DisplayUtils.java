@@ -20,11 +20,11 @@ public class DisplayUtils {
     }
 
     static UIObject getScaleFactor(DisplayMetrics metrics) {
-        return new UIObject("Scale Factor", String.format(Locale.ENGLISH, "%f", metrics.density));
+        return new UIObject("Scale Factor", String.format(Locale.ENGLISH, "%.1f", metrics.density));
     }
 
     static UIObject getRefreshRate(Display display) {
-        return new UIObject("Refresh Rate", String.format(Locale.ENGLISH, "%.2f", display.getRefreshRate()));
+        return new UIObject("Refresh Rate", String.format(Locale.ENGLISH, "%.1f", display.getRefreshRate()), "fps");
     }
 
     static List<UIObject> getResolution(Display display, DisplayMetrics metrics) {
@@ -45,7 +45,7 @@ public class DisplayUtils {
         list.add(new UIObject("Dimensions", String.format(Locale.ENGLISH, "%.2fx%.2f", widthInch, heightInch), "in"));
         list.add(new UIObject("Dimensions (DP)", String.format(Locale.ENGLISH, "%.2fx%.2f",
                 (160.0 * (float) screenWidth / metrics.densityDpi), (160.0 * (float) screenHeight / metrics.densityDpi)), "dp"));
-        list.add(new UIObject("Diagonal", String.format(Locale.ENGLISH, "%.3f", diagonal), "in"));
+        list.add(new UIObject("Diagonal", String.format(Locale.ENGLISH, "%.2f", diagonal), "in"));
 
         return list;
     }

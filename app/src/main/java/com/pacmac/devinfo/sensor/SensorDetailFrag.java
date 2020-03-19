@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pacmac.devinfo.R;
+import com.pacmac.devinfo.utils.Utility;
 
 import java.util.Locale;
 
@@ -210,6 +212,13 @@ public class SensorDetailFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.sensor_detail_default, null);
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Utility.showBannerAdView(view, getContext(), R.string.banner_id_15);
+
         handler = new Handler();
         mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         sensor = mSensorManager.getDefaultSensor(getSensorType());
@@ -217,13 +226,13 @@ public class SensorDetailFrag extends Fragment {
             sensor = mSensorManager.getDefaultSensor(getSensorType(), true);
         }
 
-        nameTxt = v.findViewById(R.id.sensorName);
-        vendorTxt = v.findViewById(R.id.vendorName);
-        powerTxt = v.findViewById(R.id.powerRequirements);
-        maxRangeTxt = v.findViewById(R.id.maxRange);
-        sensorReading1 = v.findViewById(R.id.sensorReading1);
-        sensorReading2 = v.findViewById(R.id.sensorReading2);
-        sensorReading3 = v.findViewById(R.id.sensorReading3);
+        nameTxt = view.findViewById(R.id.sensorName);
+        vendorTxt = view.findViewById(R.id.vendorName);
+        powerTxt = view.findViewById(R.id.powerRequirements);
+        maxRangeTxt = view.findViewById(R.id.maxRange);
+        sensorReading1 = view.findViewById(R.id.sensorReading1);
+        sensorReading2 = view.findViewById(R.id.sensorReading2);
+        sensorReading3 = view.findViewById(R.id.sensorReading3);
 
         if (sensor != null) {
             String name = sensor.getName();
@@ -243,17 +252,6 @@ public class SensorDetailFrag extends Fragment {
             maxRangeTxt.setText(String.format(""));
             sensorReading2.setText("...");
         }
-        return v;
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 
 

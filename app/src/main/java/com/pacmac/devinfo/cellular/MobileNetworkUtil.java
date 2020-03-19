@@ -1,4 +1,4 @@
-package com.pacmac.devinfo.utils;
+package com.pacmac.devinfo.cellular;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -22,10 +22,9 @@ import android.telephony.TelephonyManager;
 
 import androidx.annotation.RequiresApi;
 
-import com.pacmac.devinfo.cellular.CellInfoFutureTask;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
-import com.pacmac.devinfo.Utility;
+import com.pacmac.devinfo.utils.Utility;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

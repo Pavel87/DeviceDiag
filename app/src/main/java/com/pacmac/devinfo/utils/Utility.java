@@ -1,4 +1,4 @@
-package com.pacmac.devinfo;
+package com.pacmac.devinfo.utils;
 
 import android.Manifest;
 import android.app.Activity;
@@ -11,13 +11,21 @@ import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.net.Uri;
 import android.os.Build;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ShareCompat;
 import androidx.core.content.PermissionChecker;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.pacmac.devinfo.R;
+import com.pacmac.devinfo.UIObject;
+import com.pacmac.devinfo.UpToDateEnum;
 import com.pacmac.devinfo.sensor.SensorsInfo;
 
 import java.io.BufferedReader;
@@ -285,6 +293,30 @@ public class Utility {
         Button noButton = dialog.findViewById(R.id.noExit);
         noButton.setOnClickListener(view -> dialog.dismiss());
         dialog.show();
+    }
+
+
+
+    public static void showBannerAdView(View view, Context context, final int bannerID) {
+        View adContainer = view.findViewById(R.id.adContainer);
+        AdView mAdView = new AdView(context);
+        mAdView.setAdSize(AdSize.BANNER);
+        mAdView.setAdUnitId(context.getResources().getString(bannerID));
+        ((LinearLayout) adContainer).addView(mAdView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+    }
+
+    public static UpToDateEnum hasVersionIncreased(String[] installedVersion, String serverAppVersionString){
+        String[] serverVersions = serverAppVersionString.split("\\.");
+        for (int i = 0; i < serverVersions.length; i++) {
+            if (Integer.parseInt(installedVersion[i]) < Integer.parseInt(serverVersions[i])) {
+                return UpToDateEnum.NO;
+            } else if (Integer.parseInt(installedVersion[i]) > Integer.parseInt(serverVersions[i])) {
+                return UpToDateEnum.YES;
+            }
+        }
+        return UpToDateEnum.YES;
     }
 
 }

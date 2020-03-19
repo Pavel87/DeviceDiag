@@ -55,9 +55,9 @@
             android:name=".cpu.CPUInfo"
             android:label="@string/title_activity_cpu_info"
             android:theme="@style/MaterialAppTheme" />
-        <activity android:name=".PromoActivity" />
+        <activity android:name=".export.PromoActivity" />
         <activity
-            android:name=".ExportActivity"
+            android:name=".export.ExportActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialAppTheme" />
         <activity

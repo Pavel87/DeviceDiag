@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ac_background"
-    tools:context="com.pacmac.devinfo.ExportActivity">
+    tools:context="com.pacmac.devinfo.export.ExportActivity">
 
     <TextView
         android:id="@+id/titleView"
