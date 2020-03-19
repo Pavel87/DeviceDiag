@@ -160,7 +160,11 @@ public class CellularViewModel extends ViewModel {
                 simInfo.add(MobileNetworkUtil.getCarrierID(context, telephonyManager, i, isMultiSIM));
             }
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                simInfo.add(MobileNetworkUtil.getGroupIdLevel(context, telephonyManager, i));
+                try {
+                    simInfo.add(MobileNetworkUtil.getGroupIdLevel(context, telephonyManager, i));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
                 simInfo.add(MobileNetworkUtil.getSIMSerialNumber(context, telephonyManager, i, isMultiSIM));
