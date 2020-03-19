@@ -1168,9 +1168,9 @@ public class MobileNetworkUtil {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("MissingPermission")
     public static UIObject getVoiceServiceState(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
-        int state = -1;
+        ServiceState state = null;
         if (!isMultiSIM) {
-            state = telephonyManager.getServiceState().getState();
+            state = telephonyManager.getServiceState();
         } else {
             SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
             if (subscriptionManager == null) {
@@ -1185,15 +1185,16 @@ public class MobileNetworkUtil {
 
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
                 TelephonyManager t = telephonyManager.createForSubscriptionId(subscriptionInfo.getSubscriptionId());
-                state = t.getServiceState().getState();
+                state = t.getServiceState();
             }
         }
-        if (state == -1) {
+
+        if (state == null) {
             return new UIObject(context.getResources().getString(R.string.service_state),
                     context.getResources().getString(R.string.not_available_info));
         }
 
-        return new UIObject(context.getResources().getString(R.string.service_state), getVoiceServiceState(state));
+        return new UIObject(context.getResources().getString(R.string.service_state), getVoiceServiceState(state.getState()));
     }
 
     @SuppressLint("MissingPermission")

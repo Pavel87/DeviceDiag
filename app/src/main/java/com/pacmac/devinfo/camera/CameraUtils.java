@@ -17,6 +17,12 @@ import java.util.Locale;
 
 public class CameraUtils {
 
+    public static int cameraCount = 0;
+
+    public static void loadCameraCount() {
+        new Thread(() -> cameraCount = Camera.getNumberOfCameras()).start();
+    }
+
 
     public static boolean hasAutoFocus(Context context) {
         return checkCameraFeature(context, PackageManager.FEATURE_CAMERA_AUTOFOCUS);
@@ -146,8 +152,10 @@ public class CameraUtils {
         List<ResolutionObject> picResList = new ArrayList<>();
 
         List<Camera.Size> picSizeList = parameters.getSupportedPictureSizes();
-        for (Camera.Size size : picSizeList) {
-            picResList.add(new ResolutionObject(size.width, size.height));
+        if (picSizeList != null) {
+            for (Camera.Size size : picSizeList) {
+                picResList.add(new ResolutionObject(size.width, size.height));
+            }
         }
         return picResList;
     }
@@ -157,8 +165,10 @@ public class CameraUtils {
         List<ResolutionObject> videoResList = new ArrayList<>();
 
         List<Camera.Size> vidSizeList = parameters.getSupportedVideoSizes();
-        for (Camera.Size size : vidSizeList) {
-            videoResList.add(new ResolutionObject(size.width, size.height));
+        if (vidSizeList != null) {
+            for (Camera.Size size : vidSizeList) {
+                videoResList.add(new ResolutionObject(size.width, size.height));
+            }
         }
         return videoResList;
     }

@@ -34,6 +34,8 @@ public class CellularInfo extends AppCompatActivity implements ExportTask.OnExpo
 
     private boolean isExporting = false;
 
+    private int tabSelected = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,22 +55,31 @@ public class CellularInfo extends AppCompatActivity implements ExportTask.OnExpo
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
+                tabSelected = tab.getPosition();
+                switch (tabSelected) {
                     case 0:
                         getSupportActionBar().setTitle("Phone & SIM");
-                        menu.getItem(0).setVisible(false);
+                        if (menu != null) {
+                            menu.getItem(0).setVisible(false);
+                        }
                         break;
                     case 1:
                         getSupportActionBar().setTitle("Active Network");
-                        menu.getItem(0).setVisible(false);
+                        if (menu != null) {
+                            menu.getItem(0).setVisible(false);
+                        }
                         break;
                     case 2:
                         getSupportActionBar().setTitle("Connected Cells");
-                        menu.getItem(0).setVisible(false);
+                        if (menu != null) {
+                            menu.getItem(0).setVisible(false);
+                        }
                         break;
                     case 3:
                         getSupportActionBar().setTitle("Carrier Config");
-                        menu.getItem(0).setVisible(true);
+                        if (menu != null) {
+                            menu.getItem(0).setVisible(true);
+                        }
                         break;
                 }
             }
@@ -116,15 +127,15 @@ public class CellularInfo extends AppCompatActivity implements ExportTask.OnExpo
     // SHARE CPU INFO VIA ACTION_SEND
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search_and_share, menu);
-        menu.getItem(0).setVisible(false);
         this.menu = menu;
+        getMenuInflater().inflate(R.menu.menu_search_and_share, menu);
+        if (tabSelected < 3) {
+            menu.getItem(0).setVisible(false);
+        }
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.action_search)
-                .getActionView();
-        searchView.setSearchableInfo(searchManager
-                .getSearchableInfo(getComponentName()));
+        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
 
         // listening to search query text change

@@ -24,6 +24,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.pacmac.devinfo.DeviceDiagApp;
 import com.pacmac.devinfo.NewFeaturesActivity;
 import com.pacmac.devinfo.R;
+import com.pacmac.devinfo.camera.CameraUtils;
 import com.pacmac.devinfo.utils.Utility;
 import com.tutelatechnologies.sdk.framework.TutelaSDKFactory;
 
@@ -51,6 +52,9 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         viewModel.checkIfAppIsUpToDate(getApplicationContext());
+
+        // Initialize Camera count
+        CameraUtils.loadCameraCount();
 
         try {
             TutelaSDKFactory.getTheSDK().initializeWithApiKey(DeviceDiagApp.REG_KEY, getApplicationContext());

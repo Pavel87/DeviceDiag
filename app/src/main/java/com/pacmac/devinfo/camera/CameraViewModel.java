@@ -104,7 +104,7 @@ public class CameraViewModel extends ViewModel {
             List<List<UIObject>> cameraList = new ArrayList<>();
             List<List<ResolutionObject>> picResList = new ArrayList<>();
             List<List<ResolutionObject>> videoResList = new ArrayList<>();
-            int count = Camera.getNumberOfCameras();
+            int count = CameraUtils.cameraCount;
             for (int i = 0; i < count; i++) {
                 Camera camera = Camera.open(i);
                 Camera.Parameters params = camera.getParameters();
