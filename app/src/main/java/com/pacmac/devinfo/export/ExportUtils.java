@@ -50,9 +50,9 @@ public class ExportUtils {
                 if (data.getType() == 2) {
                     String state = context.getResources().getString(R.string.not_available_info);
                     if (data.getState() == ThreeState.YES) {
-                        state = "YES";
+                        state = context.getResources().getString(R.string.yes_string);
                     } else if (data.getState() == ThreeState.NO) {
-                        state = "NO";
+                        state = context.getResources().getString(R.string.no_string);
                     }
                     sb.append(String.format(Locale.ENGLISH, "%s,%s\n", data.getLabel(), state));
                 } else if (data.getSuffix() == null) {
@@ -120,11 +120,11 @@ public class ExportUtils {
 
     public static void sendShareIntent(Context context, File file) {
 
-        String subject = String.format("Device Info Export - %s %s", Build.MANUFACTURER, Build.MODEL);
+        String subject = String.format(context.getString(R.string.device_info_export), Build.MANUFACTURER, Build.MODEL);
 
         Intent intentShareFile = new Intent(Intent.ACTION_SEND);
         intentShareFile.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
-        intentShareFile.putExtra(Intent.EXTRA_TEXT, "Data exported to " + file.getName());
+        intentShareFile.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.exported_to) + " " + file.getName());
 
         intentShareFile.setType(URLConnection.guessContentTypeFromName(file.getName()));
 
@@ -146,6 +146,6 @@ public class ExportUtils {
         intentShareFile.setType("application/*");
 
 
-        context.startActivity(Intent.createChooser(intentShareFile, "Export Data"));
+        context.startActivity(Intent.createChooser(intentShareFile, context.getString(R.string.chooser_export_data)));
     }
 }

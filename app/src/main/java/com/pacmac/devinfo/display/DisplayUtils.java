@@ -15,19 +15,19 @@ import java.util.Locale;
 
 public class DisplayUtils {
 
-    static UIObject getDensity(DisplayMetrics metrics) {
-        return new UIObject("Density", String.format(Locale.ENGLISH, "%d", metrics.densityDpi), "dpi");
+    static UIObject getDensity(Context context, DisplayMetrics metrics) {
+        return new UIObject(context.getString(R.string.display_density), String.format(Locale.ENGLISH, "%d", metrics.densityDpi), "dpi");
     }
 
-    static UIObject getScaleFactor(DisplayMetrics metrics) {
-        return new UIObject("Scale Factor", String.format(Locale.ENGLISH, "%.1f", metrics.density));
+    static UIObject getScaleFactor(Context context, DisplayMetrics metrics) {
+        return new UIObject(context.getString(R.string.display_scale_factor), String.format(Locale.ENGLISH, "%.1f", metrics.density));
     }
 
-    static UIObject getRefreshRate(Display display) {
-        return new UIObject("Refresh Rate", String.format(Locale.ENGLISH, "%.1f", display.getRefreshRate()), "fps");
+    static UIObject getRefreshRate(Context context, Display display) {
+        return new UIObject(context.getString(R.string.display_refresh_rate), String.format(Locale.ENGLISH, "%.1f", display.getRefreshRate()), "fps");
     }
 
-    static List<UIObject> getResolution(Display display, DisplayMetrics metrics) {
+    static List<UIObject> getResolution(Context context, Display display, DisplayMetrics metrics) {
         List<UIObject> list = new ArrayList<>();
         Point size = new Point();
 //        int screenWidth = metrics.widthPixels;
@@ -41,34 +41,34 @@ public class DisplayUtils {
         double heightDP = Math.pow(heightInch, 2);
         double diagonal = Math.sqrt(widthDP + heightDP);
 
-        list.add(new UIObject("Resolution", String.format(Locale.ENGLISH, "%dx%d", screenWidth, screenHeight), "px"));
-        list.add(new UIObject("Dimensions", String.format(Locale.ENGLISH, "%.2fx%.2f", widthInch, heightInch), "in"));
-        list.add(new UIObject("Dimensions (DP)", String.format(Locale.ENGLISH, "%.2fx%.2f",
+        list.add(new UIObject(context.getString(R.string.display_resolution), String.format(Locale.ENGLISH, "%dx%d", screenWidth, screenHeight), "px"));
+        list.add(new UIObject(context.getString(R.string.display_dimension), String.format(Locale.ENGLISH, "%.2fx%.2f", widthInch, heightInch), "in"));
+        list.add(new UIObject(context.getString(R.string.display_dimension) + " [dp]", String.format(Locale.ENGLISH, "%.2fx%.2f",
                 (160.0 * (float) screenWidth / metrics.densityDpi), (160.0 * (float) screenHeight / metrics.densityDpi)), "dp"));
-        list.add(new UIObject("Diagonal", String.format(Locale.ENGLISH, "%.2f", diagonal), "in"));
+        list.add(new UIObject(context.getString(R.string.display_diagonal), String.format(Locale.ENGLISH, "%.2f", diagonal), "in"));
 
         return list;
     }
 
-    static UIObject getXYDpi(DisplayMetrics metrics) {
-        return new UIObject("X/Y DPI", String.format(Locale.ENGLISH, "%.2fx%.2f", metrics.xdpi, metrics.ydpi));
+    static UIObject getXYDpi(Context context, DisplayMetrics metrics) {
+        return new UIObject(context.getString(R.string.display_xy_dpi), String.format(Locale.ENGLISH, "%.2fx%.2f", metrics.xdpi, metrics.ydpi));
     }
 
     static UIObject getOrientation(Context context, Display display) {
-        return new UIObject("Orientation", String.format(Locale.ENGLISH, "%s",
+        return new UIObject(context.getString(R.string.display_orientation), String.format(Locale.ENGLISH, "%s",
                 getOrient(context, display.getRotation())), "°");
     }
 
     static UIObject getLayoutSize(Context context) {
-        return new UIObject("Layout Size", String.format(Locale.ENGLISH, "%s", getLayoutQualifier(context)));
+        return new UIObject(context.getString(R.string.display_size), String.format(Locale.ENGLISH, "%s", getLayoutQualifier(context)));
     }
 
-    static UIObject getType(Display display) {
-        return new UIObject("Type", String.format(Locale.ENGLISH, "%s", display.getName()));
+    static UIObject getType(Context context, Display display) {
+        return new UIObject(context.getString(R.string.display_type), String.format(Locale.ENGLISH, "%s", display.getName()));
     }
 
-    static UIObject getDrawType(DisplayMetrics metrics) {
-        return new UIObject("Draw Size", String.format(Locale.ENGLISH, "%s", densityQualifier(metrics.densityDpi)));
+    static UIObject getDrawType(Context context, DisplayMetrics metrics) {
+        return new UIObject(context.getString(R.string.display_draw_size), String.format(Locale.ENGLISH, "%s", densityQualifier(context, metrics.densityDpi)));
     }
 
 
@@ -77,19 +77,19 @@ public class DisplayUtils {
 
         switch (config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) {
             case Configuration.SCREENLAYOUT_SIZE_SMALL:
-                return "Small";
+                return context.getString(R.string.display_small);
             case Configuration.SCREENLAYOUT_SIZE_NORMAL:
-                return "Normal";
+                return context.getString(R.string.display_normal);
             case Configuration.SCREENLAYOUT_SIZE_LARGE:
-                return "Large";
+                return context.getString(R.string.display_large);
             case Configuration.SCREENLAYOUT_SIZE_XLARGE:
-                return "Xlarge";
+                return context.getString(R.string.display_x_large);
             default:
-                return "Undefined";
+                return context.getResources().getString(R.string.unknown);
         }
     }
 
-    private static String densityQualifier(int densityDPI) {
+    private static String densityQualifier(Context context, int densityDPI) {
 
         switch (densityDPI) {
             case DisplayMetrics.DENSITY_LOW:
@@ -125,7 +125,7 @@ public class DisplayUtils {
             case DisplayMetrics.DENSITY_300:
                 return "300DPI HDPI - XHDPI";
             default:
-                return "UNDEFINED";
+                return context.getResources().getString(R.string.unknown);
         }
     }
 

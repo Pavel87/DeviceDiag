@@ -1,11 +1,13 @@
 package com.pacmac.devinfo.cpu;
 
+import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.utils.Utility;
 
@@ -31,8 +33,8 @@ public class CPUViewModel extends ViewModel {
     private MutableLiveData<List<UIObject>> cpuInfo = new MutableLiveData<>();
 
 
-    public MutableLiveData<List<UIObject>> getCpuInfo() {
-        new Thread(() -> loadCPUInfo()).start();
+    public MutableLiveData<List<UIObject>> getCpuInfo(Context context) {
+        new Thread(() -> loadCPUInfo(context)).start();
         return cpuInfo;
     }
 
@@ -40,14 +42,14 @@ public class CPUViewModel extends ViewModel {
         return cpuInfo.getValue();
     }
 
-    private void loadCPUInfo() {
+    private void loadCPUInfo(Context context) {
         List<UIObject> list = new ArrayList<>();
 
-        list.addAll(readCPUinfo());
+        list.addAll(readCPUinfo(context));
 
-        list.add(new UIObject("Cores", "Active: " +
-                Runtime.getRuntime().availableProcessors() + "    Total: " + getNumCores()));
-        list.addAll(getCPUFrequency());
+        list.add(new UIObject(context.getString(R.string.cpu_core), context.getString(R.string.cpu_active) +
+                Runtime.getRuntime().availableProcessors() + context.getString(R.string.cpu_total) + getNumCores()));
+        list.addAll(getCPUFrequency(context));
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             String.format(Locale.ENGLISH, "%.2f", (readUsage() * 100));
@@ -56,7 +58,7 @@ public class CPUViewModel extends ViewModel {
     }
 
 
-    private List<UIObject> readCPUinfo() {
+    private List<UIObject> readCPUinfo(Context context) {
 
         List<UIObject> list = new ArrayList<>();
 
@@ -124,10 +126,10 @@ public class CPUViewModel extends ViewModel {
         }
 
         if (processor != null) {
-            list.add(new UIObject("Processor", processor));
+            list.add(new UIObject(context.getString(R.string.cpu_processor), processor));
         }
         if (chipset != null) {
-            list.add(new UIObject("Chipset", chipset));
+            list.add(new UIObject(context.getString(R.string.cpu_chipset), chipset));
         } else {
             try {
                 chipset = Utility.getDeviceProperty(BOARD_PLATFORM).toUpperCase();
@@ -137,28 +139,28 @@ public class CPUViewModel extends ViewModel {
             if (chipset.length() == 0) {
                 chipset = Build.HARDWARE;
             }
-            list.add(new UIObject("Chipset", chipset));
+            list.add(new UIObject(context.getString(R.string.cpu_chipset), chipset));
         }
         if (features != null) {
-            list.add(new UIObject("Features", features));
+            list.add(new UIObject(context.getString(R.string.cpu_features), features));
         }
         if (features != null) {
-            list.add(new UIObject("Revision", revision));
+            list.add(new UIObject(context.getString(R.string.cpu_revision), revision));
         }
         if (features != null) {
-            list.add(new UIObject("Variant", variant));
+            list.add(new UIObject(context.getString(R.string.cpu_variant), variant));
         }
         if (features != null) {
-            list.add(new UIObject("Architecture", architecture));
+            list.add(new UIObject(context.getString(R.string.cpu_architecture), architecture));
         }
         if (features != null) {
-            list.add(new UIObject("Implementer", implementer));
+            list.add(new UIObject(context.getString(R.string.cpu_implementer), implementer));
         }
         return list;
     }
 
 
-    private List<UIObject> getCPUFrequency() {
+    private List<UIObject> getCPUFrequency(Context context) {
 
         List<UIObject> list = new ArrayList<>();
         String maxFrequency = null;
@@ -229,10 +231,10 @@ public class CPUViewModel extends ViewModel {
         }
 
         if (currentFrequency != null) {
-            list.add(new UIObject("Current Frequency", currentFrequency, "GHz"));
+            list.add(new UIObject(context.getString(R.string.cpu_current_freq), currentFrequency, "GHz"));
         }
         if (maxFrequency != null) {
-            list.add(new UIObject("Max Frequency", maxFrequency, "GHz"));
+            list.add(new UIObject(context.getString(R.string.cpu_max_frequency), maxFrequency, "GHz"));
         }
         return list;
     }

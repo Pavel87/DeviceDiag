@@ -105,7 +105,7 @@ public class ExportActivity extends AppCompatActivity {
                     rewardedAd.show(ExportActivity.this, adShowCallback);
                 } else if (error == AdRequest.ERROR_CODE_NETWORK_ERROR) {
                     rewardedAd = createAndLoadRewardedAd();
-                    Toast.makeText(getApplicationContext(), "Check your internet connection.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.check_internet_connection, Toast.LENGTH_LONG).show();
                 } else {
                     Log.d("TAG", "The rewarded ad wasn't loaded yet.");
                     rewardedAd = createAndLoadRewardedAd();
@@ -164,9 +164,9 @@ public class ExportActivity extends AppCompatActivity {
                 slotCount += 1;
                 sharedPreferences.edit().putInt(EXPORT_SLOT_AVAILABLE, slotCount).apply();
                 updateSlotViews(slotCount);
-                Toast.makeText(getApplicationContext(), "You have just earned 1 EXPORT Slot!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.earning_export_slots, Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(getApplicationContext(), "All export slots are unlocked.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.export_slots_unlocked, Toast.LENGTH_LONG).show();
             }
         }
 
@@ -218,9 +218,9 @@ public class ExportActivity extends AppCompatActivity {
                 slotCount += 1;
                 sharedPreferences.edit().putInt(EXPORT_SLOT_AVAILABLE, slotCount).apply();
                 updateSlotViews(slotCount);
-                Toast.makeText(getApplicationContext(), "You have just earned 1 EXPORT Slot!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.earning_export_slots, Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(getApplicationContext(), "All export slots are unlocked.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.export_slots_unlocked, Toast.LENGTH_LONG).show();
             }
         }
     }

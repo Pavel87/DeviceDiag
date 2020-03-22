@@ -3,7 +3,6 @@ package com.pacmac.devinfo.gps;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -91,7 +90,7 @@ public class GPSInfo extends AppCompatActivity implements LocationListener, Expo
         } catch (Exception e) {
             enabled = false;
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "GPS is not available.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.gps_not_available, Toast.LENGTH_LONG).show();
         }
         super.onResume();
     }
@@ -116,19 +115,14 @@ public class GPSInfo extends AppCompatActivity implements LocationListener, Expo
 
     public void showAlertOnDisabled() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("GPS Location Service is turned off. Do you want to turn GPS Location on?")
+        builder.setMessage(R.string.location_off_message)
                 .setCancelable(true)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(intent);
-                    }
+                .setPositiveButton(R.string.ok_button, (dialogInterface, i) -> {
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(intent);
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                    }
+                .setNegativeButton(R.string.cancel, (dialogInterface, i) -> {
+                    dialogInterface.dismiss();
                 });
 
         AlertDialog gpsAlertDialog = builder.create();
@@ -253,7 +247,7 @@ public class GPSInfo extends AppCompatActivity implements LocationListener, Expo
         viewModel.setAccuracy(String.format(Locale.ENGLISH, "%.01f", location.getAccuracy()));
         viewModel.setBearing(String.format(Locale.ENGLISH, "%.02f", location.getBearing()));
 
-        viewModel.getMainGPSData();
+        viewModel.getMainGPSData(getApplicationContext());
 
     }
 
@@ -283,19 +277,19 @@ public class GPSInfo extends AppCompatActivity implements LocationListener, Expo
                     if (gpsStatus != null) {
                         viewModel.setFirstFix(gpsStatus.getTimeToFirstFix());
                     }
-                    viewModel.setGpsState("First Fix");
+                    viewModel.setGpsState(getString(R.string.gps_first_fix));
                     break;
 
                 case GpsStatus.GPS_EVENT_STARTED:
-                    viewModel.setGpsState("Starting");
+                    viewModel.setGpsState(getString(R.string.gps_starting));
                     break;
 
                 case GpsStatus.GPS_EVENT_STOPPED:
-                    viewModel.setGpsState("Inactive");
+                    viewModel.setGpsState(getString(R.string.gps_inactive));
                     break;
 
                 case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-                    viewModel.setGpsState("Active");
+                    viewModel.setGpsState(getString(R.string.gps_active));
                     Iterator<GpsSatellite> satelliteIterator = gpsStatus.getSatellites().iterator();
                     List<Satellites> satellitesList = new ArrayList<>();
                     int i = 1;
@@ -312,7 +306,7 @@ public class GPSInfo extends AppCompatActivity implements LocationListener, Expo
                     viewModel.setVisibleSatellites(String.valueOf(satellitesList.size()));
                     viewModel.updateSatellites(satellitesList);
             }
-            viewModel.getMainGPSData();
+            viewModel.getMainGPSData(getApplicationContext());
         } catch (Exception e) {
             e.printStackTrace();
         }

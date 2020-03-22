@@ -40,7 +40,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_light"
-                    android:text="Want to do ICMP Ping?"
+                    android:layout_marginRight="8dp"
+                    android:text="@string/icmp_ping_ad"
                     android:textColor="@color/text_primary"
                     android:textStyle="italic" />
 

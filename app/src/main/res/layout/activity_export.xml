@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,195 +7,203 @@
     android:background="@color/ac_background"
     tools:context="com.pacmac.devinfo.export.ExportActivity">
 
-    <TextView
-        android:id="@+id/titleView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/nunito_bold"
-        android:text="Export Data"
-        android:textColor="@color/text_primary"
-        android:textSize="20sp"
-        android:typeface="normal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/export_slots_bg"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4">
-
+        android:layout_height="match_parent"
+        android:background="@color/ac_background">
 
         <TextView
-            android:id="@+id/exportSlotCounter"
-            android:layout_width="match_parent"
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/nunito_bold"
-            android:gravity="center"
-            android:text="0"
+            android:text="@string/export_data_title"
             android:textColor="@color/text_primary"
-            android:textSize="40sp"
+            android:textSize="20sp"
             android:typeface="normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito_bold"
-            android:gravity="center"
-            android:text="Export Available"
-            android:textColor="@color/text_secondary" />
-
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="24dp"
-            android:paddingBottom="24dp">
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/export_slots_bg"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/slot1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/baseline_stars_black_36dp"
-                app:tint="@color/export_slot_disabled" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/slot2"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/exportSlotCounter"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/baseline_stars_black_36dp"
-                app:tint="@color/export_slot_disabled" />
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/text_primary"
+                android:textSize="40sp"
+                android:typeface="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/slot3"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/baseline_stars_black_36dp"
-                app:tint="@color/export_slot_disabled" />
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center"
+                android:text="@string/export_available_title"
+                android:textColor="@color/text_secondary" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/slot4"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/baseline_stars_black_36dp"
-                app:tint="@color/export_slot_disabled" />
+                android:orientation="horizontal"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/slot5"
-                android:layout_width="0dp"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/slot1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/baseline_stars_black_36dp"
+                    app:tint="@color/export_slot_disabled" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/slot2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/baseline_stars_black_36dp"
+                    app:tint="@color/export_slot_disabled" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/slot3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/baseline_stars_black_36dp"
+                    app:tint="@color/export_slot_disabled" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/slot4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/baseline_stars_black_36dp"
+                    app:tint="@color/export_slot_disabled" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/slot5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/baseline_stars_black_36dp"
+                    app:tint="@color/export_slot_disabled" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/baseline_stars_black_36dp"
-                app:tint="@color/export_slot_disabled" />
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/nunito"
+                android:gravity="center"
+                android:paddingStart="16dp"
+                android:paddingLeft="16dp"
+                android:paddingEnd="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/export_watch_ad_description"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="16dp">
+
+
+                <ProgressBar
+                    android:id="@+id/progress"
+                    style="@style/DeviceInfoProgress"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="8dp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/tabs"
+                    android:indeterminateTintMode="src_atop"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@+id/watchVideoBtn"
+                    app:layout_constraintEnd_toStartOf="@+id/watchVideoBtn"
+                    app:layout_constraintTop_toTopOf="@+id/watchVideoBtn" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/watchVideoBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:enabled="true"
+                    android:gravity="center"
+                    android:text="@string/earn_slot_btn_text"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
 
-
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/nunito"
-            android:gravity="center"
             android:paddingStart="16dp"
             android:paddingLeft="16dp"
             android:paddingEnd="16dp"
             android:paddingRight="16dp"
-            android:text="@string/export_watch_ad_description"
+            android:text="@string/export_data_description"
             android:textColor="@color/text_secondary"
-            android:textSize="12sp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleView" />
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/exportButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="32dp"
+            android:enabled="false"
+            android:text="@string/export_btn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            app:layout_constraintVertical_bias="1.0" />
 
 
-            <ProgressBar
-                android:id="@+id/progress"
-                style="@style/DeviceInfoProgress"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginRight="8dp"
-                android:indeterminate="true"
-                android:visibility="invisible"
-                android:indeterminateTint="@color/tabs"
-                android:indeterminateTintMode="src_atop"
-                app:layout_constraintBottom_toBottomOf="@+id/watchVideoBtn"
-                app:layout_constraintEnd_toStartOf="@+id/watchVideoBtn"
-                app:layout_constraintTop_toTopOf="@+id/watchVideoBtn" />
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/watchVideoBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:enabled="true"
-                android:gravity="center"
-                android:text="@string/earn_slot_btn_text"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/nunito"
-        android:paddingStart="16dp"
-        android:paddingLeft="16dp"
-        android:paddingEnd="16dp"
-        android:paddingRight="16dp"
-        android:text="@string/export_data_description"
-        android:textColor="@color/text_secondary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleView" />
-
-
-    <Button
-        android:id="@+id/exportButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:enabled="false"
-        android:text="@string/export_btn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="1.0" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

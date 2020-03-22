@@ -64,14 +64,14 @@ public class GPSViewModel extends ViewModel {
         satellitesLiveData.postValue(satellites);
     }
 
-    public MutableLiveData<List<UIObject>> getMainGPSData() {
-        loadGPSdata();
+    public MutableLiveData<List<UIObject>> getMainGPSData(Context context) {
+        loadGPSdata(context);
         return gpsInfo;
     }
 
-    public List<UIObject> getMainGPSDataForExport() {
+    public List<UIObject> getMainGPSDataForExport(Context context) {
         List<UIObject> list = new ArrayList<>();
-        list.add(new UIObject("Location Update Time", updateTimeLive.getValue()));
+        list.add(new UIObject(context.getString(R.string.gps_location_update_time), updateTimeLive.getValue()));
         if (gpsInfo.getValue() != null) {
             list.addAll(gpsInfo.getValue());
         }
@@ -79,8 +79,8 @@ public class GPSViewModel extends ViewModel {
         if (satellitesLiveData.getValue() != null) {
 
             list.add(new UIObject("", "", 1));
-            list.add(new UIObject("Satellites", "", 1));
-            list.add(new UIObject("ID", "PNR,SNR,AZIMUTH,ELEVATION", 1));
+            list.add(new UIObject(context.getString(R.string.gps_satellites), "", 1));
+            list.add(new UIObject("ID", context.getString(R.string.gps_sat_header), 1));
 
             int i = 1;
             for (Satellites satellite : satellitesLiveData.getValue()) {
@@ -91,23 +91,23 @@ public class GPSViewModel extends ViewModel {
         return list;
     }
 
-    private void loadGPSdata() {
+    private void loadGPSdata(Context context) {
 
         List<UIObject> list = new ArrayList<>();
 
-        list.add(new UIObject("GPS Status", gpsState));
+        list.add(new UIObject(context.getString(R.string.gps_status), gpsState));
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
-            list.add(new UIObject("GNSS Hardware Year", gnssHardwareYear));
+            list.add(new UIObject(context.getString(R.string.gnss_hardware_year), gnssHardwareYear));
         }
 
-        list.add(new UIObject("First Fix", firstFix != -1 ? getFirstFix() : "", firstFix != -1 ? getFirstFixUnit() : ""));
-        list.add(new UIObject("Latitude", latitude));
-        list.add(new UIObject("Longitude", longitude));
-        list.add(new UIObject("Altitude", altitude));
-        list.add(new UIObject("Speed", speed, speed.length() != 0 ? "km/h" : ""));
-        list.add(new UIObject("Accuracy", accuracy, accuracy.length() != 0 ? "m" : ""));
-        list.add(new UIObject("Bearing", bearing, accuracy.length() != 0 ? "m" : ""));
-        list.add(new UIObject("Visible Satellites", visibleSatellites));
+        list.add(new UIObject(context.getResources().getString(R.string.gps_first_fix), firstFix != -1 ? getFirstFix() : "", firstFix != -1 ? getFirstFixUnit() : ""));
+        list.add(new UIObject(context.getString(R.string.gps_latitude), latitude));
+        list.add(new UIObject(context.getString(R.string.gps_longitude), longitude));
+        list.add(new UIObject(context.getString(R.string.gps_altitude), altitude));
+        list.add(new UIObject(context.getString(R.string.gps_speed), speed, speed.length() != 0 ? "km/h" : ""));
+        list.add(new UIObject(context.getString(R.string.gps_accuracy), accuracy, accuracy.length() != 0 ? "m" : ""));
+        list.add(new UIObject(context.getString(R.string.gps_bearing), bearing, accuracy.length() != 0 ? "m" : ""));
+        list.add(new UIObject(context.getString(R.string.gps_visible_satellites), visibleSatellites));
 
         gpsInfo.postValue(list);
     }

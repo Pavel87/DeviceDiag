@@ -64,7 +64,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.MyViewHold
     public void onBindViewHolder(SensorAdapter.MyViewHolder viewHolder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        viewHolder.id.setText((position + 1) + "");
+        viewHolder.id.setText(String.valueOf(position + 1));
         viewHolder.name.setText(sensors.get(position).getName());
         viewHolder.manufacturer.setText(sensors.get(position).getVendor());
     }

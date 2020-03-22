@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 
+import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.utils.Utility;
 
 import java.io.BufferedReader;
@@ -45,7 +46,8 @@ public class StorageUtils {
         ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
         activityManager.getMemoryInfo(memoryInfo);
 
-        return memoryInfo.lowMemory ? "YES" : "NO";
+        return memoryInfo.lowMemory ?
+                context.getResources().getString(R.string.yes_string) : context.getResources().getString(R.string.no_string);
     }
 
     public static String getRAMHardware() {
@@ -234,16 +236,16 @@ public class StorageUtils {
     public static final int TYPE_INTERNAL_SD = 1;
     public static final int TYPE_EXTERNAL_SD = 2;
 
-    public static String getTypeString(int type) {
+    public static String getTypeString(Context context, int type) {
         switch (type) {
             case TYPE_DATA:
-                return "Internal Storage";
+                return context.getString(R.string.storage_internal);
             case TYPE_INTERNAL_SD:
-                return "Internal SD";
+                return context.getString(R.string.built_in_SD);
             case TYPE_EXTERNAL_SD:
-                return "SDCard";
+                return context.getString(R.string.device_ext_sdcard);
         }
-        return "UNKNOWN";
+        return context.getResources().getString(R.string.unknown);
     }
 
     private static String floatForm(double d) {

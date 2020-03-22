@@ -90,21 +90,21 @@ public class CameraUtils {
         int faces = parameters.getMaxNumDetectedFaces();
         String sMinMaxEv, sSmoothZoom, maxZoomRatio;
 
-        String position = "Rear Facing";
+        String position = context.getString(R.string.camera_rear_facing);
         if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-            position = "Front Facing";
+            position = context.getString(R.string.camera_front_facing);
         }
 
-        uList.add(new UIObject("Camera Position", position));
-        uList.add(new UIObject("Vertical View Angle", String.format(Locale.ENGLISH, "%.02f", vertAngle), "°"));
-        uList.add(new UIObject("Horizontal View Angle", String.format(Locale.ENGLISH, "%.02f", horizontalAngle), "°"));
-        uList.add(new UIObject("Focal Length", String.format(Locale.ENGLISH, "%.02f", focalLen), "mm"));
+        uList.add(new UIObject(context.getString(R.string.camera_position), position));
+        uList.add(new UIObject(context.getString(R.string.camera_vertical_view_angle), String.format(Locale.ENGLISH, "%.02f", vertAngle), "°"));
+        uList.add(new UIObject(context.getString(R.string.camera_horizontal_view_angle), String.format(Locale.ENGLISH, "%.02f", horizontalAngle), "°"));
+        uList.add(new UIObject(context.getString(R.string.camera_focal_length), String.format(Locale.ENGLISH, "%.02f", focalLen), "mm"));
         if (min != 0 || max != 0) {
             sMinMaxEv = min + "/" + max;
         } else {
             sMinMaxEv = context.getResources().getString(R.string.not_available_info);
         }
-        uList.add(new UIObject("EV Min/Max", String.format(Locale.ENGLISH, "%s", sMinMaxEv)));
+        uList.add(new UIObject(context.getString(R.string.camera_ev_min_max), String.format(Locale.ENGLISH, "%s", sMinMaxEv)));
 
         if (parameters.isZoomSupported()) {
             maxZoomRatio = getMaxZoomRatio(parameters);
@@ -116,29 +116,29 @@ public class CameraUtils {
             maxZoomRatio = context.getResources().getString(R.string.no_string);
             sSmoothZoom = context.getResources().getString(R.string.no_string);
         }
-        uList.add(new UIObject("Maximum Zoom", maxZoomRatio, "x"));
-        uList.add(new UIObject("Smooth Zoom", sSmoothZoom));
-        uList.add(new UIObject("Camera Orientation", String.valueOf(camOrientation), "°"));
-        uList.add(new UIObject("Face Detection", (faces != 0) ?
+        uList.add(new UIObject(context.getString(R.string.camera_max_zoom), maxZoomRatio, "x"));
+        uList.add(new UIObject(context.getString(R.string.camera_smooth_zoom), sSmoothZoom));
+        uList.add(new UIObject(context.getString(R.string.camera_orientation), String.valueOf(camOrientation), "°"));
+        uList.add(new UIObject(context.getString(R.string.camera_face_detection), (faces != 0) ?
                 String.valueOf(faces) : context.getResources().getString(R.string.not_supported), "max"));
 
-        uList.add(new UIObject("Focus Areas", String.valueOf(parameters.getMaxNumFocusAreas()), "max"));
+        uList.add(new UIObject(context.getString(R.string.camera_focus_area), String.valueOf(parameters.getMaxNumFocusAreas()), "max"));
 
-        uList.add(new UIObject("Video Snapshot Support", parameters.isVideoSnapshotSupported()
+        uList.add(new UIObject(context.getString(R.string.camera_video_snapshot), parameters.isVideoSnapshotSupported()
                 ? ThreeState.YES : ThreeState.NO, 2));
-        uList.add(new UIObject("Video Stabilization Support", parameters.isVideoStabilizationSupported()
+        uList.add(new UIObject(context.getString(R.string.camera_video_stabilization), parameters.isVideoStabilizationSupported()
                 ? ThreeState.YES : ThreeState.NO, 2));
-        uList.add(new UIObject("Auto-Exposure Lock Support", parameters.isAutoExposureLockSupported()
+        uList.add(new UIObject(context.getString(R.string.camera_auto_exposure), parameters.isAutoExposureLockSupported()
                 ? ThreeState.YES : ThreeState.NO, 2));
-        uList.add(new UIObject("Auto-White Balance Locking Support", parameters.isAutoWhiteBalanceLockSupported()
+        uList.add(new UIObject(context.getString(R.string.camera_auto_white_balance), parameters.isAutoWhiteBalanceLockSupported()
                 ? ThreeState.YES : ThreeState.NO, 2));
-        uList.add(new UIObject("JPEG Quality", String.valueOf(jpegQ), "%"));
-
+        uList.add(new UIObject(context.getString(R.string.camera_jpeg_quality), String.valueOf(jpegQ), "%"));
 
 //        picSizes.setText(getPicDetail(parameters));
 //        videoSizes.setText(getVidDetail(parameters));
         return uList;
     }
+
 
     public static String getMaxZoomRatio(Camera.Parameters parameters) {
         List<Integer> zoomRatList = parameters.getZoomRatios();

@@ -81,9 +81,7 @@ public class SensorsInfo extends AppCompatActivity implements SensorListFragment
 
     @Override
     public void onFragmentInteraction(int sensorType) {
-
         Log.d("TAG", "sensor type: " + sensorType);
-
         showSensorDetailFrag(sensorType);
         return;
     }

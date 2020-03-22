@@ -110,7 +110,7 @@
                     android:textSize="12sp"
                     android:textStyle="bold"
                     android:textColor="@color/abc_primary_text_material_light"
-                    android:text="Azimuth:" />
+                    android:text="@string/azimuth" />
 
                 <TextView
                     android:id="@+id/satAzimuth"
@@ -134,7 +134,7 @@
                     android:textSize="12sp"
                     android:textStyle="bold"
                     android:textColor="@color/abc_primary_text_material_light"
-                    android:text="Elevation:" />
+                    android:text="@string/elevation" />
 
                 <TextView
                     android:id="@+id/satElevation"

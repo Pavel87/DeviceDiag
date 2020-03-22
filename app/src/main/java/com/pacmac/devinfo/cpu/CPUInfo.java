@@ -60,14 +60,14 @@ public class CPUInfo extends AppCompatActivity implements ExportTask.OnExportTas
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         Observer<List<UIObject>> basicObserver = uiObjects -> mItemAdapter.updateData(uiObjects);
-        viewModel.getCpuInfo().observe(this, basicObserver);
+        viewModel.getCpuInfo(getApplicationContext()).observe(this, basicObserver);
     }
 
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
             if (viewModel != null) {
-                viewModel.getCpuInfo();
+                viewModel.getCpuInfo(getApplicationContext());
                 handler.postDelayed(this, 3000);
             }
         }

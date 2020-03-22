@@ -16,7 +16,7 @@
         android:paddingLeft="16dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="Active Satellites"
+        android:text="@string/active_satellites"
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="14sp"

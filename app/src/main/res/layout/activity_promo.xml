@@ -41,7 +41,7 @@
             android:layout_weight="1"
             android:background="@drawable/new_app_bg"
             android:fontFamily="@font/roboto_medium"
-            android:text="NEW APP"
+            android:text="@string/new_app"
             android:textColor="@color/text_primary" />
 
 
@@ -53,6 +53,7 @@
             android:gravity="center"
             android:theme="@style/Theme.MaterialComponents.Light"
             app:cardCornerRadius="4dp"
+            android:background="@color/white"
             app:cardElevation="8dp"
             android:orientation="vertical"
             android:paddingTop="16dp"
@@ -92,7 +93,7 @@
                     android:fontFamily="@font/roboto_light"
                     android:gravity="center"
                     android:paddingLeft="4dp"
-                    android:text="Earn export slot by visiting Play Store"
+                    android:text="@string/earn_slot_ad_local"
                     android:textColor="@color/text_secondary"
                     android:textSize="12sp" />
             </LinearLayout>

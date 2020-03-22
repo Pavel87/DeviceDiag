@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.pacmac.devinfo.CheckAppVersionTask;
+import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.UpToDateEnum;
 
@@ -31,27 +32,26 @@ public class MainViewModel extends ViewModel {
     private void loadDisplayInfo(Context context) {
 
         List<UIObject> list = new ArrayList<>();
-        list.add(new UIObject("OS Version", MainUtils.getOsVersion()));
-        list.add(new UIObject("Model", MainUtils.getModel()));
-        list.add(new UIObject("Manufacturer", MainUtils.getManufacturer()));
+        list.add(new UIObject(context.getString(R.string.os_version), MainUtils.getOsVersion()));
+        list.add(new UIObject(context.getString(R.string.device_model), MainUtils.getModel()));
+        list.add(new UIObject(context.getString(R.string.device_manufacturer), MainUtils.getManufacturer()));
         String sn = MainUtils.getSerialNumber(context);
         if (sn != null) {
-            list.add(new UIObject("Serial Number", sn));
+            list.add(new UIObject(context.getString(R.string.device_sn), sn));
         }
-        list.add(new UIObject("Build Number", MainUtils.getBuildNumber()));
-        list.add(new UIObject("Hardware", MainUtils.getHardware()));
-        list.add(new UIObject("Bootloader", MainUtils.getBootloader()));
+        list.add(new UIObject(context.getString(R.string.device_build_number), MainUtils.getBuildNumber()));
+        list.add(new UIObject(context.getString(R.string.device_hardware), MainUtils.getHardware()));
         UIObject simCount = MainUtils.getSimCount(context);
         if (simCount != null) {
             list.add(simCount);
         }
         String radioFirmware = MainUtils.getRadioFirmware();
         if (radioFirmware != null) {
-            list.add(new UIObject("Radio Firmware", radioFirmware));
+            list.add(new UIObject(context.getString(R.string.device_radio_fw), radioFirmware));
         }
-        list.add(new UIObject("Bootloader", MainUtils.getBootloader()));
-        list.add(new UIObject("Device Language", MainUtils.getDeviceLanguageSetting()));
-        list.add(new UIObject("Device Locale", MainUtils.getDeviceLanguageLocale()));
+        list.add(new UIObject(context.getString(R.string.device_bootloader), MainUtils.getBootloader()));
+        list.add(new UIObject(context.getString(R.string.device_lang), MainUtils.getDeviceLanguageSetting()));
+        list.add(new UIObject(context.getString(R.string.device_locale), MainUtils.getDeviceLanguageLocale()));
         mainInfo.postValue(list);
     }
 

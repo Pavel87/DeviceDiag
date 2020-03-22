@@ -32,15 +32,15 @@ public class DisplayViewModel extends ViewModel {
 
         List<UIObject> list = new ArrayList<>();
 
-        list.add(DisplayUtils.getDensity(metrics));
-        list.add(DisplayUtils.getScaleFactor(metrics));
-        list.add(DisplayUtils.getRefreshRate(display));
-        list.addAll(DisplayUtils.getResolution(display, metrics));
-        list.add(DisplayUtils.getXYDpi(metrics));
+        list.add(DisplayUtils.getDensity(context, metrics));
+        list.add(DisplayUtils.getScaleFactor(context, metrics));
+        list.add(DisplayUtils.getRefreshRate(context, display));
+        list.addAll(DisplayUtils.getResolution(context, display, metrics));
+        list.add(DisplayUtils.getXYDpi(context, metrics));
         list.add(DisplayUtils.getOrientation(context, display));
         list.add(DisplayUtils.getLayoutSize(context));
-        list.add(DisplayUtils.getType(display));
-        list.add(DisplayUtils.getDrawType(metrics));
+        list.add(DisplayUtils.getType(context, display));
+        list.add(DisplayUtils.getDrawType(context, metrics));
 
         displayInfo.postValue(list);
     }

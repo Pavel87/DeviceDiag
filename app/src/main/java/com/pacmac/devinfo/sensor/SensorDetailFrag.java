@@ -1,6 +1,5 @@
 package com.pacmac.devinfo.sensor;
 
-import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -9,15 +8,14 @@ import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.utils.Utility;
@@ -72,13 +70,13 @@ public class SensorDetailFrag extends Fragment {
 
                 case Sensor.TYPE_LOW_LATENCY_OFFBODY_DETECT:
                     if (sensorsValues[0] > 0) {
-                        sensorReading2.setText("ON Body");
+                        sensorReading2.setText(R.string.sensor_on_body);
                     } else {
-                        sensorReading2.setText("OFF Body");
+                        sensorReading2.setText(R.string.sensor_off_body);
                     }
                     break;
                 case Sensor.TYPE_STEP_DETECTOR:
-                    sensorReading2.setText("Step Detected");
+                    sensorReading2.setText(R.string.sensor_step);
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -103,15 +101,15 @@ public class SensorDetailFrag extends Fragment {
                     stepCounter++;
                     break; // return "Step Counter";
                 case Sensor.TYPE_ORIENTATION:
-                    sensorReading1.setText(String.format(Locale.ENGLISH, "Azimuth: %.0f ", sensorsValues[0]) + getUnits(sensorEvent.sensor.getType()));
-                    sensorReading2.setText(String.format(Locale.ENGLISH, "Pitch: %.2f ", sensorsValues[1]) + getUnits(sensorEvent.sensor.getType()));
-                    sensorReading3.setText(String.format(Locale.ENGLISH, "Roll: %.2f ", sensorsValues[2]) + getUnits(sensorEvent.sensor.getType()));
+                    sensorReading1.setText(String.format(Locale.ENGLISH, getString(R.string.sensor_azimuth), sensorsValues[0]) + getUnits(sensorEvent.sensor.getType()));
+                    sensorReading2.setText(String.format(Locale.ENGLISH, getString(R.string.sensor_pitch), sensorsValues[1]) + getUnits(sensorEvent.sensor.getType()));
+                    sensorReading3.setText(String.format(Locale.ENGLISH, getString(R.string.sensor_roll), sensorsValues[2]) + getUnits(sensorEvent.sensor.getType()));
                     break; // return "Orientation";
                 case Sensor.TYPE_PROXIMITY:
                     if (sensorsValues[0] == 0) {
-                        sensorReading2.setText("NEAR DETECTION");
+                        sensorReading2.setText(R.string.sensor_near);
                     } else if (sensorsValues[0] == sensorEvent.sensor.getMaximumRange()) {
-                        sensorReading2.setText("FAR DETECTION");
+                        sensorReading2.setText(R.string.sensor_far);
                     } else {
                         sensorReading2.setText(String.format(Locale.ENGLISH, "%.2f %s", sensorsValues[0], getUnits(sensorEvent.sensor.getType())));
                     }
@@ -120,9 +118,9 @@ public class SensorDetailFrag extends Fragment {
                     break; // return "Significant Motion Trigger";
                 case Sensor.TYPE_HEART_BEAT:
                     if (sensorsValues[0] > 0) {
-                        sensorReading2.setText("Detected");
+                        sensorReading2.setText(R.string.sensor_detected);
                     } else {
-                        sensorReading2.setText("No Heart Beat");
+                        sensorReading2.setText(R.string.sensor_no_heart_beat);
                     }
                     break;
                 case Sensor.TYPE_MAGNETIC_FIELD:
@@ -246,9 +244,9 @@ public class SensorDetailFrag extends Fragment {
             maxRangeTxt.setText(String.format("%.2f ", maxRange) + getUnits(sensor.getType()));
             sensorReading2.setText("...");
         } else {
-            nameTxt.setText("TYPE: " + getSensorType());
-            vendorTxt.setText("Unknown");
-            powerTxt.setText("Unknown");
+            nameTxt.setText(String.format(Locale.ENGLISH, getString(R.string.sensor_type), getSensorType()));
+            vendorTxt.setText(R.string.unknown);
+            powerTxt.setText(R.string.unknown);
             maxRangeTxt.setText(String.format(""));
             sensorReading2.setText("...");
         }
@@ -335,7 +333,7 @@ public class SensorDetailFrag extends Fragment {
                 return "bps";
             case Sensor.TYPE_STEP_COUNTER:
             case SensorsInfo.TYPE_PEDOMETER:
-                return "step";
+                return getContext().getString(R.string.sensor_step_unit);
             case Sensor.TYPE_GRAVITY:
                 return "m/s^2";
             case Sensor.TYPE_MAGNETIC_FIELD:

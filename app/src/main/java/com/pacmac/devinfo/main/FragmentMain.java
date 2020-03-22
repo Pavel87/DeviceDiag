@@ -16,13 +16,11 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.pacmac.devinfo.export.ExportActivity;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.cellular.BasicItemAdapter;
 import com.pacmac.devinfo.config.BuildPropertiesActivity;
+import com.pacmac.devinfo.export.ExportActivity;
 import com.pacmac.devinfo.export.ExportTask;
 import com.pacmac.devinfo.export.ExportUtils;
 import com.pacmac.devinfo.utils.Utility;

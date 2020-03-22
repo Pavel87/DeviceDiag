@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
-            android:hint="Type in your feedback"
+            android:hint="@string/type_in_your_feedback"
             android:maxLines="3"
             android:padding="16dp"
             android:textColor="#99000000"
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="4dp"
             android:fontFamily="@font/roboto"
-            android:text="CANCEL" />
+            android:text="@string/cancel" />
 
         <Button
             android:id="@+id/positive_action"
@@ -106,7 +106,7 @@
             android:layout_marginLeft="4dp"
             android:textSize="18sp"
             android:fontFamily="@font/roboto"
-            android:text="SEND" />
+            android:text="@string/send" />
 
 
     </LinearLayout>

@@ -69,7 +69,7 @@ public class MainGPSFragment extends Fragment {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         Observer<List<UIObject>> basicObserver = uiObjects -> mItemAdapter.updateData(uiObjects);
-        viewModel.getMainGPSData().observe(getViewLifecycleOwner(), basicObserver);
+        viewModel.getMainGPSData(getContext()).observe(getViewLifecycleOwner(), basicObserver);
 
         Observer<String> updateTimeLive = updateTime -> locationUpdateTime.setText(updateTime);
         viewModel.getUpdateTimeLive().observe(getViewLifecycleOwner(), updateTimeLive);

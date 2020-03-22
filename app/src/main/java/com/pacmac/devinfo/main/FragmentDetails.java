@@ -15,20 +15,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.pacmac.devinfo.AboutActivity;
 import com.pacmac.devinfo.DetailAdapter;
 import com.pacmac.devinfo.R;
-import com.pacmac.devinfo.sensor.SensorsInfo;
-import com.pacmac.devinfo.utils.Utility;
 import com.pacmac.devinfo.battery.BatteryInfo;
 import com.pacmac.devinfo.camera.CameraInfo;
 import com.pacmac.devinfo.cellular.CellularInfo;
 import com.pacmac.devinfo.cpu.CPUInfo;
 import com.pacmac.devinfo.display.DisplayInfo;
 import com.pacmac.devinfo.gps.GPSInfo;
+import com.pacmac.devinfo.sensor.SensorsInfo;
 import com.pacmac.devinfo.storage.StorageInfo;
+import com.pacmac.devinfo.utils.Utility;
 import com.pacmac.devinfo.wifi.NetworkInfo;
 
 /**
@@ -59,9 +57,7 @@ public class FragmentDetails extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            AdView mAdView = view.findViewById(R.id.adView);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
+            Utility.showBannerAdView(view, getContext(), R.string.banner_id_2);
         }
 
         gridView = view.findViewById(R.id.gridViewMain);
@@ -118,7 +114,7 @@ public class FragmentDetails extends Fragment {
                         if (i.resolveActivity(getActivity().getPackageManager()) != null)
                             startActivity(i);
                     } else {
-                        Toast.makeText(getContext(), "GPS is not available on this device.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), R.string.gps_not_available_in_device, Toast.LENGTH_LONG).show();
                     }
                     break;
                 case 5:

@@ -43,7 +43,7 @@ public class CellularInfo extends AppCompatActivity implements ExportTask.OnExpo
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Phone & SIM");
+        getSupportActionBar().setTitle(R.string.title_phone_and_sim);
         getSupportActionBar().setHomeButtonEnabled(true);
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
@@ -58,25 +58,25 @@ public class CellularInfo extends AppCompatActivity implements ExportTask.OnExpo
                 tabSelected = tab.getPosition();
                 switch (tabSelected) {
                     case 0:
-                        getSupportActionBar().setTitle("Phone & SIM");
+                        getSupportActionBar().setTitle(getString(R.string.title_phone_and_sim));
                         if (menu != null) {
                             menu.getItem(0).setVisible(false);
                         }
                         break;
                     case 1:
-                        getSupportActionBar().setTitle("Active Network");
+                        getSupportActionBar().setTitle(R.string.active_network);
                         if (menu != null) {
                             menu.getItem(0).setVisible(false);
                         }
                         break;
                     case 2:
-                        getSupportActionBar().setTitle("Connected Cells");
+                        getSupportActionBar().setTitle(R.string.connected_cells);
                         if (menu != null) {
                             menu.getItem(0).setVisible(false);
                         }
                         break;
                     case 3:
-                        getSupportActionBar().setTitle("Carrier Config");
+                        getSupportActionBar().setTitle(R.string.carrier_config);
                         if (menu != null) {
                             menu.getItem(0).setVisible(true);
                         }

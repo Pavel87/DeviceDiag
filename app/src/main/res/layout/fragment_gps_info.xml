@@ -38,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_bold"
                     android:textColor="@color/text_secondary"
-                    android:text="Last Update:"
+                    android:text="@string/last_update"
                     android:textSize="24sp" />
 
                 <TextView

@@ -15,7 +15,7 @@
         android:background="@drawable/button_cust_blue"
         android:elevation="2dp"
         android:padding="8dp"
-        android:text="Start"
+        android:text="@string/start"
         android:textAllCaps="true"
         android:textColor="@android:color/white"
         android:textSize="12sp"

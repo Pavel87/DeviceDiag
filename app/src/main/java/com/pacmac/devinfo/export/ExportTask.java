@@ -50,7 +50,7 @@ public class ExportTask extends AsyncTask<ViewModel, Void, String> {
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
         if (viewModels[0] instanceof CellularViewModel) {
-            list = ((CellularViewModel) viewModels[0]).getAllPhoneInfoForExport();
+            list = ((CellularViewModel) viewModels[0]).getAllPhoneInfoForExport(context);
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
         if (viewModels[0] instanceof CPUViewModel) {
@@ -79,7 +79,7 @@ public class ExportTask extends AsyncTask<ViewModel, Void, String> {
         }
 
         if (viewModels[0] instanceof CameraViewModel) {
-            list = ((CameraViewModel) viewModels[0]).getCameraDataForExport();
+            list = ((CameraViewModel) viewModels[0]).getCameraDataForExport(context);
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
 
@@ -91,7 +91,7 @@ public class ExportTask extends AsyncTask<ViewModel, Void, String> {
         if (viewModels[0] instanceof GPSViewModel) {
 
             if (fileName.equals(GPSViewModel.EXPORT_FILE_NAME)) {
-                list = ((GPSViewModel) viewModels[0]).getMainGPSDataForExport();
+                list = ((GPSViewModel) viewModels[0]).getMainGPSDataForExport(context);
                 exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
             } else {
                 StringBuilder sb = new StringBuilder();

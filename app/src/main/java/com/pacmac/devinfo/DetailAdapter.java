@@ -41,7 +41,6 @@ public class DetailAdapter extends BaseAdapter {
         if (convertView == null){
 
             imageView = new ImageView(mContext);
-           // imageView.setLayoutParams(new GridView.LayoutParams(160,160));
             imageView.setScaleType(ImageView.ScaleType.FIT_START);
             imageView.setAdjustViewBounds(true);
             imageView.setPadding(8,8,8,8);

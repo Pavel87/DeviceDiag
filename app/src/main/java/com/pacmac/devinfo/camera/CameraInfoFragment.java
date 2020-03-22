@@ -87,8 +87,7 @@ public class CameraInfoFragment extends Fragment {
         counter1 = view.findViewById(R.id.counter1);
         gridPictureRecyclerView = view.findViewById(R.id.gridView1);
         gridPictureRecyclerView.setHasFixedSize(true);
-        gridPictureRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        gridPictureRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        gridPictureRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), Utility.calculateNoOfColumns(getContext())));
         pictureAdapter = new ResolutionItemAdapter(getContext(), new ArrayList<>());
         gridPictureRecyclerView.setAdapter(pictureAdapter);
 
@@ -104,7 +103,7 @@ public class CameraInfoFragment extends Fragment {
         counter2 = view.findViewById(R.id.counter2);
         gridVideoRecyclerView = view.findViewById(R.id.gridView2);
         gridVideoRecyclerView.setHasFixedSize(true);
-        gridVideoRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        gridVideoRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), Utility.calculateNoOfColumns(getContext())));
         videoAdapter = new ResolutionItemAdapter(getContext(), new ArrayList<>());
         gridVideoRecyclerView.setAdapter(videoAdapter);
 

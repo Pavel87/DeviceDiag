@@ -40,7 +40,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/new_app_bg"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="NEW APP"
+                    android:text="@string/new_app"
                     android:textColor="@color/text_name" />
 
                 <TextView

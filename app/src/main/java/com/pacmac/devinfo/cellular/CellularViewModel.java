@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
 
 import java.util.ArrayList;
@@ -31,13 +32,13 @@ public class CellularViewModel extends ViewModel {
     private ServiceState serviceState = null;
 
 
-    public List<UIObject> getAllPhoneInfoForExport() {
+    public List<UIObject> getAllPhoneInfoForExport(Context context) {
         List<UIObject> fullList = new ArrayList<>();
 
         if (basicInfo.getValue() == null) {
             return null;
         }
-        fullList.add(new UIObject("Phone & SIM Info", ""));
+        fullList.add(new UIObject(context.getString(R.string.activity_title_phone_info), ""));
         fullList.addAll(basicInfo.getValue());
 
         if (simInfos.getValue() == null) {
@@ -52,7 +53,7 @@ public class CellularViewModel extends ViewModel {
             return null;
         }
         fullList.add(new UIObject("", ""));
-        fullList.add(new UIObject("Active Network Info", ""));
+        fullList.add(new UIObject(context.getString(R.string.active_network_info), ""));
         fullList.addAll(networkInfos.getValue());
 
 
@@ -60,14 +61,14 @@ public class CellularViewModel extends ViewModel {
             return null;
         }
         fullList.add(new UIObject("", ""));
-        fullList.add(new UIObject("Connected Cell Info", ""));
+        fullList.add(new UIObject(context.getString(R.string.connected_cell_info), ""));
         fullList.addAll(cellInfos.getValue());
 
         if (carrierConfig.getValue() == null) {
             return null;
         }
         fullList.add(new UIObject("", ""));
-        fullList.add(new UIObject("Carrier Configuration", ""));
+        fullList.add(new UIObject(context.getString(R.string.carrier_config_long), ""));
         fullList.addAll(carrierConfig.getValue());
         return fullList;
     }
@@ -138,7 +139,7 @@ public class CellularViewModel extends ViewModel {
 
         for (int i = 0; i < slotCount; i++) {
             List<UIObject> simInfo = new ArrayList<>();
-            simInfo.add(MobileNetworkUtil.getSimState(telephonyManager, i, isMultiSIM));
+            simInfo.add(MobileNetworkUtil.getSimState(context, telephonyManager, i, isMultiSIM));
             simInfo.add(MobileNetworkUtil.getLine1Number(context, telephonyManager, i, isMultiSIM));
             simInfo.add(MobileNetworkUtil.getVoiceMailNumber(context, telephonyManager, i, isMultiSIM));
             simInfo.add(MobileNetworkUtil.getSIMServiceProviderName(context, telephonyManager, i, isMultiSIM));
@@ -201,7 +202,7 @@ public class CellularViewModel extends ViewModel {
             list.add(MobileNetworkUtil.isSmsCapable(context, telephonyManager));
         }
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            list.add(MobileNetworkUtil.isVoiceCapable(telephonyManager));
+            list.add(MobileNetworkUtil.isVoiceCapable(context, telephonyManager));
         }
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
             list.add(MobileNetworkUtil.isConcurrentVoiceAndDataSupported(context, telephonyManager));
@@ -210,7 +211,7 @@ public class CellularViewModel extends ViewModel {
             list.add(MobileNetworkUtil.isRttSupported(context, telephonyManager));
         }
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            list.add(MobileNetworkUtil.isWorldPhone(telephonyManager));
+            list.add(MobileNetworkUtil.isWorldPhone(context, telephonyManager));
         }
         basicInfo.postValue(list);
     }
@@ -239,7 +240,7 @@ public class CellularViewModel extends ViewModel {
 
         for (int i = 0; i < slotCount; i++) {
 
-            list.add(new UIObject("Network ", String.valueOf(i + 1), 1));
+            list.add(new UIObject(context.getString(R.string.network), String.valueOf(i + 1), 1));
 
             UIObject genObject = MobileNetworkUtil.getGeneration(context, telephonyManager, i, isMultiSIM);
             boolean is4G = genObject.getValue().contains("4G");

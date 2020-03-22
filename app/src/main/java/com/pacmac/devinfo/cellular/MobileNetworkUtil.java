@@ -121,9 +121,9 @@ public class MobileNetworkUtil {
             }
         }
         if (slotCount != -1) {
-            return new UIObject("SIM Count", String.format(Locale.ENGLISH, "%d", slotCount));
+            return new UIObject(context.getString(R.string.sim_count), String.format(Locale.ENGLISH, "%d", slotCount));
         } else {
-            return new UIObject("SIM Count", String.format(Locale.ENGLISH, "%d", context.getResources().getString(R.string.error)));
+            return new UIObject(context.getString(R.string.sim_count), String.format(Locale.ENGLISH, "%d", context.getResources().getString(R.string.error)));
         }
     }
 
@@ -143,13 +143,13 @@ public class MobileNetworkUtil {
                 type = context.getResources().getString(R.string.not_available_info);
                 break;
         }
-        return new UIObject("Phone Radio", type);
+        return new UIObject(context.getString(R.string.phone_radio), type);
     }
 
 
     public static UIObject getDeviceSoftwareVersion(Context context, TelephonyManager telephonyManager) {
         @SuppressLint("MissingPermission") String swVersion = telephonyManager.getDeviceSoftwareVersion();
-        return new UIObject("Software Version", swVersion != null ?
+        return new UIObject(context.getString(R.string.sw_version), swVersion != null ?
                 swVersion : context.getResources().getString(R.string.not_available_info));
     }
 
@@ -161,7 +161,7 @@ public class MobileNetworkUtil {
      */
     @TargetApi(29)
     public static UIObject isRttSupported(Context context, TelephonyManager telephonyManager) {
-        return new UIObject("Real-Time Text", telephonyManager.isRttSupported() ?
+        return new UIObject(context.getString(R.string.real_time_text), telephonyManager.isRttSupported() ?
                 context.getResources().getString(R.string.supported) : context.getResources().getString(R.string.not_supported));
     }
 
@@ -173,19 +173,20 @@ public class MobileNetworkUtil {
      */
     @TargetApi(21)
     public static UIObject isSmsCapable(Context context, TelephonyManager telephonyManager) {
-        return new UIObject("SMS Service", telephonyManager.isSmsCapable() ?
+        return new UIObject(context.getString(R.string.sms_service), telephonyManager.isSmsCapable() ?
                 context.getResources().getString(R.string.supported) : context.getResources().getString(R.string.not_supported));
     }
 
     @TargetApi(22)
-    public static UIObject isVoiceCapable(TelephonyManager telephonyManager) {
-        return new UIObject("Voice Capable", telephonyManager.isVoiceCapable() ? "YES" : "NO");
+    public static UIObject isVoiceCapable(Context context, TelephonyManager telephonyManager) {
+        return new UIObject(context.getString(R.string.voice_capable), telephonyManager.isVoiceCapable() ?
+                context.getString(R.string.yes_string) : context.getString(R.string.no_string));
 
     }
 
     @TargetApi(26)
     public static UIObject isConcurrentVoiceAndDataSupported(Context context, TelephonyManager telephonyManager) {
-        return new UIObject("Concurrent Voice & Data", telephonyManager.isConcurrentVoiceAndDataSupported() ?
+        return new UIObject(context.getString(R.string.concurrent_voice_support), telephonyManager.isConcurrentVoiceAndDataSupported() ?
                 context.getResources().getString(R.string.supported) : context.getResources().getString(R.string.not_supported));
     }
 
@@ -194,8 +195,9 @@ public class MobileNetworkUtil {
      **/
 
     @TargetApi(23)
-    public static UIObject isWorldPhone(TelephonyManager telephonyManager) {
-        return new UIObject("Is World Phone", telephonyManager.isWorldPhone() ? "YES" : "NO");
+    public static UIObject isWorldPhone(Context context, TelephonyManager telephonyManager) {
+        return new UIObject(context.getString(R.string.is_world_phone), telephonyManager.isWorldPhone() ?
+                context.getString(R.string.yes_string) : context.getString(R.string.no_string));
     }
 
 
@@ -523,17 +525,17 @@ public class MobileNetworkUtil {
         String groupIdLevel1 = null;
         if (slotID == 0 && Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR1) {
             groupIdLevel1 = telephonyManager.getGroupIdLevel1();
-            return new UIObject("Group ID Level 1", groupIdLevel1 == null ? context.getResources().
+            return new UIObject(context.getString(R.string.group_id_level1), groupIdLevel1 == null ? context.getResources().
                     getString(R.string.not_available_info) : groupIdLevel1);
         } else {
             groupIdLevel1 = getOutput(telephonyManager, "getGroupIdLevel1", slotID);
-            return new UIObject("Group ID Level 1", groupIdLevel1 == null ? context.getResources().
+            return new UIObject(context.getString(R.string.group_id_level1), groupIdLevel1 == null ? context.getResources().
                     getString(R.string.not_available_info) : groupIdLevel1);
         }
     }
 
 
-    public static UIObject getSimState(TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
+    public static UIObject getSimState(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
         int state = TelephonyManager.SIM_STATE_UNKNOWN;
         if (!isMultiSIM) {
             state = telephonyManager.getSimState();
@@ -551,45 +553,45 @@ public class MobileNetworkUtil {
         final String stateString;
         switch (state) {
             case TelephonyManager.SIM_STATE_UNKNOWN:
-                stateString = "Unknown SIM State";
+                stateString = context.getString(R.string.sim_state_unknown);
                 break;
             case TelephonyManager.SIM_STATE_ABSENT:
-                stateString = "No SIM Inserted";
+                stateString = context.getString(R.string.no_sim_inserted);
                 break;
             case TelephonyManager.SIM_STATE_PIN_REQUIRED:
-                stateString = "SIM Locked - PIN Code Required";
+                stateString = context.getString(R.string.sim_locked_pin);
                 break;
             case TelephonyManager.SIM_STATE_PUK_REQUIRED:
-                stateString = "SIM Locked - PUK Code Required";
+                stateString = context.getString(R.string.sim_locked_puk);
                 break;
             case TelephonyManager.SIM_STATE_NETWORK_LOCKED:
-                stateString = "Network Locked ";
+                stateString = context.getString(R.string.network_locked);
                 break;
             case TelephonyManager.SIM_STATE_READY:
-                stateString = "Ready";
+                stateString = context.getString(R.string.sim_ready);
                 break;
             case 6:
-                stateString = "Not Ready";
+                stateString = context.getString(R.string.not_ready);
                 break;
             case 7:
-                stateString = "Disabled";
+                stateString = context.getString(R.string.sim_disabled);
                 break;
             case 8:
-                stateString = "IO Error - Present but Faulty";
+                stateString = context.getString(R.string.sim_io_error);
                 break;
             case 9:
-                stateString = "Restricted";
+                stateString = context.getString(R.string.sim_restricted);
                 break;
             case 10:
-                stateString = "Loaded";
+                stateString = context.getString(R.string.sim_loaded);
                 break;
             case 11:
-                stateString = "Present";
+                stateString = context.getString(R.string.sim_present);
                 break;
             default:
-                stateString = "State" + state;
+                stateString = context.getString(R.string.default_sim_state) + state;
         }
-        return new UIObject("SIM State", stateString);
+        return new UIObject(context.getString(R.string.sim_state), stateString);
     }
 
 
@@ -1796,13 +1798,13 @@ public class MobileNetworkUtil {
                     String status = context.getResources().getString(R.string.not_available_info);
                     switch (cellConnectionStatus) {
                         case 0:
-                            status = "None";
+                            status = context.getString(R.string.none);
                             break;
                         case 1:
-                            status = "Primary Cell";
+                            status = context.getString(R.string.primary_cell);
                             break;
                         case 2:
-                            status = "Secondary Cell";
+                            status = context.getString(R.string.secondary_cell);
                             break;
                     }
                     uiList.add(new UIObject(context.getResources().getString(R.string.connection_status), status));

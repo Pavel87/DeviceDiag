@@ -71,12 +71,12 @@ public class NMEAFeedFragment extends Fragment implements OnNmeaMessageListener 
             if (isNMEAListenerOn) {
                 isNMEAListenerOn = false;
                 locationManager.removeNmeaListener(NMEAFeedFragment.this);
-                startButton.setText("Start");
+                startButton.setText(R.string.nmea_start);
             } else {
-                nmeaUpdate.setText("Fetching data from GPS...");
+                nmeaUpdate.setText(R.string.nmea_fetching_data);
                 locationManager.addNmeaListener(NMEAFeedFragment.this);
                 isNMEAListenerOn = true;
-                startButton.setText("Stop");
+                startButton.setText(R.string.nmea_stop);
             }
 
         });

@@ -38,7 +38,7 @@ public class NetworkUtils {
             return list;
         }
 
-        list.add(new UIObject("Radio State", "", 1));
+        list.add(new UIObject(context.getString(R.string.network_radio_state), "", 1));
 
         // check WIFI state and if present in device
         if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI)) {
@@ -50,9 +50,9 @@ public class NetworkUtils {
             } else if (networkInfo.isAvailable()) {
                 wifiState = context.getResources().getString(R.string.available_info);
             }
-            list.add(new UIObject("WIFI", wifiState));
+            list.add(new UIObject(context.getString(R.string.network_wifi), wifiState));
         } else {
-            list.add(new UIObject("WIFI", context.getResources().getString(R.string.not_present)));
+            list.add(new UIObject(context.getString(R.string.network_wifi), context.getResources().getString(R.string.not_present)));
         }
 
         // check WAN state and if present in device
@@ -65,9 +65,9 @@ public class NetworkUtils {
             } else if (networkInfo != null && networkInfo.isAvailable()) {
                 mobileState = context.getResources().getString(R.string.available_info);
             }
-            list.add(new UIObject("MOBILE DATA", mobileState));
+            list.add(new UIObject(context.getString(R.string.network_mobile_data), mobileState));
         } else {
-            list.add(new UIObject("MOBILE DATA", context.getResources().getString(R.string.not_present)));
+            list.add(new UIObject(context.getString(R.string.network_mobile_data), context.getResources().getString(R.string.not_present)));
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -76,8 +76,8 @@ public class NetworkUtils {
             if (network != null) {
                 NetworkCapabilities networkCapabilities = connMgr.getNetworkCapabilities(network);
                 if (networkCapabilities != null) {
-                    list.add(new UIObject("Link Downstream Bandwidth", String.valueOf(networkCapabilities.getLinkDownstreamBandwidthKbps()), "kbps"));
-                    list.add(new UIObject("Link Upstream Bandwidth", String.valueOf(networkCapabilities.getLinkUpstreamBandwidthKbps()), "kbps"));
+                    list.add(new UIObject(context.getString(R.string.network_link_down_bandwidth), String.valueOf(networkCapabilities.getLinkDownstreamBandwidthKbps()), "kbps"));
+                    list.add(new UIObject(context.getString(R.string.network_up_bandwidth), String.valueOf(networkCapabilities.getLinkUpstreamBandwidthKbps()), "kbps"));
                 }
             }
         }
@@ -97,44 +97,44 @@ public class NetworkUtils {
 
         if (Build.VERSION.SDK_INT >= 21) {
 
-            list.add(new UIObject("Supported Features", "", 1));
+            list.add(new UIObject(context.getString(R.string.network_supported_features), "", 1));
 
-            list.add(new UIObject("5GHz Band", wifiManager.is5GHzBandSupported() ?
+            list.add(new UIObject(context.getString(R.string.network_five_ghz_band), wifiManager.is5GHzBandSupported() ?
                     ThreeState.YES : ThreeState.MAYBE, 2));
 
-            list.add(new UIObject("Device-to-AP RTT", wifiManager.isDeviceToApRttSupported() ?
+            list.add(new UIObject(context.getString(R.string.network_ap_rtt), wifiManager.isDeviceToApRttSupported() ?
                     ThreeState.YES : ThreeState.MAYBE, 2));
 
-            list.add(new UIObject("Power Reporting", wifiManager.isEnhancedPowerReportingSupported() ?
+            list.add(new UIObject(context.getString(R.string.network_power_reporting), wifiManager.isEnhancedPowerReportingSupported() ?
                     ThreeState.YES : ThreeState.MAYBE, 2));
 
-            list.add(new UIObject("Wi-Fi Direct", wifiManager.isP2pSupported() ?
+            list.add(new UIObject(context.getString(R.string.network_wifi_direct), wifiManager.isP2pSupported() ?
                     ThreeState.YES : ThreeState.MAYBE, 2));
 
-            list.add(new UIObject("Offloaded connectivity scan", wifiManager.isPreferredNetworkOffloadSupported() ?
+            list.add(new UIObject(context.getString(R.string.network_offloaded_conn_scan), wifiManager.isPreferredNetworkOffloadSupported() ?
                     ThreeState.YES : ThreeState.MAYBE, 2));
 
-            list.add(new UIObject("Scan Always Available", wifiManager.isScanAlwaysAvailable() ?
+            list.add(new UIObject(context.getString(R.string.network_scan_always_available), wifiManager.isScanAlwaysAvailable() ?
                     ThreeState.YES : ThreeState.MAYBE, 2));
 
-            list.add(new UIObject("Tunnel Directed Link Setup", wifiManager.isTdlsSupported() ?
+            list.add(new UIObject(context.getString(R.string.network_tdls), wifiManager.isTdlsSupported() ?
                     ThreeState.YES : ThreeState.MAYBE, 2));
 
 
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-                list.add(new UIObject("Wi-Fi Easy Connect (DPP)", ThreeState.NO, 2));
-                list.add(new UIObject("Wi-Fi Enhanced Open (OWE)", ThreeState.NO, 2));
-                list.add(new UIObject("WPA3-Personal SAE", ThreeState.NO, 2));
-                list.add(new UIObject("WPA3-Enterprise Suite-B-192", ThreeState.NO, 2));
+                list.add(new UIObject(context.getString(R.string.network_dpp), ThreeState.NO, 2));
+                list.add(new UIObject(context.getString(R.string.network_owe), ThreeState.NO, 2));
+                list.add(new UIObject(context.getString(R.string.network_sae), ThreeState.NO, 2));
+                list.add(new UIObject(context.getString(R.string.network_enterprise_suite_b), ThreeState.NO, 2));
 
             } else {
-                list.add(new UIObject("Wi-Fi Easy Connect (DPP)", wifiManager.isEasyConnectSupported() ?
+                list.add(new UIObject(context.getString(R.string.network_dpp), wifiManager.isEasyConnectSupported() ?
                         ThreeState.YES : ThreeState.NO, 2));
-                list.add(new UIObject("Wi-Fi Enhanced Open (OWE)", wifiManager.isEnhancedOpenSupported() ?
+                list.add(new UIObject(context.getString(R.string.network_owe), wifiManager.isEnhancedOpenSupported() ?
                         ThreeState.YES : ThreeState.NO, 2));
-                list.add(new UIObject("WPA3-Personal SAE", wifiManager.isWpa3SaeSupported() ?
+                list.add(new UIObject(context.getString(R.string.network_sae), wifiManager.isWpa3SaeSupported() ?
                         ThreeState.YES : ThreeState.NO, 2));
-                list.add(new UIObject("WPA3-Enterprise Suite-B-192", wifiManager.isWpa3SuiteBSupported() ?
+                list.add(new UIObject(context.getString(R.string.network_enterprise_suite_b), wifiManager.isWpa3SuiteBSupported() ?
                         ThreeState.YES : ThreeState.NO, 2));
             }
         }
@@ -160,38 +160,38 @@ public class NetworkUtils {
             return list;
         }
 
-        list.add(new UIObject("WIFI Info", "", 1));
+        list.add(new UIObject(context.getString(R.string.network_wifi_info), "", 1));
 
         // WIFI Connected info
         String ssid = wifiInfo.getSSID().replaceAll("\"", "");
         if (!ssid.equals("0x")) {
-            list.add(new UIObject("SSID", ssid));
+            list.add(new UIObject(context.getString(R.string.network_ssid), ssid));
         } else {
-            list.add(new UIObject("SSID", context.getResources().getString(R.string.not_available_info)));
+            list.add(new UIObject(context.getString(R.string.network_ssid), context.getResources().getString(R.string.not_available_info)));
         }
-        list.add(new UIObject("BSSID", String.valueOf(wifiInfo.getBSSID())));
+        list.add(new UIObject(context.getString(R.string.network_bssid), String.valueOf(wifiInfo.getBSSID())));
 
 
         if (Build.VERSION.SDK_INT < 23) {
-            list.add(new UIObject("MAC ADDRESS", String.valueOf(wifiInfo.getMacAddress())));
+            list.add(new UIObject(context.getString(R.string.network_mac), String.valueOf(wifiInfo.getMacAddress())));
         }
 
-        list.add(new UIObject("Signal RSSI", String.valueOf(wifiInfo.getRssi()), "dBm"));
+        list.add(new UIObject(context.getString(R.string.network_rssi), String.valueOf(wifiInfo.getRssi()), "dBm"));
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
             if (wifiInfo.getTxLinkSpeedMbps() > 0) {
-                list.add(new UIObject("Transmit Link Speed", String.valueOf(wifiInfo.getTxLinkSpeedMbps()), WifiInfo.LINK_SPEED_UNITS));
+                list.add(new UIObject(context.getString(R.string.network_tx_link_speed), String.valueOf(wifiInfo.getTxLinkSpeedMbps()), WifiInfo.LINK_SPEED_UNITS));
             }
             if (wifiInfo.getRxLinkSpeedMbps() > 0) {
-                list.add(new UIObject("Receive Link Speed", String.valueOf(wifiInfo.getRxLinkSpeedMbps()), WifiInfo.LINK_SPEED_UNITS));
+                list.add(new UIObject(context.getString(R.string.network_rx_link_speed), String.valueOf(wifiInfo.getRxLinkSpeedMbps()), WifiInfo.LINK_SPEED_UNITS));
             }
         } else if (wifiInfo.getLinkSpeed() > 0) {
-            list.add(new UIObject("Link Speed", String.valueOf(wifiInfo.getLinkSpeed()), WifiInfo.LINK_SPEED_UNITS));
+            list.add(new UIObject(context.getString(R.string.network_link_speed), String.valueOf(wifiInfo.getLinkSpeed()), WifiInfo.LINK_SPEED_UNITS));
 
         }
-        list.add(new UIObject("WIFI Frequency", String.valueOf(getFrequency(context, wifiInfo.getBSSID())), "MHz"));
+        list.add(new UIObject(context.getString(R.string.network_wifi_freq), String.valueOf(getFrequency(context, wifiInfo.getBSSID())), "MHz"));
 
-        list.add(new UIObject("Supplicant State", wifiInfo.getSupplicantState().name()));
+        list.add(new UIObject(context.getString(R.string.network_supplicant_state), wifiInfo.getSupplicantState().name()));
 
         if (isLocationPermissionEnabled) {
             scanResult = getWiFiScanResult(context, wifiInfo.getBSSID());
@@ -199,29 +199,31 @@ public class NetworkUtils {
             scanResult = null;
         }
         if (scanResult != null) {
-            list.add(new UIObject("AP Capabilities", scanResult.capabilities));
+            list.add(new UIObject(context.getString(R.string.network_ap_capabilities), scanResult.capabilities));
 
             if (Build.VERSION.SDK_INT > 22) {
                 if (scanResult.centerFreq0 > 0) {
-                    list.add(new UIObject("Center Frequency F0", String.valueOf(scanResult.centerFreq0), "MHz"));
+                    list.add(new UIObject(context.getString(R.string.network_center_f0), String.valueOf(scanResult.centerFreq0), "MHz"));
                 }
                 if (scanResult.centerFreq1 > 0) {
-                    list.add(new UIObject("Center Frequency F1", String.valueOf(scanResult.centerFreq1), "MHz"));
+                    list.add(new UIObject(context.getString(R.string.network_center_f1), String.valueOf(scanResult.centerFreq1), "MHz"));
                 }
                 if (!scanResult.operatorFriendlyName.equals("")) {
-                    list.add(new UIObject("Passpoint Operator Name", String.valueOf(scanResult.operatorFriendlyName)));
+                    list.add(new UIObject(context.getString(R.string.network_passpoint_name), String.valueOf(scanResult.operatorFriendlyName)));
                 }
                 if (!scanResult.venueName.equals("")) {
-                    list.add(new UIObject("Venue Name", String.valueOf(scanResult.venueName)));
+                    list.add(new UIObject(context.getString(R.string.network_venue_name), String.valueOf(scanResult.venueName)));
                 }
-                list.add(new UIObject("802.11mc Responder", scanResult.is80211mcResponder() ? "YES" : "NO"));
-                list.add(new UIObject("Is Passpoint Network", scanResult.isPasspointNetwork() ? "YES" : "NO"));
+                list.add(new UIObject(context.getString(R.string.network_responder), scanResult.is80211mcResponder() ?
+                        context.getString(R.string.yes_string) : context.getString(R.string.no_string)));
+                list.add(new UIObject(context.getString(R.string.network_is_passpoint_network), scanResult.isPasspointNetwork() ?
+                        context.getString(R.string.yes_string) : context.getString(R.string.no_string)));
                 if (Build.VERSION.SDK_INT > 28) {
                     if (wifiInfo.getPasspointProviderFriendlyName() != null) {
-                        list.add(new UIObject("Passpoint Provider Friendly Name", wifiInfo.getPasspointProviderFriendlyName()));
+                        list.add(new UIObject(context.getString(R.string.network_passpoint_friendly_name), wifiInfo.getPasspointProviderFriendlyName()));
                     }
                     if (wifiInfo.getPasspointFqdn() != null) {
-                        list.add(new UIObject("Passpoint Fully Qualified Domain Name", wifiInfo.getPasspointFqdn()));
+                        list.add(new UIObject(context.getString(R.string.network_passpoint_domain_name), wifiInfo.getPasspointFqdn()));
                     }
                 }
             }
@@ -238,22 +240,22 @@ public class NetworkUtils {
         } else {
             bssidTemp = wifiInfo.getBSSID();
         }
-        list.add(new UIObject("Last Roaming at", lastRoaming));
+        list.add(new UIObject(context.getString(R.string.network_roaming), lastRoaming));
 
 
         //dhcp address
         DhcpInfo dhcpInformation = wifiManager.getDhcpInfo();
 
-        list.add(new UIObject("DHCP Info", "", 1));
+        list.add(new UIObject(context.getString(R.string.network_dhcp), "", 1));
 
-        list.add(new UIObject("IP Address", intToInetAddress(dhcpInformation.ipAddress).getHostAddress()));
+        list.add(new UIObject(context.getString(R.string.network_ip_address), intToInetAddress(dhcpInformation.ipAddress).getHostAddress()));
 
-        list.add(new UIObject("Gateway IP", intToInetAddress(dhcpInformation.gateway).getHostAddress()));
-        list.add(new UIObject("Netmask", intToInetAddress(dhcpInformation.netmask).getHostAddress()));
-        list.add(new UIObject("DNS 1", intToInetAddress(dhcpInformation.dns1).getHostAddress()));
-        list.add(new UIObject("DNS 2", intToInetAddress(dhcpInformation.dns2).getHostAddress()));
-        list.add(new UIObject("DHCP Address", intToInetAddress(dhcpInformation.serverAddress).getHostAddress()));
-        list.add(new UIObject("Lease Duration", String.valueOf(dhcpInformation.leaseDuration), "s"));
+        list.add(new UIObject(context.getString(R.string.network_gateway_ip), intToInetAddress(dhcpInformation.gateway).getHostAddress()));
+        list.add(new UIObject(context.getString(R.string.network_netmask), intToInetAddress(dhcpInformation.netmask).getHostAddress()));
+        list.add(new UIObject(context.getString(R.string.network_dns1), intToInetAddress(dhcpInformation.dns1).getHostAddress()));
+        list.add(new UIObject(context.getString(R.string.network_dns2), intToInetAddress(dhcpInformation.dns2).getHostAddress()));
+        list.add(new UIObject(context.getString(R.string.network_dhcp_ip), intToInetAddress(dhcpInformation.serverAddress).getHostAddress()));
+        list.add(new UIObject(context.getString(R.string.network_lease_duration), String.valueOf(dhcpInformation.leaseDuration), "s"));
 
         return list;
     }
