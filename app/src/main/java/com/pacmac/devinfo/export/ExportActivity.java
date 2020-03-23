@@ -102,6 +102,7 @@ public class ExportActivity extends AppCompatActivity {
             if (!isAdLoading) {
                 if (rewardedAd.isLoaded() && error != AdRequest.ERROR_CODE_NETWORK_ERROR) {
                     watchVideoBtn.setEnabled(false);
+                    userClick = false;
                     rewardedAd.show(ExportActivity.this, adShowCallback);
                 } else if (error == AdRequest.ERROR_CODE_NETWORK_ERROR) {
                     rewardedAd = createAndLoadRewardedAd();

@@ -154,7 +154,10 @@ public class CellularViewModel extends ViewModel {
                 simInfo.add(MobileNetworkUtil.getTAC(context, telephonyManager, i));
             }
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                simInfo.add(MobileNetworkUtil.getManufacturerCode(context, telephonyManager, i));
+                boolean isCDMA = telephonyManager.getPhoneType() == TelephonyManager.PHONE_TYPE_CDMA;
+                if (isCDMA) {
+                    simInfo.add(MobileNetworkUtil.getManufacturerCode(context, telephonyManager, i));
+                }
             }
 
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {

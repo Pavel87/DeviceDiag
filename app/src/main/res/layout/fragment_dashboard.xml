@@ -6,7 +6,6 @@
     android:background="@color/dark_act_bg"
     android:padding="0dp">
 
-
     <GridView
         android:id="@+id/gridViewMain"
         android:layout_width="match_parent"

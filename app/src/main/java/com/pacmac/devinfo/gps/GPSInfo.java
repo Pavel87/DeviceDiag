@@ -62,7 +62,6 @@ public class GPSInfo extends AppCompatActivity implements LocationListener, Expo
         setSupportActionBar(findViewById(R.id.toolbar));
         locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
         enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        viewModel.setEnabled(enabled);
         if (!enabled) {
             showAlertOnDisabled();
         }
@@ -148,7 +147,11 @@ public class GPSInfo extends AppCompatActivity implements LocationListener, Expo
                 isExporting = true;
 
                 if (tabs.getSelectedTabPosition() == 2) {
-                    new ExportTask(getApplicationContext(), GPSViewModel.EXPORT_NMEA_FILE_NAME, this).execute(viewModel);
+                    if (viewModel.getMessageLive().getValue() != null && viewModel.getMessageLive().getValue().length() != 0) {
+                        new ExportTask(getApplicationContext(), GPSViewModel.EXPORT_NMEA_FILE_NAME, this).execute(viewModel);
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.no_nmea_data, Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     new ExportTask(getApplicationContext(), GPSViewModel.EXPORT_FILE_NAME, this).execute(viewModel);
                 }
@@ -298,7 +301,6 @@ public class GPSInfo extends AppCompatActivity implements LocationListener, Expo
                         GpsSatellite satellite = satelliteIterator.next();
                         if (satellite.usedInFix()) {
                             satellitesList.add(new Satellites(i, satellite.getSnr(), satellite.getPrn(), satellite.getAzimuth(), satellite.getElevation()));
-                            //
                             i++;
                         }
                     }

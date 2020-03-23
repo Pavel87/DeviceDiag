@@ -47,8 +47,9 @@ public class CPUViewModel extends ViewModel {
 
         list.addAll(readCPUinfo(context));
 
-        list.add(new UIObject(context.getString(R.string.cpu_core), context.getString(R.string.cpu_active) +
-                Runtime.getRuntime().availableProcessors() + context.getString(R.string.cpu_total) + getNumCores()));
+        list.add(new UIObject(context.getString(R.string.cpu_core_available), String.valueOf(Runtime.getRuntime().availableProcessors())));
+        list.add(new UIObject(context.getString(R.string.cpu_core_active), String.valueOf(getNumCores())));
+
         list.addAll(getCPUFrequency(context));
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {

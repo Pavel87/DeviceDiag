@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,7 +56,6 @@ public class NMEAFeedFragment extends Fragment implements OnNmeaMessageListener 
         return inflater.inflate(R.layout.fragment_gps_nmea, container, false);
     }
 
-    @SuppressLint("MissingPermission")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
@@ -73,12 +72,16 @@ public class NMEAFeedFragment extends Fragment implements OnNmeaMessageListener 
                 locationManager.removeNmeaListener(NMEAFeedFragment.this);
                 startButton.setText(R.string.nmea_start);
             } else {
-                nmeaUpdate.setText(R.string.nmea_fetching_data);
-                locationManager.addNmeaListener(NMEAFeedFragment.this);
-                isNMEAListenerOn = true;
-                startButton.setText(R.string.nmea_stop);
+                try {
+                    locationManager.addNmeaListener(NMEAFeedFragment.this);
+                    nmeaUpdate.setText(R.string.nmea_fetching_data);
+                    isNMEAListenerOn = true;
+                    startButton.setText(R.string.nmea_stop);
+                } catch (SecurityException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getContext(), R.string.nmea_error, Toast.LENGTH_LONG).show();
+                }
             }
-
         });
 
         Observer<String> basicObserver = message -> {

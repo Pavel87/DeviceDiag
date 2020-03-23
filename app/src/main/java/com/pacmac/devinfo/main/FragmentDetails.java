@@ -54,13 +54,22 @@ public class FragmentDetails extends Fragment {
 
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_dashboard, container, false);
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Utility.showBannerAdView(view, getContext(), R.string.banner_id_2);
+        Utility.showBannerAdView(view, getContext(), R.string.banner_id_2);
+
+        int gridColumns = 2;
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT) {
+            gridColumns = 3;
         }
 
         gridView = view.findViewById(R.id.gridViewMain);
+        gridView.setNumColumns(gridColumns);
         gridView.setAdapter(new DetailAdapter(getActivity().getApplicationContext(), mThumbIds));
         gridView.setOnItemClickListener((adapterView, gridViewItem, position, l) -> {
             switch (position) {
@@ -164,10 +173,5 @@ public class FragmentDetails extends Fragment {
                     break;
             }
         });
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.frag_details, container, false);
     }
 }

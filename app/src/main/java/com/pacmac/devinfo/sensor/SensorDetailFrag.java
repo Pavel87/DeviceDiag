@@ -85,7 +85,7 @@ public class SensorDetailFrag extends Fragment {
                     }, 2500);
                     break; // return "Step Detector";
                 case Sensor.TYPE_STEP_COUNTER:
-                case SensorsInfo.TYPE_PEDOMETER:
+                case SensorUtils.TYPE_PEDOMETER:
                     double steps = sensorsValues[0];
                     if (stepCounter == 3) {
                         stepCounter = 0;
@@ -149,32 +149,32 @@ public class SensorDetailFrag extends Fragment {
                 case Sensor.TYPE_TEMPERATURE:
                 case Sensor.TYPE_RELATIVE_HUMIDITY:
                 case Sensor.TYPE_AMBIENT_TEMPERATURE:
-                case SensorsInfo.TYPE_GOOGLE_TEMPERATURE_BOSH:
+                case SensorUtils.TYPE_GOOGLE_TEMPERATURE_BOSH:
                 case Sensor.TYPE_MOTION_DETECT:
                 case Sensor.TYPE_STATIONARY_DETECT:
                 case Sensor.TYPE_HEART_RATE:
-                case SensorsInfo.TYPE_TILT_DETECTOR:
-                case SensorsInfo.TYPE_WAKE_GESTURE:
-                case SensorsInfo.TYPE_PICK_UP_GESTURE:
-                case SensorsInfo.TYPE_GLANCE_GESTURE:
-                case SensorsInfo.TYPE_WRIST_TILT_GESTURE:
-                case SensorsInfo.TYPE_DEVICE_ORIENTATION:
-                case SensorsInfo.TYPE_DYNAMIC_SENSOR_META:
-                case SensorsInfo.TYPE_BASIC_GESTURES:
-                case SensorsInfo.TYPE_TAP:
-                case SensorsInfo.TYPE_FACING:
-                case SensorsInfo.TYPE_TILT:
-                case SensorsInfo.TYPE_ABSOLUTE_MOTION_DETECTOR:
-                case SensorsInfo.TYPE_RELATIVE_MOTION_DETECTOR:
-                case SensorsInfo.TYPE_PEDESTRIAN_ACTIVITY_MONITOR:
-                case SensorsInfo.TYPE_CYWEE_HAND_UP:
-                case SensorsInfo.TYPE_CYWEE_PICKUP:
-                case SensorsInfo.TYPE_CYWEE_FLIP:
-                case SensorsInfo.TYPE_GOOGLE_SENSORS_SYNC:
-                case SensorsInfo.TYPE_GOOGLE_DOUBLE_TWIST:
-                case SensorsInfo.TYPE_GOOGLE_DOUBLE_TAP:
-                case SensorsInfo.TYPE_MOTION_ACCEL:
-                case SensorsInfo.TYPE_COARSE_MOTION_CLASSIFIER:
+                case SensorUtils.TYPE_TILT_DETECTOR:
+                case SensorUtils.TYPE_WAKE_GESTURE:
+                case SensorUtils.TYPE_PICK_UP_GESTURE:
+                case SensorUtils.TYPE_GLANCE_GESTURE:
+                case SensorUtils.TYPE_WRIST_TILT_GESTURE:
+                case SensorUtils.TYPE_DEVICE_ORIENTATION:
+                case SensorUtils.TYPE_DYNAMIC_SENSOR_META:
+                case SensorUtils.TYPE_BASIC_GESTURES:
+                case SensorUtils.TYPE_TAP:
+                case SensorUtils.TYPE_FACING:
+                case SensorUtils.TYPE_TILT:
+                case SensorUtils.TYPE_ABSOLUTE_MOTION_DETECTOR:
+                case SensorUtils.TYPE_RELATIVE_MOTION_DETECTOR:
+                case SensorUtils.TYPE_PEDESTRIAN_ACTIVITY_MONITOR:
+                case SensorUtils.TYPE_CYWEE_HAND_UP:
+                case SensorUtils.TYPE_CYWEE_PICKUP:
+                case SensorUtils.TYPE_CYWEE_FLIP:
+                case SensorUtils.TYPE_GOOGLE_SENSORS_SYNC:
+                case SensorUtils.TYPE_GOOGLE_DOUBLE_TWIST:
+                case SensorUtils.TYPE_GOOGLE_DOUBLE_TAP:
+                case SensorUtils.TYPE_MOTION_ACCEL:
+                case SensorUtils.TYPE_COARSE_MOTION_CLASSIFIER:
                     sensorReading2.setText(String.format(Locale.ENGLISH, "%.2f %s", sensorsValues[0], getUnits(sensorEvent.sensor.getType())));
                 default:
                     break;
@@ -327,12 +327,12 @@ public class SensorDetailFrag extends Fragment {
                 return "%";
             case Sensor.TYPE_TEMPERATURE:
             case Sensor.TYPE_AMBIENT_TEMPERATURE:
-            case SensorsInfo.TYPE_GOOGLE_TEMPERATURE_BOSH:
+            case SensorUtils.TYPE_GOOGLE_TEMPERATURE_BOSH:
                 return "°C";
             case Sensor.TYPE_HEART_RATE:
                 return "bps";
             case Sensor.TYPE_STEP_COUNTER:
-            case SensorsInfo.TYPE_PEDOMETER:
+            case SensorUtils.TYPE_PEDOMETER:
                 return getContext().getString(R.string.sensor_step_unit);
             case Sensor.TYPE_GRAVITY:
                 return "m/s^2";
@@ -356,25 +356,25 @@ public class SensorDetailFrag extends Fragment {
             case Sensor.TYPE_HEART_BEAT:
             case Sensor.TYPE_LOW_LATENCY_OFFBODY_DETECT: // no units
             case Sensor.TYPE_ACCELEROMETER_UNCALIBRATED:
-            case SensorsInfo.TYPE_TILT_DETECTOR:
-            case SensorsInfo.TYPE_WAKE_GESTURE:
-            case SensorsInfo.TYPE_PICK_UP_GESTURE:
-            case SensorsInfo.TYPE_GLANCE_GESTURE:
-            case SensorsInfo.TYPE_WRIST_TILT_GESTURE:
-            case SensorsInfo.TYPE_DEVICE_ORIENTATION:
-            case SensorsInfo.TYPE_DYNAMIC_SENSOR_META:
-            case SensorsInfo.TYPE_BASIC_GESTURES:
-            case SensorsInfo.TYPE_TAP:
-            case SensorsInfo.TYPE_FACING:
-            case SensorsInfo.TYPE_TILT:
-            case SensorsInfo.TYPE_ABSOLUTE_MOTION_DETECTOR:
-            case SensorsInfo.TYPE_RELATIVE_MOTION_DETECTOR:
-            case SensorsInfo.TYPE_CYWEE_HAND_UP:
-            case SensorsInfo.TYPE_CYWEE_PICKUP:
-            case SensorsInfo.TYPE_CYWEE_FLIP:
-            case SensorsInfo.TYPE_GOOGLE_SENSORS_SYNC:
-            case SensorsInfo.TYPE_GOOGLE_DOUBLE_TWIST:
-            case SensorsInfo.TYPE_GOOGLE_DOUBLE_TAP:
+            case SensorUtils.TYPE_TILT_DETECTOR:
+            case SensorUtils.TYPE_WAKE_GESTURE:
+            case SensorUtils.TYPE_PICK_UP_GESTURE:
+            case SensorUtils.TYPE_GLANCE_GESTURE:
+            case SensorUtils.TYPE_WRIST_TILT_GESTURE:
+            case SensorUtils.TYPE_DEVICE_ORIENTATION:
+            case SensorUtils.TYPE_DYNAMIC_SENSOR_META:
+            case SensorUtils.TYPE_BASIC_GESTURES:
+            case SensorUtils.TYPE_TAP:
+            case SensorUtils.TYPE_FACING:
+            case SensorUtils.TYPE_TILT:
+            case SensorUtils.TYPE_ABSOLUTE_MOTION_DETECTOR:
+            case SensorUtils.TYPE_RELATIVE_MOTION_DETECTOR:
+            case SensorUtils.TYPE_CYWEE_HAND_UP:
+            case SensorUtils.TYPE_CYWEE_PICKUP:
+            case SensorUtils.TYPE_CYWEE_FLIP:
+            case SensorUtils.TYPE_GOOGLE_SENSORS_SYNC:
+            case SensorUtils.TYPE_GOOGLE_DOUBLE_TWIST:
+            case SensorUtils.TYPE_GOOGLE_DOUBLE_TAP:
         }
         return "";
     }

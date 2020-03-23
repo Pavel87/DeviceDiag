@@ -472,7 +472,7 @@ public class MobileNetworkUtil {
         return new UIObject(context.getResources().getString(R.string.voicemail_number), phoneNumber);
     }
 
-
+    // ONLY CDMA PHONE
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public static UIObject getManufacturerCode(Context context, TelephonyManager telephonyManager, int slot) {
         String manufacturerCode = telephonyManager.getManufacturerCode(slot);
@@ -480,6 +480,7 @@ public class MobileNetworkUtil {
                 (manufacturerCode != null) ? manufacturerCode : context.getResources().getString(R.string.not_available_info));
     }
 
+    // ONLY GSM PHONE
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public static UIObject getTAC(Context context, TelephonyManager telephonyManager, int slot) {
         String tac = telephonyManager.getTypeAllocationCode(slot);

@@ -3,6 +3,7 @@ package com.pacmac.devinfo.camera;
 import android.content.Context;
 import android.hardware.Camera;
 import android.os.Build;
+import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -107,16 +108,19 @@ public class CameraViewModel extends ViewModel {
             List<List<ResolutionObject>> videoResList = new ArrayList<>();
             int count = CameraUtils.cameraCount;
             for (int i = 0; i < count; i++) {
-                Camera camera = Camera.open(i);
-                Camera.Parameters params = camera.getParameters();
-                Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-                Camera.getCameraInfo(i, cameraInfo);
-                camera.release();
-                cameraList.add(CameraUtils.getCameraSpecParams(context, params, cameraInfo));
-
-                picResList.add(CameraUtils.getPictureResolutions(params));
-                videoResList.add(CameraUtils.getVideoResolutions(params));
-
+                try {
+                    Camera camera = Camera.open(i);
+                    Camera.Parameters params = camera.getParameters();
+                    Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+                    Camera.getCameraInfo(i, cameraInfo);
+                    camera.release();
+                    cameraList.add(CameraUtils.getCameraSpecParams(context, params, cameraInfo));
+                    picResList.add(CameraUtils.getPictureResolutions(params));
+                    videoResList.add(CameraUtils.getVideoResolutions(params));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(context, R.string.error_accessing_cameras, Toast.LENGTH_SHORT).show();
+                }
             }
             cameraListData.postValue(cameraList);
             cameraListPicResolutions.postValue(picResList);

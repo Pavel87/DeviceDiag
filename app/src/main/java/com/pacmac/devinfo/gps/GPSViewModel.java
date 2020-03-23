@@ -22,8 +22,6 @@ public class GPSViewModel extends ViewModel {
 
     private MutableLiveData<List<UIObject>> gpsInfo = new MutableLiveData<>();
 
-    private boolean enabled = false;
-
     private String gpsState = "";
     private String gnssHardwareYear = "";
     private int firstFix = -1;
@@ -42,8 +40,8 @@ public class GPSViewModel extends ViewModel {
     /**
      * NMEA FEED
      */
-    private MutableLiveData<String> message = new MutableLiveData<>();
     private String html = "";
+    private MutableLiveData<String> message = new MutableLiveData<>(html);
     private final int MAX_LOG_LINES = 128;
     private int count = 0;
 
@@ -110,11 +108,6 @@ public class GPSViewModel extends ViewModel {
         list.add(new UIObject(context.getString(R.string.gps_visible_satellites), visibleSatellites));
 
         gpsInfo.postValue(list);
-    }
-
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 
     public void setGpsState(String gpsState) {

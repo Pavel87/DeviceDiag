@@ -15,9 +15,9 @@ import java.util.List;
 public class SensorViewModel extends ViewModel {
 
     public static final String EXPORT_FILE_NAME = "sensor_info";
+    private boolean isDetailFragment = false;
 
     private MutableLiveData<List<Sensor>> sensorList = new MutableLiveData<>();
-
 
     public MutableLiveData<List<Sensor>> getSensorList(Context context) {
         loadSensorInfo(context);
@@ -42,5 +42,14 @@ public class SensorViewModel extends ViewModel {
             List<Sensor> deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
             sensorList.postValue(deviceSensors);
         }
+    }
+
+
+    boolean isDetailFragment() {
+        return isDetailFragment;
+    }
+
+    void setDetailFragment(boolean detailFragment) {
+        isDetailFragment = detailFragment;
     }
 }
