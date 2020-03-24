@@ -2,6 +2,7 @@ package com.pacmac.devinfo.export;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.widget.ImageViewCompat;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.rewarded.RewardItem;
@@ -176,7 +178,6 @@ public class ExportActivity extends AppCompatActivity {
             // Ad failed to display.
             rewardedAd = createAndLoadRewardedAd();
             startActivityForResult(new Intent(getApplicationContext(), PromoActivity.class), PROMO_REQUEST_CODE);
-            // TODO add my own ad withing the APP like showing WALLET APP Ad
         }
     };
 
@@ -184,27 +185,26 @@ public class ExportActivity extends AppCompatActivity {
     private void updateSlotViews(int slotCount) {
         exportSlotCounter.setText(String.valueOf(slotCount));
 
-        slot1.setColorFilter(getResources().getColor(R.color.export_slot_disabled));
-        slot2.setColorFilter(getResources().getColor(R.color.export_slot_disabled));
-        slot3.setColorFilter(getResources().getColor(R.color.export_slot_disabled));
-        slot4.setColorFilter(getResources().getColor(R.color.export_slot_disabled));
-        slot5.setColorFilter(getResources().getColor(R.color.export_slot_disabled));
+        ImageViewCompat.setImageTintList(slot1, ColorStateList.valueOf(getResources().getColor(R.color.export_slot_disabled)));
+        ImageViewCompat.setImageTintList(slot2, ColorStateList.valueOf(getResources().getColor(R.color.export_slot_disabled)));
+        ImageViewCompat.setImageTintList(slot3, ColorStateList.valueOf(getResources().getColor(R.color.export_slot_disabled)));
+        ImageViewCompat.setImageTintList(slot4, ColorStateList.valueOf(getResources().getColor(R.color.export_slot_disabled)));
+        ImageViewCompat.setImageTintList(slot5, ColorStateList.valueOf(getResources().getColor(R.color.export_slot_disabled)));
 
         if (slotCount > 0) {
             exportBtn.setEnabled(true);
-            slot1.setColorFilter(getResources().getColor(R.color.export_slot_earned));
-
+            ImageViewCompat.setImageTintList(slot1, ColorStateList.valueOf(getResources().getColor(R.color.export_slot_earned)));
             if (slotCount > 1) {
-                slot2.setColorFilter(getResources().getColor(R.color.export_slot_earned));
+                ImageViewCompat.setImageTintList(slot2, ColorStateList.valueOf(getResources().getColor(R.color.export_slot_earned)));
             }
             if (slotCount > 2) {
-                slot3.setColorFilter(getResources().getColor(R.color.export_slot_earned));
+                ImageViewCompat.setImageTintList(slot3, ColorStateList.valueOf(getResources().getColor(R.color.export_slot_earned)));
             }
             if (slotCount > 3) {
-                slot4.setColorFilter(getResources().getColor(R.color.export_slot_earned));
+                ImageViewCompat.setImageTintList(slot4, ColorStateList.valueOf(getResources().getColor(R.color.export_slot_earned)));
             }
             if (slotCount > 4) {
-                slot5.setColorFilter(getResources().getColor(R.color.export_slot_earned));
+                ImageViewCompat.setImageTintList(slot5, ColorStateList.valueOf(getResources().getColor(R.color.export_slot_earned)));
             }
         } else {
             exportBtn.setEnabled(false);
