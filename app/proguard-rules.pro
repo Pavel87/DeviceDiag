@@ -15,3 +15,11 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keep class com.tutelatechnologies.** { *; }
+-keep class com.tutelatechnologies.**$** { *; }
+-keep interface com.tutelatechnologies.** { *; }
+-keep enum com.tutelatechnologies.** { *; }
+-keep class com.google.android.gms.** { *; }
+-dontwarn com.google.android.gms.**
+-dontwarn com.tutelatechnologies.sdk.framework.**
+-dontwarn com.tutelatechnologies.sdk.framework.**$**
