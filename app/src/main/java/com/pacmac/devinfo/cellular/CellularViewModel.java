@@ -165,19 +165,18 @@ public class CellularViewModel extends ViewModel {
             }
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 try {
-                    simInfo.add(MobileNetworkUtil.getGroupIdLevel(context, telephonyManager, i));
+                    simInfo.add(MobileNetworkUtil.getGroupIdLevel(context, telephonyManager, i, isMultiSIM));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                 simInfo.add(MobileNetworkUtil.getSIMSerialNumber(context, telephonyManager, i, isMultiSIM));
+            } else {
+                simInfo.add(MobileNetworkUtil.getICCID(context, i));
             }
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
                 simInfo.add(MobileNetworkUtil.getIMSI(context, telephonyManager, i, isMultiSIM));
-            }
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                simInfo.add(MobileNetworkUtil.getICCID(context, i));
             }
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
                 simInfo.add(MobileNetworkUtil.isEmbedded(context, i));
@@ -212,6 +211,7 @@ public class CellularViewModel extends ViewModel {
         }
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
             list.add(MobileNetworkUtil.isRttSupported(context, telephonyManager));
+            list.add(MobileNetworkUtil.isMultiSIMSupported(context, telephonyManager));
         }
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
             list.add(MobileNetworkUtil.isWorldPhone(context, telephonyManager));

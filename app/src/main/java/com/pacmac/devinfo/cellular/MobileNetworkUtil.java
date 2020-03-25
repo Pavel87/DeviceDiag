@@ -199,8 +199,27 @@ public class MobileNetworkUtil {
         return new UIObject(context.getString(R.string.is_world_phone), telephonyManager.isWorldPhone() ?
                 context.getString(R.string.yes_string) : context.getString(R.string.no_string));
     }
+    
+    @TargetApi(29)
+    public static UIObject isMultiSIMSupported(Context context, TelephonyManager telephonyManager) {
+        return new UIObject(context.getString(R.string.multi_sim_support),
+                getMultiSIMSupport(context, telephonyManager.isMultiSimSupported()));
+    }
 
-
+    private static String getMultiSIMSupport(Context context, int state) {
+        switch (state) {
+            case TelephonyManager.MULTISIM_ALLOWED:
+            return context.getString(R.string.ms_supported);
+            case TelephonyManager.MULTISIM_NOT_SUPPORTED_BY_HARDWARE:
+            return context.getString(R.string.restricted_by_hw);
+            case TelephonyManager.MULTISIM_NOT_SUPPORTED_BY_CARRIER:
+            return context.getString(R.string.restricted_by_carrier);
+            default:
+            return context.getResources().getString(R.string.not_available_info);
+        }
+    }
+    
+    
     /**
      * SIM INFO
      */
@@ -309,7 +328,7 @@ public class MobileNetworkUtil {
                     spn = t.getSimOperatorName();
                 }
             } else {
-                spn = subscriptionInfo.getCarrierName() != null ? subscriptionInfo.getCarrierName().toString() : null;
+                spn = subscriptionInfo.getDisplayName() != null ? subscriptionInfo.getDisplayName().toString() : null;
             }
 
             if (spn == null) {
@@ -358,20 +377,20 @@ public class MobileNetworkUtil {
 
         SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
         if (subscriptionManager == null) {
-            return new UIObject(context.getResources().getString(R.string.iccid),
+            return new UIObject(context.getResources().getString(R.string.sim_serial_number),
                     context.getResources().getString(R.string.not_available_info));
         }
         @SuppressLint("MissingPermission")
         SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
         if (subscriptionInfo == null) {
-            return new UIObject(context.getResources().getString(R.string.iccid),
+            return new UIObject(context.getResources().getString(R.string.sim_serial_number),
                     context.getResources().getString(R.string.not_available_info));
         } else {
-            return new UIObject(context.getResources().getString(R.string.iccid),
-                    subscriptionInfo.getIccId());
+            return new UIObject(context.getResources().getString(R.string.sim_serial_number), subscriptionInfo.getIccId());
         }
     }
-
+    
+    
     @SuppressLint("NewApi")
     public static UIObject isEmbedded(Context context, int slotID) {
         SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
@@ -464,7 +483,19 @@ public class MobileNetworkUtil {
         if (!isMultiSIM || Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             phoneNumber = telephonyManager.getVoiceMailNumber();
         } else {
-            phoneNumber = getOutput(telephonyManager, "getVoiceMailNumber", slotID);
+            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            if (subscriptionManager == null) {
+                return new UIObject(context.getResources().getString(R.string.voicemail_number),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+            @SuppressLint("MissingPermission")
+            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+            if (subscriptionInfo == null) {
+                return new UIObject(context.getResources().getString(R.string.voicemail_number),
+                        context.getResources().getString(R.string.not_available_info));
+            } else {
+                phoneNumber = getOutput(telephonyManager, "getVoiceMailNumber", subscriptionInfo.getSubscriptionId());
+            }
         }
         if (phoneNumber == null || phoneNumber.length() == 0) {
             phoneNumber = context.getResources().getString(R.string.not_available_info);
@@ -522,14 +553,26 @@ public class MobileNetworkUtil {
 
 
     @SuppressLint("MissingPermission")
-    public static UIObject getGroupIdLevel(Context context, TelephonyManager telephonyManager, int slotID) {
+    public static UIObject getGroupIdLevel(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
         String groupIdLevel1 = null;
-        if (slotID == 0 && Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        if (!isMultiSIM || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
             groupIdLevel1 = telephonyManager.getGroupIdLevel1();
             return new UIObject(context.getString(R.string.group_id_level1), groupIdLevel1 == null ? context.getResources().
                     getString(R.string.not_available_info) : groupIdLevel1);
         } else {
-            groupIdLevel1 = getOutput(telephonyManager, "getGroupIdLevel1", slotID);
+            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            if (subscriptionManager == null) {
+                return new UIObject(context.getResources().getString(R.string.group_id_level1),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+            @SuppressLint("MissingPermission")
+            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+            if (subscriptionInfo == null) {
+                return new UIObject(context.getResources().getString(R.string.group_id_level1),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+
+            groupIdLevel1 = getOutput(telephonyManager, "getGroupIdLevel1", subscriptionInfo.getSubscriptionId());
             return new UIObject(context.getString(R.string.group_id_level1), groupIdLevel1 == null ? context.getResources().
                     getString(R.string.not_available_info) : groupIdLevel1);
         }
@@ -614,7 +657,20 @@ public class MobileNetworkUtil {
             return new UIObject(context.getResources().getString(R.string.sim_serial_number), simSerialNumber);
 
         } else {
-            simSerialNumber = getOutput(telephonyManager, "getSimSerialNumber", slotID);
+
+            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            if (subscriptionManager == null) {
+                return new UIObject(context.getResources().getString(R.string.sim_serial_number),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+            @SuppressLint("MissingPermission")
+            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+            if (subscriptionInfo == null) {
+                return new UIObject(context.getResources().getString(R.string.sim_serial_number),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+
+            simSerialNumber = getOutput(telephonyManager, "getSimSerialNumber", subscriptionInfo.getSubscriptionId());
             if (simSerialNumber == null) {
                 simSerialNumber = context.getResources().getString(R.string.not_available_info);
             }
@@ -626,11 +682,24 @@ public class MobileNetworkUtil {
     public static UIObject getIMSI(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
 
         String imsi;
-        if (!isMultiSIM || Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+        if (!isMultiSIM || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
             imsi = telephonyManager.getSubscriberId();
             return new UIObject(context.getResources().getString(R.string.imsi), imsi);
         } else {
-            imsi = getOutput(telephonyManager, "getSimSerialNumber", slotID);
+
+            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            if (subscriptionManager == null) {
+                return new UIObject(context.getResources().getString(R.string.imsi),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+            @SuppressLint("MissingPermission")
+            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+            if (subscriptionInfo == null) {
+                return new UIObject(context.getResources().getString(R.string.imsi),
+                        context.getResources().getString(R.string.not_available_info));
+            }
+
+            imsi = getOutput(telephonyManager, "getSubscriberId", subscriptionInfo.getSubscriptionId());
             if (imsi == null) {
                 imsi = context.getResources().getString(R.string.not_available_info);
             }

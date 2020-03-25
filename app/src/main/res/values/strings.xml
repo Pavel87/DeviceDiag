@@ -121,7 +121,6 @@
     <string name="manufacturer_code">Manufacturer Code</string>
     <string name="imei">IMEI</string>
     <string name="meid">MEID</string>
-    <string name="iccid">ICC ID</string>
     <string name="embedded">Is Embedded</string>
     <string name="network_country_code">Country Code</string>
     <string name="data_enabled">Data Enabled</string>
@@ -396,5 +395,9 @@
     <string name="no_nmea_data">No NMEA data to export.</string>
     <string name="nmea_error">Security Exception: Cannot listen to NMEA messages.</string>
     <string name="error_accessing_cameras">Error accessing device cameras.</string>
+    <string name="multi_sim_support">Multi SIM Support</string>
+    <string name="restricted_by_carrier">Restricted by Carrier</string>
+    <string name="restricted_by_hw">Restricted by Hardware</string>
+    <string name="ms_supported">Supported</string>
 
 </resources>
