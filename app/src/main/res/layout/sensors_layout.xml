@@ -14,7 +14,7 @@
         android:elevation="2dip"
         tools:itemCount="6"
         tools:listitem="@layout/sensor_item"
-        android:background="@drawable/list_border_line"
+        android:background="@color/white"
         android:smoothScrollbar="true"
         android:scrollbars="none">
 
