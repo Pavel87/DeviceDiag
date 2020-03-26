@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Device Info</string>
     <string name="title_section1">Main Info</string>
-    <string name="title_section2">Details</string>
+    <string name="title_section2">Dashboard</string>
     <string name="action_satellites">Show Satellites</string>
     <string name="action_delete">Delete</string>
     <string name="title_activity_main_info">Main Info</string>
@@ -27,7 +27,7 @@
     <string name="no_string">NO</string>
     <string name="new_version_title">NEW VERSION AVAILABLE</string>
     <string name="new_version_content">Update to new version to get all new features and crash fixes.</string>
-    <string name="update">Update</string>§
+    <string name="update">Update</string>
     <string name="action_search">Search</string>
     <string name="search_hint">Search...</string>
     <string name="rateit">Rate It!</string>

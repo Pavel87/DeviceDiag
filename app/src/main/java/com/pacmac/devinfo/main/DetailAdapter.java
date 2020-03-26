@@ -1,4 +1,4 @@
-package com.pacmac.devinfo;
+package com.pacmac.devinfo.main;
 
 import android.content.Context;
 import android.view.View;

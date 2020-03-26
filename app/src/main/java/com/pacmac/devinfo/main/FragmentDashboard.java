@@ -16,7 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.pacmac.devinfo.AboutActivity;
-import com.pacmac.devinfo.DetailAdapter;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.battery.BatteryInfo;
 import com.pacmac.devinfo.camera.CameraInfo;
@@ -32,7 +31,7 @@ import com.pacmac.devinfo.wifi.NetworkInfo;
 /**
  * Created by pacmac on 5/26/2015.
  */
-public class FragmentDetails extends Fragment {
+public class FragmentDashboard extends Fragment {
 
     private GridView gridView;
 
@@ -49,7 +48,7 @@ public class FragmentDetails extends Fragment {
             R.drawable.wifiimg, R.drawable.aboutimg
     };
 
-    public FragmentDetails() {
+    public FragmentDashboard() {
     }
 
 

@@ -163,7 +163,7 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
                 FragmentMain frag = new FragmentMain();
                 return frag;
             } else {
-                FragmentDetails frag = new FragmentDetails();
+                FragmentDashboard frag = new FragmentDashboard();
                 return frag;
             }
         }
