@@ -18,8 +18,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto"
             android:text="00"
-            android:textColor="@color/text_name"
+            android:textColor="@color/text_primary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -27,14 +28,18 @@
 
         <TextView
             android:id="@+id/nameSensor"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/roboto_medium"
             android:text="Sensor Type"
             android:textAllCaps="true"
-            android:textColor="@color/text_name"
+            android:textColor="@color/text_primary"
             android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/appCompatImageView2"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/idSensor"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,11 +48,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto"
             android:text="Manufacturer"
-            android:textColor="@color/text_name"
+            android:textColor="@color/text_secondary"
             android:textSize="12sp"
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/nameSensor"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/nameSensor"
             app:layout_constraintTop_toBottomOf="@+id/nameSensor" />
 
