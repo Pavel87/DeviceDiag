@@ -4,7 +4,7 @@
     <style name="MaterialAppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorPrimary">@color/tabs</item>
         <item name="colorPrimaryDark">@color/tabs</item>
-        <item name="colorAccent">@color/tab_highlight</item>
+        <item name="colorAccent">@color/text_dialog_button</item>
         <!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
         <!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
         <!--        <item name="android:windowTranslucentStatus">true</item>-->
@@ -13,7 +13,7 @@
     <style name="MaterialAppThemeNoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/tabs</item>
         <item name="colorPrimaryDark">@color/tabs</item>
-        <item name="colorAccent">@color/tab_highlight</item>
+        <item name="colorAccent">@color/text_dialog_button</item>
         <!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
         <!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
         <!--        <item name="android:windowTranslucentStatus">true</item>-->
@@ -25,7 +25,7 @@
         <item name="colorPrimaryDark">@color/tabs</item>
         <item name="android:tabWidgetStyle">@color/tabs</item>
         <item name="android:colorBackground">@color/background_material_light</item>
-        <item name="colorAccent">@color/tab_highlight</item>
+        <item name="colorAccent">@color/text_dialog_button</item>
         <item name="actionBarTabStyle">@style/MyTabs</item>
     </style>
 

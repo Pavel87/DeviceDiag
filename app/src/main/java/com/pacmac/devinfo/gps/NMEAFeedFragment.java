@@ -1,6 +1,5 @@
 package com.pacmac.devinfo.gps;
 
-import android.annotation.SuppressLint;
 import android.location.LocationManager;
 import android.location.OnNmeaMessageListener;
 import android.os.Build;
@@ -48,7 +47,6 @@ public class NMEAFeedFragment extends Fragment implements OnNmeaMessageListener 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(getActivity()).get(GPSViewModel.class);
     }
 
     @Override
@@ -60,6 +58,8 @@ public class NMEAFeedFragment extends Fragment implements OnNmeaMessageListener 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         Utility.showBannerAdView(view, getContext(), R.string.banner_id_13);
+
+        viewModel = new ViewModelProvider(getActivity()).get(GPSViewModel.class);
 
         nmeaUpdate = view.findViewById(R.id.nmeaUpdate);
         startButton = view.findViewById(R.id.nmeaRollButton);
@@ -91,14 +91,15 @@ public class NMEAFeedFragment extends Fragment implements OnNmeaMessageListener 
             }
         };
         viewModel.getMessageLive().observe(getViewLifecycleOwner(), basicObserver);
-
     }
 
 
     @Override
     public void onPause() {
         if (locationManager != null && isNMEAListenerOn) {
-            locationManager.removeNmeaListener(this);
+            isNMEAListenerOn = false;
+            locationManager.removeNmeaListener(NMEAFeedFragment.this);
+            startButton.setText(R.string.nmea_start);
         }
         super.onPause();
     }

@@ -30,7 +30,7 @@
     <string name="update">Update</string>
     <string name="action_search">Search</string>
     <string name="search_hint">Search...</string>
-    <string name="rateit">Rate It!</string>
+    <string name="rateit">Rate Now</string>
     <string name="no_thanks">Later</string>
     <string name="cancel">Cancel</string>
     <string name="show_buildprop">Device Properties</string>
@@ -50,11 +50,11 @@
     <string name="location_permission_msg">Location permission is required in order to display information about mobile network environment.</string>
     <string name="storage_permission_msg">Storage permission is currently disabled. To be able to read storage capacity you need to accept this permission.</string>
     <string name="what_is_new">What is new</string>
-    <string name="new_features1">- Hundreds of new data</string>
-    <string name="new_features2">Added many new data fields for mobile connections, SIM, Carrier Configuration List, CPU, etc.</string>
-    <string name="new_features3">- Export to CSV file</string>
-    <string name="new_features4">Updated Export Flow. Data will now be exported to CSV file which you can share via email or other social platforms.</string>
-    <string name="new_features5">- Updated UI and UX</string>
+    <string name="new_features1">- Improved stability</string>
+    <string name="new_features2">Several bug fixes.</string>
+    <string name="new_features3">- Phone &amp; SIM Info</string>
+    <string name="new_features4">Updated information for DUAL SIM phones.</string>
+    <string name="new_features5">- Added headers for data exports</string>
     <string name="title_activity_cellular_info">Cellular Info</string>
     <string name="cell_phone_sim_tab">SIM</string>
     <string name="cell_network_tab">Network</string>

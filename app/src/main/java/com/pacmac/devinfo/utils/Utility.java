@@ -27,8 +27,11 @@ import com.pacmac.devinfo.UpToDateEnum;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by pacmac on 2016-10-04.
@@ -199,6 +202,13 @@ public class Utility {
         float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
         int noOfColumns = (int) ((screenWidthDp - 100f) / columnWidthDp + 0.5); // +0.5 for correct rounding to int.
         return noOfColumns;
+    }
+
+
+
+    public static String formatTimeForNMEA(long timestamp) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd, HH:mm:ss.SSS ", Locale.getDefault());
+        return simpleDateFormat.format(new Date(timestamp));
     }
 }
 

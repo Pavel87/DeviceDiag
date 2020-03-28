@@ -21,12 +21,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.ads.MobileAds;
-import com.pacmac.devinfo.DeviceDiagApp;
 import com.pacmac.devinfo.NewFeaturesActivity;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.camera.CameraUtils;
 import com.pacmac.devinfo.utils.Utility;
-import com.tutelatechnologies.sdk.framework.TutelaSDKFactory;
 
 import java.util.Locale;
 
@@ -55,12 +53,6 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
 
         // Initialize Camera count
         CameraUtils.loadCameraCount();
-
-        try {
-            TutelaSDKFactory.getTheSDK().initializeWithApiKey(DeviceDiagApp.REG_KEY, getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         // Check if user disabled LOCATION permission at some point
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {

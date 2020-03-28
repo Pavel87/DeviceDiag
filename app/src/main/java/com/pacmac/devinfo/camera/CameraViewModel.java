@@ -119,7 +119,6 @@ public class CameraViewModel extends ViewModel {
                     videoResList.add(CameraUtils.getVideoResolutions(params));
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(context, R.string.error_accessing_cameras, Toast.LENGTH_SHORT).show();
                 }
             }
             cameraListData.postValue(cameraList);

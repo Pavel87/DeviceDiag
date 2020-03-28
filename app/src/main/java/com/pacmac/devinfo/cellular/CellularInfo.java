@@ -115,14 +115,25 @@ public class CellularInfo extends AppCompatActivity implements ExportTask.OnExpo
     @Override
     protected void onResume() {
         super.onResume();
-        new Thread(() -> telephonyManager.listen(psl, pslListen)).start();
-
+        new Thread(() -> {
+            try {
+                telephonyManager.listen(psl, pslListen);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        new Thread(() -> telephonyManager.listen(psl, PhoneStateListener.LISTEN_NONE)).start();
+        new Thread(() -> {
+            try {
+                telephonyManager.listen(psl, PhoneStateListener.LISTEN_NONE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     // SHARE CPU INFO VIA ACTION_SEND

@@ -170,11 +170,13 @@ public class CellularViewModel extends ViewModel {
                     e.printStackTrace();
                 }
             }
+
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                 simInfo.add(MobileNetworkUtil.getSIMSerialNumber(context, telephonyManager, i, isMultiSIM));
             } else {
                 simInfo.add(MobileNetworkUtil.getICCID(context, i));
             }
+
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
                 simInfo.add(MobileNetworkUtil.getIMSI(context, telephonyManager, i, isMultiSIM));
             }

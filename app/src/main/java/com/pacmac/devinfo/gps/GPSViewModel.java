@@ -9,9 +9,12 @@ import androidx.lifecycle.ViewModel;
 
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
+import com.pacmac.devinfo.utils.Utility;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -170,24 +173,20 @@ public class GPSViewModel extends ViewModel {
 
 
     public void onNmeaMessage(Context context, String message, long timestamp) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(timestamp);
 
-        int hour = cal.get(Calendar.HOUR_OF_DAY);
-        int minute = cal.get(Calendar.MINUTE);
-        int second = cal.get(Calendar.SECOND);
-        int milis = cal.get(Calendar.MILLISECOND);
+        if (context != null && message != null) {
 
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        int month = cal.get(Calendar.MONTH);
+            if (html == null) {
+                html = "";
+            }
 
-        if (html.split("<br>").length > MAX_LOG_LINES) {
-            html = html.substring(html.indexOf("<br>") + 4);
+            if (html.split("<br>").length > MAX_LOG_LINES) {
+                html = html.substring(html.indexOf("<br>") + 4);
+            }
+
+            String timeDate = Utility.formatTimeForNMEA(timestamp);
+            html = html + "<font color=\"" + context.getResources().getColor(R.color.text_primary) + "\">" + "<b>" + timeDate + "</b>" + "</font>" + message + "<br>";
+            this.message.postValue(html);
         }
-
-        String timeDate = hour + ":" + minute + ":" + second + ":" + milis + " " + day + "/" + month + ": ";
-        html = html + "<font color=\"" + context.getResources().getColor(R.color.text_primary) + "\">" + "<b>" + timeDate + "</b>" + "</font>" + message + "<br>";
-
-        this.message.postValue(html);
     }
 }
