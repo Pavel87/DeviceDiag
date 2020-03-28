@@ -399,5 +399,19 @@
     <string name="restricted_by_carrier">Restricted by Carrier</string>
     <string name="restricted_by_hw">Restricted by Hardware</string>
     <string name="ms_supported">Supported</string>
+    <string name="basic_info">Basic Info</string>
+    <string name="param">Parameter</string>
+    <string name="value">Value</string>
+    <string name="cpu_param">CPU Parameter</string>
+    <string name="battery_param">Battery Parameter</string>
+    <string name="unit">Unit</string>
+    <string name="sim_slot">SIM SLOT</string>
+    <string name="sensor_type_export">Type</string>
+    <string name="wifi_channel_width">Channel Width</string>
+    <string name="wifi_disabling">Disabling</string>
+    <string name="wifi_disabled">Disabled</string>
+    <string name="wifi_enabling">Enabling</string>
+    <string name="wifi_enabled">Enabled</string>
+    <string name="wifi_state">WIFI State</string>
 
 </resources>

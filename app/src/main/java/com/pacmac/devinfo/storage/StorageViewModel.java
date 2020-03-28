@@ -26,8 +26,18 @@ public class StorageViewModel extends ViewModel {
     }
 
 
-    public List<UIObject> getStorageInfoForExport() {
-        return storageInfo.getValue();
+    public List<UIObject> getStorageInfoForExport(Context context) {
+
+        if (storageInfo.getValue() != null) {
+            List<UIObject> list = new ArrayList<>();
+            list.add(new UIObject(context.getString(R.string.title_activity_storage_info), "", 1));
+            list.add(new UIObject(context.getString(R.string.param), context.getString(R.string.value), 1));
+            list.addAll(storageInfo.getValue());
+
+            return list;
+        }
+
+        return null;
     }
 
     private void loadStorageInfo(Context context) {

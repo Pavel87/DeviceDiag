@@ -21,15 +21,23 @@ public class MainViewModel extends ViewModel {
 
 
     public MutableLiveData<List<UIObject>> getMainInfo(Context context) {
-        loadDisplayInfo(context);
+        loadMainInfo(context);
         return mainInfo;
     }
 
-    public List<UIObject> getMainInfoForExport() {
-        return mainInfo.getValue();
+    public List<UIObject> getMainInfoForExport(Context context) {
+
+        if (mainInfo.getValue() != null) {
+            List<UIObject> list = new ArrayList<>();
+            list.add(new UIObject(context.getString(R.string.basic_info), "",1));
+            list.add(new UIObject(context.getString(R.string.param), context.getString(R.string.value), 1));
+            list.addAll(mainInfo.getValue());
+            return list;
+        }
+        return null;
     }
 
-    private void loadDisplayInfo(Context context) {
+    private void loadMainInfo(Context context) {
 
         List<UIObject> list = new ArrayList<>();
         list.add(new UIObject(context.getString(R.string.os_version), MainUtils.getOsVersion()));

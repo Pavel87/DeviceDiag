@@ -207,7 +207,7 @@ public class Utility {
 
 
     public static String formatTimeForNMEA(long timestamp) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd, HH:mm:ss.SSS ", Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss.SSS ", Locale.getDefault());
         return simpleDateFormat.format(new Date(timestamp));
     }
 }

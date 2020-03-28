@@ -30,8 +30,17 @@ public class BatteryViewModel extends ViewModel {
     public MutableLiveData<List<UIObject>> getBatteryInfo() {
         return batteryInfo;
     }
-    public List<UIObject> getBatteryInfoForExport() {
-        return batteryInfo.getValue();
+
+    public List<UIObject> getBatteryInfoForExport(Context context) {
+
+        if (batteryInfo.getValue() != null) {
+            List<UIObject> list = new ArrayList<>();
+            list.add(new UIObject(context.getString(R.string.title_activity_battery_info), "", 1));
+            list.add(new UIObject(context.getString(R.string.battery_param), context.getString(R.string.value), 1));
+            list.addAll(batteryInfo.getValue());
+            return list;
+        }
+        return null;
     }
 
 

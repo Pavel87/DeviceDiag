@@ -47,7 +47,11 @@ public class CameraViewModel extends ViewModel {
         List<UIObject> list = new ArrayList<>();
 
         if (cameraInfoGeneral.getValue() != null) {
+            list.add(new UIObject(context.getString(R.string.title_activity_camera_info), "", 1));
+            list.add(new UIObject("", "", 1));
+
             list.add(new UIObject(context.getString(R.string.camera_general_info), "", 1));
+            list.add(new UIObject(context.getString(R.string.param), context.getString(R.string.value), 1));
             list.addAll(cameraInfoGeneral.getValue());
         }
 
@@ -55,6 +59,7 @@ public class CameraViewModel extends ViewModel {
             for (int i = 0; i < cameraListData.getValue().size(); i++) {
                 list.add(new UIObject("", "", 1));
                 list.add(new UIObject(String.format(Locale.ENGLISH, context.getString(R.string.camera_id_title), i + 1), "", 1));
+                list.add(new UIObject(context.getString(R.string.param), context.getString(R.string.value), context.getString(R.string.unit)));
                 list.addAll(cameraListData.getValue().get(i));
 
                 if (cameraListPicResolutions.getValue() != null) {
@@ -83,7 +88,6 @@ public class CameraViewModel extends ViewModel {
     // TODO explore ##CameraCharacteristics##
     private void loadCameraInfo(Context context) {
         List<UIObject> list = new ArrayList<>();
-
         list.add(new UIObject(context.getString(R.string.camera_autofocus), CameraUtils.hasAutoFocus(context) ? ThreeState.YES : ThreeState.NO, 2));
         list.add(new UIObject(context.getString(R.string.camera_flash), CameraUtils.hasFlash(context) ? ThreeState.YES : ThreeState.NO, 2));
         list.add(new UIObject(context.getString(R.string.camera_front_facing_feature), CameraUtils.hasFrontFacingCamera(context) ? ThreeState.YES : ThreeState.NO, 2));

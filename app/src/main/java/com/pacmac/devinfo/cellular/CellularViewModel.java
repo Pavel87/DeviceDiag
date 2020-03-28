@@ -45,13 +45,17 @@ public class CellularViewModel extends ViewModel {
             return null;
         }
         fullList.add(new UIObject("", ""));
+        int i = 1;
         for (List<UIObject> simInfo : simInfos.getValue()) {
+            fullList.add(new UIObject("", ""));
+            fullList.add(new UIObject(context.getString(R.string.sim_slot), String.valueOf(i)));
             fullList.addAll(simInfo);
         }
 
         if (networkInfos.getValue() == null) {
             return null;
         }
+        fullList.add(new UIObject("", ""));
         fullList.add(new UIObject("", ""));
         fullList.add(new UIObject(context.getString(R.string.active_network_info), ""));
         fullList.addAll(networkInfos.getValue());
@@ -61,12 +65,14 @@ public class CellularViewModel extends ViewModel {
             return null;
         }
         fullList.add(new UIObject("", ""));
+        fullList.add(new UIObject("", ""));
         fullList.add(new UIObject(context.getString(R.string.connected_cell_info), ""));
         fullList.addAll(cellInfos.getValue());
 
         if (carrierConfig.getValue() == null) {
             return null;
         }
+        fullList.add(new UIObject("", ""));
         fullList.add(new UIObject("", ""));
         fullList.add(new UIObject(context.getString(R.string.carrier_config_long), ""));
         fullList.addAll(carrierConfig.getValue());

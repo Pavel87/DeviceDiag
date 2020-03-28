@@ -38,8 +38,15 @@ public class CPUViewModel extends ViewModel {
         return cpuInfo;
     }
 
-    public List<UIObject> getCpuInfoForExport() {
-        return cpuInfo.getValue();
+    public List<UIObject> getCpuInfoForExport(Context context) {
+        if (cpuInfo.getValue() != null) {
+            List<UIObject> list = new ArrayList<>();
+            list.add(new UIObject(context.getString(R.string.title_activity_cpu_info), "", 1));
+            list.add(new UIObject(context.getString(R.string.cpu_param), context.getString(R.string.value), 1));
+            list.addAll(cpuInfo.getValue());
+            return list;
+        }
+        return null;
     }
 
     private void loadCPUInfo(Context context) {

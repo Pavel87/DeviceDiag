@@ -46,7 +46,7 @@ public class ExportTask extends AsyncTask<ViewModel, Void, String> {
         String exportFilePath = null;
 
         if (viewModels[0] instanceof MainViewModel) {
-            list = ((MainViewModel) viewModels[0]).getMainInfoForExport();
+            list = ((MainViewModel) viewModels[0]).getMainInfoForExport(context);
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
         if (viewModels[0] instanceof CellularViewModel) {
@@ -54,19 +54,19 @@ public class ExportTask extends AsyncTask<ViewModel, Void, String> {
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
         if (viewModels[0] instanceof CPUViewModel) {
-            list = ((CPUViewModel) viewModels[0]).getCpuInfoForExport();
+            list = ((CPUViewModel) viewModels[0]).getCpuInfoForExport(context);
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
         if (viewModels[0] instanceof StorageViewModel) {
-            list = ((StorageViewModel) viewModels[0]).getStorageInfoForExport();
+            list = ((StorageViewModel) viewModels[0]).getStorageInfoForExport(context);
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
         if (viewModels[0] instanceof BatteryViewModel) {
-            list = ((BatteryViewModel) viewModels[0]).getBatteryInfoForExport();
+            list = ((BatteryViewModel) viewModels[0]).getBatteryInfoForExport(context);
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
         if (viewModels[0] instanceof DisplayViewModel) {
-            list = ((DisplayViewModel) viewModels[0]).getDisplayInfoForExport();
+            list = ((DisplayViewModel) viewModels[0]).getDisplayInfoForExport(context);
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
         if (viewModels[0] instanceof NetworkViewModel) {
@@ -84,7 +84,7 @@ public class ExportTask extends AsyncTask<ViewModel, Void, String> {
         }
 
         if (viewModels[0] instanceof SensorViewModel) {
-            list = ((SensorViewModel) viewModels[0]).getSensorListForExport();
+            list = ((SensorViewModel) viewModels[0]).getSensorListForExport(context);
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
 

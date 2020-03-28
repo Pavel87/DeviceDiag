@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
 
 import java.util.ArrayList;
@@ -24,10 +25,12 @@ public class SensorViewModel extends ViewModel {
         return sensorList;
     }
 
-    public List<UIObject> getSensorListForExport() {
+    public List<UIObject> getSensorListForExport(Context context) {
 
         if (sensorList.getValue() != null) {
             List<UIObject> list = new ArrayList<>();
+            list.add(new UIObject("Sensor Information", "", 1));
+            list.add(new UIObject(context.getString(R.string.sensor_type_export), context.getString(R.string.vendor), 1));
             for (Sensor sensor : sensorList.getValue()) {
                 list.add(new UIObject(sensor.getName(), sensor.getVendor()));
             }

@@ -54,6 +54,10 @@ public class NetworkUtils {
         } else {
             list.add(new UIObject(context.getString(R.string.network_wifi), context.getResources().getString(R.string.not_present)));
         }
+        
+        
+        
+        
 
         // check WAN state and if present in device
         if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
@@ -142,13 +146,41 @@ public class NetworkUtils {
     }
 
 
-    public static List<UIObject> getWifiInformation(Context context, boolean isLocationPermissionEnabled) {
-
-        List<UIObject> list = new ArrayList<>();
+    public static List<UIObject> getDHCPInfo(Context context) {
 
 
         WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wifiManager == null || !wifiManager.isWifiEnabled()) {
+            return null;
+        }
+
+        List<UIObject> list = new ArrayList<>();
+
+        //dhcp address
+        DhcpInfo dhcpInformation = wifiManager.getDhcpInfo();
+
+        list.add(new UIObject(context.getString(R.string.network_dhcp), "", 1));
+
+        list.add(new UIObject(context.getString(R.string.network_ip_address), intToInetAddress(dhcpInformation.ipAddress).getHostAddress()));
+
+        list.add(new UIObject(context.getString(R.string.network_gateway_ip), intToInetAddress(dhcpInformation.gateway).getHostAddress()));
+        list.add(new UIObject(context.getString(R.string.network_netmask), intToInetAddress(dhcpInformation.netmask).getHostAddress()));
+        list.add(new UIObject(context.getString(R.string.network_dns1), intToInetAddress(dhcpInformation.dns1).getHostAddress()));
+        list.add(new UIObject(context.getString(R.string.network_dns2), intToInetAddress(dhcpInformation.dns2).getHostAddress()));
+        list.add(new UIObject(context.getString(R.string.network_dhcp_ip), intToInetAddress(dhcpInformation.serverAddress).getHostAddress()));
+        list.add(new UIObject(context.getString(R.string.network_lease_duration), String.valueOf(dhcpInformation.leaseDuration), "s"));
+        return list;
+    }
+    
+    public static List<UIObject> getWifiInformation(Context context, boolean isLocationPermissionEnabled) {
+
+        List<UIObject> list = new ArrayList<>();
+
+        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (wifiManager == null || !wifiManager.isWifiEnabled()) {
+            if (wifiManager != null) {
+                list.add(new UIObject(context.getString(R.string.wifi_state), getWifiStateString(context, wifiManager.getWifiState())));
+            }
             return list;
         }
 
@@ -163,6 +195,8 @@ public class NetworkUtils {
         list.add(new UIObject(context.getString(R.string.network_wifi_info), "", 1));
 
         // WIFI Connected info
+        list.add(new UIObject(context.getString(R.string.wifi_state), getWifiStateString(context, wifiManager.getWifiState())));
+
         String ssid = wifiInfo.getSSID().replaceAll("\"", "");
         if (!ssid.equals("0x")) {
             list.add(new UIObject(context.getString(R.string.network_ssid), ssid));
@@ -202,6 +236,7 @@ public class NetworkUtils {
             list.add(new UIObject(context.getString(R.string.network_ap_capabilities), scanResult.capabilities));
 
             if (Build.VERSION.SDK_INT > 22) {
+                    list.add(new UIObject(context.getString(R.string.wifi_channel_width), getChannelWidth(context,scanResult.channelWidth)));
                 if (scanResult.centerFreq0 > 0) {
                     list.add(new UIObject(context.getString(R.string.network_center_f0), String.valueOf(scanResult.centerFreq0), "MHz"));
                 }
@@ -241,25 +276,24 @@ public class NetworkUtils {
             bssidTemp = wifiInfo.getBSSID();
         }
         list.add(new UIObject(context.getString(R.string.network_roaming), lastRoaming));
-
-
-        //dhcp address
-        DhcpInfo dhcpInformation = wifiManager.getDhcpInfo();
-
-        list.add(new UIObject(context.getString(R.string.network_dhcp), "", 1));
-
-        list.add(new UIObject(context.getString(R.string.network_ip_address), intToInetAddress(dhcpInformation.ipAddress).getHostAddress()));
-
-        list.add(new UIObject(context.getString(R.string.network_gateway_ip), intToInetAddress(dhcpInformation.gateway).getHostAddress()));
-        list.add(new UIObject(context.getString(R.string.network_netmask), intToInetAddress(dhcpInformation.netmask).getHostAddress()));
-        list.add(new UIObject(context.getString(R.string.network_dns1), intToInetAddress(dhcpInformation.dns1).getHostAddress()));
-        list.add(new UIObject(context.getString(R.string.network_dns2), intToInetAddress(dhcpInformation.dns2).getHostAddress()));
-        list.add(new UIObject(context.getString(R.string.network_dhcp_ip), intToInetAddress(dhcpInformation.serverAddress).getHostAddress()));
-        list.add(new UIObject(context.getString(R.string.network_lease_duration), String.valueOf(dhcpInformation.leaseDuration), "s"));
-
         return list;
     }
 
+
+    private static String getWifiStateString(Context context, int state) {
+        switch (state) {
+            case WifiManager.WIFI_STATE_DISABLING:
+                return context.getString(R.string.wifi_disabling);
+            case WifiManager.WIFI_STATE_DISABLED:
+                return context.getString(R.string.wifi_disabled);
+            case WifiManager.WIFI_STATE_ENABLING:
+                return context.getString(R.string.wifi_enabling);
+            case WifiManager.WIFI_STATE_ENABLED:
+                return context.getString(R.string.wifi_enabled);
+            default:
+                return context.getResources().getString(R.string.unknown);
+        }
+    }
 
     private static String getChannelWidth(Context context, int width) {
         switch (width) {
@@ -274,7 +308,7 @@ public class NetworkUtils {
             case ScanResult.CHANNEL_WIDTH_80MHZ_PLUS_MHZ:
                 return "80 + 80 MHz";
             default:
-                return context.getResources().getString(R.string.not_available_info);
+                return context.getResources().getString(R.string.unknown);
         }
     }
 
