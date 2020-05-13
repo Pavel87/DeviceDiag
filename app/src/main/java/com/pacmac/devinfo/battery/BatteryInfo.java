@@ -42,12 +42,12 @@ public class BatteryInfo extends AppCompatActivity implements ExportTask.OnExpor
         super.onCreate(savedInstanceState);
         setContentView(R.layout.default_info);
 
-        Utility.showBannerAdView(this.findViewById(android.R.id.content), getApplicationContext(), R.string.banner_id_4);
+//        Utility.showBannerAdView(this.findViewById(android.R.id.content), getApplicationContext(), R.string.banner_id_4);
 
         viewModel = new ViewModelProvider(this).get(BatteryViewModel.class);
         viewModel.registerReceiver(getApplicationContext());
         mRecyclerView = findViewById(R.id.recylerView);
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(false);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mItemAdapter = new BasicItemAdapter(this, new ArrayList<>());

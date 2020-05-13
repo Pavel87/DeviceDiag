@@ -480,25 +480,29 @@ public class MobileNetworkUtil {
     public static UIObject getVoiceMailNumber(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
         String phoneNumber;
 
-        if (!isMultiSIM || Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
-            phoneNumber = telephonyManager.getVoiceMailNumber();
-        } else {
-            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
-            if (subscriptionManager == null) {
-                return new UIObject(context.getResources().getString(R.string.voicemail_number),
-                        context.getResources().getString(R.string.not_available_info));
-            }
-            @SuppressLint("MissingPermission")
-            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
-            if (subscriptionInfo == null) {
-                return new UIObject(context.getResources().getString(R.string.voicemail_number),
-                        context.getResources().getString(R.string.not_available_info));
+        try {
+            if (!isMultiSIM || Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+                phoneNumber = telephonyManager.getVoiceMailNumber();
             } else {
-                phoneNumber = getOutput(telephonyManager, "getVoiceMailNumber", subscriptionInfo.getSubscriptionId());
+                SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+                if (subscriptionManager == null) {
+                    return new UIObject(context.getResources().getString(R.string.voicemail_number),
+                            context.getResources().getString(R.string.not_available_info));
+                }
+                @SuppressLint("MissingPermission")
+                SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+                if (subscriptionInfo == null) {
+                    return new UIObject(context.getResources().getString(R.string.voicemail_number),
+                            context.getResources().getString(R.string.not_available_info));
+                } else {
+                    phoneNumber = getOutput(telephonyManager, "getVoiceMailNumber", subscriptionInfo.getSubscriptionId());
+                }
             }
-        }
-        if (phoneNumber == null || phoneNumber.length() == 0) {
-            phoneNumber = context.getResources().getString(R.string.not_available_info);
+            if (phoneNumber == null || phoneNumber.length() == 0) {
+                phoneNumber = context.getResources().getString(R.string.not_available_info);
+            }
+        } catch (Exception e){
+            phoneNumber = context.getResources().getString(R.string.error);
         }
         return new UIObject(context.getResources().getString(R.string.voicemail_number), phoneNumber);
     }

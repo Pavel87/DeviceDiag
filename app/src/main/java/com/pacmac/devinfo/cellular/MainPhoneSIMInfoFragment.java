@@ -59,7 +59,7 @@ public class MainPhoneSIMInfoFragment extends Fragment {
 
 
         basicRecyclerView = view.findViewById(R.id.basicInfo);
-        basicRecyclerView.setHasFixedSize(true);
+        basicRecyclerView.setHasFixedSize(false);
         basicLinearLayoutManager = new LinearLayoutManager(getContext());
         basicRecyclerView.setLayoutManager(basicLinearLayoutManager);
         basicItemAdapter = new BasicItemAdapter(getContext(), new ArrayList<>());
@@ -71,7 +71,7 @@ public class MainPhoneSIMInfoFragment extends Fragment {
 
 
         simRecyclerView = view.findViewById(R.id.simList);
-        simRecyclerView.setHasFixedSize(true);
+        simRecyclerView.setHasFixedSize(false);
         simLinearLayoutManager = new LinearLayoutManager(getContext());
         simRecyclerView.setLayoutManager(simLinearLayoutManager);
         simInfoAdapter = new SIMInfoAdapter(getContext(), new ArrayList<>());

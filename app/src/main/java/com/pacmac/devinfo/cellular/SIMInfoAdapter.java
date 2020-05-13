@@ -38,7 +38,7 @@ public class SIMInfoAdapter extends RecyclerView.Adapter<SIMInfoAdapter.MyViewHo
             super(itemView);
             slotID = itemView.findViewById(R.id.simID);
             mRecyclerView = itemView.findViewById(R.id.simInfo);
-            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setHasFixedSize(false);
             basicLinearLayoutManager = new LinearLayoutManager(context);
             mRecyclerView.setLayoutManager(basicLinearLayoutManager);
         }

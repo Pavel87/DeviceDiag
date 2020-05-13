@@ -54,10 +54,7 @@ public class NetworkUtils {
         } else {
             list.add(new UIObject(context.getString(R.string.network_wifi), context.getResources().getString(R.string.not_present)));
         }
-        
-        
-        
-        
+
 
         // check WAN state and if present in device
         if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
@@ -171,7 +168,7 @@ public class NetworkUtils {
         list.add(new UIObject(context.getString(R.string.network_lease_duration), String.valueOf(dhcpInformation.leaseDuration), "s"));
         return list;
     }
-    
+
     public static List<UIObject> getWifiInformation(Context context, boolean isLocationPermissionEnabled) {
 
         List<UIObject> list = new ArrayList<>();
@@ -223,7 +220,16 @@ public class NetworkUtils {
             list.add(new UIObject(context.getString(R.string.network_link_speed), String.valueOf(wifiInfo.getLinkSpeed()), WifiInfo.LINK_SPEED_UNITS));
 
         }
-        list.add(new UIObject(context.getString(R.string.network_wifi_freq), String.valueOf(getFrequency(context, wifiInfo.getBSSID())), "MHz"));
+
+        int wifiFrequency = getFrequency(context, wifiInfo.getBSSID());
+        if (wifiFrequency > 0) {
+            WifiChannel channel = WifiChannel.getChannel(wifiFrequency);
+            list.add(new UIObject(context.getString(R.string.network_wifi_freq), String.valueOf(getFrequency(context, wifiInfo.getBSSID())), "MHz"));
+
+            if (channel != WifiChannel.UNKNOWN) {
+                list.add(new UIObject(context.getString(R.string.network_wifi_channel), String.valueOf(channel.getChannel())));
+            }
+        }
 
         list.add(new UIObject(context.getString(R.string.network_supplicant_state), wifiInfo.getSupplicantState().name()));
 
@@ -236,7 +242,7 @@ public class NetworkUtils {
             list.add(new UIObject(context.getString(R.string.network_ap_capabilities), scanResult.capabilities));
 
             if (Build.VERSION.SDK_INT > 22) {
-                    list.add(new UIObject(context.getString(R.string.wifi_channel_width), getChannelWidth(context,scanResult.channelWidth)));
+                list.add(new UIObject(context.getString(R.string.wifi_channel_width), getChannelWidth(context, scanResult.channelWidth)));
                 if (scanResult.centerFreq0 > 0) {
                     list.add(new UIObject(context.getString(R.string.network_center_f0), String.valueOf(scanResult.centerFreq0), "MHz"));
                 }

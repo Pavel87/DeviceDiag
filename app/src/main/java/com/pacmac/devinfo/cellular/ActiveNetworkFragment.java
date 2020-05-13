@@ -53,7 +53,7 @@ public class ActiveNetworkFragment extends Fragment {
         Utility.showBannerAdView(view, getContext(), R.string.banner_id_6);
 
         networkRecyclerView = view.findViewById(R.id.recylerView);
-        networkRecyclerView.setHasFixedSize(true);
+        networkRecyclerView.setHasFixedSize(false);
         networkLinearLayoutManager = new LinearLayoutManager(getContext());
         networkRecyclerView.setLayoutManager(networkLinearLayoutManager);
         networkItemAdapter = new BasicItemAdapter(getContext(), new ArrayList<>());

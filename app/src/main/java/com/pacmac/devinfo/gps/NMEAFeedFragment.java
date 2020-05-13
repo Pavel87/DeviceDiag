@@ -57,7 +57,7 @@ public class NMEAFeedFragment extends Fragment implements OnNmeaMessageListener 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        Utility.showBannerAdView(view, getContext(), R.string.banner_id_13);
+//        Utility.showBannerAdView(view, getContext(), R.string.banner_id_13);
 
         viewModel = new ViewModelProvider(getActivity()).get(GPSViewModel.class);
 

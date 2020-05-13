@@ -68,7 +68,7 @@ public class FragmentMain extends Fragment implements ExportTask.OnExportTaskFin
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         mRecyclerView = view.findViewById(R.id.recylerView);
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(false);
         mLinearLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mItemAdapter = new BasicItemAdapter(getContext(), new ArrayList<>());

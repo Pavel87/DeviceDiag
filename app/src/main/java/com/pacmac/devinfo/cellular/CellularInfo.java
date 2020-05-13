@@ -187,11 +187,15 @@ public class CellularInfo extends AppCompatActivity implements ExportTask.OnExpo
 
     @Override
     public void onBackPressed() {
-        if (!searchView.isIconified()) {
-            searchView.setIconified(true);
-            return;
+        try {
+            if (!searchView.isIconified()) {
+                searchView.setIconified(true);
+                return;
+            }
+            super.onBackPressed();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        super.onBackPressed();
     }
 
     @Override

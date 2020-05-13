@@ -52,8 +52,8 @@
     <string name="what_is_new">What is new</string>
     <string name="new_features1">- Improved stability</string>
     <string name="new_features2">Several bug fixes.</string>
-    <string name="new_features3">- Phone &amp; SIM Info</string>
-    <string name="new_features4">Updated information for DUAL SIM phones.</string>
+    <string name="new_features3">- WiFi Information</string>
+    <string name="new_features4">Added WiFi Channel</string>
     <string name="new_features5">- Added headers for data exports</string>
     <string name="title_activity_cellular_info">Cellular Info</string>
     <string name="cell_phone_sim_tab">SIM</string>
@@ -373,6 +373,7 @@
     <string name="network_rx_link_speed">Receive Link Speed</string>
     <string name="network_link_speed">Link Speed</string>
     <string name="network_wifi_freq">WIFI Frequency</string>
+    <string name="network_wifi_channel">Channel</string>
     <string name="network_supplicant_state">Supplicant State</string>
     <string name="network_ap_capabilities">AP Capabilities</string>
     <string name="network_center_f0">Center Frequency F0</string>

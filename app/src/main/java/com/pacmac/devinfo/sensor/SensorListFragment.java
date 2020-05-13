@@ -69,7 +69,7 @@ public class SensorListFragment extends Fragment implements ExportTask.OnExportT
         recyclerView = view.findViewById(R.id.recylerView);
         mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(false);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         sensorAdapter = new SensorAdapter(assetListClickListener, new ArrayList<>());

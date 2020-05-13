@@ -52,7 +52,7 @@ public class NetworkInfo extends AppCompatActivity implements ExportTask.OnExpor
         handler = new Handler();
         viewModel = new ViewModelProvider(this).get(NetworkViewModel.class);
         mRecyclerView = findViewById(R.id.recylerView);
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(false);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mItemAdapter = new BasicItemAdapter(this, new ArrayList<>());

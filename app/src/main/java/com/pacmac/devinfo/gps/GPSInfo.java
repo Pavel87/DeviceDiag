@@ -242,7 +242,7 @@ public class GPSInfo extends AppCompatActivity implements LocationListener, Expo
         int second = cal.get(Calendar.SECOND);
 
 
-        viewModel.setUpdateTime(String.format(Locale.ENGLISH, "%d:%d:%d", hour, minute, second));
+        viewModel.setUpdateTime(String.format(Locale.ENGLISH, "%d:%02d:%d", hour, minute, second));
         viewModel.setLatitude(String.valueOf(location.getLatitude()));
         viewModel.setLongitude(String.valueOf(location.getLongitude()));
         viewModel.setAltitude(String.valueOf(location.getAltitude()));

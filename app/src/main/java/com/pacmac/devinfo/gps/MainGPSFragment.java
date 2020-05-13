@@ -57,11 +57,11 @@ public class MainGPSFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        Utility.showBannerAdView(view, getContext(), R.string.banner_id_11);
+//        Utility.showBannerAdView(view, getContext(), R.string.banner_id_11);
 
         locationUpdateTime = view.findViewById(R.id.locUpdate);
         mRecyclerView = view.findViewById(R.id.recylerView);
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(false);
         mLinearLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mItemAdapter = new BasicItemAdapter(getContext(), new ArrayList<>());

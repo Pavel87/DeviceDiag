@@ -51,7 +51,7 @@ public class CameraGeneralFragment extends Fragment {
         Utility.showBannerAdView(view, getContext(), R.string.banner_id_5);
 
         mRecyclerView = view.findViewById(R.id.recylerView);
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(false);
         mLinearLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mItemAdapter = new BasicItemAdapter(getContext(), new ArrayList<>());

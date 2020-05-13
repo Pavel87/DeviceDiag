@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -38,12 +39,12 @@ public class StorageInfo extends AppCompatActivity implements ExportTask.OnExpor
         super.onCreate(savedInstanceState);
         setContentView(R.layout.default_info);
 
-        Utility.showBannerAdView(this.findViewById(android.R.id.content), getApplicationContext(), R.string.banner_id_9);
+//        Utility.showBannerAdView(this.findViewById(android.R.id.content), getApplicationContext(), R.string.banner_id_9);
 
         viewModel = new ViewModelProvider(this).get(StorageViewModel.class);
 
         mRecyclerView = findViewById(R.id.recylerView);
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(false);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mItemAdapter = new BasicItemAdapter(this, new ArrayList<>());

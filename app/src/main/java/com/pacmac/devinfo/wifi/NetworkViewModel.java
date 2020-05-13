@@ -1,6 +1,7 @@
 package com.pacmac.devinfo.wifi;
 
 import android.content.Context;
+import android.os.Looper;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -24,8 +25,12 @@ public class NetworkViewModel extends ViewModel {
     private List<UIObject> wifiFeatures = new ArrayList<>();
 
 
-    public MutableLiveData<List<UIObject>> getWifiInfo(Context context) {
-        loadWifiInfo(context);
+    public MutableLiveData<List<UIObject>> getWifiInfo(final Context context) {
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            new Thread(() -> loadWifiInfo(context)).start();
+        } else {
+            loadWifiInfo(context);
+        }
         return wifiInfo;
     }
 

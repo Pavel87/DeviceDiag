@@ -52,7 +52,7 @@ public class CellTowerInfoFragment extends Fragment {
         Utility.showBannerAdView(view, getContext(), R.string.banner_id_7);
 
         cellRecyclerView = view.findViewById(R.id.recylerView);
-        cellRecyclerView.setHasFixedSize(true);
+        cellRecyclerView.setHasFixedSize(false);
         cellLinearLayoutManager = new LinearLayoutManager(getContext());
         cellRecyclerView.setLayoutManager(cellLinearLayoutManager);
         cellItemAdapter = new BasicItemAdapter(getContext(), new ArrayList<>());

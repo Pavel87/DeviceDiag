@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingBottom="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/adContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -37,8 +36,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_bold"
-                    android:textColor="@color/text_secondary"
                     android:text="@string/last_update"
+                    android:textColor="@color/text_secondary"
                     android:textSize="24sp" />
 
                 <TextView
@@ -47,9 +46,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:elegantTextHeight="true"
-                    android:textColor="@color/text_primary"
                     android:fontFamily="@font/nunito"
                     android:text="--:--:--"
+                    android:textColor="@color/text_primary"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -60,6 +59,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/white"
                 android:scrollbars="none"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -70,18 +70,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-    <LinearLayout
-        android:id="@+id/adContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:minHeight="54dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
