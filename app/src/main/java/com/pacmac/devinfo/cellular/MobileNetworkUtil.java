@@ -1347,6 +1347,10 @@ public class MobileNetworkUtil {
             }
 
             TelephonyManager t = telephonyManager.createForSubscriptionId(subscriptionInfo.getSubscriptionId());
+            if (t == null) {
+                return new UIObject(context.getResources().getString(R.string.duplex_mode),
+                        context.getResources().getString(R.string.not_available_info));
+            }
             duplexMode = t.getServiceState().getDuplexMode();
         }
 
