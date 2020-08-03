@@ -50,7 +50,7 @@ public class ActiveNetworkFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        Utility.showBannerAdView(view, getContext(), R.string.banner_id_6);
+        Utility.showBannerAdView(getActivity(), view, getContext(), R.string.banner_id_6);
 
         networkRecyclerView = view.findViewById(R.id.recylerView);
         networkRecyclerView.setHasFixedSize(false);

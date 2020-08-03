@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -168,7 +169,7 @@ public class Utility {
 
     private final static boolean isFreeOfAds = false;
 
-    public static void showBannerAdView(View view, Context context, final int bannerID) {
+    public static void showBannerAdView(Activity activity, View view, Context context, final int bannerID) {
         View adContainer = view.findViewById(R.id.adContainer);
 
         if (isFreeOfAds) {
@@ -177,11 +178,33 @@ public class Utility {
         }
 
         AdView mAdView = new AdView(context);
-        mAdView.setAdSize(AdSize.BANNER);
+
+        AdSize adSize = getAdSize(activity, context, adContainer);
+        mAdView.setAdSize(adSize);
         mAdView.setAdUnitId(context.getResources().getString(bannerID));
         ((LinearLayout) adContainer).addView(mAdView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+    }
+
+    private static AdSize getAdSize(Activity activity, Context context, View view) {
+        // Determine the screen width (less decorations) to use for the ad width.
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        display.getMetrics(outMetrics);
+
+        float density = outMetrics.density;
+
+        float adWidthPixels = view.getWidth();
+
+        // If the ad hasn't been laid out, default to the full screen width.
+        if (adWidthPixels == 0) {
+            adWidthPixels = outMetrics.widthPixels;
+        }
+
+        int adWidth = (int) (adWidthPixels / density);
+
+        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, adWidth);
     }
 
     public static UpToDateEnum hasVersionIncreased(String[] installedVersion, String serverAppVersionString) {

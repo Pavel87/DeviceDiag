@@ -61,7 +61,7 @@ public class SensorListFragment extends Fragment implements ExportTask.OnExportT
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        Utility.showBannerAdView(view, getContext(), R.string.banner_id_8);
+        Utility.showBannerAdView(getActivity(), view, getContext(), R.string.banner_id_8);
 
 
         viewModel = new ViewModelProvider(this).get(SensorViewModel.class);

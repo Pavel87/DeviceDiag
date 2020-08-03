@@ -48,7 +48,7 @@ public class CameraGeneralFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        Utility.showBannerAdView(view, getContext(), R.string.banner_id_5);
+        Utility.showBannerAdView(getActivity(), view, getContext(), R.string.banner_id_5);
 
         mRecyclerView = view.findViewById(R.id.recylerView);
         mRecyclerView.setHasFixedSize(false);

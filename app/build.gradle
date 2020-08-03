@@ -5,14 +5,14 @@ android {
         config {
         }
     }
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.1"
     defaultConfig {
         applicationId "com.pacmac.devicediag"
         minSdkVersion 17
-        targetSdkVersion 29
-        versionCode 61
-        versionName "2.0.3"
+        targetSdkVersion 30
+        versionCode 62
+        versionName "2.0.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

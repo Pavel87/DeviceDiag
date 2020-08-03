@@ -49,7 +49,7 @@ public class CellTowerInfoFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Utility.showBannerAdView(view, getContext(), R.string.banner_id_7);
+        Utility.showBannerAdView(getActivity(), view, getContext(), R.string.banner_id_7);
 
         cellRecyclerView = view.findViewById(R.id.recylerView);
         cellRecyclerView.setHasFixedSize(false);
