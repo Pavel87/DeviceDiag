@@ -55,7 +55,7 @@ public class MainPhoneSIMInfoFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        Utility.showBannerAdView(view, getContext(), R.string.banner_id_14);
+        Utility.showBannerAdView(getActivity(), view, getContext(), R.string.banner_id_14);
 
 
         basicRecyclerView = view.findViewById(R.id.basicInfo);

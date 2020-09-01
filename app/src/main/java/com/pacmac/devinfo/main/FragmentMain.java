@@ -62,7 +62,7 @@ public class FragmentMain extends Fragment implements ExportTask.OnExportTaskFin
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Utility.showBannerAdView(view, getContext(), R.string.banner_id_1);
+        Utility.showBannerAdView(getActivity(), view, getContext(), R.string.banner_id_1);
         view.findViewById(R.id.buildPropsBtn).
                 setOnClickListener(v -> startActivity(new Intent(getContext(), BuildPropertiesActivity.class)));
 

@@ -60,7 +60,7 @@ public class FragmentDashboard extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        Utility.showBannerAdView(view, getContext(), R.string.banner_id_2);
+        Utility.showBannerAdView(getActivity(), view, getContext(), R.string.banner_id_2);
 
         int gridColumns = 2;
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT) {

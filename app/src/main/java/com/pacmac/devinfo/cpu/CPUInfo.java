@@ -46,7 +46,7 @@ public class CPUInfo extends AppCompatActivity implements ExportTask.OnExportTas
         super.onCreate(savedInstanceState);
         setContentView(R.layout.default_info);
 
-        Utility.showBannerAdView(this.findViewById(android.R.id.content), getApplicationContext(), R.string.banner_id_3);
+        Utility.showBannerAdView(CPUInfo.this, this.findViewById(android.R.id.content), getApplicationContext(), R.string.banner_id_3);
 
         handler = new Handler();
         viewModel = new ViewModelProvider(this).get(CPUViewModel.class);

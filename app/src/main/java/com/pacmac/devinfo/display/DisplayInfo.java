@@ -39,7 +39,7 @@ public class DisplayInfo extends AppCompatActivity implements ExportTask.OnExpor
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_info);
 
-        Utility.showBannerAdView(this.findViewById(android.R.id.content), getApplicationContext(), R.string.banner_id_16);
+        Utility.showBannerAdView(DisplayInfo.this, this.findViewById(android.R.id.content), getApplicationContext(), R.string.banner_id_16);
 
         viewModel = new ViewModelProvider(this).get(DisplayViewModel.class);
         mRecyclerView = findViewById(R.id.recylerView);

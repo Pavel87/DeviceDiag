@@ -215,7 +215,7 @@ public class SensorDetailFrag extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Utility.showBannerAdView(view, getContext(), R.string.banner_id_15);
+        Utility.showBannerAdView(getActivity(), view, getContext(), R.string.banner_id_15);
 
         handler = new Handler();
         mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);

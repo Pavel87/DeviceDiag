@@ -64,7 +64,7 @@ public class CameraInfoFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        Utility.showBannerAdView(view, getContext(), R.string.banner_id_10);
+        Utility.showBannerAdView(getActivity(), view, getContext(), R.string.banner_id_10);
 
         viewModel = new ViewModelProvider(getActivity()).get(CameraViewModel.class);
         camID = getArguments().getInt("ID");
