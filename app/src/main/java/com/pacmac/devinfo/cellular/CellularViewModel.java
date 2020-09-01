@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
+import com.pacmac.devinfo.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,6 +133,10 @@ public class CellularViewModel extends ViewModel {
         if (telephonyManager == null) {
             return;
         }
+        boolean isPhoneNumberPermissionEnabled = true;
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
+            isPhoneNumberPermissionEnabled = Utility.checkPermission(context, Utility.PHONE_NUMBER_PERMISSION);
+        }
 
         List<List<UIObject>> list = new ArrayList<>();
         int slotCount = 0;
@@ -146,7 +151,7 @@ public class CellularViewModel extends ViewModel {
         for (int i = 0; i < slotCount; i++) {
             List<UIObject> simInfo = new ArrayList<>();
             simInfo.add(MobileNetworkUtil.getSimState(context, telephonyManager, i, isMultiSIM));
-            simInfo.add(MobileNetworkUtil.getLine1Number(context, telephonyManager, i, isMultiSIM));
+            simInfo.add(MobileNetworkUtil.getLine1Number(context, telephonyManager, i, isMultiSIM, isPhoneNumberPermissionEnabled));
             simInfo.add(MobileNetworkUtil.getVoiceMailNumber(context, telephonyManager, i, isMultiSIM));
             simInfo.add(MobileNetworkUtil.getSIMServiceProviderName(context, telephonyManager, i, isMultiSIM));
             simInfo.add(MobileNetworkUtil.getSIMMCC(context, telephonyManager, i, isMultiSIM));

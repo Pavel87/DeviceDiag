@@ -37,6 +37,7 @@ public class FragmentDashboard extends Fragment {
 
     boolean isLocPermissionEnabled = true;
     boolean isPhonePermissionEnabled = true;
+    boolean isPhoneNumberPermissionEnabled = true;
     boolean isStoragePermissionEnabled = true;
     boolean isCameraPermissionEnabled = true;
 
@@ -87,12 +88,10 @@ public class FragmentDashboard extends Fragment {
                         }
                     }
                     i = new Intent(getActivity(), StorageInfo.class);
-                    if (i.resolveActivity(getActivity().getPackageManager()) != null)
                         startActivity(i);
                     break;
                 case 2:
                     i = new Intent(getActivity(), BatteryInfo.class);
-                    if (i.resolveActivity(getActivity().getPackageManager()) != null)
                         startActivity(i);
                     break;
                 case 3:
@@ -106,7 +105,6 @@ public class FragmentDashboard extends Fragment {
                     }
 
                     i = new Intent(getActivity(), CameraInfo.class);
-                    if (i.resolveActivity(getActivity().getPackageManager()) != null)
                         startActivity(i);
                     break;
                 case 4:
@@ -119,7 +117,6 @@ public class FragmentDashboard extends Fragment {
                             }
                         }
                         i = new Intent(getActivity(), GPSInfo.class);
-                        if (i.resolveActivity(getActivity().getPackageManager()) != null)
                             startActivity(i);
                     } else {
                         Toast.makeText(getContext(), R.string.gps_not_available_in_device, Toast.LENGTH_LONG).show();
@@ -128,6 +125,9 @@ public class FragmentDashboard extends Fragment {
                 case 5:
                     isLocPermissionEnabled = Utility.checkPermission(getContext(), Utility.ACCESS_FINE_LOCATION);
                     isPhonePermissionEnabled = Utility.checkPermission(getContext(), Utility.PHONE_PERMISSION);
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
+                        isPhoneNumberPermissionEnabled = Utility.checkPermission(getContext(), Utility.PHONE_NUMBER_PERMISSION);
+                    }
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
                         if (!isPhonePermissionEnabled) {
                             Utility.displayExplanationForPermission(getActivity(), getResources().getString(R.string.phone_permission_msg), new String[]{Utility.PHONE_PERMISSION});
@@ -137,20 +137,22 @@ public class FragmentDashboard extends Fragment {
                             Utility.displayExplanationForPermission(getActivity(), getResources().getString(R.string.location_permission_msg), Utility.getLocationPermissions());
                             return;
                         }
+
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q && !isPhoneNumberPermissionEnabled) {
+                            Utility.displayExplanationForPermission(getActivity(), getResources().getString(R.string.phone_number_permission_msg), new String[]{Utility.PHONE_NUMBER_PERMISSION});
+                            return;
+                        }
                     }
                     i = new Intent(getActivity(), CellularInfo.class);
-                    if (i.resolveActivity(getActivity().getPackageManager()) != null)
-                        startActivity(i);
+                    startActivity(i);
                     break;
                 case 6:
                     i = new Intent(getActivity(), SensorsInfo.class);
-                    if (i.resolveActivity(getActivity().getPackageManager()) != null)
                         startActivity(i);
                     break;
 
                 case 7:
                     i = new Intent(getActivity(), DisplayInfo.class);
-                    if (i.resolveActivity(getActivity().getPackageManager()) != null)
                         startActivity(i);
                     break;
                 case 8:
@@ -162,12 +164,10 @@ public class FragmentDashboard extends Fragment {
                         }
                     }
                     i = new Intent(getActivity(), NetworkInfo.class);
-                    if (i.resolveActivity(getActivity().getPackageManager()) != null)
                         startActivity(i);
                     break;
                 case 9:
                     i = new Intent(getActivity(), AboutActivity.class);
-                    if (i.resolveActivity(getActivity().getPackageManager()) != null)
                         startActivity(i);
                     break;
             }

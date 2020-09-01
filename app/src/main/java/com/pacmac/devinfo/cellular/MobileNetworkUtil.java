@@ -451,7 +451,14 @@ public class MobileNetworkUtil {
     }
 
     @SuppressLint("MissingPermission")
-    public static UIObject getLine1Number(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
+    public static UIObject getLine1Number(Context context, TelephonyManager telephonyManager, int slotID,
+                                          boolean isMultiSIM, boolean isPhoneNumberPermissionEnabled) {
+
+        if (!isPhoneNumberPermissionEnabled) {
+            return new UIObject(context.getResources().getString(R.string.phone_number),
+                    context.getResources().getString(R.string.not_available_info));
+        }
+
         String phoneNumber;
 
         if (!isMultiSIM || Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
