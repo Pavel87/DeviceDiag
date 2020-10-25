@@ -39,9 +39,10 @@
     <string name="shareTextTitle1">**********************************</string>
     <string name="exit_msg">Do you want to exit?</string>
     <string name="send_feedback">Send Feedback</string>
-    <string name="rate_app">SUBMIT RATING</string>
+    <string name="rate_app_new_feature">App Review</string>
+    <string name="rate_app">Submit App Review</string>
     <string name="feedback_subject">Device Info Feedback</string>
-    <string name="version_text">Version: </string>
+    <string name="version_text">Version:</string>
     <string name="app_description">Device Info is an application which queries data from android device and obtain HW features which are normally not available through user interface. It contains several modules visible from main menu. Device Info application also offers a possibility to test GPS and network using ping command.\n\nGoogle Play and the Google Play logo are trademarks of Google LLC.</string>
     <string name="app_author">Device Info by pacmac 2020.</string>
     <string name="rta_dialog_message">If you like using this app, would you mind taking a moment to rate it? It won\'t take more than a minute. Thank you for your support!</string>
@@ -51,11 +52,15 @@
     <string name="location_permission_msg">Location permission is required in order to display information about mobile network environment.</string>
     <string name="storage_permission_msg">Storage permission is currently disabled. To be able to read storage capacity you need to accept this permission.</string>
     <string name="what_is_new">What is new</string>
-    <string name="new_features1">- Improved stability</string>
-    <string name="new_features2">Several bug fixes.</string>
-    <string name="new_features3">- WiFi Information</string>
+    <string name="new_features1">- Mobile Network Information</string>
+<!--    <string name="new_features2">LTE/5G Cell Bands-->
+<!--PLMN list configured on cell tower-->
+<!--Meteredness of cellular connection-->
+<!--5G Non Stand Alone Detection-->
+<!--Closed Subscriber Group detection</string>-->
+    <string name="new_features3">- WiFi Information in Android 11</string>
     <string name="new_features4">Added WiFi Channel</string>
-    <string name="new_features5">- Added headers for data exports</string>
+    <string name="new_features5">- Improved stability</string>
     <string name="title_activity_cellular_info">Cellular Info</string>
     <string name="cell_phone_sim_tab">SIM</string>
     <string name="cell_network_tab">Network</string>

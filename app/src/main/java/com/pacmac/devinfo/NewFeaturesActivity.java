@@ -3,10 +3,16 @@ package com.pacmac.devinfo;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
+import com.google.android.play.core.tasks.Task;
+import com.pacmac.devinfo.utils.Utility;
 
 public class NewFeaturesActivity extends AppCompatActivity {
 
@@ -28,6 +34,28 @@ public class NewFeaturesActivity extends AppCompatActivity {
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackage));
                 startActivity(intent);
             }
+        });
+
+
+        findViewById(R.id.rateApp).setOnClickListener((view) -> {
+            ReviewManager manager = ReviewManagerFactory.create(NewFeaturesActivity.this);
+            Task<ReviewInfo> request = manager.requestReviewFlow();
+            request.addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    // We can get the ReviewInfo object
+                    ReviewInfo reviewInfo = task.getResult();
+                    Task<Void> flow = manager.launchReviewFlow(NewFeaturesActivity.this, reviewInfo);
+                    flow.addOnCompleteListener(flowTask -> {
+                        Log.e("PACMAC", "Review flow has finished: " + flowTask.isSuccessful());
+                        // The flow has finished. The API does not indicate whether the user
+                        // reviewed or not, or even whether the review dialog was shown. Thus, no
+                        // matter the result, we continue our app flow.
+                    });
+                } else {
+                    // There was some problem, continue regardless of the result.
+                    Utility.showRateDialog(NewFeaturesActivity.this);
+                }
+            });
         });
     }
 }

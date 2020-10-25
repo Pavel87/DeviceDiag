@@ -22,6 +22,7 @@ import androidx.core.content.PermissionChecker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.pacmac.devinfo.AboutActivity;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.UpToDateEnum;
@@ -234,6 +235,25 @@ public class Utility {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss.SSS ", Locale.getDefault());
         return simpleDateFormat.format(new Date(timestamp));
     }
+
+
+    public static void showRateDialog(Context context) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.rateit_dialog);
+        dialog.setCancelable(false);
+
+        Button yesButton = dialog.findViewById(R.id.yesExit);
+        yesButton.setOnClickListener(view -> {
+            Utility.launchPlayStore(context);
+            dialog.dismiss();
+        });
+
+        Button noButton = dialog.findViewById(R.id.noExit);
+        noButton.setOnClickListener(view -> dialog.dismiss());
+        dialog.show();
+    }
+
 }
 
 
