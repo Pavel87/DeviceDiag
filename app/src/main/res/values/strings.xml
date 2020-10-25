@@ -83,6 +83,11 @@
     <string name="arfcn">Absolute RF Channel Number</string>
     <string name="bsic">Base Station Identity Code</string>
     <string name="bandwidth">Bandwidth</string>
+    <string name="cell_bands">Available Bands</string>
+    <string name="csg_identity">Closed Subscriber Group - Identity</string>
+    <string name="csg_restriction">CSG - Restriction</string>
+    <string name="csg_hnb_name">CSG - Home Node B Name</string>
+    <string name="plmn_list">Cell PLMN List</string>
     <string name="connection_status">Connection Status</string>
     <string name="cell_type">Cell Type</string>
     <string name="cpid">Cell Parameters ID</string>
@@ -155,8 +160,8 @@
     <string name="last_update">Last Update:</string>
     <string name="start">Start</string>
     <string name="active_satellites">Active Satellites</string>
-    <string name="azimuth">Azimuth:</string>
-    <string name="elevation">Elevation:</string>
+    <string name="azimuth">Azimuth</string>
+    <string name="elevation">Elevation</string>
     <string name="type_in_your_feedback">Type in your feedback</string>
     <string name="send">SEND</string>
     <string name="sensor">Sensor</string>
@@ -353,6 +358,7 @@
     <string name="network_mobile_data">MOBILE DATA</string>
     <string name="network_link_down_bandwidth">Link Downstream Bandwidth</string>
     <string name="network_up_bandwidth">Link Upstream Bandwidth</string>
+    <string name="network_meteredness">Metered Network</string>
     <string name="network_supported_features">Supported Features</string>
     <string name="network_five_ghz_band">5GHz Band</string>
     <string name="network_ap_rtt">Device-to-AP RTT</string>
@@ -365,13 +371,19 @@
     <string name="network_owe">Wi-Fi Enhanced Open (OWE)</string>
     <string name="network_sae">WPA3-Personal SAE</string>
     <string name="network_enterprise_suite_b">WPA3-Enterprise Suite-B-192</string>
+    <string name="network_wifi_6ghz_band">6GHz Band Support</string>
+    <string name="network_wifi_sta_ap_concurrency">Station+AP Concurrency Support</string>
+    <string name="network_wifi_wapi_support">WAPI Support</string>
+    <string name="network_wifi_scan_throttling">Wifi Scan Throttling Activated</string>
     <string name="network_wifi_info">WIFI Info</string>
     <string name="network_ssid">SSID</string>
     <string name="network_bssid">BSSID</string>
     <string name="network_mac">MAC ADDRESS</string>
     <string name="network_rssi">Signal RSSI</string>
+    <string name="max_supported_tx_link_speed">Max Supported Transmit Link Speed</string>
     <string name="network_tx_link_speed">Transmit Link Speed</string>
     <string name="network_rx_link_speed">Receive Link Speed</string>
+    <string name="max_supported_rx_link_speed">Max Supported Receive Link Speed</string>
     <string name="network_link_speed">Link Speed</string>
     <string name="network_wifi_freq">WIFI Frequency</string>
     <string name="network_wifi_channel">Channel</string>
@@ -415,5 +427,15 @@
     <string name="wifi_enabling">Enabling</string>
     <string name="wifi_enabled">Enabled</string>
     <string name="wifi_state">WIFI State</string>
+    <string name="wifi_standard">WIFI Standard</string>
+    <string name="wifi_standard_unknown">Unknown</string>
+    <string name="wifi_standard_abg">802.11a/b/g</string>
+    <string name="wifi_standard_n">802.11n</string>
+    <string name="wifi_standard_ac">802.11ac</string>
+    <string name="wifi_standard_ax">802.11ax</string>
+    <string name="metered">METERED</string>
+    <string name="not_metered">NOT METERED</string>
+    <string name="constellation_label">Constellation</string>
+    <string name="pnr">PNR</string>
 
 </resources>

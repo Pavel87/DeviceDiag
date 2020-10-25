@@ -11,11 +11,10 @@
         style="@style/LabelStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:text="@string/pnr"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/constellationLabel"
+        app:layout_constraintTop_toBottomOf="@+id/constellationLabel" />
 
     <TextView
         android:id="@+id/satPNR"
@@ -39,7 +38,7 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView14"
         app:layout_constraintEnd_toStartOf="@+id/textView13"
-        app:layout_constraintTop_toTopOf="@+id/textView13" />
+        app:layout_constraintTop_toTopOf="@+id/constellationLabel" />
 
     <TextView
         android:id="@+id/textView16"
@@ -118,5 +117,27 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView14"
         app:layout_constraintStart_toEndOf="@+id/textView14"
         app:layout_constraintTop_toTopOf="@+id/textView14" />
+
+    <TextView
+        android:id="@+id/constellationLabel"
+        style="@style/LabelStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/constellation_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/constellationType"
+        style="@style/ValueStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="UNKNOWN"
+        app:layout_constraintBottom_toBottomOf="@+id/constellationLabel"
+        app:layout_constraintStart_toEndOf="@+id/constellationLabel"
+        app:layout_constraintTop_toTopOf="@+id/constellationLabel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

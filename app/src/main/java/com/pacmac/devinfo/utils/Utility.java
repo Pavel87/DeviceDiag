@@ -45,16 +45,9 @@ public class Utility {
     public final static int MY_PERMISSIONS_REQUEST = 8;
     public static final String ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     public static final String PHONE_PERMISSION = Manifest.permission.READ_PHONE_STATE;
-    public static String PHONE_NUMBER_PERMISSION;
+    public static final  String PHONE_NUMBER_PERMISSION = "android.permission.READ_PHONE_NUMBERS";
     public static final String STORAGE_PERMISSION = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     public static final String CAMERA_PERMISSION = Manifest.permission.CAMERA;
-
-    static {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
-            PHONE_NUMBER_PERMISSION = Manifest.permission.READ_PHONE_NUMBERS;
-        }
-    }
-
 
     public static String[] getLocationPermissions() {
         return new String[]{ACCESS_FINE_LOCATION};

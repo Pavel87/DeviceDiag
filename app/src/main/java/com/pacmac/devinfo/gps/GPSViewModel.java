@@ -11,10 +11,7 @@ import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.utils.Utility;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -36,7 +33,7 @@ public class GPSViewModel extends ViewModel {
     private String bearing = "";
     private String visibleSatellites = "";
 
-    private MutableLiveData<List<Satellites>> satellitesLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Satellite>> satellitesLiveData = new MutableLiveData<>();
     private MutableLiveData<String> updateTimeLive = new MutableLiveData<>("--:--:--");
 
 
@@ -57,11 +54,11 @@ public class GPSViewModel extends ViewModel {
         return updateTimeLive;
     }
 
-    public LiveData<List<Satellites>> getSatellites() {
+    public LiveData<List<Satellite>> getSatellites() {
         return satellitesLiveData;
     }
 
-    public void updateSatellites(List<Satellites> satellites) {
+    public void updateSatellites(List<Satellite> satellites) {
         satellitesLiveData.postValue(satellites);
     }
 
@@ -84,7 +81,7 @@ public class GPSViewModel extends ViewModel {
             list.add(new UIObject("ID", context.getString(R.string.gps_sat_header), 1));
 
             int i = 1;
-            for (Satellites satellite : satellitesLiveData.getValue()) {
+            for (Satellite satellite : satellitesLiveData.getValue()) {
                 list.add(new UIObject(String.valueOf(i), satellite.toString(), 1));
                 i++;
             }

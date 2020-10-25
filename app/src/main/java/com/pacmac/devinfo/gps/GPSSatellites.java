@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,19 +16,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacmac.devinfo.R;
-import com.pacmac.devinfo.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class GPSSatellites extends Fragment {
 
+    private TextView activeSatellitesTV;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLinearLayoutManager;
     private SateliteAdapter mItemAdapter;
 
     private GPSViewModel viewModel;
-
     public static GPSSatellites newInstance() {
         GPSSatellites fragment = new GPSSatellites();
         return fragment;
@@ -49,6 +50,7 @@ public class GPSSatellites extends Fragment {
 
 //        Utility.showBannerAdView(view, getContext(), R.string.banner_id_12);
 
+        activeSatellitesTV  = view.findViewById(R.id.activeSatellites);
         mRecyclerView = view.findViewById(R.id.recylerView);
         mRecyclerView.setHasFixedSize(false);
         mLinearLayoutManager = new LinearLayoutManager(getContext());
@@ -57,10 +59,11 @@ public class GPSSatellites extends Fragment {
         mRecyclerView.setAdapter(mItemAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
-        Observer<List<Satellites>> basicObserver = sats -> {
+        Observer<List<Satellite>> basicObserver = sats -> {
             if (sats == null) {
                 return;
             }
+            activeSatellitesTV.setText(String.format(Locale.ENGLISH, "%d", sats.size()));
             mItemAdapter.updateSatellites(sats);
         };
         viewModel.getSatellites().observe(getViewLifecycleOwner(), basicObserver);

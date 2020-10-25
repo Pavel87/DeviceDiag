@@ -137,6 +137,16 @@ public class NetworkUtils {
                         ThreeState.YES : ThreeState.NO, 2));
                 list.add(new UIObject(context.getString(R.string.network_enterprise_suite_b), wifiManager.isWpa3SuiteBSupported() ?
                         ThreeState.YES : ThreeState.NO, 2));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    list.add(new UIObject(context.getString(R.string.network_wifi_6ghz_band), wifiManager.is6GHzBandSupported()
+                            ? ThreeState.YES : ThreeState.NO, 2));
+                    list.add(new UIObject(context.getString(R.string.network_wifi_sta_ap_concurrency), wifiManager.isStaApConcurrencySupported()
+                            ? ThreeState.YES : ThreeState.NO, 2));
+                    list.add(new UIObject(context.getString(R.string.network_wifi_wapi_support), wifiManager.isWapiSupported()
+                            ? ThreeState.YES : ThreeState.NO, 2));
+                    list.add(new UIObject(context.getString(R.string.network_wifi_scan_throttling), wifiManager.isScanThrottleEnabled()
+                            ? ThreeState.YES : ThreeState.NO, 2));
+                }
             }
         }
         return list;
@@ -194,6 +204,10 @@ public class NetworkUtils {
         // WIFI Connected info
         list.add(new UIObject(context.getString(R.string.wifi_state), getWifiStateString(context, wifiManager.getWifiState())));
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            list.add(new UIObject(context.getString(R.string.wifi_standard), getWifiStandardString(context, wifiInfo.getWifiStandard())));
+        }
+
         String ssid = wifiInfo.getSSID().replaceAll("\"", "");
         if (!ssid.equals("0x")) {
             list.add(new UIObject(context.getString(R.string.network_ssid), ssid));
@@ -210,8 +224,17 @@ public class NetworkUtils {
         list.add(new UIObject(context.getString(R.string.network_rssi), String.valueOf(wifiInfo.getRssi()), "dBm"));
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                list.add(new UIObject(context.getString(R.string.max_supported_tx_link_speed),
+                        String.valueOf(wifiInfo.getMaxSupportedTxLinkSpeedMbps()), WifiInfo.LINK_SPEED_UNITS));
+            }
             if (wifiInfo.getTxLinkSpeedMbps() > 0) {
                 list.add(new UIObject(context.getString(R.string.network_tx_link_speed), String.valueOf(wifiInfo.getTxLinkSpeedMbps()), WifiInfo.LINK_SPEED_UNITS));
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                list.add(new UIObject(context.getString(R.string.max_supported_rx_link_speed),
+                        String.valueOf(wifiInfo.getMaxSupportedRxLinkSpeedMbps()), WifiInfo.LINK_SPEED_UNITS));
             }
             if (wifiInfo.getRxLinkSpeedMbps() > 0) {
                 list.add(new UIObject(context.getString(R.string.network_rx_link_speed), String.valueOf(wifiInfo.getRxLinkSpeedMbps()), WifiInfo.LINK_SPEED_UNITS));
@@ -296,6 +319,21 @@ public class NetworkUtils {
                 return context.getString(R.string.wifi_enabling);
             case WifiManager.WIFI_STATE_ENABLED:
                 return context.getString(R.string.wifi_enabled);
+            default:
+                return context.getResources().getString(R.string.unknown);
+        }
+    }
+
+    private static String getWifiStandardString(Context context, int standard) {
+        switch (standard) {
+            case ScanResult.WIFI_STANDARD_LEGACY:
+                return context.getString(R.string.wifi_standard_abg);
+            case ScanResult.WIFI_STANDARD_11N:
+                return context.getString(R.string.wifi_standard_n);
+            case ScanResult.WIFI_STANDARD_11AC:
+                return context.getString(R.string.wifi_standard_ac);
+            case ScanResult.WIFI_STANDARD_11AX:
+                return context.getString(R.string.wifi_standard_ax);
             default:
                 return context.getResources().getString(R.string.unknown);
         }

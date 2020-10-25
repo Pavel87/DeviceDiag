@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.GnssNavigationMessage;
+import android.location.GnssStatus;
 import android.location.GpsSatellite;
 import android.location.GpsStatus;
 import android.location.Location;
@@ -15,11 +17,15 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
@@ -37,6 +43,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class GPSInfo extends AppCompatActivity implements LocationListener, ExportTask.OnExportTaskFinished {
 
     private boolean enabled = false;
@@ -82,7 +89,15 @@ public class GPSInfo extends AppCompatActivity implements LocationListener, Expo
                     isListeningGPSUpdates = true;
                     if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
                         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
-                        locationManager.addGpsStatusListener(gpsStatusListener);
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            locationManager.registerGnssStatusCallback(command -> {
+                                command.run();
+                                viewModel.getMainGPSData(getApplicationContext());
+                            }, gnssStatusCallback);
+                        } else {
+                            locationManager.addGpsStatusListener(gpsStatusListener);
+                        }
                     }
                 }
             }
@@ -101,7 +116,11 @@ public class GPSInfo extends AppCompatActivity implements LocationListener, Expo
                 if (isListeningGPSUpdates) {
                     if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
                         locationManager.removeGpsStatusListener(gpsStatusListener);
-                        locationManager.removeUpdates(this);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            locationManager.unregisterGnssStatusCallback(gnssStatusCallback);
+                        } else {
+                            locationManager.removeUpdates(this);
+                        }
                     }
                     isListeningGPSUpdates = false;
                 }
@@ -294,23 +313,73 @@ public class GPSInfo extends AppCompatActivity implements LocationListener, Expo
                 case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
                     viewModel.setGpsState(getString(R.string.gps_active));
                     Iterator<GpsSatellite> satelliteIterator = gpsStatus.getSatellites().iterator();
-                    List<Satellites> satellitesList = new ArrayList<>();
-                    int i = 1;
+                    List<Satellite> satelliteList = new ArrayList<>();
 
                     while (satelliteIterator.hasNext()) {
                         GpsSatellite satellite = satelliteIterator.next();
                         if (satellite.usedInFix()) {
-                            satellitesList.add(new Satellites(i, satellite.getSnr(), satellite.getPrn(), satellite.getAzimuth(), satellite.getElevation()));
-                            i++;
+                            satelliteList.add(new Satellite(
+                                    satellite.getSnr(),
+                                    satellite.getPrn(),
+                                    satellite.getAzimuth(),
+                                    satellite.getElevation()));
                         }
                     }
 
-                    viewModel.setVisibleSatellites(String.valueOf(satellitesList.size()));
-                    viewModel.updateSatellites(satellitesList);
+                    viewModel.setVisibleSatellites(String.valueOf(satelliteList.size()));
+                    viewModel.updateSatellites(satelliteList);
             }
             viewModel.getMainGPSData(getApplicationContext());
         } catch (Exception e) {
             e.printStackTrace();
         }
     };
+
+    private GnssStatus.Callback gnssStatusCallback;
+
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            gnssStatusCallback = new GnssStatus.Callback() {
+                @Override
+                public void onStarted() {
+                    viewModel.setGpsState(getString(R.string.gps_starting));
+                }
+
+                @Override
+                public void onStopped() {
+                    viewModel.setGpsState(getString(R.string.gps_inactive));
+                }
+
+                @Override
+                public void onFirstFix(int ttffMillis) {
+                    viewModel.setFirstFix(ttffMillis);
+                    viewModel.setGpsState(getString(R.string.gps_first_fix));
+                }
+
+                @RequiresApi(api = Build.VERSION_CODES.R)
+                @Override
+                public void onSatelliteStatusChanged(@NonNull GnssStatus status) {
+                    viewModel.setGpsState(getString(R.string.gps_active));
+                    viewModel.setVisibleSatellites(String.valueOf(status.getSatelliteCount()));
+
+                    List<Satellite> satelliteList = new ArrayList<>();
+
+                    for (int i = 0; i < status.getSatelliteCount(); i++) {
+                        if (status.usedInFix(i)) {
+                            Satellite satellite = new Satellite(
+                                    status.getCn0DbHz(i), // SNR
+                                    status.getSvid(i), // The identification number for the satellite at the specific index.
+                                    status.getAzimuthDegrees(i),
+                                    status.getElevationDegrees(i));
+                            satellite.setConstellationType(status.getConstellationType(i));
+                            satelliteList.add(satellite);
+                        }
+                    }
+                    viewModel.updateSatellites(satelliteList);
+
+                }
+            };
+        }
+    }
+
 }

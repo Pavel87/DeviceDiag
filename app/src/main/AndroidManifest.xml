@@ -30,7 +30,7 @@
         <activity
             android:name=".camera.CameraInfo"
             android:label="@string/title_activity_camera_info"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".gps.GPSInfo"
             android:label="@string/activity_title_gps_information"

@@ -1,32 +1,34 @@
 package com.pacmac.devinfo.gps;
 
 
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.pacmac.devinfo.R;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by pacmac on 6/27/2015.
  */
 public class SateliteAdapter extends RecyclerView.Adapter<SateliteAdapter.MyViewHolder> {
 
-    private List<Satellites> mDataset;
+    private List<Satellite> mDataset;
 
     private Object sync = new Object();
 
 
-    public SateliteAdapter(List<Satellites> mDataset) {
+    public SateliteAdapter(List<Satellite> mDataset) {
         this.mDataset = mDataset;
     }
 
-    public void updateSatellites(List<Satellites> mDataset) {
+    public void updateSatellites(List<Satellite> mDataset) {
         synchronized (sync) {
             this.mDataset = mDataset;
             notifyDataSetChanged();
@@ -41,6 +43,7 @@ public class SateliteAdapter extends RecyclerView.Adapter<SateliteAdapter.MyView
         TextView pnrT;
         TextView azimuthT;
         TextView elevationT;
+        TextView constellationTypeT;
 
 
         public MyViewHolder(View v) {
@@ -50,6 +53,9 @@ public class SateliteAdapter extends RecyclerView.Adapter<SateliteAdapter.MyView
             pnrT = v.findViewById(R.id.satPNR);
             azimuthT = v.findViewById(R.id.satAzimuth);
             elevationT = v.findViewById(R.id.satElevation);
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                constellationTypeT = v.findViewById(R.id.constellationType);
+            }
         }
     }
 
@@ -70,11 +76,15 @@ public class SateliteAdapter extends RecyclerView.Adapter<SateliteAdapter.MyView
         // - replace the contents of the view with that element
         synchronized (sync) {
             if (position < mDataset.size()) {
-                viewHolder.idT.setText("" + mDataset.get(position).getID());
-                viewHolder.pnrT.setText("" + mDataset.get(position).getPnr());
-                viewHolder.snrT.setText(String.format("%.1f", mDataset.get(position).getSnr()));
-                viewHolder.azimuthT.setText("" + mDataset.get(position).getAzimuth());
-                viewHolder.elevationT.setText("" + mDataset.get(position).getElevation());
+
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    viewHolder.constellationTypeT.setText(String.format(Locale.ENGLISH, "%s", mDataset.get(position).getConstellationType()));
+                }
+                viewHolder.idT.setText(String.format(Locale.ENGLISH, "%d", position + 1));
+                viewHolder.pnrT.setText(String.format(Locale.ENGLISH, "%d", mDataset.get(position).getPnr()));
+                viewHolder.snrT.setText(String.format(Locale.ENGLISH, "%.1f", mDataset.get(position).getSnr()));
+                viewHolder.azimuthT.setText(String.format(Locale.ENGLISH, "%.0f", mDataset.get(position).getAzimuth()));
+                viewHolder.elevationT.setText(String.format(Locale.ENGLISH, "%.0f", mDataset.get(position).getElevation()));
             }
         }
     }

@@ -1,10 +1,15 @@
 package com.pacmac.devinfo.cellular;
 
 import android.content.Context;
+import android.os.Build;
 import android.telephony.CellInfo;
 import android.telephony.CellLocation;
 import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
+import android.telephony.TelephonyDisplayInfo;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import java.util.List;
 
@@ -13,10 +18,17 @@ public class PSL extends PhoneStateListener {
     private CellularViewModel cellularViewModel;
     private Context context;
 
+    private static int overrideNetworkType = 0;
+
+    static int getOverrideNetworkType() {
+        return overrideNetworkType;
+    }
+
     public PSL(CellularViewModel cellularViewModel, Context context) {
         super();
         this.cellularViewModel = cellularViewModel;
         this.context = context;
+        overrideNetworkType = 0;
     }
 
 
@@ -66,6 +78,15 @@ public class PSL extends PhoneStateListener {
     public void onActiveDataSubscriptionIdChanged(int subId) {
         if (cellularViewModel != null) {
             cellularViewModel.refreshAll(context);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.R)
+    @Override
+    public void onDisplayInfoChanged(@NonNull TelephonyDisplayInfo telephonyDisplayInfo) {
+        overrideNetworkType = telephonyDisplayInfo.getOverrideNetworkType();
+        if (cellularViewModel != null) {
+            cellularViewModel.refreshNetworkInfo(context);
         }
     }
 }

@@ -6,7 +6,7 @@ Android app brings precision in understanding what is under the hood of your and
 - Memory: Real RAM usage, Information about all available storage areas
 - Battery
 - Camera: Displays general camera feature support, Front or Back camera's specific features
-- Location: Location wise information and performance data, Active satellites list used in fix, NMEA feed logging with possibility of saving log to SD card
+- Location: Location wise information and performance data, Active satellite list used in fix, NMEA feed logging with possibility of saving log to SD card
 - SIM & Phone: All available info from SIM and current radio status
 - Sensors: List of available sensors
 - Display: Screen parameters including information which resources are being loaded in your phone

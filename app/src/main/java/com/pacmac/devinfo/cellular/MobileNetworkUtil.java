@@ -3,6 +3,9 @@ package com.pacmac.devinfo.cellular;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.os.Build;
 import android.os.PersistableBundle;
 import android.telephony.CellIdentityNr;
@@ -15,21 +18,26 @@ import android.telephony.CellInfoTdscdma;
 import android.telephony.CellInfoWcdma;
 import android.telephony.CellSignalStrengthCdma;
 import android.telephony.CellSignalStrengthNr;
+import android.telephony.ClosedSubscriberGroupInfo;
 import android.telephony.ServiceState;
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyDisplayInfo;
 import android.telephony.TelephonyManager;
 
 import androidx.annotation.RequiresApi;
 
 import com.pacmac.devinfo.R;
+import com.pacmac.devinfo.ThreeState;
 import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.utils.Utility;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -113,6 +121,8 @@ public class MobileNetworkUtil {
                         e.printStackTrace();
                     }
                     slotCount = 1;
+                } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
+                    slotCount = telephonyManager.getActiveModemCount();
                 } else {
                     slotCount = telephonyManager.getPhoneCount();
                 }
@@ -199,7 +209,8 @@ public class MobileNetworkUtil {
         return new UIObject(context.getString(R.string.is_world_phone), telephonyManager.isWorldPhone() ?
                 context.getString(R.string.yes_string) : context.getString(R.string.no_string));
     }
-    
+
+    @SuppressLint("MissingPermission")
     @TargetApi(29)
     public static UIObject isMultiSIMSupported(Context context, TelephonyManager telephonyManager) {
         return new UIObject(context.getString(R.string.multi_sim_support),
@@ -209,17 +220,17 @@ public class MobileNetworkUtil {
     private static String getMultiSIMSupport(Context context, int state) {
         switch (state) {
             case TelephonyManager.MULTISIM_ALLOWED:
-            return context.getString(R.string.ms_supported);
+                return context.getString(R.string.ms_supported);
             case TelephonyManager.MULTISIM_NOT_SUPPORTED_BY_HARDWARE:
-            return context.getString(R.string.restricted_by_hw);
+                return context.getString(R.string.restricted_by_hw);
             case TelephonyManager.MULTISIM_NOT_SUPPORTED_BY_CARRIER:
-            return context.getString(R.string.restricted_by_carrier);
+                return context.getString(R.string.restricted_by_carrier);
             default:
-            return context.getResources().getString(R.string.not_available_info);
+                return context.getResources().getString(R.string.not_available_info);
         }
     }
-    
-    
+
+
     /**
      * SIM INFO
      */
@@ -389,8 +400,8 @@ public class MobileNetworkUtil {
             return new UIObject(context.getResources().getString(R.string.sim_serial_number), subscriptionInfo.getIccId());
         }
     }
-    
-    
+
+
     @SuppressLint("NewApi")
     public static UIObject isEmbedded(Context context, int slotID) {
         SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
@@ -460,26 +471,32 @@ public class MobileNetworkUtil {
         }
 
         String phoneNumber;
+        try {
 
-        if (!isMultiSIM || Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
-            phoneNumber = telephonyManager.getLine1Number();
-        } else {
-            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
-            if (subscriptionManager == null) {
-                return new UIObject(context.getResources().getString(R.string.phone_number),
-                        context.getResources().getString(R.string.not_available_info));
+            if (!isMultiSIM || Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+                phoneNumber = telephonyManager.getLine1Number();
+            } else {
+                SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+                if (subscriptionManager == null) {
+                    return new UIObject(context.getResources().getString(R.string.phone_number),
+                            context.getResources().getString(R.string.not_available_info));
+                }
+                @SuppressLint("MissingPermission")
+                SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
+                if (subscriptionInfo == null) {
+                    return new UIObject(context.getResources().getString(R.string.phone_number),
+                            context.getResources().getString(R.string.not_available_info));
+                }
+                phoneNumber = subscriptionInfo.getNumber();
             }
-            @SuppressLint("MissingPermission")
-            SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slotID);
-            if (subscriptionInfo == null) {
-                return new UIObject(context.getResources().getString(R.string.phone_number),
-                        context.getResources().getString(R.string.not_available_info));
+            if (phoneNumber == null || phoneNumber.length() == 0) {
+                phoneNumber = context.getResources().getString(R.string.not_available_info);
             }
-            phoneNumber = subscriptionInfo.getNumber();
-        }
-        if (phoneNumber == null || phoneNumber.length() == 0) {
+        } catch (Exception e) {
+            e.printStackTrace();
             phoneNumber = context.getResources().getString(R.string.not_available_info);
         }
+
         return new UIObject(context.getResources().getString(R.string.phone_number), phoneNumber);
     }
 
@@ -508,7 +525,7 @@ public class MobileNetworkUtil {
             if (phoneNumber == null || phoneNumber.length() == 0) {
                 phoneNumber = context.getResources().getString(R.string.not_available_info);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             phoneNumber = context.getResources().getString(R.string.error);
         }
         return new UIObject(context.getResources().getString(R.string.voicemail_number), phoneNumber);
@@ -563,6 +580,7 @@ public class MobileNetworkUtil {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @SuppressLint("MissingPermission")
     public static UIObject getGroupIdLevel(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
         String groupIdLevel1 = null;
@@ -1041,7 +1059,13 @@ public class MobileNetworkUtil {
     public static UIObject getDataNetworkType(Context context, TelephonyManager telephonyManager, int slotID, boolean isMultiSIM) {
         int type = 0;
         if (!isMultiSIM) {
-            type = telephonyManager.getDataNetworkType();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                    && PSL.getOverrideNetworkType() != TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_NONE) {
+                return new UIObject(context.getResources().getString(R.string.data_network_type),
+                        getOverrideNetworkTypeString(PSL.getOverrideNetworkType()));
+            } else {
+                type = telephonyManager.getDataNetworkType();
+            }
         } else {
             SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
             if (subscriptionManager == null) {
@@ -1054,7 +1078,13 @@ public class MobileNetworkUtil {
                         context.getResources().getString(R.string.not_available_info));
             }
 
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+                    PSL.getOverrideNetworkType() != TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_NONE) {
+                return new UIObject(context.getResources().getString(R.string.data_network_type),
+                        getOverrideNetworkTypeString(PSL.getOverrideNetworkType()));
+
+            } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
                 TelephonyManager t = telephonyManager.createForSubscriptionId(subscriptionInfo.getSubscriptionId());
                 type = t.getDataNetworkType();
             } else {
@@ -1326,14 +1356,75 @@ public class MobileNetworkUtil {
         }
 
         StringBuilder stringBuilder = new StringBuilder();
+        boolean firstBandwidth = true;
         for (int bandwidth : bandwidths) {
-            stringBuilder.append(bandwidth + "  ");
+            if (!firstBandwidth)
+                stringBuilder.append(", ");
+            firstBandwidth = false;
+            stringBuilder.append(bandwidth);
+            stringBuilder.append(" kHz");
         }
-        String result = stringBuilder.toString().trim().replace("  ", "kHz ");
+        String result = stringBuilder.toString();
 
 
         return new UIObject(context.getResources().getString(R.string.cell_bandwidths), result);
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    static UIObject getDownstreamLinkBandwidth(Context context) {
+
+        ConnectivityManager connectivityManager = context.getSystemService(ConnectivityManager.class);
+        if (connectivityManager != null) {
+
+            Network network = connectivityManager.getActiveNetwork();
+            if (network != null) {
+                NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(network);
+                if (networkCapabilities != null) {
+                    return new UIObject(context.getString(R.string.network_link_down_bandwidth), String.valueOf(networkCapabilities.getLinkDownstreamBandwidthKbps()), "kbps");
+                }
+            }
+        }
+        return new UIObject(context.getString(R.string.network_link_down_bandwidth), context.getResources().getString(R.string.not_available_info));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    static UIObject getUpstreamLinkBandwidth(Context context) {
+
+        ConnectivityManager connectivityManager = context.getSystemService(ConnectivityManager.class);
+        if (connectivityManager != null) {
+
+            Network network = connectivityManager.getActiveNetwork();
+            if (network != null) {
+                NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(network);
+                if (networkCapabilities != null) {
+                    return new UIObject(context.getString(R.string.network_up_bandwidth), String.valueOf(networkCapabilities.getLinkUpstreamBandwidthKbps()), "kbps");
+                }
+            }
+        }
+        return new UIObject(context.getString(R.string.network_up_bandwidth), context.getResources().getString(R.string.not_available_info));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.R)
+    static UIObject getMeteredState(Context context) {
+
+        ConnectivityManager connectivityManager = context.getSystemService(ConnectivityManager.class);
+        if (connectivityManager != null) {
+
+            Network network = connectivityManager.getActiveNetwork();
+            if (network != null) {
+                NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(network);
+                if (networkCapabilities != null) {
+                    boolean isNotMetered = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
+                            || networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_TEMPORARILY_NOT_METERED);
+
+                    return new UIObject(context.getString(R.string.network_meteredness), isNotMetered ?
+                            context.getResources().getString(R.string.not_metered) : context.getResources().getString(R.string.metered));
+                }
+            }
+        }
+        return new UIObject(context.getString(R.string.network_meteredness), context.getResources().getString(R.string.not_available_info));
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @SuppressLint({"MissingPermission", "WrongConstant"})
@@ -1421,6 +1512,20 @@ public class MobileNetworkUtil {
                 return "TRANSMITTING & RECEIVING";
         }
         return "NONE";
+    }
+
+    private static String getOverrideNetworkTypeString(int value) {
+        switch (value) {
+            case TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_LTE_CA:
+                return "LTE Carrier Aggregation";
+            case TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_LTE_ADVANCED_PRO:
+                return "LTE Advanced Pro";
+            case TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_NR_NSA:
+                return "5G NSA";
+            case TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_NR_NSA_MMWAVE:
+                return "5G NSA MMW";
+        }
+        return "N/A";
     }
 
     private static String getNetworkTypeString(int value) {
@@ -1775,12 +1880,11 @@ public class MobileNetworkUtil {
         return context.getResources().getString(R.string.not_available_info);
     }
 
-
     private static String getRejectReasonString(int cause) {
 
         switch (cause) {
             case 0:
-                return "General";
+                return "None";
             case 1:
                 return "Authentication Failure";
             case 2:
@@ -1844,7 +1948,7 @@ public class MobileNetworkUtil {
             case 101:
                 return "Message not compatible with protocol state";
             case 111:
-                return "Protocol erro";
+                return "Protocol error";
         }
         if (cause >= 48 && cause <= 63) {
             return "Retry upon entry into a new cell";
@@ -1946,6 +2050,21 @@ public class MobileNetworkUtil {
                                     String.valueOf((bandwidth))));
                         }
                     }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        int[] bands = ((CellInfoLte) cell).getCellIdentity().getBands();
+                        Set<String> plmnList = ((CellInfoLte) cell).getCellIdentity().getAdditionalPlmns();
+                        uiList.add(new UIObject(context.getResources().getString(R.string.cell_bands), Arrays.toString(bands)));
+                        uiList.add(new UIObject(context.getResources().getString(R.string.plmn_list), plmnList.toString()));
+
+                        ClosedSubscriberGroupInfo csg = ((CellInfoLte) cell).getCellIdentity().getClosedSubscriberGroupInfo();
+                        if (csg != null) {
+                            uiList.add(new UIObject(context.getResources().getString(R.string.csg_identity),
+                                    String.valueOf(csg.getCsgIdentity())));
+                            uiList.add(new UIObject(context.getResources().getString(R.string.csg_restriction), csg.getCsgIndicator()
+                                    ? ThreeState.YES : ThreeState.NO, 2));
+                            uiList.add(new UIObject(context.getResources().getString(R.string.csg_hnb_name), csg.getHomeNodebName()));
+                        }
+                    }
 
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -2034,6 +2153,20 @@ public class MobileNetworkUtil {
                                 spn == null ? context.getResources().getString(R.string.not_available_info) : spn.toString()));
                     }
 
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        Set<String> plmnList = ((CellInfoWcdma) cell).getCellIdentity().getAdditionalPlmns();
+                        uiList.add(new UIObject(context.getResources().getString(R.string.plmn_list), plmnList.toString()));
+
+                        ClosedSubscriberGroupInfo csg = ((CellInfoWcdma) cell).getCellIdentity().getClosedSubscriberGroupInfo();
+                        if (csg != null) {
+                            uiList.add(new UIObject(context.getResources().getString(R.string.csg_identity),
+                                    String.valueOf(csg.getCsgIdentity())));
+                            uiList.add(new UIObject(context.getResources().getString(R.string.csg_restriction), csg.getCsgIndicator()
+                                    ? ThreeState.YES : ThreeState.NO, 2));
+                            uiList.add(new UIObject(context.getResources().getString(R.string.csg_hnb_name), csg.getHomeNodebName()));
+                        }
+                    }
+
                     int rssi = ((CellInfoWcdma) cell).getCellSignalStrength().getDbm();
                     if (rssi != Integer.MAX_VALUE && rssi != Integer.MIN_VALUE) {
                         uiList.add(new UIObject(context.getResources().getString(R.string.rssi), String.valueOf((rssi)), "dBm"));
@@ -2090,6 +2223,11 @@ public class MobileNetworkUtil {
                         CharSequence spn = ((CellInfoGsm) cell).getCellIdentity().getOperatorAlphaLong();
                         uiList.add(new UIObject(context.getResources().getString(R.string.spn),
                                 spn == null ? context.getResources().getString(R.string.not_available_info) : spn.toString()));
+                    }
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        Set<String> plmnList = ((CellInfoGsm) cell).getCellIdentity().getAdditionalPlmns();
+                        uiList.add(new UIObject(context.getResources().getString(R.string.plmn_list), plmnList.toString()));
                     }
 
                     int dbm = ((CellInfoGsm) cell).getCellSignalStrength().getDbm();
@@ -2155,6 +2293,21 @@ public class MobileNetworkUtil {
                 uiList.add(new UIObject(context.getResources().getString(R.string.spn),
                         spn == null ? context.getResources().getString(R.string.not_available_info) : spn.toString()));
 
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    Set<String> plmnList = ((CellInfoTdscdma) cell).getCellIdentity().getAdditionalPlmns();
+                    uiList.add(new UIObject(context.getResources().getString(R.string.plmn_list), plmnList.toString()));
+
+                    ClosedSubscriberGroupInfo csg = ((CellInfoTdscdma) cell).getCellIdentity().getClosedSubscriberGroupInfo();
+                    if (csg != null) {
+                        uiList.add(new UIObject(context.getResources().getString(R.string.csg_identity),
+                                String.valueOf(csg.getCsgIdentity())));
+                        uiList.add(new UIObject(context.getResources().getString(R.string.csg_restriction), csg.getCsgIndicator()
+                                ? ThreeState.YES : ThreeState.NO, 2));
+                        uiList.add(new UIObject(context.getResources().getString(R.string.csg_hnb_name), csg.getHomeNodebName()));
+                    }
+                }
+
+
                 int dbm = ((CellInfoTdscdma) cell).getCellSignalStrength().getDbm();
                 if (dbm != Integer.MAX_VALUE && dbm != Integer.MIN_VALUE) {
                     uiList.add(new UIObject(context.getResources().getString(R.string.rscp), String.valueOf((dbm)), "dBm"));
@@ -2205,6 +2358,13 @@ public class MobileNetworkUtil {
                 CharSequence spn = (((CellInfoNr) cell).getCellIdentity()).getOperatorAlphaLong();
                 uiList.add(new UIObject(context.getResources().getString(R.string.spn),
                         spn == null ? context.getResources().getString(R.string.not_available_info) : spn.toString()));
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    int[] bands = ((CellIdentityNr) ((CellInfoNr) cell).getCellIdentity()).getBands();
+                    Set<String> plmnList = ((CellIdentityNr) ((CellInfoNr) cell).getCellIdentity()).getAdditionalPlmns();
+                    uiList.add(new UIObject(context.getResources().getString(R.string.cell_bands), Arrays.toString(bands)));
+                    uiList.add(new UIObject(context.getResources().getString(R.string.plmn_list), plmnList.toString()));
+                }
 
                 CellSignalStrengthNr nrSignal = ((CellSignalStrengthNr) ((CellInfoNr) cell).getCellSignalStrength());
 

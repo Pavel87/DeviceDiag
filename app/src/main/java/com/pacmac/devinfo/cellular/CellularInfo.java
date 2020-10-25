@@ -110,6 +110,9 @@ public class CellularInfo extends AppCompatActivity implements ExportTask.OnExpo
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
             pslListen = pslListen | PhoneStateListener.LISTEN_ACTIVE_DATA_SUBSCRIPTION_ID_CHANGE;
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            pslListen = pslListen | PhoneStateListener.LISTEN_DISPLAY_INFO_CHANGED;
+        }
     }
 
     @Override

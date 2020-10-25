@@ -251,8 +251,16 @@ public class CellularViewModel extends ViewModel {
 
         boolean isMultiSIM = slotCount > 1;
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && telephonyManager.getDataState() != TelephonyManager.DATA_DISCONNECTED) {
+            list.add(MobileNetworkUtil.getDownstreamLinkBandwidth(context));
+            list.add(MobileNetworkUtil.getUpstreamLinkBandwidth(context));
+        }
         list.add(MobileNetworkUtil.getDataState(context, telephonyManager));
         list.add(MobileNetworkUtil.getDataActivity(context, telephonyManager));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && telephonyManager.getDataState() != TelephonyManager.DATA_DISCONNECTED) {
+            list.add(MobileNetworkUtil.getMeteredState(context));
+        }
 
         for (int i = 0; i < slotCount; i++) {
 
@@ -306,10 +314,10 @@ public class CellularViewModel extends ViewModel {
                 list.add(MobileNetworkUtil.getForbiddenPlmns(context, telephonyManager, 0, isMultiSIM));
             }
             // Reject Cause for Data Network
-
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
                 list.add(MobileNetworkUtil.getRejectCause(context, telephonyManager, i, isMultiSIM));
             }
+
 
             // LTE CA bandwidths
             if ((is4G || is5G) && Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
