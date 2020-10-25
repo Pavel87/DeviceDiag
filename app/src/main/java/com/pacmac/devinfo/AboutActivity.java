@@ -4,16 +4,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.play.core.review.ReviewInfo;
-import com.google.android.play.core.review.ReviewManager;
-import com.google.android.play.core.review.ReviewManagerFactory;
-import com.google.android.play.core.tasks.Task;
 import com.pacmac.devinfo.utils.Utility;
 
 import java.util.Locale;
@@ -29,24 +24,24 @@ public class AboutActivity extends AppCompatActivity {
         Button rating = findViewById(R.id.rateApp);
 
         rating.setOnClickListener(view -> {
-            ReviewManager manager = ReviewManagerFactory.create(AboutActivity.this);
-            Task<ReviewInfo> request = manager.requestReviewFlow();
-            request.addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    // We can get the ReviewInfo object
-                    ReviewInfo reviewInfo = task.getResult();
-                    Task<Void> flow = manager.launchReviewFlow(AboutActivity.this, reviewInfo);
-                    flow.addOnCompleteListener(flowTask -> {
-                        Log.e("PACMAC", "Review flow has finished: " + flowTask.isSuccessful());
-                        // The flow has finished. The API does not indicate whether the user
-                        // reviewed or not, or even whether the review dialog was shown. Thus, no
-                        // matter the result, we continue our app flow.
-                    });
-                } else {
-                    // There was some problem, continue regardless of the result.
                     Utility.showRateDialog(AboutActivity.this);
-                }
-            });
+//            ReviewManager manager = ReviewManagerFactory.create(AboutActivity.this);
+//            Task<ReviewInfo> request = manager.requestReviewFlow();
+//            request.addOnCompleteListener(task -> {
+//                if (task.isSuccessful()) {
+//                    // We can get the ReviewInfo object
+//                    ReviewInfo reviewInfo = task.getResult();
+//                    Task<Void> flow = manager.launchReviewFlow(AboutActivity.this, reviewInfo);
+//                    flow.addOnCompleteListener(flowTask -> {
+//                        Log.e("PACMAC", "Review flow has finished: " + flowTask.isSuccessful());
+//                        // The flow has finished. The API does not indicate whether the user
+//                        // reviewed or not, or even whether the review dialog was shown. Thus, no
+//                        // matter the result, we continue our app flow.
+//                    });
+//                } else {
+//                    // There was some problem, continue regardless of the result.
+//                }
+//            });
         });
 
         TextView versionText = findViewById(R.id.versionText);
