@@ -5,14 +5,14 @@ android {
         config {
         }
     }
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion 32
+    buildToolsVersion "33.0.0-rc2"
     defaultConfig {
         applicationId "com.pacmac.devicediag"
         minSdkVersion 17
-        targetSdkVersion 30
-        versionCode 64
-        versionName "2.0.6"
+        targetSdkVersion 32
+        versionCode 65
+        versionName "2.0.7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -68,26 +68,20 @@ android {
         }
     }
     sourceSets { main { java.srcDirs = ['src/main/java'] } }
-    compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation 'junit:junit:4.13.1'
-    implementation 'androidx.annotation:annotation:1.1.0'
-    androidTestImplementation 'androidx.test:runner:1.3.0'
-    androidTestImplementation 'androidx.test:rules:1.3.0'
+    androidTestImplementation 'junit:junit:4.13.2'
+    implementation 'androidx.annotation:annotation:1.3.0'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
 
-//    implementation 'com.google.android.play:core:1.8.2'
-
-    implementation 'androidx.appcompat:appcompat:1.2.0-beta01'
-    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha03'
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation 'com.google.android.gms:play-services-ads:19.5.0'
+    implementation 'androidx.appcompat:appcompat:1.6.0-alpha01'
+    implementation 'androidx.recyclerview:recyclerview:1.3.0-alpha01'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.google.android.gms:play-services-ads:20.6.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 }
