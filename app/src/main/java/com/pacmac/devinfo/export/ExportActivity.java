@@ -17,10 +17,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.widget.ImageViewCompat;
 
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.OnUserEarnedRewardListener;
 import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
-import com.google.android.gms.ads.rewarded.RewardedAdCallback;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.pacmac.devinfo.R;
 
@@ -59,7 +62,7 @@ public class ExportActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_export);
 
-        rewardedAd = createAndLoadRewardedAd();
+        createAndLoadRewardedAd();
 
         exportSlotCounter = findViewById(R.id.exportSlotCounter);
         slot1 = findViewById(R.id.slot1);
@@ -102,65 +105,58 @@ public class ExportActivity extends AppCompatActivity {
             userClick = true;
             progressBar.setVisibility(View.VISIBLE);
             if (!isAdLoading) {
-                if (rewardedAd.isLoaded() && error != AdRequest.ERROR_CODE_NETWORK_ERROR) {
+                if (rewardedAd != null && error != AdRequest.ERROR_CODE_NETWORK_ERROR) {
                     watchVideoBtn.setEnabled(false);
                     userClick = false;
-                    rewardedAd.show(ExportActivity.this, adShowCallback);
+                    rewardedAd.show(ExportActivity.this, onUserEarnedRewardListener);
                 } else if (error == AdRequest.ERROR_CODE_NETWORK_ERROR) {
-                    rewardedAd = createAndLoadRewardedAd();
+                    createAndLoadRewardedAd();
                     Toast.makeText(getApplicationContext(), R.string.check_internet_connection, Toast.LENGTH_LONG).show();
                 } else {
                     Log.d("TAG", "The rewarded ad wasn't loaded yet.");
-                    rewardedAd = createAndLoadRewardedAd();
+                    createAndLoadRewardedAd();
                     progressBar.setVisibility(View.VISIBLE);
                 }
             }
         });
     }
 
-    public RewardedAd createAndLoadRewardedAd() {
+    public void createAndLoadRewardedAd() {
         isAdLoading = true;
-        RewardedAd rewardedAd = new RewardedAd(this, getResources().getString(R.string.rewarded1));
-        rewardedAd.loadAd(new AdRequest.Builder().build(), adLoadCallback);
-        return rewardedAd;
+        AdRequest adRequest = new AdRequest.Builder().build();
+        RewardedAd.load(this, getResources().getString(R.string.rewarded1), adRequest, adShowCallback);
     }
 
-    private RewardedAdLoadCallback adLoadCallback = new RewardedAdLoadCallback() {
+    private RewardedAdLoadCallback adShowCallback = new RewardedAdLoadCallback() {
         @Override
-        public void onRewardedAdLoaded() {
+        public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+            rewardedAd = null;
+            Log.d("PACMAC-EXPORT", "onAdFailedToLoad:" + loadAdError.getMessage());
+            error = loadAdError.getCode();
+            isAdLoading = false;
+            userClick = false;
+            watchVideoBtn.setEnabled(true);
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+
+        @Override
+        public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+            Log.d("PACMAC-EXPORT", "onAdLoaded");
+            rewardedAd.setFullScreenContentCallback(fullScreenContentCallback);
+            ExportActivity.this.rewardedAd = rewardedAd;
             isAdLoading = false;
             error = -1;
             watchVideoBtn.setEnabled(true);
             progressBar.setVisibility(View.INVISIBLE);
             if (userClick) {
-                rewardedAd.show(ExportActivity.this, adShowCallback);
+                rewardedAd.show(ExportActivity.this, onUserEarnedRewardListener);
             }
             userClick = false;
-        }
-
-        @Override
-        public void onRewardedAdFailedToLoad(int errorCode) {
-            error = errorCode;
-            isAdLoading = false;
-            userClick = false;
-            watchVideoBtn.setEnabled(true);
-            progressBar.setVisibility(View.INVISIBLE);
         }
     };
 
 
-    private RewardedAdCallback adShowCallback = new RewardedAdCallback() {
-        @Override
-        public void onRewardedAdOpened() {
-            watchVideoBtn.setEnabled(false);
-            rewardedAd = createAndLoadRewardedAd();
-            progressBar.setVisibility(View.INVISIBLE);
-        }
-
-        @Override
-        public void onRewardedAdClosed() {
-        }
-
+    private OnUserEarnedRewardListener onUserEarnedRewardListener = new OnUserEarnedRewardListener() {
         @Override
         public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
             if (slotCount < 5) {
@@ -173,11 +169,33 @@ public class ExportActivity extends AppCompatActivity {
             }
         }
 
+    };
+
+   private FullScreenContentCallback fullScreenContentCallback = new FullScreenContentCallback() {
         @Override
-        public void onRewardedAdFailedToShow(int errorCode) {
-            // Ad failed to display.
-            rewardedAd = createAndLoadRewardedAd();
+        public void onAdShowedFullScreenContent() {
+            // Called when ad is shown.
+            Log.d("PACMAC-EXPORT", "Ad was shown.");
+            watchVideoBtn.setEnabled(false);
+            createAndLoadRewardedAd();
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+
+        @Override
+        public void onAdFailedToShowFullScreenContent(AdError adError) {
+            // Called when ad fails to show.
+            Log.d("PACMAC-EXPORT", "Ad failed to show: " + adError.getMessage());
+            rewardedAd = null;
+            createAndLoadRewardedAd();
             startActivityForResult(new Intent(getApplicationContext(), PromoActivity.class), PROMO_REQUEST_CODE);
+        }
+
+        @Override
+        public void onAdDismissedFullScreenContent() {
+            // Called when ad is dismissed.
+            // Set the ad reference to null so you don't show the ad a second time.
+            Log.d("PACMAC-EXPORT", "Ad was dismissed.");
+            rewardedAd = null;
         }
     };
 
