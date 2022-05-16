@@ -1,18 +1,18 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'org.jetbrains.kotlin.android'
 android {
     signingConfigs {
         config {
         }
     }
     compileSdkVersion 32
-    buildToolsVersion "33.0.0-rc2"
+    buildToolsVersion "33.0.0-rc3"
     defaultConfig {
         applicationId "com.pacmac.devicediag"
         minSdkVersion 17
         targetSdkVersion 32
-        versionCode 65
-        versionName "2.0.7"
+        versionCode 66
+        versionName "2.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -68,6 +68,10 @@ android {
         }
     }
     sourceSets { main { java.srcDirs = ['src/main/java'] } }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 }
 
 dependencies {
@@ -77,9 +81,10 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test:rules:1.4.0'
 
-    implementation 'androidx.appcompat:appcompat:1.6.0-alpha01'
-    implementation 'androidx.recyclerview:recyclerview:1.3.0-alpha01'
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.6.0-alpha03'
+    implementation 'androidx.recyclerview:recyclerview:1.3.0-alpha02'
+    implementation 'com.google.android.material:material:1.6.0'
     implementation 'com.google.android.gms:play-services-ads:20.6.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'

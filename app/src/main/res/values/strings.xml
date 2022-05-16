@@ -432,6 +432,7 @@
     <string name="wifi_enabling">Enabling</string>
     <string name="wifi_enabled">Enabled</string>
     <string name="wifi_state">WIFI State</string>
+    <string name="wifi_security_type">Security Type</string>
     <string name="wifi_standard">WIFI Standard</string>
     <string name="wifi_standard_unknown">Unknown</string>
     <string name="wifi_standard_abg">802.11a/b/g</string>
@@ -442,5 +443,20 @@
     <string name="not_metered">NOT METERED</string>
     <string name="constellation_label">Constellation</string>
     <string name="pnr">PNR</string>
+
+
+    <string name="w_secirty_open">OPEN</string>
+    <string name="w_secirty_wep">WEP</string>
+    <string name="w_secirty_psk">PSK</string>
+    <string name="w_secirty_eap">EAP</string>
+    <string name="w_secirty_sae">SAE</string>
+    <string name="w_secirty_owe">OWE</string>
+    <string name="w_secirty_wapi_psk">WAPI PSK</string>
+    <string name="w_secirty_wapi_cert">WAPI Cert</string>
+    <string name="w_secirty_eap_wpa_ent">WPA3-Enterprise</string>
+    <string name="w_secirty_eap_wpa_ent_192_bit">WPA3-Enterprise 192-bit</string>
+    <string name="w_secirty_pass_r1_r2"> Passpoint R1/R2</string>
+    <string name="w_secirty_pass_r3"> Passpoint R3</string>
+    <string name="w_secirty_dpp">Easy Connect (DPP)</string>
 
 </resources>

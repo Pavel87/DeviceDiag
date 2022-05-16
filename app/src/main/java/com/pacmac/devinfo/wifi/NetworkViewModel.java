@@ -6,7 +6,6 @@ import android.os.Looper;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.utils.Utility;
 
@@ -66,10 +65,10 @@ public class NetworkViewModel extends ViewModel {
     private void loadWifiInfo(Context context) {
         List<UIObject> list = new ArrayList<>();
         boolean isLocationPermissionEnabled = Utility.checkPermission(context, Utility.ACCESS_FINE_LOCATION);
-        radioState = NetworkUtils.getRadiosState(context);
-        wifiInformation = NetworkUtils.getWifiInformation(context, isLocationPermissionEnabled);
-        dhcpInformation = NetworkUtils.getDHCPInfo(context);
-        wifiFeatures = NetworkUtils.getWifiFeatures(context);
+        radioState = NetworkUtils.INSTANCE.getRadiosState(context);
+        wifiInformation = NetworkUtils.INSTANCE.getWifiInformation(context, isLocationPermissionEnabled);
+        dhcpInformation = NetworkUtils.INSTANCE.getDHCPInfo(context);
+        wifiFeatures = NetworkUtils.INSTANCE.getWifiFeatures(context);
 
         list.addAll(radioState);
         list.addAll(wifiInformation);
