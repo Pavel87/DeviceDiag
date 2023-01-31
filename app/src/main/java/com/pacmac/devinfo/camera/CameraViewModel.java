@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.pacmac.devinfo.ListType;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.ThreeState;
 import com.pacmac.devinfo.UIObject;
@@ -47,24 +48,24 @@ public class CameraViewModel extends ViewModel {
         List<UIObject> list = new ArrayList<>();
 
         if (cameraInfoGeneral.getValue() != null) {
-            list.add(new UIObject(context.getString(R.string.title_activity_camera_info), "", 1));
-            list.add(new UIObject("", "", 1));
+            list.add(new UIObject(context.getString(R.string.title_activity_camera_info), "", ListType.TITLE));
+            list.add(new UIObject("", "", ListType.TITLE));
 
-            list.add(new UIObject(context.getString(R.string.camera_general_info), "", 1));
-            list.add(new UIObject(context.getString(R.string.param), context.getString(R.string.value), 1));
+            list.add(new UIObject(context.getString(R.string.camera_general_info), "", ListType.TITLE));
+            list.add(new UIObject(context.getString(R.string.param), context.getString(R.string.value), ListType.TITLE));
             list.addAll(cameraInfoGeneral.getValue());
         }
 
         if (cameraListData.getValue() != null) {
             for (int i = 0; i < cameraListData.getValue().size(); i++) {
-                list.add(new UIObject("", "", 1));
-                list.add(new UIObject(String.format(Locale.ENGLISH, context.getString(R.string.camera_id_title), i + 1), "", 1));
+                list.add(new UIObject("", "", ListType.TITLE));
+                list.add(new UIObject(String.format(Locale.ENGLISH, context.getString(R.string.camera_id_title), i + 1), "", ListType.TITLE));
                 list.add(new UIObject(context.getString(R.string.param), context.getString(R.string.value), context.getString(R.string.unit)));
                 list.addAll(cameraListData.getValue().get(i));
 
                 if (cameraListPicResolutions.getValue() != null) {
-                    list.add(new UIObject(context.getString(R.string.camera_supported_picture_size), "", 1));
-                    list.add(new UIObject(context.getString(R.string.width), context.getString(R.string.height), 1));
+                    list.add(new UIObject(context.getString(R.string.camera_supported_picture_size), "", ListType.TITLE));
+                    list.add(new UIObject(context.getString(R.string.width), context.getString(R.string.height), ListType.TITLE));
                     for (int a = 0; a < cameraListPicResolutions.getValue().get(i).size(); a++) {
                         list.add(new UIObject(String.valueOf(cameraListPicResolutions.getValue().get(i).get(a).getWidth()),
                                 String.valueOf(cameraListPicResolutions.getValue().get(i).get(a).getHeight())));
@@ -72,8 +73,8 @@ public class CameraViewModel extends ViewModel {
                 }
 
                 if (cameraListVideoResolutions.getValue() != null) {
-                    list.add(new UIObject(context.getString(R.string.camera_supported_video_size), "", 1));
-                    list.add(new UIObject(context.getString(R.string.width), context.getString(R.string.height), 1));
+                    list.add(new UIObject(context.getString(R.string.camera_supported_video_size), "", ListType.TITLE));
+                    list.add(new UIObject(context.getString(R.string.width), context.getString(R.string.height), ListType.TITLE));
                     for (int a = 0; a < cameraListVideoResolutions.getValue().get(i).size(); a++) {
                         list.add(new UIObject(String.valueOf(cameraListVideoResolutions.getValue().get(i).get(a).getWidth()),
                                 String.valueOf(cameraListVideoResolutions.getValue().get(i).get(a).getHeight())));
@@ -88,17 +89,17 @@ public class CameraViewModel extends ViewModel {
     // TODO explore ##CameraCharacteristics##
     private void loadCameraInfo(Context context) {
         List<UIObject> list = new ArrayList<>();
-        list.add(new UIObject(context.getString(R.string.camera_autofocus), CameraUtils.hasAutoFocus(context) ? ThreeState.YES : ThreeState.NO, 2));
-        list.add(new UIObject(context.getString(R.string.camera_flash), CameraUtils.hasFlash(context) ? ThreeState.YES : ThreeState.NO, 2));
-        list.add(new UIObject(context.getString(R.string.camera_front_facing_feature), CameraUtils.hasFrontFacingCamera(context) ? ThreeState.YES : ThreeState.NO, 2));
+        list.add(new UIObject(context.getString(R.string.camera_autofocus), CameraUtils.hasAutoFocus(context) ? ThreeState.YES : ThreeState.NO, ListType.ICON));
+        list.add(new UIObject(context.getString(R.string.camera_flash), CameraUtils.hasFlash(context) ? ThreeState.YES : ThreeState.NO, ListType.ICON));
+        list.add(new UIObject(context.getString(R.string.camera_front_facing_feature), CameraUtils.hasFrontFacingCamera(context) ? ThreeState.YES : ThreeState.NO, ListType.ICON));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            list.add(new UIObject(context.getString(R.string.camera_external_support), CameraUtils.supportsExternalCamera(context) ? ThreeState.YES : ThreeState.NO, 2));
-            list.add(new UIObject(context.getString(R.string.camera_post_processing), CameraUtils.hasManualPostProcessing(context) ? ThreeState.YES : ThreeState.NO, 2));
-            list.add(new UIObject(context.getString(R.string.camera_manual_sensor), CameraUtils.hasManualSensor(context) ? ThreeState.YES : ThreeState.NO, 2));
-            list.add(new UIObject(context.getString(R.string.camera_capability_raw), CameraUtils.hasCapabilityRaw(context) ? ThreeState.YES : ThreeState.NO, 2));
-            list.add(new UIObject(context.getString(R.string.camera_full_hw_capability_level), CameraUtils.hasFulHWCapabilityLevel(context) ? ThreeState.YES : ThreeState.NO, 2));
+            list.add(new UIObject(context.getString(R.string.camera_external_support), CameraUtils.supportsExternalCamera(context) ? ThreeState.YES : ThreeState.NO, ListType.ICON));
+            list.add(new UIObject(context.getString(R.string.camera_post_processing), CameraUtils.hasManualPostProcessing(context) ? ThreeState.YES : ThreeState.NO, ListType.ICON));
+            list.add(new UIObject(context.getString(R.string.camera_manual_sensor), CameraUtils.hasManualSensor(context) ? ThreeState.YES : ThreeState.NO, ListType.ICON));
+            list.add(new UIObject(context.getString(R.string.camera_capability_raw), CameraUtils.hasCapabilityRaw(context) ? ThreeState.YES : ThreeState.NO, ListType.ICON));
+            list.add(new UIObject(context.getString(R.string.camera_full_hw_capability_level), CameraUtils.hasFulHWCapabilityLevel(context) ? ThreeState.YES : ThreeState.NO, ListType.ICON));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                list.add(new UIObject(context.getString(R.string.camera_ar_support), CameraUtils.supportsAR(context) ? ThreeState.YES : ThreeState.NO, 2));
+                list.add(new UIObject(context.getString(R.string.camera_ar_support), CameraUtils.supportsAR(context) ? ThreeState.YES : ThreeState.NO, ListType.ICON));
             }
         }
         cameraInfoGeneral.postValue(list);

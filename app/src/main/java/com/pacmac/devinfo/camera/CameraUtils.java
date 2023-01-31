@@ -7,6 +7,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.pacmac.devinfo.ListType;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.ThreeState;
 import com.pacmac.devinfo.UIObject;
@@ -125,13 +126,13 @@ public class CameraUtils {
         uList.add(new UIObject(context.getString(R.string.camera_focus_area), String.valueOf(parameters.getMaxNumFocusAreas()), "max"));
 
         uList.add(new UIObject(context.getString(R.string.camera_video_snapshot), parameters.isVideoSnapshotSupported()
-                ? ThreeState.YES : ThreeState.NO, 2));
+                ? ThreeState.YES : ThreeState.NO, ListType.ICON));
         uList.add(new UIObject(context.getString(R.string.camera_video_stabilization), parameters.isVideoStabilizationSupported()
-                ? ThreeState.YES : ThreeState.NO, 2));
+                ? ThreeState.YES : ThreeState.NO, ListType.ICON));
         uList.add(new UIObject(context.getString(R.string.camera_auto_exposure), parameters.isAutoExposureLockSupported()
-                ? ThreeState.YES : ThreeState.NO, 2));
+                ? ThreeState.YES : ThreeState.NO, ListType.ICON));
         uList.add(new UIObject(context.getString(R.string.camera_auto_white_balance), parameters.isAutoWhiteBalanceLockSupported()
-                ? ThreeState.YES : ThreeState.NO, 2));
+                ? ThreeState.YES : ThreeState.NO, ListType.ICON));
         uList.add(new UIObject(context.getString(R.string.camera_jpeg_quality), String.valueOf(jpegQ), "%"));
 
 //        picSizes.setText(getPicDetail(parameters));

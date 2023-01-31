@@ -22,6 +22,8 @@ import static android.content.Context.ACTIVITY_SERVICE;
 
 public class StorageUtils {
 
+    public static final String EXPORT_FILE_NAME = "storage_info";
+
     public static ByteValue getTotalMemory(Context context) {
 
         ActivityManager activityManager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);

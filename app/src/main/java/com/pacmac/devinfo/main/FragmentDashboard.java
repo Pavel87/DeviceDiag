@@ -17,16 +17,16 @@ import androidx.fragment.app.Fragment;
 
 import com.pacmac.devinfo.AboutActivity;
 import com.pacmac.devinfo.R;
-import com.pacmac.devinfo.battery.BatteryInfo;
+import com.pacmac.devinfo.battery.BatteryInfoKt;
 import com.pacmac.devinfo.camera.CameraInfo;
 import com.pacmac.devinfo.cellular.CellularInfo;
-import com.pacmac.devinfo.cpu.CPUInfo;
-import com.pacmac.devinfo.display.DisplayInfo;
-import com.pacmac.devinfo.gps.GPSInfo;
-import com.pacmac.devinfo.sensor.SensorsInfo;
-import com.pacmac.devinfo.storage.StorageInfo;
+import com.pacmac.devinfo.cpu.CPUInfoKt;
+import com.pacmac.devinfo.display.DisplayInfoKt;
+import com.pacmac.devinfo.gps.ui.GPSInfoKt;
+import com.pacmac.devinfo.sensor.SensorInfoKt;
+import com.pacmac.devinfo.storage.StorageInfoKt;
 import com.pacmac.devinfo.utils.Utility;
-import com.pacmac.devinfo.wifi.NetworkInfo;
+import com.pacmac.devinfo.wifi.NetworkInfoKt;
 
 /**
  * Created by pacmac on 5/26/2015.
@@ -74,7 +74,7 @@ public class FragmentDashboard extends Fragment {
         gridView.setOnItemClickListener((adapterView, gridViewItem, position, l) -> {
             switch (position) {
                 case 0:
-                    Intent i = new Intent(getActivity(), CPUInfo.class);
+                    Intent i = new Intent(getActivity(), CPUInfoKt.class);
                     if (i.resolveActivity(getActivity().getPackageManager()) != null)
                         startActivity(i);
                     break;
@@ -87,11 +87,11 @@ public class FragmentDashboard extends Fragment {
                             return;
                         }
                     }
-                    i = new Intent(getActivity(), StorageInfo.class);
+                    i = new Intent(getActivity(), StorageInfoKt.class);
                         startActivity(i);
                     break;
                 case 2:
-                    i = new Intent(getActivity(), BatteryInfo.class);
+                    i = new Intent(getActivity(), BatteryInfoKt.class);
                         startActivity(i);
                     break;
                 case 3:
@@ -116,7 +116,7 @@ public class FragmentDashboard extends Fragment {
                                 return;
                             }
                         }
-                        i = new Intent(getActivity(), GPSInfo.class);
+                        i = new Intent(getActivity(), GPSInfoKt.class);
                             startActivity(i);
                     } else {
                         Toast.makeText(getContext(), R.string.gps_not_available_in_device, Toast.LENGTH_LONG).show();
@@ -147,12 +147,12 @@ public class FragmentDashboard extends Fragment {
                     startActivity(i);
                     break;
                 case 6:
-                    i = new Intent(getActivity(), SensorsInfo.class);
+                    i = new Intent(getActivity(), SensorInfoKt.class);
                         startActivity(i);
                     break;
 
                 case 7:
-                    i = new Intent(getActivity(), DisplayInfo.class);
+                    i = new Intent(getActivity(), DisplayInfoKt.class);
                         startActivity(i);
                     break;
                 case 8:
@@ -163,7 +163,7 @@ public class FragmentDashboard extends Fragment {
                             return;
                         }
                     }
-                    i = new Intent(getActivity(), NetworkInfo.class);
+                    i = new Intent(getActivity(), NetworkInfoKt.class);
                         startActivity(i);
                     break;
                 case 9:

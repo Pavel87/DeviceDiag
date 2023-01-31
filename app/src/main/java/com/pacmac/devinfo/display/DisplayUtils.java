@@ -15,6 +15,8 @@ import java.util.Locale;
 
 public class DisplayUtils {
 
+    public static final String EXPORT_FILE_NAME = "display_info";
+
     static UIObject getDensity(Context context, DisplayMetrics metrics) {
         return new UIObject(context.getString(R.string.display_density), String.format(Locale.ENGLISH, "%d", metrics.densityDpi), "dpi");
     }

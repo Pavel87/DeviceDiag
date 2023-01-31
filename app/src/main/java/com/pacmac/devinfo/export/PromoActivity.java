@@ -11,7 +11,6 @@ import com.pacmac.devinfo.R;
 
 public class PromoActivity extends AppCompatActivity {
 
-
     private boolean playstoreVisited = false;
 
     @Override

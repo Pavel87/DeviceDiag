@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.pacmac.devinfo.ListType;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.ThreeState;
 import com.pacmac.devinfo.UIObject;
@@ -74,9 +75,9 @@ public class BasicItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        if (mData.get(position).getType() == 0) {
+        if (mData.get(position).getType() == ListType.MAIN) {
             return CONTENT;
-        } else if (mData.get(position).getType() == 1) {
+        } else if (mData.get(position).getType() == ListType.TITLE) {
             return TITLE;
         } else {
             return IMAGE;

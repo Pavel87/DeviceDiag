@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.pacmac.devinfo.CheckAppVersionTask;
+import com.pacmac.devinfo.ListType;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.UpToDateEnum;
@@ -29,8 +30,8 @@ public class MainViewModel extends ViewModel {
 
         if (mainInfo.getValue() != null) {
             List<UIObject> list = new ArrayList<>();
-            list.add(new UIObject(context.getString(R.string.basic_info), "",1));
-            list.add(new UIObject(context.getString(R.string.param), context.getString(R.string.value), 1));
+            list.add(new UIObject(context.getString(R.string.basic_info), "", ListType.TITLE));
+            list.add(new UIObject(context.getString(R.string.param), context.getString(R.string.value), ListType.TITLE));
             list.addAll(mainInfo.getValue());
             return list;
         }

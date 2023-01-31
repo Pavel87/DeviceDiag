@@ -7,6 +7,7 @@ import com.pacmac.devinfo.R;
 
 public class BatteryUtils {
 
+    public static String EXPORT_FILE_NAME = "battery_info";
 
     protected static String getBatStatus(Context context, int i) {
 

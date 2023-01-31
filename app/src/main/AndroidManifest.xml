@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.pacmac.devinfo">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -24,6 +23,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:name=".DeviceInfoApplication"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
@@ -32,27 +32,27 @@
             android:label="@string/title_activity_camera_info"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".gps.GPSInfo"
+            android:name=".gps.ui.GPSInfoKt"
             android:label="@string/activity_title_gps_information"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".wifi.NetworkInfo"
+            android:name=".wifi.NetworkInfoKt"
             android:label="@string/title_activity_network_info"
             android:theme="@style/MaterialAppTheme" />
         <activity
-            android:name=".display.DisplayInfo"
+            android:name=".display.DisplayInfoKt"
             android:label="@string/title_activity_display_info"
             android:theme="@style/MaterialAppTheme" />
         <activity
-            android:name=".battery.BatteryInfo"
+            android:name=".battery.BatteryInfoKt"
             android:label="@string/title_activity_battery_info"
             android:theme="@style/MaterialAppTheme" />
         <activity
-            android:name=".storage.StorageInfo"
+            android:name=".storage.StorageInfoKt"
             android:label="@string/title_activity_storage_info"
             android:theme="@style/MaterialAppTheme" />
         <activity
-            android:name=".cpu.CPUInfo"
+            android:name=".cpu.CPUInfoKt"
             android:label="@string/title_activity_cpu_info"
             android:theme="@style/MaterialAppTheme" />
         <activity android:name=".export.PromoActivity" />
@@ -81,7 +81,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".sensor.SensorsInfo"
+            android:name=".sensor.SensorInfoKt"
             android:label="@string/title_activity_sensor_list" />
         <activity
             android:name=".AboutActivity"

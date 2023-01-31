@@ -27,6 +27,7 @@ import android.telephony.TelephonyManager;
 
 import androidx.annotation.RequiresApi;
 
+import com.pacmac.devinfo.ListType;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.ThreeState;
 import com.pacmac.devinfo.UIObject;
@@ -1980,7 +1981,7 @@ public class MobileNetworkUtil {
         for (CellInfo cell : cellInfos) {
 
             if (cell.isRegistered()) {
-                uiList.add(new UIObject("Cell", String.valueOf(i + 1), 1));
+                uiList.add(new UIObject("Cell", String.valueOf(i + 1), ListType.TITLE));
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                     int cellConnectionStatus = cell.getCellConnectionStatus();
@@ -2061,7 +2062,7 @@ public class MobileNetworkUtil {
                             uiList.add(new UIObject(context.getResources().getString(R.string.csg_identity),
                                     String.valueOf(csg.getCsgIdentity())));
                             uiList.add(new UIObject(context.getResources().getString(R.string.csg_restriction), csg.getCsgIndicator()
-                                    ? ThreeState.YES : ThreeState.NO, 2));
+                                    ? ThreeState.YES : ThreeState.NO, ListType.ICON));
                             uiList.add(new UIObject(context.getResources().getString(R.string.csg_hnb_name), csg.getHomeNodebName()));
                         }
                     }
@@ -2162,7 +2163,7 @@ public class MobileNetworkUtil {
                             uiList.add(new UIObject(context.getResources().getString(R.string.csg_identity),
                                     String.valueOf(csg.getCsgIdentity())));
                             uiList.add(new UIObject(context.getResources().getString(R.string.csg_restriction), csg.getCsgIndicator()
-                                    ? ThreeState.YES : ThreeState.NO, 2));
+                                    ? ThreeState.YES : ThreeState.NO, ListType.ICON));
                             uiList.add(new UIObject(context.getResources().getString(R.string.csg_hnb_name), csg.getHomeNodebName()));
                         }
                     }
@@ -2302,7 +2303,7 @@ public class MobileNetworkUtil {
                         uiList.add(new UIObject(context.getResources().getString(R.string.csg_identity),
                                 String.valueOf(csg.getCsgIdentity())));
                         uiList.add(new UIObject(context.getResources().getString(R.string.csg_restriction), csg.getCsgIndicator()
-                                ? ThreeState.YES : ThreeState.NO, 2));
+                                ? ThreeState.YES : ThreeState.NO, ListType.ICON));
                         uiList.add(new UIObject(context.getResources().getString(R.string.csg_hnb_name), csg.getHomeNodebName()));
                     }
                 }

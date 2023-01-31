@@ -9,6 +9,7 @@ import android.os.Build;
 
 import androidx.core.content.FileProvider;
 
+import com.pacmac.devinfo.ListType;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.ThreeState;
 import com.pacmac.devinfo.UIObject;
@@ -47,7 +48,7 @@ public class ExportUtils {
 
             StringBuilder sb = new StringBuilder();
             for (UIObject data : records) {
-                if (data.getType() == 2) {
+                if (data.getType() == ListType.ICON) {
                     String state = context.getResources().getString(R.string.not_available_info);
                     if (data.getState() == ThreeState.YES) {
                         state = context.getResources().getString(R.string.yes_string);

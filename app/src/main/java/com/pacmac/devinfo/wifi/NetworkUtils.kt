@@ -9,6 +9,7 @@ import android.net.wifi.ScanResult
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
+import com.pacmac.devinfo.ListType
 import com.pacmac.devinfo.R
 import com.pacmac.devinfo.ThreeState
 import com.pacmac.devinfo.UIObject
@@ -22,6 +23,9 @@ import java.util.*
  */
 object NetworkUtils {
 
+    const val EXPORT_FILE_NAME = "network_info"
+
+
     private var scanResult: ScanResult? = null
     private var bssidTemp: String? = ""
 
@@ -33,7 +37,7 @@ object NetworkUtils {
         if (connMgr == null) {
             return list
         }
-        list.add(UIObject(context.getString(R.string.network_radio_state), "", 1))
+        list.add(UIObject(context.getString(R.string.network_radio_state), "", ListType.TITLE))
 
         // check WIFI state and if present in device
         if (context.packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI)) {
@@ -107,65 +111,65 @@ object NetworkUtils {
             return list
         }
         if (Build.VERSION.SDK_INT >= 21) {
-            list.add(UIObject(context.getString(R.string.network_supported_features), "", 1))
+            list.add(UIObject(context.getString(R.string.network_supported_features), "", ListType.TITLE))
             list.add(
                 UIObject(
                     context.getString(R.string.network_five_ghz_band),
                     if (wifiManager.is5GHzBandSupported) ThreeState.YES else ThreeState.MAYBE,
-                    2
+                    ListType.ICON
                 )
             )
             list.add(
                 UIObject(
                     context.getString(R.string.network_ap_rtt),
                     if (wifiManager.isDeviceToApRttSupported) ThreeState.YES else ThreeState.MAYBE,
-                    2
+                    ListType.ICON
                 )
             )
             list.add(
                 UIObject(
                     context.getString(R.string.network_power_reporting),
                     if (wifiManager.isEnhancedPowerReportingSupported) ThreeState.YES else ThreeState.MAYBE,
-                    2
+                    ListType.ICON
                 )
             )
             list.add(
                 UIObject(
                     context.getString(R.string.network_wifi_direct),
                     if (wifiManager.isP2pSupported) ThreeState.YES else ThreeState.MAYBE,
-                    2
+                    ListType.ICON
                 )
             )
             list.add(
                 UIObject(
                     context.getString(R.string.network_offloaded_conn_scan),
                     if (wifiManager.isPreferredNetworkOffloadSupported) ThreeState.YES else ThreeState.MAYBE,
-                    2
+                    ListType.ICON
                 )
             )
             list.add(
                 UIObject(
                     context.getString(R.string.network_scan_always_available),
                     if (wifiManager.isScanAlwaysAvailable) ThreeState.YES else ThreeState.MAYBE,
-                    2
+                    ListType.ICON
                 )
             )
             list.add(
                 UIObject(
                     context.getString(R.string.network_tdls),
                     if (wifiManager.isTdlsSupported) ThreeState.YES else ThreeState.MAYBE,
-                    2
+                    ListType.ICON
                 )
             )
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-                list.add(UIObject(context.getString(R.string.network_dpp), ThreeState.NO, 2))
-                list.add(UIObject(context.getString(R.string.network_owe), ThreeState.NO, 2))
-                list.add(UIObject(context.getString(R.string.network_sae), ThreeState.NO, 2))
+                list.add(UIObject(context.getString(R.string.network_dpp), ThreeState.NO, ListType.ICON))
+                list.add(UIObject(context.getString(R.string.network_owe), ThreeState.NO, ListType.ICON))
+                list.add(UIObject(context.getString(R.string.network_sae), ThreeState.NO, ListType.ICON))
                 list.add(
                     UIObject(
                         context.getString(R.string.network_enterprise_suite_b),
                         ThreeState.NO,
-                        2
+                        ListType.ICON
                     )
                 )
             } else {
@@ -173,28 +177,28 @@ object NetworkUtils {
                     UIObject(
                         context.getString(R.string.network_dpp),
                         if (wifiManager.isEasyConnectSupported) ThreeState.YES else ThreeState.NO,
-                        2
+                        ListType.ICON
                     )
                 )
                 list.add(
                     UIObject(
                         context.getString(R.string.network_owe),
                         if (wifiManager.isEnhancedOpenSupported) ThreeState.YES else ThreeState.NO,
-                        2
+                        ListType.ICON
                     )
                 )
                 list.add(
                     UIObject(
                         context.getString(R.string.network_sae),
                         if (wifiManager.isWpa3SaeSupported) ThreeState.YES else ThreeState.NO,
-                        2
+                        ListType.ICON
                     )
                 )
                 list.add(
                     UIObject(
                         context.getString(R.string.network_enterprise_suite_b),
                         if (wifiManager.isWpa3SuiteBSupported) ThreeState.YES else ThreeState.NO,
-                        2
+                        ListType.ICON
                     )
                 )
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -202,28 +206,28 @@ object NetworkUtils {
                         UIObject(
                             context.getString(R.string.network_wifi_6ghz_band),
                             if (wifiManager.is6GHzBandSupported) ThreeState.YES else ThreeState.NO,
-                            2
+                            ListType.ICON
                         )
                     )
                     list.add(
                         UIObject(
                             context.getString(R.string.network_wifi_sta_ap_concurrency),
                             if (wifiManager.isStaApConcurrencySupported) ThreeState.YES else ThreeState.NO,
-                            2
+                            ListType.ICON
                         )
                     )
                     list.add(
                         UIObject(
                             context.getString(R.string.network_wifi_wapi_support),
                             if (wifiManager.isWapiSupported) ThreeState.YES else ThreeState.NO,
-                            2
+                            ListType.ICON
                         )
                     )
                     list.add(
                         UIObject(
                             context.getString(R.string.network_wifi_scan_throttling),
                             if (wifiManager.isScanThrottleEnabled) ThreeState.YES else ThreeState.NO,
-                            2
+                            ListType.ICON
                         )
                     )
                 }
@@ -243,7 +247,7 @@ object NetworkUtils {
 
         //dhcp address
         val dhcpInformation = wifiManager.dhcpInfo
-        list.add(UIObject(context.getString(R.string.network_dhcp), "", 1))
+        list.add(UIObject(context.getString(R.string.network_dhcp), "", ListType.TITLE))
         list.add(
             UIObject(
                 context.getString(R.string.network_ip_address),
@@ -316,7 +320,7 @@ object NetworkUtils {
             e.printStackTrace()
             return list
         }
-        list.add(UIObject(context.getString(R.string.network_wifi_info), "", 1))
+        list.add(UIObject(context.getString(R.string.network_wifi_info), "", ListType.TITLE))
 
         // WIFI Connected info
         list.add(

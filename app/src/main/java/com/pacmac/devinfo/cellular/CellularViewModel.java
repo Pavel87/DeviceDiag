@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.pacmac.devinfo.ListType;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.utils.Utility;
@@ -264,7 +265,7 @@ public class CellularViewModel extends ViewModel {
 
         for (int i = 0; i < slotCount; i++) {
 
-            list.add(new UIObject(context.getString(R.string.network), String.valueOf(i + 1), 1));
+            list.add(new UIObject(context.getString(R.string.network), String.valueOf(i + 1), ListType.TITLE));
 
             UIObject genObject = MobileNetworkUtil.getGeneration(context, telephonyManager, i, isMultiSIM);
             boolean is4G = genObject.getValue().contains("4G");

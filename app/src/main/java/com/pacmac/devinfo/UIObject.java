@@ -1,11 +1,14 @@
 package com.pacmac.devinfo;
 
+import androidx.annotation.NonNull;
+
 public class UIObject {
 
     private String label;
     private String value;
     private String suffix = null;
-    private int type = 0; // 0 - default // 1 - title // 2 icon
+    @NonNull
+    private ListType type = ListType.MAIN;
     private ThreeState state;
 
     public UIObject(String label, String value) {
@@ -13,13 +16,13 @@ public class UIObject {
         this.value = value;
     }
 
-    public UIObject(String label, String value, int type) {
+    public UIObject(String label, String value, @NonNull ListType type) {
         this.label = label;
         this.value = value;
         this.type = type;
     }
 
-    public UIObject(String label, ThreeState state, int type) {
+    public UIObject(String label, ThreeState state, @NonNull ListType type) {
         this.label = label;
         this.state = state;
         this.type = type;
@@ -47,7 +50,8 @@ public class UIObject {
         return suffix;
     }
 
-    public int getType() {
+    @NonNull
+    public ListType getType() {
         return type;
     }
 }

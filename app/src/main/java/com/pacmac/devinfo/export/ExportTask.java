@@ -2,23 +2,24 @@ package com.pacmac.devinfo.export;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.text.Html;
 
 import androidx.lifecycle.ViewModel;
 
 import com.pacmac.devinfo.UIObject;
-import com.pacmac.devinfo.battery.BatteryViewModel;
+import com.pacmac.devinfo.battery.BatteryViewModelKt;
 import com.pacmac.devinfo.camera.CameraViewModel;
 import com.pacmac.devinfo.cellular.CellularViewModel;
 import com.pacmac.devinfo.config.BuildPropertiesViewModel;
-import com.pacmac.devinfo.cpu.CPUViewModel;
-import com.pacmac.devinfo.display.DisplayViewModel;
-import com.pacmac.devinfo.gps.GPSViewModel;
+import com.pacmac.devinfo.cpu.CPUViewModelKt;
+import com.pacmac.devinfo.display.DisplayViewModelKt;
+import com.pacmac.devinfo.gps.GPSViewModelKt;
+import com.pacmac.devinfo.gps.Utils;
 import com.pacmac.devinfo.main.MainViewModel;
-import com.pacmac.devinfo.sensor.SensorViewModel;
-import com.pacmac.devinfo.storage.StorageViewModel;
-import com.pacmac.devinfo.wifi.NetworkViewModel;
+import com.pacmac.devinfo.sensor.SensorViewModelKt;
+import com.pacmac.devinfo.storage.StorageViewModelKt;
+import com.pacmac.devinfo.wifi.NetworkViewModelKt;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExportTask extends AsyncTask<ViewModel, Void, String> {
@@ -53,24 +54,24 @@ public class ExportTask extends AsyncTask<ViewModel, Void, String> {
             list = ((CellularViewModel) viewModels[0]).getAllPhoneInfoForExport(context);
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
-        if (viewModels[0] instanceof CPUViewModel) {
-            list = ((CPUViewModel) viewModels[0]).getCpuInfoForExport(context);
+        if (viewModels[0] instanceof CPUViewModelKt) {
+            list = ((CPUViewModelKt) viewModels[0]).getCpuInfoForExport(context);
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
-        if (viewModels[0] instanceof StorageViewModel) {
-            list = ((StorageViewModel) viewModels[0]).getStorageInfoForExport(context);
+        if (viewModels[0] instanceof StorageViewModelKt) {
+            list = ((StorageViewModelKt) viewModels[0]).getStorageInfoForExport(context);
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
-        if (viewModels[0] instanceof BatteryViewModel) {
-            list = ((BatteryViewModel) viewModels[0]).getBatteryInfoForExport(context);
+        if (viewModels[0] instanceof BatteryViewModelKt) {
+            list = ((BatteryViewModelKt) viewModels[0]).getBatteryInfoForExport(context);
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
-        if (viewModels[0] instanceof DisplayViewModel) {
-            list = ((DisplayViewModel) viewModels[0]).getDisplayInfoForExport(context);
+        if (viewModels[0] instanceof DisplayViewModelKt) {
+            list = ((DisplayViewModelKt) viewModels[0]).getDisplayInfoForExport(context);
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
-        if (viewModels[0] instanceof NetworkViewModel) {
-            list = ((NetworkViewModel) viewModels[0]).getWifiInfoForExport();
+        if (viewModels[0] instanceof NetworkViewModelKt) {
+            list = ((NetworkViewModelKt) viewModels[0]).getWifiInfoForExport();
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
         if (viewModels[0] instanceof BuildPropertiesViewModel) {
@@ -83,20 +84,27 @@ public class ExportTask extends AsyncTask<ViewModel, Void, String> {
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
 
-        if (viewModels[0] instanceof SensorViewModel) {
-            list = ((SensorViewModel) viewModels[0]).getSensorListForExport(context);
+        if (viewModels[0] instanceof SensorViewModelKt) {
+            list = ((SensorViewModelKt) viewModels[0]).getSensorListForExport(context);
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
 
-        if (viewModels[0] instanceof GPSViewModel) {
+        if (viewModels[0] instanceof GPSViewModelKt) {
 
-            if (fileName.equals(GPSViewModel.EXPORT_FILE_NAME)) {
-                list = ((GPSViewModel) viewModels[0]).getMainGPSDataForExport(context);
+            if (fileName.equals(GPSViewModelKt.Companion.getEXPORT_FILE_NAME())) {
+
+                UIObject updateTime = Utils.INSTANCE.getGPSUpdateTimeForExport(context, ((GPSViewModelKt) viewModels[0]).getUpdateTimeLive().getValue());
+                List<UIObject> mainGPSData = Utils.INSTANCE.getMainGPSInfoList(context, ((GPSViewModelKt) viewModels[0]).getMainGPSData().getValue());
+                List<UIObject> satellites = Utils.INSTANCE.getSatellitesForExport(context, ((GPSViewModelKt) viewModels[0]).getSatellites().getValue());
+                list = new ArrayList<>();
+                list.add(updateTime);
+                list.addAll(mainGPSData);
+                list.addAll(satellites);
                 exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
             } else {
                 StringBuilder sb = new StringBuilder();
                 sb.append("=============NMEA FEED===============\n");
-                sb.append(Html.fromHtml(((GPSViewModel) viewModels[0]).getMessageLive().getValue()));
+                sb.append(Utils.INSTANCE.getNMEALofForExport(((GPSViewModelKt) viewModels[0]).getNmeaLog().getValue()));
                 exportFilePath = ExportUtils.writeDataToTXT(context, sb.toString(), fileName);
                 return exportFilePath;
             }

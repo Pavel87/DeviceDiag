@@ -10,6 +10,7 @@
     <string name="title_activity_siminfo">Phone Information</string>
     <string name="title_activity_nmeafeed">NMEA feed</string>
     <string name="title_activity_sensor_list">Available Sensors</string>
+    <string name="title_activity_sensor_detail">Sensor Readings</string>
     <string name="title_activity_display_info">Display Information</string>
     <string name="title_activity_build_properties">Device Build Properties</string>
     <string name="connected_info">Connected</string>
@@ -162,8 +163,8 @@
     <string name="earn_slot_ad_local">You can earn export slot by visiting Play Store</string>
     <string name="supported_picture_size">Supported Picture Size\n [width x height]</string>
     <string name="supported_video_size">Supported Video Size\n [width x height]</string>
-    <string name="last_update">Last Update:</string>
-    <string name="start">Start</string>
+    <string name="last_update">Last Update</string>
+    <string name="start_logging">Start Logging</string>
     <string name="active_satellites">Active Satellites</string>
     <string name="azimuth">Azimuth</string>
     <string name="elevation">Elevation</string>
@@ -306,6 +307,7 @@
     <string name="location_off_message">GPS Location Service is turned off. Do you want to turn GPS Location on?</string>
     <string name="ok_button">OK</string>
     <string name="gps_first_fix">First Fix</string>
+    <string name="gps_first_fix_acquiring">Acquiring…</string>
     <string name="gps_starting">Starting</string>
     <string name="gps_inactive">Inactive</string>
     <string name="gps_active">Active</string>
@@ -322,7 +324,8 @@
     <string name="gps_bearing">Bearing</string>
     <string name="gps_visible_satellites">Visible Satellites</string>
     <string name="nmea_start">Start</string>
-    <string name="nmea_fetching_data">Fetching data from GPS…</string>
+    <string name="nmea_fetching_data">NMEA Logging In Progress…</string>
+    <string name="nmea_fetching_data_stopped">NMEA Logging Is Stopped</string>
     <string name="nmea_stop">Stop</string>
     <string name="gps_not_available_in_device">GPS is not available on this device.</string>
     <string name="os_version">OS Version</string>
@@ -458,5 +461,9 @@
     <string name="w_secirty_pass_r1_r2"> Passpoint R1/R2</string>
     <string name="w_secirty_pass_r3"> Passpoint R3</string>
     <string name="w_secirty_dpp">Easy Connect (DPP)</string>
+    <string name="wallet_income_expense_manager">Wallet - Income-Expense Manager</string>
+    <string name="download_wallet_app">Download Wallet Income Expense Manager From GooglePay Store</string>
 
+
+    <string name="navigate_to_sensor_detail">Go to Sensor Data</string>
 </resources>
