@@ -11,8 +11,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.pacmac.devinfo.ListType
 import com.pacmac.devinfo.R
+import com.pacmac.devinfo.ResolutionUIObject
 import com.pacmac.devinfo.ThreeState
 import com.pacmac.devinfo.UIObject
+import com.pacmac.devinfo.camera.model.Resolution
 import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
 
 @Composable
@@ -45,8 +47,15 @@ fun InfoListView(
                     ListType.ICON -> {
                         ImageItemView(label = item.label, value = item.state)
                     }
+
+                    ListType.RESOLUTION -> {
+                        item as ResolutionUIObject
+                        ResolutionItemView(title = item.title, resolutions = item.resolutions)
+                    }
                 }
-                Divider()
+                if (item.type != ListType.RESOLUTION) {
+                    Divider()
+                }
 
             }
         }
@@ -88,6 +97,17 @@ fun PreviewItemListView() {
                 ListType.ICON
             )
         )
+        val res = arrayListOf<Resolution>()
+        res.apply {
+            add(Resolution(3264, 2448))
+            add(Resolution(2448, 2448))
+            add(Resolution(960, 720))
+            add(Resolution(360, 180))
+            add(Resolution(1080, 920))
+            add(Resolution(2048, 1080))
+            add(Resolution(4896, 2048))
+        }
+        data.add(ResolutionUIObject(stringResource(id = R.string.supported_picture_size), res))
 
         InfoListView(
             modifier = Modifier.fillMaxWidth(),

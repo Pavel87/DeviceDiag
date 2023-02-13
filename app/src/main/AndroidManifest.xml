@@ -28,7 +28,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:name=".camera.CameraInfo"
+            android:name=".camera.CameraInfoKt"
             android:label="@string/title_activity_camera_info"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

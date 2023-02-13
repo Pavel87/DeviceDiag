@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pacmac.devinfo.export.ExportTask
 import com.pacmac.devinfo.gps.models.GPSMainInfoModel
-import com.pacmac.devinfo.gps.models.GPSScreenType
+import com.pacmac.devinfo.gps.models.ScreenType
 import com.pacmac.devinfo.gps.models.NMEALog
 import com.pacmac.devinfo.gps.models.Satellite
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,17 +46,16 @@ class GPSViewModelKt @Inject constructor(private val locationRepository: Locatio
 
     private var isNMEALogRunning = false
 
-
     private var isExporting = false
     private val _onExportDone = MutableSharedFlow<String?>()
     val onExportDone = _onExportDone.asSharedFlow()
 
     // REFACTOR EXPORT logic
-    fun export(context: Context, screenType: GPSScreenType) {
+    fun export(context: Context, screenType: ScreenType) {
         if (!isExporting) {
             isExporting = true
 
-            if (screenType == GPSScreenType.NMEA) {
+            if (screenType == ScreenType.NMEA) {
                 if (nmeaLog.value.isNotEmpty()) {
                     ExportTask(context, EXPORT_NMEA_FILE_NAME) {
                         viewModelScope.launch {

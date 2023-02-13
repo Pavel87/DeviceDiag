@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel;
 
 import com.pacmac.devinfo.UIObject;
 import com.pacmac.devinfo.battery.BatteryViewModelKt;
-import com.pacmac.devinfo.camera.CameraViewModel;
+import com.pacmac.devinfo.camera.CameraUtilsKt;
+import com.pacmac.devinfo.camera.CameraViewModelKt;
+import com.pacmac.devinfo.camera.model.CameraSpec;
 import com.pacmac.devinfo.cellular.CellularViewModel;
 import com.pacmac.devinfo.config.BuildPropertiesViewModel;
 import com.pacmac.devinfo.cpu.CPUViewModelKt;
@@ -79,8 +81,14 @@ public class ExportTask extends AsyncTask<ViewModel, Void, String> {
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
 
-        if (viewModels[0] instanceof CameraViewModel) {
-            list = ((CameraViewModel) viewModels[0]).getCameraDataForExport(context);
+        if (viewModels[0] instanceof CameraViewModelKt) {
+            list = new ArrayList<>(CameraUtilsKt.INSTANCE.getFormattedGeneralInfo(context, ((CameraViewModelKt) viewModels[0]).getCameraInfoGeneral().getValue(), true));
+
+            int i =0;
+            for (CameraSpec spec : ((CameraViewModelKt)viewModels[0]).getCameraListData().getValue()) {
+                list.addAll(CameraUtilsKt.INSTANCE.getCameraSpecParams(context, spec, true, i));
+                i++;
+            }
             exportFilePath = ExportUtils.writeRecordsToFile(context, list, fileName, 0);
         }
 

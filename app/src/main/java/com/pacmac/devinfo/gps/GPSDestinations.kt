@@ -1,29 +1,23 @@
 package com.pacmac.devinfo.gps
 
 import androidx.compose.runtime.Composable
-import com.pacmac.devinfo.gps.models.GPSScreenType
-
-interface GPSDestinations {
-    val route: String
-    val type: GPSScreenType
-    val screen: @Composable () -> Unit
-}
-
-object GPSInfoListDestination : GPSDestinations {
+import com.pacmac.devinfo.Destination
+import com.pacmac.devinfo.gps.models.ScreenType
+object GPSInfoListDestination : Destination {
     override val route: String = "GPS Info"
-    override val type = GPSScreenType.MAIN
+    override val type = ScreenType.MAIN
     override val screen: @Composable () -> Unit = { GPSScreen() }
 }
 
-object SatellitesDestination : GPSDestinations {
+object SatellitesDestination : Destination {
     override val route: String = "Satellites"
-    override val type = GPSScreenType.SATELLITES
+    override val type = ScreenType.SATELLITES
     override val screen: @Composable () -> Unit = { SatellitesScreen() }
 }
 
-object NMEALogDestination : GPSDestinations {
+object NMEALogDestination : Destination {
     override val route: String = "NMEA"
-    override val type = GPSScreenType.NMEA
+    override val type = ScreenType.NMEA
     override val screen: @Composable () -> Unit = { NMEALogScreen() }
 }
 

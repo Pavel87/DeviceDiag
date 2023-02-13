@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.pacmac.devinfo.AboutActivity;
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.battery.BatteryInfoKt;
-import com.pacmac.devinfo.camera.CameraInfo;
+import com.pacmac.devinfo.camera.CameraInfoKt;
 import com.pacmac.devinfo.cellular.CellularInfo;
 import com.pacmac.devinfo.cpu.CPUInfoKt;
 import com.pacmac.devinfo.display.DisplayInfoKt;
@@ -104,7 +104,7 @@ public class FragmentDashboard extends Fragment {
                         }
                     }
 
-                    i = new Intent(getActivity(), CameraInfo.class);
+                    i = new Intent(getActivity(), CameraInfoKt.class);
                         startActivity(i);
                     break;
                 case 4:

@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.ripple.rememberRipple
@@ -29,30 +31,32 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.pacmac.devinfo.Destination
 import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
 import java.util.Locale
 
 @Preview
 @Composable
-fun PreviewGPSTabRow() {
+fun PreviewTabRow() {
     DeviceInfoTheme() {
-        GPSTabRow(gpsTabs(), {}, GPSInfoListDestination)
+        TabRow(gpsTabs(), {}, GPSInfoListDestination)
     }
 }
 
 @Composable
-fun GPSTabRow(
-    allScreens: List<GPSDestinations>,
-    onTabSelected: (GPSDestinations) -> Unit,
-    currentScreen: GPSDestinations
+fun TabRow(
+    allScreens: List<Destination>,
+    onTabSelected: (Destination) -> Unit,
+    currentScreen: Destination
 ) {
-    Surface(color = MaterialTheme.colorScheme.primary,
+    Surface(
+        color = MaterialTheme.colorScheme.primary,
         modifier = Modifier
             .height(TabHeight)
             .fillMaxWidth()
     ) {
-        Row(Modifier.selectableGroup()) {
-            allScreens.forEach { screen ->
+        LazyRow(Modifier.selectableGroup()) {
+            itemsIndexed(allScreens) { i, screen ->
                 Tab(
                     text = screen.route,
                     onSelected = { onTabSelected(screen) },
@@ -103,8 +107,8 @@ private fun Tab(
     ) {
 //        Icon(imageVector = Icons.Default., contentDescription = text, tint = tabTintColor)
 //        if (selected) {
-            Spacer(Modifier.width(12.dp))
-            Text(text.uppercase(Locale.getDefault()), color = tabTintColor)
+        Spacer(Modifier.width(12.dp))
+        Text(text.uppercase(Locale.getDefault()), color = tabTintColor)
 //        }
     }
 }

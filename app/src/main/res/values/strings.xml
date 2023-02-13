@@ -231,7 +231,7 @@
     <string name="camera_ar_support">AR Support</string>
     <string name="camera_general_info">General Info</string>
     <string name="camera_id_title">Camera %d</string>
-    <string name="camera_supported_picture_size">Supported Picture Size</string>
+    <string name="camera_supported_image_size">Supported Image Size</string>
     <string name="camera_supported_video_size">Supported Video Size</string>
     <string name="width">WIDTH</string>
     <string name="height">HEIGHT</string>

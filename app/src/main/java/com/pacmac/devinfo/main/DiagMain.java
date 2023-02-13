@@ -23,7 +23,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.gms.ads.MobileAds;
 import com.pacmac.devinfo.NewFeaturesActivity;
 import com.pacmac.devinfo.R;
-import com.pacmac.devinfo.camera.CameraUtils;
 import com.pacmac.devinfo.utils.Utility;
 
 import java.util.Locale;
@@ -52,7 +51,7 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
         viewModel.checkIfAppIsUpToDate(getApplicationContext());
 
         // Initialize Camera count
-        CameraUtils.loadCameraCount();
+//        CameraUtils.loadCameraCount();
 
         // Check if user disabled LOCATION permission at some point
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -111,6 +110,7 @@ public class DiagMain extends AppCompatActivity implements ActionBar.TabListener
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         isLocationPermissionEnabled = Utility.checkPermission(getApplicationContext(), Utility.ACCESS_FINE_LOCATION);
         if (isLocationPermissionEnabled && checkIfAppUpdated()) {
             startActivity(new Intent(getApplicationContext(), NewFeaturesActivity.class));

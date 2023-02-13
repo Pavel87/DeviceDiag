@@ -31,12 +31,12 @@ import com.pacmac.devinfo.export.ExportActivity
 import com.pacmac.devinfo.export.ExportUtils
 import com.pacmac.devinfo.gps.GPSInfoListDestination
 import com.pacmac.devinfo.gps.GPSScreen
-import com.pacmac.devinfo.gps.GPSTabRow
 import com.pacmac.devinfo.gps.GPSViewModelKt
 import com.pacmac.devinfo.gps.NMEALogDestination
 import com.pacmac.devinfo.gps.NMEALogScreen
 import com.pacmac.devinfo.gps.SatellitesDestination
 import com.pacmac.devinfo.gps.SatellitesScreen
+import com.pacmac.devinfo.gps.TabRow
 import com.pacmac.devinfo.gps.gpsTabs
 import com.pacmac.devinfo.ui.components.BarTitle
 import com.pacmac.devinfo.ui.components.BarTitle2Line
@@ -102,8 +102,8 @@ class GPSInfoKt : ComponentActivity() {
                                 }
                             ) { viewModel.export(context, currentScreen.type) }
 
-                            GPSTabRow(allScreens = gpsTabs(), onTabSelected = {
-                                navController.navigate(it.route) {
+                            TabRow(allScreens = gpsTabs(), onTabSelected = { destination ->
+                                navController.navigate(destination.route) {
                                     launchSingleTop = true
                                     popUpTo(GPSInfoListDestination.route)
                                 }
@@ -151,10 +151,11 @@ class GPSInfoKt : ComponentActivity() {
                     exportVisible = true
                 ) {
                 }
-
-                GPSTabRow(allScreens = gpsTabs(), onTabSelected = {
-                }, currentScreen = SatellitesDestination)
-
+                TabRow(
+                    allScreens = gpsTabs(),
+                    onTabSelected = {},
+                    currentScreen = SatellitesDestination
+                )
             }
         }
     }
