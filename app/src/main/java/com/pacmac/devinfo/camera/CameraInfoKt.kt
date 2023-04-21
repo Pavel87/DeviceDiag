@@ -29,7 +29,7 @@ import com.pacmac.devinfo.camera.ui.CameraGeneralScreen
 import com.pacmac.devinfo.camera.ui.CameraInfoDestination
 import com.pacmac.devinfo.camera.ui.CameraInfoScreen
 import com.pacmac.devinfo.camera.ui.getCamTabs
-import com.pacmac.devinfo.export.ExportActivity
+import com.pacmac.devinfo.export.ui.ExportActivity
 import com.pacmac.devinfo.export.ExportUtils
 import com.pacmac.devinfo.gps.TabRow
 import com.pacmac.devinfo.ui.components.TopBar

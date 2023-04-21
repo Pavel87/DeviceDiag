@@ -25,7 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.pacmac.devinfo.R
-import com.pacmac.devinfo.export.ExportActivity
+import com.pacmac.devinfo.export.ui.ExportActivity
 import com.pacmac.devinfo.export.ExportUtils
 import com.pacmac.devinfo.ui.components.AdvertView
 import com.pacmac.devinfo.ui.components.TopBar

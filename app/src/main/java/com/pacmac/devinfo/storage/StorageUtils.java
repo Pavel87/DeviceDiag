@@ -8,6 +8,7 @@ import android.os.StatFs;
 
 import com.pacmac.devinfo.R;
 import com.pacmac.devinfo.utils.Utility;
+import com.pacmac.devinfo.utils.Utils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -54,7 +55,7 @@ public class StorageUtils {
 
     public static String getRAMHardware() {
         try {
-            String memorychip = Utility.getDeviceProperty("ro.boot.hardware.ddr");
+            String memorychip = Utils.INSTANCE.getDeviceProperty("ro.boot.hardware.ddr");
             String[] chipelements = memorychip.split(",");
             return String.format(Locale.ENGLISH, "%s %s - %s", chipelements[1], chipelements[2], chipelements[0]);
         } catch (Exception e) {

@@ -33,7 +33,7 @@ public class NewFeaturesActivity extends AppCompatActivity {
 
 
         findViewById(R.id.rateApp).setOnClickListener((view) -> {
-            Utility.showRateDialog(NewFeaturesActivity.this);
+//            Utility.showRateDialog(NewFeaturesActivity.this);
 
 //            ReviewManager manager = ReviewManagerFactory.create(NewFeaturesActivity.this);
 //            Task<ReviewInfo> request = manager.requestReviewFlow();

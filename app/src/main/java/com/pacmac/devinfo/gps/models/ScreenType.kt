@@ -5,5 +5,13 @@ enum class ScreenType {
     SATELLITES,
     NMEA,
     CAMERA_GENERAL,
-    CAMERA_INFO
+    CAMERA_INFO,
+    SIM,
+    NETWORK,
+    CELL,
+    CONFIG,
+    MAIN_INFO,
+    DASHBOARD,
+    EXPORT,
+    PROMO
 }

@@ -23,7 +23,9 @@ fun TopBar(
     exportVisible: Boolean = false,
     hasNavigationIcon: Boolean = false,
     titleComposable: @Composable () -> Unit = { BarTitle(title) },
-    onExportClick: () -> Unit = {}
+    actionButton: @Composable () -> Unit = { },
+    onExportClick: () -> Unit = {},
+    onBack: ()-> Unit = {}
 ) {
     TopAppBar(
         modifier = Modifier
@@ -40,7 +42,7 @@ fun TopBar(
         },
         navigationIcon = {
             if (hasNavigationIcon) {
-                IconButton(onClick = { /* doSomething() */ }) {
+                IconButton(onClick = { onBack() }) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = "Localized description"
@@ -49,6 +51,8 @@ fun TopBar(
             }
         },
         actions = {
+            actionButton.invoke()
+
             if (exportVisible) {
                 IconButton(onClick = { onExportClick.invoke() }) {
                     Icon(
@@ -66,7 +70,7 @@ fun BarTitle(title: String) {
         text = title,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
-        style = MaterialTheme.typography.titleLarge
+        style = MaterialTheme.typography.headlineLarge
     )
 }
 

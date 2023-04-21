@@ -27,7 +27,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.pacmac.devinfo.R
-import com.pacmac.devinfo.export.ExportActivity
+import com.pacmac.devinfo.export.ui.ExportActivity
 import com.pacmac.devinfo.export.ExportUtils
 import com.pacmac.devinfo.gps.GPSInfoListDestination
 import com.pacmac.devinfo.gps.GPSScreen

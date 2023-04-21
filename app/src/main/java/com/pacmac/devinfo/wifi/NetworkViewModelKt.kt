@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pacmac.devinfo.UIObject
 import com.pacmac.devinfo.utils.Utility
+import com.pacmac.devinfo.utils.Utils
 import com.pacmac.devinfo.wifi.NetworkUtils.getDHCPInfo
 import com.pacmac.devinfo.wifi.NetworkUtils.getRadiosState
 import com.pacmac.devinfo.wifi.NetworkUtils.getWifiFeatures
@@ -97,7 +98,7 @@ class NetworkViewModelKt @Inject constructor() : ViewModel() {
     private fun loadWifiInfo(context: Context) {
         val list: MutableList<UIObject> = ArrayList()
         val isLocationPermissionEnabled =
-            Utility.checkPermission(context, Utility.ACCESS_FINE_LOCATION)
+            Utils.checkPermission(context, Utils.LOCATION_PERMISSION)
         radioState = getRadiosState(context)
         wifiInformation = getWifiInformation(context, isLocationPermissionEnabled)
         dhcpInformation = getDHCPInfo(context)

@@ -1,5 +1,6 @@
 package com.pacmac.devinfo.cellular;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.telephony.CellInfo;
 import android.telephony.TelephonyManager;
@@ -19,12 +20,7 @@ public class CellInfoFutureTask extends FutureTask {
     private List<CellInfo> cellInfo = null;
 
     CellInfoFutureTask() {
-        super(new Callable() {
-            @Override
-            public Object call() {
-                return null;
-            }
-        });
+        super(() -> null);
     }
 
     void run(List<CellInfo> cellInfo) {
@@ -37,6 +33,7 @@ public class CellInfoFutureTask extends FutureTask {
         return cellInfo;
     }
 
+    @SuppressLint("MissingPermission")
     public static List<CellInfo> getAllCellInfoBlocking(TelephonyManager telephonyManager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             try {
@@ -54,8 +51,6 @@ public class CellInfoFutureTask extends FutureTask {
                     }
                 });
                 return future.getAllCellInfoBlocking();
-            } catch (TimeoutException e) {
-                e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }

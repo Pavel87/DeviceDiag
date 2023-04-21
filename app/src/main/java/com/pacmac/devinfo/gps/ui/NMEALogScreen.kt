@@ -63,7 +63,9 @@ fun NMEALogScreen(viewModel: GPSViewModelKt = hiltViewModel()) {
 
             NMEAStatusBar(isStarted)
 
-            ActionButton(text = buttonText,
+            ActionButton(
+                text = buttonText,
+                isEnabled = true,
                 modifier = Modifier
                     .wrapContentWidth()
                     .padding(vertical = 8.dp),

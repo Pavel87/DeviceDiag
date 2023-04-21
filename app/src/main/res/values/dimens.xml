@@ -7,4 +7,6 @@
     <dimen name="appbar_padding">12dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
+    <dimen name="dialog_width">360dp</dimen>
+
 </resources>

@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.pacmac.devinfo.ListType
 import com.pacmac.devinfo.R
 import com.pacmac.devinfo.UIObject
-import com.pacmac.devinfo.utils.Utility
+import com.pacmac.devinfo.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -179,11 +179,11 @@ class CPUViewModelKt @Inject constructor() : ViewModel() {
             list.add(UIObject(context.getString(R.string.cpu_chipset), chipset))
         } else {
             try {
-                chipset = Utility.getDeviceProperty(BOARD_PLATFORM).uppercase(Locale.getDefault())
+                chipset = Utils.getDeviceProperty(BOARD_PLATFORM)?.uppercase(Locale.getDefault())
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-            if (chipset!!.length == 0) {
+            if (chipset?.length == 0) {
                 chipset = Build.HARDWARE
             }
             list.add(UIObject(context.getString(R.string.cpu_chipset), chipset))

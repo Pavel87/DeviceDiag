@@ -25,8 +25,6 @@ import java.util.Locale;
 public class ExportUtils {
 
     public final static String EXPORT_FILE = "EXPORT_FILE";
-    public final static String EXPORT_SHARED_PREF_FILE = "EXPORT_SHARED_PREF_FILE";
-    public final static String EXPORT_SLOT_AVAILABLE = "EXPORT_SLOT_AVAILABLE";
 
     public static String writeRecordsToFile(Context context, List<UIObject> records, String reportName, int format) {
 

@@ -15,7 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.pacmac.devinfo.R
-import com.pacmac.devinfo.export.ExportActivity
+import com.pacmac.devinfo.export.ui.ExportActivity
 import com.pacmac.devinfo.export.ExportTask
 import com.pacmac.devinfo.export.ExportTask.OnExportTaskFinished
 import com.pacmac.devinfo.export.ExportUtils

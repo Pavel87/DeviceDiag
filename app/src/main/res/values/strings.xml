@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Device Info</string>
+    <string name="close">Close</string>
     <string name="title_section1">Main Info</string>
     <string name="title_section2">Dashboard</string>
     <string name="action_satellites">Show Satellites</string>
@@ -26,7 +27,7 @@
     <string name="title_activity_about">About Device Info</string>
     <string name="yes_string">YES</string>
     <string name="no_string">NO</string>
-    <string name="new_version_title">NEW VERSION AVAILABLE</string>
+    <string name="new_version_title">New Version Available</string>
     <string name="new_version_content">Update to new version to get all new features and crash fixes.</string>
     <string name="update">Update</string>
     <string name="action_search">Search</string>
@@ -50,16 +51,16 @@
     <string name="cam_permission_msg">Camera permission is currently disabled. To be able to obtain camera parameters you need to accept camera permission.</string>
     <string name="phone_permission_msg">Read phone state permission is currently disabled. To be able to access SIM and mobile network status you need to accept this permission. You can revoke permission anytime from phone Settings.</string>
     <string name="phone_number_permission_msg">To display phone number you need to grant special permission for the app to READ PHONE NUMBERS. You can revoke permission anytime from phone Settings.</string>
-    <string name="location_permission_msg">Location permission is required in order to display information about mobile network environment.</string>
+    <string name="location_permission_msg">Location permission is required in order to display information about GPS and mobile network environment.</string>
     <string name="storage_permission_msg">Storage permission is currently disabled. To be able to read storage capacity you need to accept this permission.</string>
+    <string name="location_feature_disabled">This feature is disabled as it requires Location Permission. You have previously rejected to grant this permission twice so if you wish to use this feature you will have to navigate to Device Settings and enable permission manually for Device Info app.</string>
+    <string name="camera_feature_disabled">This feature is disabled as it requires Camera Permission. You have previously rejected to grant this permission twice so if you wish to use this feature you will have to navigate to Device Settings and enable permission manually for Device Info app.</string>
+    <string name="storage_feature_disabled">This feature is disabled as it requires Storage Permission. You have previously rejected to grant this permission twice so if you wish to use this feature you will have to navigate to Device Settings and enable permission manually for Device Info app.</string>
+    <string name="phone_feature_disabled">This feature is disabled as it requires Read Phone State Permission. You have previously rejected to grant this permission twice so if you wish to use this feature you will have to navigate to Device Settings and enable permission manually for Device Info app.</string>
     <string name="what_is_new">What is new</string>
-    <string name="new_features1">- Mobile Network Information</string>
-<!--    <string name="new_features2">LTE/5G Cell Bands-->
-<!--PLMN list configured on cell tower-->
-<!--Meteredness of cellular connection-->
-<!--5G Non Stand Alone Detection-->
-<!--Closed Subscriber Group detection</string>-->
-    <string name="new_features3">- WiFi Information in Android 11</string>
+    <string name="new_features1">Dark Mode Support</string>
+    <string name="new_features2">UI Updated</string>
+    <string name="new_features3">Improved Permission Handling</string>
     <string name="new_features4">Added WiFi Channel</string>
     <string name="new_features5">- Improved stability</string>
     <string name="title_activity_cellular_info">Cellular Info</string>
@@ -133,7 +134,7 @@
     <string name="manufacturer_code">Manufacturer Code</string>
     <string name="imei">IMEI</string>
     <string name="meid">MEID</string>
-    <string name="embedded">Is Embedded</string>
+    <string name="embedded">Is ESIM</string>
     <string name="network_country_code">Country Code</string>
     <string name="data_enabled">Data Enabled</string>
     <string name="data_roaming_enabled">Data Roaming Enabled</string>
@@ -146,7 +147,7 @@
     <string name="duplex_mode">LTE CA Duplex Mode</string>
     <string name="lte_cal">Carrier Aggregation</string>
     <string name="cs_reject_cause">Network Reject Cause</string>
-    <string name="simID">SIM Slot %d</string>
+    <string name="simID">SIM Slot</string>
     <string name="export_data_description">Export data from your device in CSV file via email or using other 3rd party apps allowing sharing files.</string>
     <string name="export_watch_ad_description">Unlock free exports by watching a short video</string>
     <string name="earn_slot_btn_text">Get Reward</string>

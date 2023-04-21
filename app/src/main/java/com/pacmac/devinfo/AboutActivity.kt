@@ -1,80 +1,72 @@
 package com.pacmac.devinfo
 
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.pacmac.devinfo.main.ui.DeviceInfoDialog
 import com.pacmac.devinfo.ui.components.ActionButton
 import com.pacmac.devinfo.ui.components.TopBar
+import com.pacmac.devinfo.ui.components.WalletUpsell
 import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
-import com.pacmac.devinfo.utils.Utility
+import com.pacmac.devinfo.utils.Utils
 import java.util.*
 
 class AboutActivity : ComponentActivity() {
 
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             DeviceInfoTheme {
-                Scaffold(topBar = {
-                    TopBar(stringResource(id = R.string.title_activity_about))
-                }, content = { AboutContent(Modifier.padding(it), getAppVersionName()) })
-            }
-        }
-    }
+                var displayRateDialog by remember { mutableStateOf(false) }
 
-    @Composable
-    fun WalletUpsell(modifier: Modifier, onClick: () -> Unit) {
-        Column(
-            modifier = modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.surface)
-        ) {
-            Surface(
-                shape = MaterialTheme.shapes.small,
-                color = MaterialTheme.colorScheme.tertiary
-            ) {
-                Text(
-                    text = stringResource(id = R.string.new_app).uppercase(),
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = stringResource(id = R.string.wallet_income_expense_manager),
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Start,
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Image(painterResource(id = R.drawable.google_badge),
-                contentDescription = stringResource(id = R.string.download_wallet_app),
-                modifier = Modifier
-                    .clickable {
-                        onClick.invoke()
+                val context = LocalContext.current
+
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Scaffold(
+                        topBar = {
+                            TopBar(stringResource(id = R.string.title_activity_about))
+                        },
+                        content = {
+                            AboutContent(
+                                Modifier.padding(it),
+                                getAppVersionName(),
+                                onRateAppClick = { displayRateDialog = true })
+                        })
+
+                    if (displayRateDialog) {
+                        DeviceInfoDialog(
+                            title = stringResource(id = R.string.rate_app),
+                            msg = stringResource(id = R.string.rta_dialog_message),
+                            onDismiss = {
+                                displayRateDialog = false
+                            },
+                            onPositiveAction = {
+                                Utils.launchPlayStore(context)
+                                displayRateDialog = false
+                            },
+                            positiveButtonText = stringResource(id = R.string.rateit),
+                            dismissButtonText = stringResource(id = R.string.no_thanks),
+                        )
                     }
-                    .align(Alignment.CenterHorizontally))
+                }
+            }
         }
     }
 
@@ -108,17 +100,24 @@ class AboutActivity : ComponentActivity() {
     }
 
     @Composable
-    fun AboutContent(modifier: Modifier, version: String = "9.9.9") {
+    fun AboutContent(modifier: Modifier, version: String = "9.9.9", onRateAppClick: () -> Unit) {
         val context = LocalContext.current
         Surface(color = MaterialTheme.colorScheme.surface, modifier = modifier) {
-            Column(Modifier.padding(16.dp).fillMaxHeight()) {
-                WalletUpsell(Modifier, onClick = { openWalletAppPlayStore() })
+            Column(
+                Modifier
+                    .padding(16.dp)
+                    .fillMaxHeight()
+            ) {
+                WalletUpsell(Modifier, onClick = { Utils.openWalletAppPlayStore(context) })
                 Spacer(modifier = Modifier.height(24.dp))
                 AboutCard(version, Modifier)
                 Spacer(modifier = Modifier.height(32.dp))
-                ActionButton(text = stringResource(id = R.string.rate_app),
+                ActionButton(
+                    text = stringResource(id = R.string.rate_app),
                     modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
-                    onClick = { Utility.showRateDialog(context) })
+                    onClick = onRateAppClick,
+                    isEnabled = true
+                )
             }
         }
     }
@@ -143,7 +142,7 @@ class AboutActivity : ComponentActivity() {
     @Composable
     fun PreviewAboutScreen() {
         DeviceInfoTheme {
-            AboutContent(Modifier)
+            AboutContent(Modifier, onRateAppClick = {})
         }
     }
 
@@ -164,19 +163,5 @@ class AboutActivity : ComponentActivity() {
         return String.format(
             Locale.ENGLISH, "%s %s", resources.getString(R.string.version_text), s
         )
-    }
-
-    private fun openWalletAppPlayStore() {
-        val appPackage = "com.pacmac.mybudget"
-        var intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackage"))
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivity(intent)
-        } else {
-            intent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://play.google.com/store/apps/details?id=$appPackage")
-            )
-            startActivity(intent)
-        }
     }
 }

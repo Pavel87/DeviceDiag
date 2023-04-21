@@ -16,8 +16,11 @@ val md_theme_light_tertiary = Color(0xFF64FFDA)
 val md_theme_light_on_tertiary = Color(0xFF0B0E14)
 
 
+val color_export_earned_star = Color(0xDDFFAB00)
 val color_title_bg = Color(0x58C2CBFA)
-
+val export_slot_disabled = Color(0xFFCCCCCC)
+//30%
+val md_theme_color_scrim = Color(0x4D000000)
 
 // Dark Theme
 val md_theme_dark_background = Color(0xFF1B1C18)
