@@ -52,6 +52,7 @@ import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
 import com.pacmac.devinfo.utils.Utils
 import com.pacmac.devinfo.utils.Utils.CAMERA_PERMISSION
 import com.pacmac.devinfo.utils.Utils.LOCATION_PERMISSION
+import com.pacmac.devinfo.utils.Utils.PHONE_NUMBER_PERMISSION
 import com.pacmac.devinfo.utils.Utils.PHONE_PERMISSION
 import com.pacmac.devinfo.utils.Utils.STORAGE_PERMISSION
 import dagger.hilt.android.AndroidEntryPoint
@@ -85,9 +86,11 @@ class DeviceInfoActivity : ComponentActivity() {
                     CAMERA_PERMISSION -> {
                         viewModel._isCameraPermissionEnabled.value = true
                     }
-
                     PHONE_PERMISSION -> {
                         viewModel._isPhonePermissionEnabled.value = true
+                    }
+                    PHONE_NUMBER_PERMISSION -> {
+                        viewModel._isPhoneNumberPermissionEnabled.value = true
                     }
                 }
             }

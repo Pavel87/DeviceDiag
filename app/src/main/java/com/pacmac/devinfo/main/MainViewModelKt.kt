@@ -2,6 +2,7 @@ package com.pacmac.devinfo.main
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import android.telephony.TelephonyManager
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -75,8 +76,8 @@ class MainViewModelKt @Inject constructor(
     val isStoragePermissionEnabled: State<Boolean> = _isStoragePermissionEnabled
     val _isCameraPermissionEnabled = mutableStateOf(true)
     val isCameraPermissionEnabled: State<Boolean> = _isCameraPermissionEnabled
-//    val _isPhoneNumberPermissionEnabled = mutableStateOf(true)
-//    val isPhoneNumberPermissionEnabled: State<Boolean> = _isPhoneNumberPermissionEnabled
+    val _isPhoneNumberPermissionEnabled = mutableStateOf(true)
+    val isPhoneNumberPermissionEnabled: State<Boolean> = _isPhoneNumberPermissionEnabled
 
     var permissionRequest: PermissionCheckModel? = null
 
@@ -243,16 +244,15 @@ class MainViewModelKt @Inject constructor(
                     )
                     return
                 }
-//                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q && !isPhoneNumberPermissionEnabled.value) {
-//                    _onPermissionCheck.emit(
-//                        PermissionCheckModel(
-//                            R.string.phone_number_permission_msg, arrayOf<String>(
-//                                Utility.PHONE_NUMBER_PERMISSION
-//                            )
-//                        )
-//                    )
-//                    return
-//                }
+
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q && !isPhoneNumberPermissionEnabled.value) {
+                    checkPermission(
+                        Utils.PHONE_NUMBER_PERMISSION,
+                        R.string.phone_number_permission_msg,
+                        R.string.phone_number_permission_msg
+                    )
+                    return
+                }
 
                 _onNavigateToScreen.emit(tile.actClass)
             }
@@ -305,11 +305,7 @@ class MainViewModelKt @Inject constructor(
     }
 
     suspend fun checkIfAppUpdated(): Boolean {
-
         val storedVersionCode = appRepository.getLastStoredAppVersion().firstOrNull()
-
-        println("PACMAC -- storedVersionCode: $storedVersionCode")
-
         var appVersionCode = -1
         try {
             appVersionCode = MainUtilsKt.getappVersionCode(packageManager)
@@ -317,13 +313,10 @@ class MainViewModelKt @Inject constructor(
             e.printStackTrace()
         }
         if (appVersionCode != storedVersionCode) {
-            viewModelScope.launch {
-                appRepository.updateLastAppVersion(appVersionCode)
-            }
+            appRepository.updateLastAppVersion(appVersionCode)
             return storedVersionCode != 0
         }
         return false
-
     }
 
     fun appUpgradeModalDisplayed() {

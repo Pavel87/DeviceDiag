@@ -17,6 +17,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -70,10 +71,11 @@ fun NewFeaturesScreen(onClose: () -> Unit, onAppReview: () -> Unit) {
                     .verticalScroll(rememberScrollState(), true)
                     .padding(16.dp)
             ) {
-                Image(
+                Icon(
                     painter = painterResource(id = R.drawable.close),
                     contentDescription = stringResource(id = R.string.close),
-                    modifier = Modifier.clickable { onClose() }
+                    modifier = Modifier.clickable { onClose() },
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))

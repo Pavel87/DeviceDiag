@@ -50,25 +50,24 @@ class AppRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getLastStoredAppVersion() = flow {
-        dataStore.data.catch { exception ->
+    override fun getLastStoredAppVersion(): Flow<Int>  = dataStore.data
+        .catch { exception ->
             if (exception is IOException) {
-                emit(0)
+                0
             } else {
                 throw exception
             }
         }.map { preferences ->
             println("PACMAC -- getLastStoredAppVersion")
-
             preferences[PreferencesKeys.VERSION_CODE_KEY] ?: 0
-        }.first()
-    }
+        }
 
     private fun getPermissionPrefKey(permission: String): Preferences.Key<Int> {
         return when (permission) {
             Utils.LOCATION_PERMISSION -> PreferencesKeys.LOCATION_PERMISSION_KEY
             Utils.STORAGE_PERMISSION -> PreferencesKeys.STORAGE_PERMISSION_KEY
             Utils.PHONE_PERMISSION -> PreferencesKeys.PHONE_PERMISSION_KEY
+            Utils.PHONE_NUMBER_PERMISSION -> PreferencesKeys.PHONE_NUMBER_PERMISSION_KEY
             Utils.CAMERA_PERMISSION -> PreferencesKeys.CAMERA_PERMISSION_KEY
             else -> {
                 throw Exception("Missing pref key for permission: $permission")
@@ -81,6 +80,7 @@ class AppRepositoryImpl @Inject constructor(
         val LOCATION_PERMISSION_KEY = intPreferencesKey(Utils.LOCATION_PERMISSION)
         val STORAGE_PERMISSION_KEY = intPreferencesKey(Utils.STORAGE_PERMISSION)
         val PHONE_PERMISSION_KEY = intPreferencesKey(Utils.PHONE_PERMISSION)
+        val PHONE_NUMBER_PERMISSION_KEY = intPreferencesKey(Utils.PHONE_NUMBER_PERMISSION)
         val CAMERA_PERMISSION_KEY = intPreferencesKey(Utils.CAMERA_PERMISSION)
         val EXPORT_SLOT_AVAILABLE = intPreferencesKey("EXPORT_SLOT_AVAILABLE")
     }

@@ -101,4 +101,12 @@ private fun checkAllPermissions(viewModel: MainViewModelKt, context: Context) {
         )
         viewModel._isPhonePermissionEnabled.value = this
     }
+
+    Utils.checkPermission(context, Utils.PHONE_NUMBER_PERMISSION).run {
+        if (this) viewModel.updatePermissionState(
+            Utils.PHONE_NUMBER_PERMISSION,
+            PermissionState.GRANTED
+        )
+        viewModel._isPhoneNumberPermissionEnabled.value = this
+    }
 }
