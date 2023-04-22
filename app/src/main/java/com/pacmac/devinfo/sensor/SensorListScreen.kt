@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,18 +24,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.pacmac.devinfo.R
-import com.pacmac.devinfo.export.ui.ExportActivity
 import com.pacmac.devinfo.export.ExportUtils
+import com.pacmac.devinfo.export.ui.ExportActivity
 import com.pacmac.devinfo.ui.components.AdvertView
 import com.pacmac.devinfo.ui.components.TopBar
 import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SensorListScreen(
-    viewModel: SensorViewModelKt = hiltViewModel(), onSensorSelected: (type: Int) -> Unit
+    viewModel: SensorViewModelKt = hiltViewModel(),
+    onSensorSelected: (type: Int) -> Unit,
+    onBack: () -> Unit
 ) {
 
     val context = LocalContext.current
@@ -59,10 +59,13 @@ fun SensorListScreen(
 
     Scaffold(topBar = {
         TopBar(
-            title = stringResource(id = R.string.title_activity_sensor_list), exportVisible = true
-        ) {
-            viewModel.export(context)
-        }
+            title = stringResource(id = R.string.title_activity_sensor_list), exportVisible = true,
+            onExportClick = {
+                viewModel.export(context)
+            },
+            hasNavigationIcon = true,
+            onBack = onBack
+        )
     }) {
         val modifier = Modifier.padding(it)
         Column(

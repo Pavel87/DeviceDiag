@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -33,8 +32,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.pacmac.devinfo.R
-import com.pacmac.devinfo.export.ui.ExportActivity
 import com.pacmac.devinfo.export.ExportUtils
+import com.pacmac.devinfo.export.ui.ExportActivity
 import com.pacmac.devinfo.ui.components.InfoListView
 import com.pacmac.devinfo.ui.components.SearchBar
 import com.pacmac.devinfo.ui.components.TopBar
@@ -44,9 +43,11 @@ import com.pacmac.devinfo.utils.Utils
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BuildPropertiesScreen(viewModel: BuildPropViewModelKt = hiltViewModel()) {
+fun BuildPropertiesScreen(
+    viewModel: BuildPropViewModelKt = hiltViewModel(),
+    onBack: () -> Unit
+) {
 
     var searchTerm by rememberSaveable { mutableStateOf("") }
     var enableSearch by rememberSaveable { mutableStateOf(false) }
@@ -70,7 +71,8 @@ fun BuildPropertiesScreen(viewModel: BuildPropViewModelKt = hiltViewModel()) {
     DeviceInfoTheme {
         Scaffold(topBar = {
             if (enableSearch.not()) {
-                TopBar(title = stringResource(id = R.string.title_activity_build_properties),
+                TopBar(
+                    title = stringResource(id = R.string.title_activity_build_properties),
                     exportVisible = true,
                     actionButton = {
                         IconButton(onClick = { enableSearch = true }) {
@@ -80,7 +82,9 @@ fun BuildPropertiesScreen(viewModel: BuildPropViewModelKt = hiltViewModel()) {
                             )
                         }
                     },
-                    onExportClick = { viewModel.export(context) }
+                    onExportClick = { viewModel.export(context) },
+                    hasNavigationIcon = true,
+                    onBack = onBack
                 )
             } else {
                 SearchBar(
@@ -133,5 +137,5 @@ fun PropCounter(filtered: Int, paramCount: Int, modifier: Modifier = Modifier) {
 @Preview(widthDp = 400, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PreviewPropCounter() {
-    BuildPropertiesScreen()
+    BuildPropertiesScreen(onBack = {})
 }

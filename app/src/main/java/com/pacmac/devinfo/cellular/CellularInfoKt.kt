@@ -5,13 +5,13 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -42,8 +42,8 @@ import com.pacmac.devinfo.cellular.ui.NetworkDestination
 import com.pacmac.devinfo.cellular.ui.PhoneAndSIMScreen
 import com.pacmac.devinfo.cellular.ui.SIMDestination
 import com.pacmac.devinfo.cellular.ui.getCellTabs
-import com.pacmac.devinfo.export.ui.ExportActivity
 import com.pacmac.devinfo.export.ExportUtils
+import com.pacmac.devinfo.export.ui.ExportActivity
 import com.pacmac.devinfo.gps.TabRow
 import com.pacmac.devinfo.ui.components.SearchBar
 import com.pacmac.devinfo.ui.components.TopBar
@@ -58,7 +58,6 @@ class CellularInfoKt : ComponentActivity() {
 
     val viewModel: CellularViewModelKt by viewModels()
 
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -72,8 +71,11 @@ class CellularInfoKt : ComponentActivity() {
             var searchTerm by rememberSaveable { mutableStateOf("") }
             var enableSearch by rememberSaveable { mutableStateOf(false) }
             var hideSearch by remember { mutableStateOf(true) }
+            val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+            val onBack = { backDispatcher?.onBackPressed() }
 
-            val currentScreen = allDestinations.find { it.route == currentDestination?.route } ?: SIMDestination
+            val currentScreen =
+                allDestinations.find { it.route == currentDestination?.route } ?: SIMDestination
 
             hideSearch = currentScreen.route != ConfigDestination.route
             if (hideSearch) {
@@ -107,7 +109,6 @@ class CellularInfoKt : ComponentActivity() {
                                 TopBar(title = getTitle(currentScreen),
                                     exportVisible = true,
                                     actionButton = {
-
                                         if (hideSearch.not()) {
                                             IconButton(onClick = { enableSearch = true }) {
                                                 Icon(
@@ -117,7 +118,11 @@ class CellularInfoKt : ComponentActivity() {
                                             }
                                         }
                                     },
-                                    onExportClick = { viewModel.export(context) }
+                                    onExportClick = { viewModel.export(context) },
+                                    hasNavigationIcon = true,
+                                    onBack = {
+                                        onBack()
+                                    }
                                 )
                             } else {
                                 SearchBar(

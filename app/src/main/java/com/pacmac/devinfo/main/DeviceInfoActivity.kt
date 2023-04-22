@@ -21,6 +21,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -92,7 +93,6 @@ class DeviceInfoActivity : ComponentActivity() {
             }
         }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -305,8 +305,10 @@ class DeviceInfoActivity : ComponentActivity() {
             )
 
             SideEffect {
-                if (viewModel.isLocationPermissionEnabled.value && viewModel.checkIfAppUpdated()) {
-                    showNewFeatures = true
+                lifecycleScope.launch {
+                    if (viewModel.isLocationPermissionEnabled.value && viewModel.checkIfAppUpdated()) {
+                        showNewFeatures = true
+                    }
                 }
 
                 lifecycleScope.launch {

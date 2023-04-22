@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
@@ -15,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -24,10 +24,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.pacmac.devinfo.R
-import com.pacmac.devinfo.export.ui.ExportActivity
 import com.pacmac.devinfo.export.ExportTask
 import com.pacmac.devinfo.export.ExportTask.OnExportTaskFinished
 import com.pacmac.devinfo.export.ExportUtils
+import com.pacmac.devinfo.export.ui.ExportActivity
 import com.pacmac.devinfo.ui.components.AdvertView
 import com.pacmac.devinfo.ui.components.InfoListView
 import com.pacmac.devinfo.ui.components.TopBar
@@ -41,18 +41,23 @@ class DisplayInfoKt : ComponentActivity(), OnExportTaskFinished {
     private var isExporting = false
 
 
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
+            val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+            val onBack = { backDispatcher?.onBackPressed() }
+
             DeviceInfoTheme {
                 Scaffold(topBar = {
                     TopBar(title = stringResource(id = R.string.title_activity_display_info),
                         exportVisible = true,
                         onExportClick = {
                             export()
-                        })
+                        },
+                        hasNavigationIcon = true,
+                        onBack = { onBack() }
+                    )
                 }) {
                     val modifier = Modifier.padding(it)
                     Column(

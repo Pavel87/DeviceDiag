@@ -25,7 +25,6 @@ import com.pacmac.devinfo.main.model.PermissionCheckModel
 import com.pacmac.devinfo.main.model.PermissionState
 import com.pacmac.devinfo.sensor.SensorInfoKt
 import com.pacmac.devinfo.storage.StorageInfoKt
-import com.pacmac.devinfo.utils.Utility
 import com.pacmac.devinfo.utils.Utils
 import com.pacmac.devinfo.wifi.NetworkInfoKt
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,6 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -80,15 +80,7 @@ class MainViewModelKt @Inject constructor(
 
     var permissionRequest: PermissionCheckModel? = null
 
-    var storedVersionCode = 0
-
     init {
-        viewModelScope.launch {
-            appRepository.getLastStoredAppVersion().collect {
-                println("PACMAC - VERSION CODE CACHE: $it")
-                storedVersionCode = it
-            }
-        }
         viewModelScope.launch(Dispatchers.IO) {
             appRepository.getLatestAppUpdate()
                 .collect { _appUpdateStatus.value = it }
@@ -312,21 +304,26 @@ class MainViewModelKt @Inject constructor(
         }
     }
 
-    fun checkIfAppUpdated(): Boolean {
-        val versionCode = storedVersionCode
+    suspend fun checkIfAppUpdated(): Boolean {
+
+        val storedVersionCode = appRepository.getLastStoredAppVersion().firstOrNull()
+
+        println("PACMAC -- storedVersionCode: $storedVersionCode")
+
         var appVersionCode = -1
         try {
             appVersionCode = MainUtilsKt.getappVersionCode(packageManager)
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }
-        if (appVersionCode != versionCode) {
+        if (appVersionCode != storedVersionCode) {
             viewModelScope.launch {
                 appRepository.updateLastAppVersion(appVersionCode)
             }
-            return versionCode != 0
+            return storedVersionCode != 0
         }
         return false
+
     }
 
     fun appUpgradeModalDisplayed() {

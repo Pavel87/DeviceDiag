@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pacmac.devinfo.UIObject
-import com.pacmac.devinfo.utils.Utility
 import com.pacmac.devinfo.utils.Utils
 import com.pacmac.devinfo.wifi.NetworkUtils.getDHCPInfo
 import com.pacmac.devinfo.wifi.NetworkUtils.getRadiosState

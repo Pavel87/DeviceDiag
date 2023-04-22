@@ -58,6 +58,8 @@ class AppRepositoryImpl @Inject constructor(
                 throw exception
             }
         }.map { preferences ->
+            println("PACMAC -- getLastStoredAppVersion")
+
             preferences[PreferencesKeys.VERSION_CODE_KEY] ?: 0
         }.first()
     }
@@ -141,32 +143,8 @@ class AppRepositoryImpl @Inject constructor(
 
     override fun getExportSlots(): Flow<Int> = dataStore.data
         .map { preferences ->
-            println("PACMAC -- getExportSlots")
             preferences[PreferencesKeys.EXPORT_SLOT_AVAILABLE] ?: 0
         }
-//        dataStore.data.catch { exception ->
-//            if (exception is IOException) {
-//                emit(0)
-//            } else {
-//                throw exception
-//            }
-//        }.map { preferences ->
-//            println("PACMAC -- getExportSlots")
-//            preferences[PreferencesKeys.EXPORT_SLOT_AVAILABLE] ?: 0
-//        }.first()
-//}
-
-//override fun getExportSlots() = flow {
-//    dataStore.data.catch { exception ->
-//        if (exception is IOException) {
-//        } else {
-//            throw exception
-//        }
-//    }.map { preferences ->
-//        println("PACMAC -- getExportSlots")
-//        preferences[PreferencesKeys.EXPORT_SLOT_AVAILABLE] ?: 0
-//    }.first()
-//}
 
     override suspend fun updateExportSlot(slotOpened: Int) {
         dataStore.edit { preferences ->

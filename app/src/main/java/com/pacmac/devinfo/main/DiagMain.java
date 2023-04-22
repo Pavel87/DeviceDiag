@@ -1,31 +1,7 @@
 package com.pacmac.devinfo.main;
 
-import android.app.Dialog;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Vibrator;
-import android.view.KeyEvent;
-import android.view.Window;
-import android.widget.Button;
-
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
-
-import com.google.android.gms.ads.MobileAds;
-import com.pacmac.devinfo.NewFeaturesActivity;
-import com.pacmac.devinfo.R;
-import com.pacmac.devinfo.utils.Utility;
-
-import java.util.Locale;
 
 public class DiagMain extends AppCompatActivity {
 

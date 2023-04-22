@@ -39,7 +39,8 @@ class ExportActivity : ComponentActivity() {
             val windowSizeClass = calculateWindowSizeClass(this)
             val navController = rememberNavController()
             val openedSlots = viewModel.openedSlots.collectAsState(initial = 0)
-            val backDispatcher = LocalOnBackPressedDispatcherOwner.current!!.onBackPressedDispatcher
+            val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+            val onBack = { backDispatcher?.onBackPressed() }
 
             if (intent != null) {
                 filePathString = intent.getStringExtra(ExportUtils.EXPORT_FILE) ?: ""
@@ -109,9 +110,8 @@ class ExportActivity : ComponentActivity() {
                                     this@ExportActivity, File(filePathString)
                                 )
                             },
-                            onBack = {
-                                backDispatcher.onBackPressed()
-                            })
+                            onBack = { onBack() }
+                        )
                     }
 
                     composable(PromoScreenDestinations.route) {

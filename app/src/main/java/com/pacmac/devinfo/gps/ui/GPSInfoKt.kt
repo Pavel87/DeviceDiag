@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -27,8 +27,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.pacmac.devinfo.R
-import com.pacmac.devinfo.export.ui.ExportActivity
 import com.pacmac.devinfo.export.ExportUtils
+import com.pacmac.devinfo.export.ui.ExportActivity
 import com.pacmac.devinfo.gps.GPSInfoListDestination
 import com.pacmac.devinfo.gps.GPSScreen
 import com.pacmac.devinfo.gps.GPSViewModelKt
@@ -49,8 +49,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class GPSInfoKt : ComponentActivity() {
 
-
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -64,6 +62,9 @@ class GPSInfoKt : ComponentActivity() {
             val currentDestination = currentBackStack?.destination
             val currentScreen =
                 gpsTabs().find { it.route == currentDestination?.route } ?: GPSInfoListDestination
+
+            val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+            val onBack = { backDispatcher?.onBackPressed() }
 
             DisposableEffect(key1 = Unit) {
                 this.onDispose {
@@ -99,8 +100,11 @@ class GPSInfoKt : ComponentActivity() {
                                     } else {
                                         BarTitle(title = stringResource(id = R.string.activity_title_gps_information))
                                     }
-                                }
-                            ) { viewModel.export(context, currentScreen.type) }
+                                },
+                                onExportClick = { viewModel.export(context, currentScreen.type) },
+                                hasNavigationIcon = true,
+                                onBack = { onBack() }
+                            )
 
                             TabRow(allScreens = gpsTabs(), onTabSelected = { destination ->
                                 navController.navigate(destination.route) {
@@ -148,9 +152,11 @@ class GPSInfoKt : ComponentActivity() {
             Column() {
                 TopBar(
                     title = "",
-                    exportVisible = true
-                ) {
-                }
+                    exportVisible = true,
+                    hasNavigationIcon = true,
+                    onBack = { },
+                    onExportClick = {}
+                )
                 TabRow(
                     allScreens = gpsTabs(),
                     onTabSelected = {},

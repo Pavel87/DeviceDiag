@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -37,11 +38,18 @@ class AboutActivity : ComponentActivity() {
                 var displayRateDialog by remember { mutableStateOf(false) }
 
                 val context = LocalContext.current
+                val backDispatcher =
+                    LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+                val onBack = { backDispatcher?.onBackPressed() }
 
                 Box(modifier = Modifier.fillMaxSize()) {
                     Scaffold(
                         topBar = {
-                            TopBar(stringResource(id = R.string.title_activity_about))
+                            TopBar(
+                                stringResource(id = R.string.title_activity_about),
+                                hasNavigationIcon = true,
+                                onBack = { onBack() }
+                            )
                         },
                         content = {
                             AboutContent(

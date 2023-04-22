@@ -25,7 +25,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.pacmac.devinfo.R
 import com.pacmac.devinfo.main.model.PermissionState
 import com.pacmac.devinfo.ui.components.AdvertView
-import com.pacmac.devinfo.utils.Utility
 import com.pacmac.devinfo.utils.Utils
 import kotlinx.coroutines.launch
 
