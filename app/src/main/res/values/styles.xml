@@ -32,9 +32,7 @@
     <style name="MyTabs" parent="@style/Widget.AppCompat.ActionBar.TabView">
 
         <!-- tab indicator -->
-        <item name="android:background">@drawable/tab_bar_background</item>
         <!-- Support library compatibility -->
-        <item name="background">@drawable/tab_bar_background</item>
     </style>
 
     <style name="MyEditTextTheme">
