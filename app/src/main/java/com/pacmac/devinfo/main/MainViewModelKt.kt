@@ -3,6 +3,7 @@ package com.pacmac.devinfo.main
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -36,11 +37,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.util.Collections
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModelKt @Inject constructor(
     private val telephonyManager: TelephonyManager,
+    private val subscriptionManager: SubscriptionManager,
     private val appRepository: AppRepository,
     private val packageManager: PackageManager
 ) : ViewModel() {
@@ -127,19 +130,26 @@ class MainViewModelKt @Inject constructor(
         }
     }
 
-    fun loadMainInfo(hasReadPhoneStatePermission: Boolean) {
+    fun loadMainInfo() {
+        val simCount = MainUtilsKt.getSimCount(telephonyManager)
         _mainInfo.value = MainInfoModel(
             MainUtilsKt.getOsVersion(),
             MainUtilsKt.getModel(),
             MainUtilsKt.getManufacturer(),
-            MainUtilsKt.getSerialNumber(hasReadPhoneStatePermission),
+            MainUtilsKt.getSerialNumber(_isPhonePermissionEnabled.value),
             MainUtilsKt.getBuildNumber(),
             MainUtilsKt.getHardware(),
-            MainUtilsKt.getSimCount(telephonyManager),
+            simCount,
             MainUtilsKt.getRadioFirmware(),
             MainUtilsKt.getBootloader(),
             MainUtilsKt.getDeviceLanguageSetting(),
             MainUtilsKt.getDeviceLanguageLocale(),
+            MainUtilsKt.getPhoneNumbers(
+                telephonyManager,
+                subscriptionManager,
+                simCount,
+                _isPhonePermissionEnabled.value
+            )
         )
     }
 
@@ -227,6 +237,13 @@ class MainViewModelKt @Inject constructor(
             }
 
             DashItem.CELL_SCREEN -> {
+//                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q && !isPhoneNumberPermissionEnabled.value) {
+//                    checkPermission(
+//                        Utils.PHONE_NUMBER_PERMISSION,
+//                        R.string.phone_number_permission_msg,
+//                        R.string.phone_number_permission_msg
+//                    )
+//                }
                 if (!isPhonePermissionEnabled.value) {
                     checkPermission(
                         Utils.PHONE_PERMISSION,
@@ -286,8 +303,26 @@ class MainViewModelKt @Inject constructor(
     private suspend fun checkPermission(permission: String, msgRes: Int, disabledMsg: Int) {
         getPermissionState(permission) { permissionState ->
             viewModelScope.launch {
+
+                val permisions = arrayListOf(permission)
+                if (permission == Utils.PHONE_PERMISSION) {
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q && !isPhoneNumberPermissionEnabled.value) {
+                        permisions.add(Utils.PHONE_NUMBER_PERMISSION)
+//                        checkPermission(
+//                            Utils.PHONE_NUMBER_PERMISSION,
+//                            R.string.phone_number_permission_msg,
+//                            R.string.phone_number_permission_msg
+//                        )
+                    }
+                }
+
                 _onPermissionCheck.emit(
-                    PermissionCheckModel(msgRes, disabledMsg, arrayOf(permission), permissionState)
+                    PermissionCheckModel(
+                        msgRes,
+                        disabledMsg,
+                        permisions.toTypedArray(),
+                        permissionState
+                    )
                 )
             }
         }

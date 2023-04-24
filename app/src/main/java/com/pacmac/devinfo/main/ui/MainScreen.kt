@@ -27,8 +27,7 @@ fun MainScreen(
     openBuildProp: () -> Unit
 ) {
     val context = LocalContext.current
-    val hasPhonePermission = MainUtilsKt.hasReadPhoneStatePermission(context)
-    viewModel.loadMainInfo(hasPhonePermission)
+    viewModel.loadMainInfo()
 
     Column(
         verticalArrangement = Arrangement.SpaceBetween,

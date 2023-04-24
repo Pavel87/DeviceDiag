@@ -1,10 +1,12 @@
 package com.pacmac.devinfo.main
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
+import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import androidx.core.app.ActivityCompat
 import com.pacmac.devinfo.BuildConfig
@@ -31,7 +33,8 @@ object MainUtilsKt {
         return Build.MODEL
     }
 
-    fun getSerialNumber(hasPhonePermission: Boolean ): String? {
+    @SuppressLint("MissingPermission")
+    fun getSerialNumber(hasPhonePermission: Boolean): String? {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
             return null
         } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
@@ -72,7 +75,8 @@ object MainUtilsKt {
         return Locale.getDefault().displayCountry
     }
 
-    fun getSimCount(telephonyManager: TelephonyManager) = MobileNetworkUtilKt.getSIMCount(telephonyManager)
+    fun getSimCount(telephonyManager: TelephonyManager) =
+        MobileNetworkUtilKt.getSIMCount(telephonyManager)
 
 
     fun getappVersionCode(packageManager: PackageManager): Int {
@@ -83,5 +87,27 @@ object MainUtilsKt {
 
             packageManager.getPackageInfo(BuildConfig.APPLICATION_ID, 0).versionCode
         }
+    }
+
+    fun getPhoneNumbers(
+        telephonyManager: TelephonyManager,
+        subscriptionManager: SubscriptionManager,
+        slotCount: Int,
+        hasPhonePermission: Boolean
+    ): ArrayList<String> {
+        val phoneList = arrayListOf<String>()
+        if (hasPhonePermission.not()) return phoneList
+
+        for (i: Int in 0 until slotCount) {
+            val phoneNumber = MobileNetworkUtilKt.getLine1Number(
+                telephonyManager,
+                subscriptionManager,
+                i,
+                slotCount > 1,
+                true
+            )
+            phoneNumber?.let { phoneList.add(it) }
+        }
+        return phoneList
     }
 }
