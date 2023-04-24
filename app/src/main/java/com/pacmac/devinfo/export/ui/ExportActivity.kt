@@ -103,6 +103,7 @@ class ExportActivity : ComponentActivity() {
                         ExportScreen(isCompactScreen = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
                             exportCount = openedSlots.value,
                             loadAdEnabled = viewModel.isShowAdButtonEnabled.value,
+                            isAdLoading = viewModel.isLoading.value,
                             onAdClick = { viewModel.onAdClick() },
                             onExportClick = {
                                 viewModel.onExportClick()

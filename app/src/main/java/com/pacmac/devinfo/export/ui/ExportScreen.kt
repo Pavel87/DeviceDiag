@@ -3,6 +3,7 @@ package com.pacmac.devinfo.export.ui
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -43,6 +44,7 @@ fun ExportScreen(
     isCompactScreen: Boolean,
     exportCount: Int,
     loadAdEnabled: Boolean = true,
+    isAdLoading: Boolean = false,
     onAdClick: () -> Unit,
     onExportClick: () -> Unit,
     onBack: () -> Unit
@@ -51,49 +53,56 @@ fun ExportScreen(
         if (isCompactScreen) Modifier.fillMaxWidth() else Modifier.width(450.dp)
 
 
-    Scaffold(topBar = {
-        TopBar(
-            title = stringResource(id = R.string.export_data_title),
-            exportVisible = false,
-            hasNavigationIcon = true,
-            onBack = { onBack() }
-        )
-    }) {
-        Surface(
-            color = MaterialTheme.colorScheme.surface,
-            modifier = Modifier.padding(it)
-        ) {
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .padding(24.dp)
+    Box {
+        Scaffold(topBar = {
+            TopBar(
+                title = stringResource(id = R.string.export_data_title),
+                exportVisible = false,
+                hasNavigationIcon = true,
+                onBack = { onBack() }
+            )
+        }) {
+            Surface(
+                color = MaterialTheme.colorScheme.surface,
+                modifier = Modifier.padding(it)
             ) {
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(24.dp)
+                ) {
 
-                Text(
-                    text = stringResource(id = R.string.export_data_description),
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
-                    fontWeight = FontWeight.Normal,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
+                    Text(
+                        text = stringResource(id = R.string.export_data_description),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
+                        fontWeight = FontWeight.Normal,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
 
-                Spacer(modifier = Modifier.height(32.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
 
-                ExportCard(exportCount, loadAdEnabled, contentModifier, onAdClick)
+                    ExportCard(exportCount, loadAdEnabled, contentModifier, onAdClick)
 
-                Spacer(modifier = Modifier.height(32.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
 
-                ActionButton(
-                    text = stringResource(id = R.string.export_btn),
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .widthIn(min = 140.dp)
-                        .align(Alignment.CenterHorizontally),
-                    isEnabled = exportCount > 0,
-                    onClick = onExportClick
-                )
+                    ActionButton(
+                        text = stringResource(id = R.string.export_btn),
+                        modifier = Modifier
+                            .wrapContentWidth()
+                            .widthIn(min = 140.dp)
+                            .align(Alignment.CenterHorizontally),
+                        isEnabled = exportCount > 0,
+                        onClick = onExportClick
+                    )
+                }
             }
         }
+
+        if(isAdLoading) {
+            LoadingScreen()
+        }
+
     }
 }
 
@@ -187,7 +196,7 @@ fun ColumnScope.ExportCard(
 @Composable
 fun PreviewExportScreen() {
     DeviceInfoTheme() {
-        ExportScreen(true, 1, true, {}, {}, {})
+        ExportScreen(true, 1, true, true, {}, {}, {})
     }
 }
 
@@ -195,6 +204,6 @@ fun PreviewExportScreen() {
 @Composable
 fun PreviewExportScreenDark() {
     DeviceInfoTheme() {
-        ExportScreen(true, 1, true, {}, {}, {})
+        ExportScreen(true, 1, true, false, {}, {}, {})
     }
 }
