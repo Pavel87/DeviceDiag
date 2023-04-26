@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import com.pacmac.devinfo.ui.components.setStatusBarColor
 
 private val DarkColorPalette = darkColorScheme(
     background = md_theme_dark_background,
@@ -46,6 +47,9 @@ fun DeviceInfoTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compos
         colorScheme = colors,
         typography = Typography,
         shapes = Shapes,
-        content = content
+        content =  {
+            setStatusBarColor()
+            content()
+        }
     )
 }

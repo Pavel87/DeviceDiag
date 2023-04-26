@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -21,11 +20,11 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -97,6 +96,7 @@ class DeviceInfoActivity : ComponentActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
 
         MobileAds.initialize(this) {}
@@ -133,7 +133,8 @@ class DeviceInfoActivity : ComponentActivity() {
                                 permissionModal = PermissionModalType.PERMISSION_RATIOANAL
                             } else {
                                 if (p.permissionState == PermissionState.DENIED_FOREVER) {
-                                    permissionModal = PermissionModalType.PERMISSION_DENIED_FOREVER
+                                    permissionModal =
+                                        PermissionModalType.PERMISSION_DENIED_FOREVER
                                 } else {
                                     permissionModal = PermissionModalType.NO_MODAL
                                     permissionLauncher.launch(p.permissions)
