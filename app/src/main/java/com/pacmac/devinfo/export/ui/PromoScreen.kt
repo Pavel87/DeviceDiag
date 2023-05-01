@@ -16,8 +16,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,7 +35,10 @@ import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
 import com.pacmac.devinfo.utils.Utils
 
 @Composable
-fun PromoScreen(isCompactScreen: Boolean, onClose: (playStoreVisited: Boolean) -> Unit) {
+fun PromoScreen(
+    windowSizeClass: WindowWidthSizeClass,
+    onClose: (playStoreVisited: Boolean) -> Unit
+) {
 
     val context = LocalContext.current
     BackHandler(true) {
@@ -51,16 +56,19 @@ fun PromoScreen(isCompactScreen: Boolean, onClose: (playStoreVisited: Boolean) -
                     .verticalScroll(rememberScrollState(), true)
                     .padding(16.dp)
             ) {
-                Image(
+                Icon(
                     painter = painterResource(id = R.drawable.close),
                     contentDescription = stringResource(id = R.string.close),
-                    modifier = Modifier.clickable { onClose(false) }
+                    modifier = Modifier.clickable { onClose(false) },
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
 
                 val contentModifier =
-                    if (isCompactScreen) Modifier.fillMaxWidth() else Modifier.width(450.dp)
+                    if (windowSizeClass == WindowWidthSizeClass.Compact) Modifier.fillMaxWidth() else Modifier.width(
+                        450.dp
+                    )
 
                 Image(
                     painter = painterResource(id = R.drawable.wallet_preview),
@@ -80,6 +88,7 @@ fun PromoScreen(isCompactScreen: Boolean, onClose: (playStoreVisited: Boolean) -
                 ) {
                     WalletUpsell(
                         Modifier.padding(8.dp),
+                        windowSizeClass,
                         onClick = {
                             Utils.openWalletAppPlayStore(context)
                             onClose(true)
@@ -97,8 +106,8 @@ fun PromoScreen(isCompactScreen: Boolean, onClose: (playStoreVisited: Boolean) -
     uiMode = Configuration.ORIENTATION_LANDSCAPE
 )
 @Composable
-fun PreviewNewFeaturesScreen() {
+fun PreviewPromoScreen() {
     DeviceInfoTheme {
-        PromoScreen(false, {})
+        PromoScreen(WindowWidthSizeClass.Compact, {})
     }
 }

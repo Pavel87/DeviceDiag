@@ -1,8 +1,11 @@
 package com.pacmac.devinfo.ui.components
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -10,6 +13,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -68,7 +72,7 @@ fun InfoListView(
 
 }
 
-@Preview(showBackground = true, widthDp = 400)
+@Preview(showBackground = true, widthDp = 700)
 @Composable
 fun PreviewItemListView() {
     DeviceInfoTheme {
@@ -115,8 +119,16 @@ fun PreviewItemListView() {
         data.add(ResolutionUIObject(stringResource(id = R.string.supported_picture_size), res))
 
         InfoListView(
+            header = {
+
+                PacmacAdBanner(
+                    adText = stringResource(id = R.string.icmp_ping_ad),
+                    modifier = Modifier.width(380.dp).padding(16.dp)
+                ) {
+                }
+            },
             modifier = Modifier.fillMaxWidth(),
-            data
+            data = data
         )
     }
 }

@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -85,9 +87,11 @@ class DeviceInfoActivity : ComponentActivity() {
                     CAMERA_PERMISSION -> {
                         viewModel._isCameraPermissionEnabled.value = true
                     }
+
                     PHONE_PERMISSION -> {
                         viewModel._isPhonePermissionEnabled.value = true
                     }
+
                     PHONE_NUMBER_PERMISSION -> {
                         viewModel._isPhoneNumberPermissionEnabled.value = true
                     }
@@ -95,6 +99,7 @@ class DeviceInfoActivity : ComponentActivity() {
             }
         }
 
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
@@ -108,6 +113,8 @@ class DeviceInfoActivity : ComponentActivity() {
             var showGPSError by remember { mutableStateOf(false) }
             var showRateDialog by remember { mutableStateOf(false) }
             var permissionModal by remember { mutableStateOf(PermissionModalType.NO_MODAL) }
+
+            val windowSizeClass = calculateWindowSizeClass(this)
 
             LaunchedEffect(key1 = Unit) {
                 lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
@@ -161,6 +168,7 @@ class DeviceInfoActivity : ComponentActivity() {
 
                     if (showNewFeatures) {
                         NewFeaturesScreen(
+                            windowWidthSizeClass = windowSizeClass.widthSizeClass,
                             onClose = { showNewFeatures = false },
                             onAppReview = { showRateDialog = true })
                     } else {
@@ -205,7 +213,10 @@ class DeviceInfoActivity : ComponentActivity() {
                                         }
                                     }
                                     composable(route = MainDashboard.route) {
-                                        DashboardScreen(viewModel = viewModel)
+                                        DashboardScreen(
+                                            viewModel = viewModel,
+                                            windowSizeClass.widthSizeClass
+                                        )
                                     }
                                 }
 

@@ -1,6 +1,7 @@
 package com.pacmac.devinfo.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -53,3 +54,9 @@ fun DeviceInfoTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compos
         }
     )
 }
+
+@Composable
+fun ColorScheme.tileStart() = if (isSystemInDarkTheme()) md_theme_dark_tile_start  else md_theme_light_tile_start
+
+@Composable
+fun ColorScheme.tileEnd() = if (isSystemInDarkTheme()) md_theme_dark_tile_end  else md_theme_light_tile_end

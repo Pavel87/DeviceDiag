@@ -10,13 +10,14 @@ android {
         config {
         }
     }
-    compileSdkVersion 33
-    buildToolsVersion "33.0.1"
+    compileSdkVersion = 33
+    buildToolsVersion = "33.0.1"
+
     defaultConfig {
         applicationId "com.pacmac.devicediag"
         minSdkVersion 24
         targetSdkVersion 32
-        versionCode 67
+        versionCode 69
         versionName "3.0.0"
         multiDexEnabled true
 
@@ -149,7 +150,7 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     // For instrumentation tests
-    androidTestImplementation  "com.google.dagger:hilt-android-testing:$hilt_version"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
     kaptAndroidTest "com.google.dagger:hilt-compiler:$hilt_version"
 
     // For local unit tests

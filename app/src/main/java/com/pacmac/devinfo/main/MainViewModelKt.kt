@@ -156,34 +156,34 @@ class MainViewModelKt @Inject constructor(
     fun getDashboarItems(): List<DashModel> {
         val list = arrayListOf<DashModel>()
         list.add(DashModel(
-            DashItem.CPU_SCREEN, R.drawable.cpuimg, CPUInfoKt::class.java
+            DashItem.CPU_SCREEN, R.drawable.cpu_img_2, "CPU", CPUInfoKt::class.java
         ) { onTileClick(it) })
         list.add(DashModel(
-            DashItem.RAM_SCREEN, R.drawable.ramimg, StorageInfoKt::class.java
+            DashItem.RAM_SCREEN, R.drawable.ram_img_2, "RAM", StorageInfoKt::class.java
         ) { onTileClick(it) })
         list.add(DashModel(
-            DashItem.BAT_SCREEN, R.drawable.batimg, BatteryInfoKt::class.java
+            DashItem.BAT_SCREEN, R.drawable.battery_img_2, "", BatteryInfoKt::class.java
         ) { onTileClick(it) })
         list.add(DashModel(
-            DashItem.CAM_SCREEN, R.drawable.camimg, CameraInfoKt::class.java
+            DashItem.CAM_SCREEN, R.drawable.camera_img_2, "",CameraInfoKt::class.java
         ) { onTileClick(it) })
         list.add(DashModel(
-            DashItem.GPS_SCREEN, R.drawable.gpsimg, GPSInfoKt::class.java
+            DashItem.GPS_SCREEN, R.drawable.gps_img_2, "",GPSInfoKt::class.java
         ) { onTileClick(it) })
         list.add(DashModel(
-            DashItem.CELL_SCREEN, R.drawable.simimg, CellularInfoKt::class.java
+            DashItem.CELL_SCREEN, R.drawable.sim_img_2, "SIM    ", CellularInfoKt::class.java
         ) { onTileClick(it) })
         list.add(DashModel(
-            DashItem.SENSOR_SCREEN, R.drawable.sensorimg, SensorInfoKt::class.java
+            DashItem.SENSOR_SCREEN, R.drawable.sensor_img_2, "", SensorInfoKt::class.java
         ) { onTileClick(it) })
         list.add(DashModel(
-            DashItem.DISPLAY_SCREEN, R.drawable.displayimg, DisplayInfoKt::class.java
+            DashItem.DISPLAY_SCREEN, R.drawable.display_img_2, "", DisplayInfoKt::class.java
         ) { onTileClick(it) })
         list.add(DashModel(
-            DashItem.WIFI_SCREEN, R.drawable.wifiimg, NetworkInfoKt::class.java
+            DashItem.WIFI_SCREEN, R.drawable.network_img_2, "", NetworkInfoKt::class.java
         ) { onTileClick(it) })
         list.add(DashModel(
-            DashItem.ABOUT_SCREEN, R.drawable.aboutimg, AboutActivity::class.java
+            DashItem.ABOUT_SCREEN, R.drawable.about_img_2, "", AboutActivity::class.java
         ) { onTileClick(it) })
         return list
     }

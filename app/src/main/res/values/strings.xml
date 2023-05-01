@@ -61,7 +61,7 @@
     <string name="new_features1">Dark Mode Support</string>
     <string name="new_features2">UI Updated</string>
     <string name="new_features3">Improved Permission Handling</string>
-    <string name="new_features4">Added WiFi Channel</string>
+    <string name="new_features4">Added Phone Number to Main Info</string>
     <string name="new_features5">- Improved stability</string>
     <string name="title_activity_cellular_info">Cellular Info</string>
     <string name="cell_phone_sim_tab">SIM</string>

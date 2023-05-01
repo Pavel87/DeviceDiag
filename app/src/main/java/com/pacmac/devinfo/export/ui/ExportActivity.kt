@@ -46,7 +46,6 @@ class ExportActivity : ComponentActivity() {
                 filePathString = intent.getStringExtra(ExportUtils.EXPORT_FILE) ?: ""
             }
 
-            println("PACMAC -- openedSlots: $openedSlots")
 
             LaunchedEffect(key1 = Unit) {
 
@@ -98,7 +97,6 @@ class ExportActivity : ComponentActivity() {
                 NavHost(
                     navController = navController, startDestination = ExportScreenDestinations.route
                 ) {
-
                     composable(ExportScreenDestinations.route) {
                         ExportScreen(isCompactScreen = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
                             exportCount = openedSlots.value,
@@ -116,8 +114,7 @@ class ExportActivity : ComponentActivity() {
                     }
 
                     composable(PromoScreenDestinations.route) {
-                        PromoScreen(isCompactScreen = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
-                            onClose = { navController.popBackStack() })
+                        PromoScreen(windowSizeClass.widthSizeClass, onClose = { navController.popBackStack() })
                     }
                 }
             }

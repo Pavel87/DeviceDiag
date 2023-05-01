@@ -1,7 +1,6 @@
 package com.pacmac.devinfo
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,19 +42,33 @@ import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
 import com.pacmac.devinfo.utils.Utils
 
 @Composable
-fun NewFeaturesScreen(onClose: () -> Unit, onAppReview: () -> Unit) {
+fun NewFeaturesScreen(
+    windowWidthSizeClass: WindowWidthSizeClass,
+    onClose: () -> Unit,
+    onAppReview: () -> Unit
+) {
 
     val newFeautures = listOf(
         FeatureModel(
             stringResource(id = R.string.new_features1),
-            "Switch to dark mode and enjoy the new look."
+            "Switch to dark mode and enjoy the new look"
         ),
-        FeatureModel(stringResource(id = R.string.new_features2), "Multiple UI changes."),
+        FeatureModel(stringResource(id = R.string.new_features2), "Multiple UI updates"),
         FeatureModel(
             stringResource(id = R.string.new_features3),
-            "If permissions denied 2 times user is informed about option to enable via Device Settings."
+            "If permissions denied 2 times user is informed about option to enable via Device Settings"
+        ),
+        FeatureModel(
+            stringResource(id = R.string.new_features4),
+            "Once the phone permission is enabled within the app the Phone Number appears in Main Info"
         )
     )
+
+    val contentModifier =
+        if (windowWidthSizeClass == WindowWidthSizeClass.Compact) Modifier.fillMaxWidth() else Modifier.width(
+            450.dp
+        )
+
 
     var displayRateDialog by remember { mutableStateOf(false) }
 
@@ -68,7 +82,7 @@ fun NewFeaturesScreen(onClose: () -> Unit, onAppReview: () -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState(), true)
+                    .verticalScroll(rememberScrollState())
                     .padding(16.dp)
             ) {
                 Icon(
@@ -110,10 +124,11 @@ fun NewFeaturesScreen(onClose: () -> Unit, onAppReview: () -> Unit) {
                     shape = MaterialTheme.shapes.extraSmall,
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
                     elevation = CardDefaults.cardElevation(6.dp),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = contentModifier.align(Alignment.CenterHorizontally)
                 ) {
                     WalletUpsell(
                         Modifier.padding(8.dp),
+                        windowWidthSizeClass,
                         onClick = { Utils.openWalletAppPlayStore(context) })
                 }
             }
@@ -182,6 +197,6 @@ fun PreviewFeatureDescription() {
 @Composable
 fun PreviewNewFeaturesScreen() {
     DeviceInfoTheme {
-        NewFeaturesScreen({}, {})
+        NewFeaturesScreen(WindowWidthSizeClass.Compact, {}, {})
     }
 }

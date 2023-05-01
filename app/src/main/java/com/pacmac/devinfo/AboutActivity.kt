@@ -9,6 +9,9 @@ import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,6 +34,7 @@ import java.util.*
 
 class AboutActivity : ComponentActivity() {
 
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -38,6 +42,7 @@ class AboutActivity : ComponentActivity() {
                 var displayRateDialog by remember { mutableStateOf(false) }
 
                 val context = LocalContext.current
+                val windowSizeClass = calculateWindowSizeClass(this)
                 val backDispatcher =
                     LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
                 val onBack = { backDispatcher?.onBackPressed() }
@@ -54,6 +59,7 @@ class AboutActivity : ComponentActivity() {
                         content = {
                             AboutContent(
                                 Modifier.padding(it),
+                                windowSizeClass.widthSizeClass,
                                 getAppVersionName(),
                                 onRateAppClick = { displayRateDialog = true })
                         })
@@ -79,36 +85,50 @@ class AboutActivity : ComponentActivity() {
     }
 
     @Composable
-    fun AboutCard(version: String, modifier: Modifier) {
-        Card(
-            shape = MaterialTheme.shapes.extraSmall,
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-            elevation = CardDefaults.cardElevation(6.dp),
-            modifier = modifier.fillMaxWidth()
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(
-                    text = version, textAlign = TextAlign.End, modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = stringResource(id = R.string.app_description),
-                    style = MaterialTheme.typography.bodySmall,
-                    textAlign = TextAlign.Justify,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(20.dp))
-                Text(
-                    text = stringResource(id = R.string.app_author),
-                    style = MaterialTheme.typography.bodySmall,
-                    textAlign = TextAlign.Start,
-                )
+    fun AboutCard(version: String, windowSizeClass: WindowWidthSizeClass) {
+        val contentModifier = if (windowSizeClass == WindowWidthSizeClass.Compact) {
+            Modifier.fillMaxWidth()
+        } else {
+            Modifier.width(500.dp)
+        }
+        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
+            Card(
+                shape = MaterialTheme.shapes.extraSmall,
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+                elevation = CardDefaults.cardElevation(6.dp),
+                modifier = contentModifier
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        text = version,
+                        textAlign = TextAlign.End,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = stringResource(id = R.string.app_description),
+                        style = MaterialTheme.typography.bodySmall,
+                        textAlign = TextAlign.Justify,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Text(
+                        text = stringResource(id = R.string.app_author),
+                        style = MaterialTheme.typography.bodySmall,
+                        textAlign = TextAlign.Start,
+                    )
+                }
             }
         }
     }
 
     @Composable
-    fun AboutContent(modifier: Modifier, version: String = "9.9.9", onRateAppClick: () -> Unit) {
+    fun AboutContent(
+        modifier: Modifier,
+        windowSizeClass: WindowWidthSizeClass,
+        version: String = "9.9.9",
+        onRateAppClick: () -> Unit
+    ) {
         val context = LocalContext.current
         Surface(color = MaterialTheme.colorScheme.surface, modifier = modifier) {
             Column(
@@ -116,9 +136,12 @@ class AboutActivity : ComponentActivity() {
                     .padding(16.dp)
                     .fillMaxHeight()
             ) {
-                WalletUpsell(Modifier, onClick = { Utils.openWalletAppPlayStore(context) })
+                WalletUpsell(
+                    Modifier,
+                    windowSizeClass,
+                    onClick = { Utils.openWalletAppPlayStore(context) })
                 Spacer(modifier = Modifier.height(24.dp))
-                AboutCard(version, Modifier)
+                AboutCard(version, windowSizeClass)
                 Spacer(modifier = Modifier.height(32.dp))
                 ActionButton(
                     text = stringResource(id = R.string.rate_app),
@@ -134,23 +157,23 @@ class AboutActivity : ComponentActivity() {
     @Composable
     fun PreviewAboutCard() {
         DeviceInfoTheme {
-            AboutCard("9.9.9", Modifier.padding(16.dp))
+            AboutCard("9.9.9", WindowWidthSizeClass.Compact)
         }
     }
 
-    //    @Preview(showBackground = true, widthDp = 500)
-//    @Composable
-//    fun PreviewWalletUpsell() {
-//        DeviceInfoTheme {
-//            WalletUpsell(Modifier.padding(16.dp)) {}
-//        }
-//    }
-//
+    @Preview(showBackground = true, widthDp = 500)
+    @Composable
+    fun PreviewWalletUpsell() {
+        DeviceInfoTheme {
+            WalletUpsell(Modifier.padding(16.dp), WindowWidthSizeClass.Expanded) {}
+        }
+    }
+
     @Preview(showBackground = true, widthDp = 500, uiMode = Configuration.UI_MODE_NIGHT_YES)
     @Composable
     fun PreviewAboutScreen() {
         DeviceInfoTheme {
-            AboutContent(Modifier, onRateAppClick = {})
+            AboutContent(Modifier, WindowWidthSizeClass.Expanded, onRateAppClick = {})
         }
     }
 

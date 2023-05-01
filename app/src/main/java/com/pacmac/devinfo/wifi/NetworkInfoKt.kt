@@ -6,11 +6,24 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pacmac.devinfo.R
 import com.pacmac.devinfo.export.ExportTask
@@ -31,12 +44,16 @@ class NetworkInfoKt : ComponentActivity(), OnExportTaskFinished {
 
     private val viewModel: NetworkViewModelKt by viewModels()
 
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
             val onBack = { backDispatcher?.onBackPressed() }
+
+            val windowSizeClass = calculateWindowSizeClass(this)
+            val context = LocalContext.current
 
             DeviceInfoTheme {
                 Scaffold(topBar = {
@@ -57,11 +74,17 @@ class NetworkInfoKt : ComponentActivity(), OnExportTaskFinished {
                         modifier = modifier,
                         data = viewModel.getWifiInfo().value,
                         header = {
+                            val contentModifier =
+                                if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
+                                    Modifier.fillMaxWidth()
+                                } else {
+                                    Modifier.width(390.dp)
+                                }
                             PacmacAdBanner(
                                 adText = stringResource(id = R.string.icmp_ping_ad),
-                                modifier = Modifier.padding(16.dp)
+                                modifier = contentModifier.padding(8.dp)
                             ) {
-                                Utils.openGooglePlayListing("com.pacmac.pinger", this)
+                                Utils.openGooglePlayListing("com.pacmac.pinger", context)
                             }
                         }
                     )
@@ -95,5 +118,39 @@ class NetworkInfoKt : ComponentActivity(), OnExportTaskFinished {
             intent.putExtra(ExportUtils.EXPORT_FILE, filePath)
             startActivity(intent)
         }
+    }
+
+}
+
+@Preview(widthDp = 1000)
+@Composable
+fun PreviewNetworkInfo() {
+    DeviceInfoTheme {
+
+        LocalContext.current
+        InfoListView(
+            modifier = Modifier,
+            data = emptyList(),
+            header = {
+//            val contentModifier = if (WindowWidthSizeClass.Compact) {
+                Modifier.fillMaxWidth()
+//            } else {
+                Modifier.width(300.dp)
+//            }
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(16.dp)
+                ) {
+                    PacmacAdBanner(
+                        adText = stringResource(id = R.string.icmp_ping_ad),
+                        modifier = Modifier.width(380.dp)
+                    ) {
+                    }
+                }
+            }
+        )
     }
 }
