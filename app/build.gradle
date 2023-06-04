@@ -16,9 +16,9 @@ android {
     defaultConfig {
         applicationId "com.pacmac.devicediag"
         minSdkVersion 24
-        targetSdkVersion 32
-        versionCode 69
-        versionName "3.0.0"
+        targetSdkVersion 33
+        versionCode 70
+        versionName "3.0.1"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

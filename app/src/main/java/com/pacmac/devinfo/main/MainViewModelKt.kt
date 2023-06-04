@@ -70,14 +70,14 @@ class MainViewModelKt @Inject constructor(
     private val _mainInfo = mutableStateOf<MainInfoModel?>(null)
     val mainInfo: State<MainInfoModel?> = _mainInfo
 
-    val _isLocationPermissionEnabled = mutableStateOf(true)
+    val _isLocationPermissionEnabled = mutableStateOf(false)
     val isLocationPermissionEnabled: State<Boolean> = _isLocationPermissionEnabled
 
-    val _isPhonePermissionEnabled = mutableStateOf(true)
+    val _isPhonePermissionEnabled = mutableStateOf(false)
     val isPhonePermissionEnabled: State<Boolean> = _isPhonePermissionEnabled
-    val _isStoragePermissionEnabled = mutableStateOf(true)
+    val _isStoragePermissionEnabled = mutableStateOf(false)
     val isStoragePermissionEnabled: State<Boolean> = _isStoragePermissionEnabled
-    val _isCameraPermissionEnabled = mutableStateOf(true)
+    val _isCameraPermissionEnabled = mutableStateOf(false)
     val isCameraPermissionEnabled: State<Boolean> = _isCameraPermissionEnabled
     val _isPhoneNumberPermissionEnabled = mutableStateOf(true)
     val isPhoneNumberPermissionEnabled: State<Boolean> = _isPhoneNumberPermissionEnabled
