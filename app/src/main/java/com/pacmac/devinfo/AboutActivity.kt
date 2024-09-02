@@ -1,9 +1,8 @@
 package com.pacmac.devinfo
 
-import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.os.Build
 import android.os.Bundle
+import com.pacmac.devinfo.BuildConfig
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
@@ -177,22 +176,8 @@ class AboutActivity : ComponentActivity() {
         }
     }
 
-    @Suppress("DEPRECATION")
     private fun getAppVersionName(): String {
-        var s = "Unknown"
-        try {
-            s = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getPackageInfo(
-                    packageName, PackageManager.PackageInfoFlags.of(0)
-                ).versionName
-            } else {
-                packageManager.getPackageInfo(packageName, 0).versionName
-            }
-        } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
-        }
-        return String.format(
-            Locale.ENGLISH, "%s %s", resources.getString(R.string.version_text), s
-        )
+
+        return String.format(Locale.ENGLISH, "%s %s", resources.getString(R.string.version_text), BuildConfig.VERSION_NAME)
     }
 }

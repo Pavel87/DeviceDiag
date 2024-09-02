@@ -112,12 +112,10 @@ class AppModule {
     fun provideAppRepository(
         dataStore: DataStore<Preferences>,
         appService: AppService,
-        packageManager: PackageManager
     ): AppRepository =
         AppRepositoryImpl(
             dataStore = dataStore,
-            appService = appService,
-            packageManager = packageManager
+            appService = appService
         )
 
     @Provides

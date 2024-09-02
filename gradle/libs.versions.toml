@@ -1,0 +1,130 @@
+[versions]
+accompanistSystemuicontroller = "0.27.0"
+androidxLifecycleViewmodelKtx = "2.8.4"
+annotation = "1.8.2"
+coreKtx = "1.13.1"
+coreSplashscreen = "1.0.1"
+datastorePreferences = "1.1.1"
+gradle = "8.6.0"
+hiltAndroid = "2.51.1"
+hiltNavigationCompose = "1.2.0"
+junit = "4.13.2"
+kotlin_version = "2.0.20"
+kotlinxCoroutinesAndroid = "1.8.1"
+ktorClientCore = "1.6.7"
+lifecycleExtensions = "2.2.0"
+
+composeBOM = "2024.08.00"
+lottieCompose = "6.0.0"
+material = "1.12.0"
+playServicesAds = "23.3.0"
+rules = "1.6.1"
+runner = "1.6.2"
+kspVersion = "2.0.20-1.0.24"
+
+[libraries]
+
+
+accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
+androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-lifecycle-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycleViewmodelKtx" }
+androidx-rules = { module = "androidx.test:rules", version.ref = "rules" }
+androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
+junit = { module = "junit:junit", version.ref = "junit" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
+ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktorClientCore" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktorClientCore" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCore" }
+lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "lifecycleExtensions" }
+
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+google-hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroid" }
+#hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroid" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
+
+
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBOM" }
+compose-activity = { module = "androidx.activity:activity-compose" }
+compose-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose" }
+compose-material3 = { module = "androidx.compose.material3:material3" }
+compose-window-size = { module = "androidx.compose.material3:material3-window-size-class-android"}
+compose-navigation-compose = { module = "androidx.navigation:navigation-compose" }
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
+
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hiltAndroid" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin_version" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "playServicesAds" }
+
+[plugins]
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin_version" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin_version" }
+dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
+
+[bundles]
+
+hilt = [
+    "hilt-android",
+    "hilt-navigation-compose",
+]
+
+androidx-libs = [
+    "datastore-preferences",
+    "lifecycle-extensions",
+    "kotlinx-coroutines-android",
+    "androidx-lifecycle-lifecycle-viewmodel-ktx",
+    "androidx-core-ktx",
+    "androidx-core-splashscreen",
+    "androidx-annotation",
+    "material",
+]
+
+ktor = [
+    "ktor-client-android",
+    "ktor-client-core",
+    "ktor-client-cio"
+]
+
+extras = [
+    "accompanist-systemuicontroller",
+    "play-services-ads"
+]
+
+compose = [
+    "compose-material3",
+    "compose-window-size",
+    "compose-navigation-compose",
+    "compose-ui",
+    "compose-preview",
+    "lottie-compose",
+    "compose-lifecycle-viewmodel",
+    "compose-activity"
+]
+
+debug-only = [
+    "compose-ui-tooling"
+]
+
+test-libs = [
+    "compose-ui-test-junit4",
+    "compose-ui-test-manifest",
+    "google-hilt-android-testing"
+]
+
+android-tests = [
+    "google-hilt-android-testing",
+    "junit",
+    "androidx-runner",
+    "androidx-rules"
+]

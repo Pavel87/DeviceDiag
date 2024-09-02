@@ -1,10 +1,10 @@
 package com.pacmac.devinfo.main.data
 
-import android.content.pm.PackageManager
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
+import com.pacmac.devinfo.BuildConfig
 import com.pacmac.devinfo.UpToDateEnum
 import com.pacmac.devinfo.main.model.PermissionState
 import com.pacmac.devinfo.utils.Utils
@@ -18,8 +18,7 @@ import javax.inject.Inject
 
 class AppRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
-    private val appService: AppService,
-    private val packageManager: PackageManager
+    private val appService: AppService
 ) : AppRepository {
 
     override suspend fun updatePermissionStatus(permission: String, state: PermissionState) {
@@ -89,26 +88,8 @@ class AppRepositoryImpl @Inject constructor(
     /**
      * APP VERSION CHECK
      */
-
-    private val APP_VERSION_DEFAULT: String = "0.0.0"
-    private var appVersion = APP_VERSION_DEFAULT
     private var userHasSeenAppUpgradeModal = false
-
-    private fun getCurrentAppVersion(): String {
-        if (appVersion == APP_VERSION_DEFAULT) {
-            try {
-                appVersion = packageManager.getPackageInfo(
-                    "com.pacmac.devicediag.free",
-                    PackageManager.GET_META_DATA
-                ).versionName
-            } catch (e: PackageManager.NameNotFoundException) {
-                e.printStackTrace()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-        return appVersion
-    }
+    private fun getCurrentAppVersion() = BuildConfig.VERSION_NAME
 
     override suspend fun getLatestAppUpdate() = flow {
         if (userHasSeenAppUpgradeModal) {

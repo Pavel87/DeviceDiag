@@ -301,7 +301,7 @@
     <string name="check_internet_connection">No Internet Connection.</string>
     <string name="export_slots_unlocked">All export slots are unlocked.</string>
     <string name="earning_export_slots">You have just earned 1 EXPORT Slot!</string>
-    <string name="device_info_export">Device Info Export - %s %s</string>
+    <string name="device_info_export">Device Info Export - %1$s %2$s</string>
     <string name="exported_to">Data exported to</string>
     <string name="chooser_export_data">Export Data</string>
     <string name="gps_not_available">GPS is not available.</string>
