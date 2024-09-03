@@ -23,3 +23,6 @@
 -dontwarn com.google.android.gms.**
 -dontwarn com.tutelatechnologies.sdk.framework.**
 -dontwarn com.tutelatechnologies.sdk.framework.**$**
+
+-keep class org.slf4j.impl.StaticLoggerBinder { *; }
+-dontwarn org.slf4j.impl.StaticLoggerBinder

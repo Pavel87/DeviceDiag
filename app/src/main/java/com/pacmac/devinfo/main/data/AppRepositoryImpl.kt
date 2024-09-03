@@ -64,7 +64,6 @@ class AppRepositoryImpl @Inject constructor(
     private fun getPermissionPrefKey(permission: String): Preferences.Key<Int> {
         return when (permission) {
             Utils.LOCATION_PERMISSION -> PreferencesKeys.LOCATION_PERMISSION_KEY
-            Utils.STORAGE_PERMISSION -> PreferencesKeys.STORAGE_PERMISSION_KEY
             Utils.PHONE_PERMISSION -> PreferencesKeys.PHONE_PERMISSION_KEY
             Utils.PHONE_NUMBER_PERMISSION -> PreferencesKeys.PHONE_NUMBER_PERMISSION_KEY
             Utils.CAMERA_PERMISSION -> PreferencesKeys.CAMERA_PERMISSION_KEY
@@ -77,7 +76,6 @@ class AppRepositoryImpl @Inject constructor(
     private object PreferencesKeys {
         val VERSION_CODE_KEY = intPreferencesKey("version_key")
         val LOCATION_PERMISSION_KEY = intPreferencesKey(Utils.LOCATION_PERMISSION)
-        val STORAGE_PERMISSION_KEY = intPreferencesKey(Utils.STORAGE_PERMISSION)
         val PHONE_PERMISSION_KEY = intPreferencesKey(Utils.PHONE_PERMISSION)
         val PHONE_NUMBER_PERMISSION_KEY = intPreferencesKey(Utils.PHONE_NUMBER_PERMISSION)
         val CAMERA_PERMISSION_KEY = intPreferencesKey(Utils.CAMERA_PERMISSION)

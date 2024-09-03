@@ -108,13 +108,6 @@ fun DashboardScreen(
 }
 
 private fun checkAllPermissions(viewModel: MainViewModelKt, context: Context) {
-    Utils.checkPermission(context, Utils.STORAGE_PERMISSION).run {
-        if (this) viewModel.updatePermissionState(
-            Utils.STORAGE_PERMISSION,
-            PermissionState.GRANTED
-        )
-        viewModel._isStoragePermissionEnabled.value = this
-    }
     Utils.checkPermission(context, Utils.CAMERA_PERMISSION).run {
         if (this) viewModel.updatePermissionState(
             Utils.CAMERA_PERMISSION,

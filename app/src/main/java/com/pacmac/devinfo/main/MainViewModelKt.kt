@@ -195,14 +195,6 @@ class MainViewModelKt @Inject constructor(
             }
 
             DashItem.RAM_SCREEN -> {
-                if (!isStoragePermissionEnabled.value) {
-                    checkPermission(
-                        Utils.STORAGE_PERMISSION,
-                        R.string.storage_permission_msg,
-                        R.string.storage_feature_disabled
-                    )
-                    return
-                }
                 _onNavigateToScreen.emit(tile.actClass)
             }
 

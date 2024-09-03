@@ -55,7 +55,6 @@ import com.pacmac.devinfo.utils.Utils.CAMERA_PERMISSION
 import com.pacmac.devinfo.utils.Utils.LOCATION_PERMISSION
 import com.pacmac.devinfo.utils.Utils.PHONE_NUMBER_PERMISSION
 import com.pacmac.devinfo.utils.Utils.PHONE_PERMISSION
-import com.pacmac.devinfo.utils.Utils.STORAGE_PERMISSION
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -78,10 +77,6 @@ class DeviceInfoActivity : ComponentActivity() {
                 when (p) {
                     LOCATION_PERMISSION -> {
                         viewModel._isLocationPermissionEnabled.value = true
-                    }
-
-                    STORAGE_PERMISSION -> {
-                        viewModel._isStoragePermissionEnabled.value = true
                     }
 
                     CAMERA_PERMISSION -> {
