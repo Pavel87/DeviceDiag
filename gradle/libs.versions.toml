@@ -2,12 +2,15 @@
 accompanistSystemuicontroller = "0.27.0"
 androidxLifecycleViewmodelKtx = "2.8.4"
 annotation = "1.8.2"
+applovin = "12.6.1.0"
 coreKtx = "1.13.1"
 coreSplashscreen = "1.0.1"
 datastorePreferences = "1.1.1"
+facebook = "6.17.0.0"
 gradle = "8.6.0"
 hiltAndroid = "2.51.1"
 hiltNavigationCompose = "1.2.0"
+inmobi = "10.7.5.0"
 junit = "4.13.2"
 kotlin_version = "2.0.20"
 kotlinxCoroutinesAndroid = "1.8.1"
@@ -21,10 +24,10 @@ playServicesAds = "23.3.0"
 rules = "1.6.1"
 runner = "1.6.2"
 kspVersion = "2.0.20-1.0.24"
+unity = "4.12.2.0"
+unityAds = "4.12.1"
 
 [libraries]
-
-
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
@@ -39,6 +42,12 @@ ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "k
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktorClientCore" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCore" }
 lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "lifecycleExtensions" }
+
+applovin-ads-adapter = { module = "com.google.ads.mediation:applovin", version.ref = "applovin" }
+facebook-ads-adapter = { module = "com.google.ads.mediation:facebook", version.ref = "facebook" }
+inmobi-ads-adapter = { module = "com.google.ads.mediation:inmobi", version.ref = "inmobi" }
+unity-ads-adapter = { module = "com.google.ads.mediation:unity", version.ref = "unity" }
+unity3d-ads-adapter = { module = "com.unity3d.ads:unity-ads", version.ref = "unityAds" }
 
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
@@ -127,4 +136,13 @@ android-tests = [
     "junit",
     "androidx-runner",
     "androidx-rules"
+]
+
+
+mediation-adapters = [
+    "applovin-ads-adapter",
+    "facebook-ads-adapter",
+    "inmobi-ads-adapter",
+    "unity-ads-adapter",
+    "unity3d-ads-adapter"
 ]

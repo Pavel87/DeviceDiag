@@ -18,8 +18,8 @@ android {
         applicationId = "com.pacmac.devicediag"
         minSdk = 24
         targetSdk = 34
-        versionCode = 73
-        versionName = "3.0.3"
+        versionCode = 74
+        versionName = "3.0.4"
         multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -120,4 +120,6 @@ dependencies {
     testImplementation(libs.bundles.test.libs)
     // For instrumentation tests
     androidTestImplementation(libs.bundles.android.tests)
+
+    implementation(libs.bundles.mediation.adapters)
 }

@@ -35,6 +35,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.ResponseInfo
 import com.pacmac.devinfo.NewFeaturesScreen
 import com.pacmac.devinfo.R
 import com.pacmac.devinfo.UpToDateEnum
@@ -55,7 +56,11 @@ import com.pacmac.devinfo.utils.Utils.CAMERA_PERMISSION
 import com.pacmac.devinfo.utils.Utils.LOCATION_PERMISSION
 import com.pacmac.devinfo.utils.Utils.PHONE_NUMBER_PERMISSION
 import com.pacmac.devinfo.utils.Utils.PHONE_PERMISSION
+import com.unity3d.ads.UnityAds
+import com.unity3d.ads.metadata.MetaData
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -99,7 +104,24 @@ class DeviceInfoActivity : ComponentActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
+        val gdprMetaData = MetaData(this)
+        gdprMetaData["gdpr.consent"] = true
+        gdprMetaData.commit()
+
+        val ccpaMetaData = MetaData(this)
+        ccpaMetaData["privacy.consent"] = true
+        ccpaMetaData.commit()
+
         MobileAds.initialize(this) {}
+
+        val backgroundScope = CoroutineScope(Dispatchers.IO)
+        backgroundScope.launch {
+            // Initialize the Google Mobile Ads SDK on a background thread.
+            MobileAds.initialize(this@DeviceInfoActivity) { initializationStatus ->
+                // start loading ads past this point
+            }
+        }
+
 
         setContent {
             val context = LocalContext.current
