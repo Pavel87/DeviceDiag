@@ -21,8 +21,12 @@
 -keep enum com.tutelatechnologies.** { *; }
 -keep class com.google.android.gms.** { *; }
 -dontwarn com.google.android.gms.**
--dontwarn com.tutelatechnologies.sdk.framework.**
--dontwarn com.tutelatechnologies.sdk.framework.**$**
+
+-keep class gatewayprotocol.** { *; }
+-keep class com.google.protobuf.* { *; }
 
 -keep class org.slf4j.impl.StaticLoggerBinder { *; }
 -dontwarn org.slf4j.impl.StaticLoggerBinder
+
+-keep class com.facebook.infer.annotation.** { *; }
+-dontwarn com.facebook.infer.annotation.**

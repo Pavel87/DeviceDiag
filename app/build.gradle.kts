@@ -18,8 +18,8 @@ android {
         applicationId = "com.pacmac.devicediag"
         minSdk = 24
         targetSdk = 34
-        versionCode = 74
-        versionName = "3.0.4"
+        versionCode = 75
+        versionName = "3.0.5"
         multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
