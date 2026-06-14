@@ -19,6 +19,8 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -45,6 +47,7 @@ class DisplayInfoKt : ComponentActivity(), OnExportTaskFinished {
         super.onCreate(savedInstanceState)
 
         setContent {
+            val displayInfo by viewModel.displayInfo.collectAsState()
             val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
             val onBack = { backDispatcher?.onBackPressed() }
 
@@ -66,7 +69,7 @@ class DisplayInfoKt : ComponentActivity(), OnExportTaskFinished {
                     ) {
                         InfoListView(
                             modifier = Modifier.weight(1f),
-                            data = viewModel.getDisplayInfo().value,
+                            data = displayInfo,
                             header = {
                                 Surface(color = MaterialTheme.colorScheme.surfaceVariant) {
                                     Column {
@@ -90,6 +93,7 @@ class DisplayInfoKt : ComponentActivity(), OnExportTaskFinished {
             }
         }
 
+        @Suppress("DEPRECATION")
         val display = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             this.display
         } else {

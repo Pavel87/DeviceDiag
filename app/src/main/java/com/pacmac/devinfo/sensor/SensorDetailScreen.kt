@@ -114,7 +114,7 @@ fun SensorDetailScreen(
 
 @Composable
 fun MainSensorContent(sensorType: Int, state: SensorDetailUIState, modifier: Modifier) {
-    if (state.name.value.isNotBlank()) {
+    if (!state.name.value.isNullOrBlank()) {
         SensorView(sensorType, state, modifier)
     } else {
         InvalidSensor(sensorType, modifier)
@@ -193,22 +193,22 @@ fun SensorView(sensorType: Int, state: SensorDetailUIState, modifier: Modifier) 
         Column(modifier = Modifier.padding(vertical = 8.dp, horizontal = 4.dp)) {
             MainItemView(
                 label = stringResource(id = R.string.sensor),
-                value = state.name.value,
+                value = state.name.value.orEmpty(),
                 ""
             )
             MainItemView(
                 label = stringResource(id = R.string.vendor),
-                value = state.vendor.value,
+                value = state.vendor.value.orEmpty(),
                 ""
             )
             MainItemView(
                 label = stringResource(id = R.string.power),
-                value = state.power.value,
-                state.power.suffix
+                value = state.power.value.orEmpty(),
+                state.power.suffix.orEmpty()
             )
             MainItemView(
                 label = stringResource(id = R.string.max_range),
-                value = state.maxRange.value,
+                value = state.maxRange.value.orEmpty(),
                 SensorUtils.getUnits(sensorType, context)
             )
         }

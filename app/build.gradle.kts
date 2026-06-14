@@ -1,6 +1,5 @@
 plugins {
     id("com.android.application")
-    alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
@@ -11,15 +10,15 @@ android {
         create("config") {
         }
     }
-    compileSdk = 35
-    buildToolsVersion = "35.0.0"
+    compileSdk = 37
+    buildToolsVersion = "36.0.0"
 
     defaultConfig {
         applicationId = "com.pacmac.devicediag"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 75
-        versionName = "3.0.5"
+        targetSdk = 37
+        versionCode = 76
+        versionName = "3.1.0"
         multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -27,8 +26,9 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
-                getDefaultProguardFile("proguard-android.txt"),
+                getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
             resValue("string", "banner_id_1", "ca-app-pub-9192035457575047/1516826451")
@@ -51,7 +51,7 @@ android {
         }
         getByName("debug") {
             // isMinifyEnabled = false
-            // proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            // proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             resValue("string", "banner_id_1", "ca-app-pub-3940256099942544/6300978111")
             resValue("string", "banner_id_2", "ca-app-pub-3940256099942544/6300978111")
             resValue("string", "banner_id_3", "ca-app-pub-3940256099942544/6300978111")
@@ -79,26 +79,18 @@ android {
             applicationId = "com.pacmac.devicediag.free"
         }
     }
-    sourceSets {
-        getByName("main") {
-            java.srcDirs("src/main/java")
-        }
-    }
-
     buildFeatures {
         compose = true
         buildConfig = true
+        resValues = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.2"
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
     namespace = "com.pacmac.devinfo"
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 

@@ -5,8 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pacmac.devinfo.AboutActivity
@@ -32,7 +30,10 @@ import com.pacmac.devinfo.wifi.NetworkInfoKt
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.onEach
@@ -52,9 +53,8 @@ class MainViewModelKt @Inject constructor(
     private val _onExportDone = MutableSharedFlow<String?>()
     val onExportDone = _onExportDone.asSharedFlow()
 
-    var _appUpdateStatus = mutableStateOf(UpToDateEnum.UNKNOWN)
-    val appUpdateStatus: State<UpToDateEnum> = _appUpdateStatus
-
+    private val _appUpdateStatus = MutableStateFlow(UpToDateEnum.UNKNOWN)
+    val appUpdateStatus: StateFlow<UpToDateEnum> = _appUpdateStatus.asStateFlow()
 
     private val _onGPSNotAvailable = MutableSharedFlow<Unit>()
     val onGPSNotAvailable = _onGPSNotAvailable.asSharedFlow()
@@ -67,20 +67,28 @@ class MainViewModelKt @Inject constructor(
     private val _onPermissionCheck = MutableSharedFlow<PermissionCheckModel>()
     val onPermissionCheck = _onPermissionCheck.asSharedFlow().onEach { permissionRequest = it }
 
-    private val _mainInfo = mutableStateOf<MainInfoModel?>(null)
-    val mainInfo: State<MainInfoModel?> = _mainInfo
+    private val _mainInfo = MutableStateFlow<MainInfoModel?>(null)
+    val mainInfo: StateFlow<MainInfoModel?> = _mainInfo.asStateFlow()
 
-    val _isLocationPermissionEnabled = mutableStateOf(false)
-    val isLocationPermissionEnabled: State<Boolean> = _isLocationPermissionEnabled
+    private val _isLocationPermissionEnabled = MutableStateFlow(false)
+    val isLocationPermissionEnabled: StateFlow<Boolean> = _isLocationPermissionEnabled.asStateFlow()
 
-    val _isPhonePermissionEnabled = mutableStateOf(false)
-    val isPhonePermissionEnabled: State<Boolean> = _isPhonePermissionEnabled
-    val _isStoragePermissionEnabled = mutableStateOf(false)
-    val isStoragePermissionEnabled: State<Boolean> = _isStoragePermissionEnabled
-    val _isCameraPermissionEnabled = mutableStateOf(false)
-    val isCameraPermissionEnabled: State<Boolean> = _isCameraPermissionEnabled
-    val _isPhoneNumberPermissionEnabled = mutableStateOf(true)
-    val isPhoneNumberPermissionEnabled: State<Boolean> = _isPhoneNumberPermissionEnabled
+    private val _isPhonePermissionEnabled = MutableStateFlow(false)
+    val isPhonePermissionEnabled: StateFlow<Boolean> = _isPhonePermissionEnabled.asStateFlow()
+
+    private val _isStoragePermissionEnabled = MutableStateFlow(false)
+    val isStoragePermissionEnabled: StateFlow<Boolean> = _isStoragePermissionEnabled.asStateFlow()
+
+    private val _isCameraPermissionEnabled = MutableStateFlow(false)
+    val isCameraPermissionEnabled: StateFlow<Boolean> = _isCameraPermissionEnabled.asStateFlow()
+
+    private val _isPhoneNumberPermissionEnabled = MutableStateFlow(true)
+    val isPhoneNumberPermissionEnabled: StateFlow<Boolean> = _isPhoneNumberPermissionEnabled.asStateFlow()
+
+    fun setLocationPermission(enabled: Boolean) { _isLocationPermissionEnabled.value = enabled }
+    fun setCameraPermission(enabled: Boolean) { _isCameraPermissionEnabled.value = enabled }
+    fun setPhonePermission(enabled: Boolean) { _isPhonePermissionEnabled.value = enabled }
+    fun setPhoneNumberPermission(enabled: Boolean) { _isPhoneNumberPermissionEnabled.value = enabled }
 
     var permissionRequest: PermissionCheckModel? = null
 
@@ -96,17 +104,12 @@ class MainViewModelKt @Inject constructor(
             appRepository.getPermissionStatus(permission)
                 .collect {
                     if (it == PermissionState.RATIONAL_DISPLAYED && state == PermissionState.DENIED) {
-                        appRepository.updatePermissionStatus(
-                            permission,
-                            PermissionState.DENIED_FOREVER
-                        )
+                        appRepository.updatePermissionStatus(permission, PermissionState.DENIED_FOREVER)
                     } else {
                         appRepository.updatePermissionStatus(permission, state)
                     }
                 }
         }
-
-
     }
 
     private suspend fun getPermissionState(
@@ -117,7 +120,6 @@ class MainViewModelKt @Inject constructor(
             .collectLatest { function.invoke(it) }
     }
 
-    // REFACTOR EXPORT logic
     fun export(context: Context) {
         if (!isExporting) {
             isExporting = true
@@ -155,60 +157,28 @@ class MainViewModelKt @Inject constructor(
 
     fun getDashboarItems(): List<DashModel> {
         val list = arrayListOf<DashModel>()
-        list.add(DashModel(
-            DashItem.CPU_SCREEN, R.drawable.cpu_img_2, "CPU", CPUInfoKt::class.java
-        ) { onTileClick(it) })
-        list.add(DashModel(
-            DashItem.RAM_SCREEN, R.drawable.ram_img_2, "RAM", StorageInfoKt::class.java
-        ) { onTileClick(it) })
-        list.add(DashModel(
-            DashItem.BAT_SCREEN, R.drawable.battery_img_2, "", BatteryInfoKt::class.java
-        ) { onTileClick(it) })
-        list.add(DashModel(
-            DashItem.CAM_SCREEN, R.drawable.camera_img_2, "",CameraInfoKt::class.java
-        ) { onTileClick(it) })
-        list.add(DashModel(
-            DashItem.GPS_SCREEN, R.drawable.gps_img_2, "",GPSInfoKt::class.java
-        ) { onTileClick(it) })
-        list.add(DashModel(
-            DashItem.CELL_SCREEN, R.drawable.sim_img_2, "SIM    ", CellularInfoKt::class.java
-        ) { onTileClick(it) })
-        list.add(DashModel(
-            DashItem.SENSOR_SCREEN, R.drawable.sensor_img_2, "", SensorInfoKt::class.java
-        ) { onTileClick(it) })
-        list.add(DashModel(
-            DashItem.DISPLAY_SCREEN, R.drawable.display_img_2, "", DisplayInfoKt::class.java
-        ) { onTileClick(it) })
-        list.add(DashModel(
-            DashItem.WIFI_SCREEN, R.drawable.network_img_2, "", NetworkInfoKt::class.java
-        ) { onTileClick(it) })
-        list.add(DashModel(
-            DashItem.ABOUT_SCREEN, R.drawable.about_img_2, "", AboutActivity::class.java
-        ) { onTileClick(it) })
+        list.add(DashModel(DashItem.CPU_SCREEN, R.drawable.cpu_img_2, "CPU", CPUInfoKt::class.java) { onTileClick(it) })
+        list.add(DashModel(DashItem.RAM_SCREEN, R.drawable.ram_img_2, "RAM", StorageInfoKt::class.java) { onTileClick(it) })
+        list.add(DashModel(DashItem.BAT_SCREEN, R.drawable.battery_img_2, "", BatteryInfoKt::class.java) { onTileClick(it) })
+        list.add(DashModel(DashItem.CAM_SCREEN, R.drawable.camera_img_2, "", CameraInfoKt::class.java) { onTileClick(it) })
+        list.add(DashModel(DashItem.GPS_SCREEN, R.drawable.gps_img_2, "", GPSInfoKt::class.java) { onTileClick(it) })
+        list.add(DashModel(DashItem.CELL_SCREEN, R.drawable.sim_img_2, "SIM    ", CellularInfoKt::class.java) { onTileClick(it) })
+        list.add(DashModel(DashItem.SENSOR_SCREEN, R.drawable.sensor_img_2, "", SensorInfoKt::class.java) { onTileClick(it) })
+        list.add(DashModel(DashItem.DISPLAY_SCREEN, R.drawable.display_img_2, "", DisplayInfoKt::class.java) { onTileClick(it) })
+        list.add(DashModel(DashItem.WIFI_SCREEN, R.drawable.network_img_2, "", NetworkInfoKt::class.java) { onTileClick(it) })
+        list.add(DashModel(DashItem.ABOUT_SCREEN, R.drawable.about_img_2, "", AboutActivity::class.java) { onTileClick(it) })
         return list
     }
 
     private suspend fun onTileClick(tile: DashModel) {
         when (tile.dashItem) {
-            DashItem.CPU_SCREEN -> {
-                _onNavigateToScreen.emit(tile.actClass)
-            }
-
-            DashItem.RAM_SCREEN -> {
-                _onNavigateToScreen.emit(tile.actClass)
-            }
-
-            DashItem.BAT_SCREEN -> {
-                _onNavigateToScreen.emit(tile.actClass)
-            }
+            DashItem.CPU_SCREEN -> _onNavigateToScreen.emit(tile.actClass)
+            DashItem.RAM_SCREEN -> _onNavigateToScreen.emit(tile.actClass)
+            DashItem.BAT_SCREEN -> _onNavigateToScreen.emit(tile.actClass)
 
             DashItem.CAM_SCREEN -> {
                 if (!isCameraPermissionEnabled.value) {
-                    checkPermission(
-                        Utils.CAMERA_PERMISSION,
-                        R.string.cam_permission_msg,
-                        R.string.camera_feature_disabled
-                    )
+                    checkPermission(Utils.CAMERA_PERMISSION, R.string.cam_permission_msg, R.string.camera_feature_disabled)
                     return
                 }
                 _onNavigateToScreen.emit(tile.actClass)
@@ -216,11 +186,7 @@ class MainViewModelKt @Inject constructor(
 
             DashItem.GPS_SCREEN -> if (hasGPS) {
                 if (!isLocationPermissionEnabled.value) {
-                    checkPermission(
-                        Utils.LOCATION_PERMISSION,
-                        R.string.location_permission_msg,
-                        R.string.location_feature_disabled
-                    )
+                    checkPermission(Utils.LOCATION_PERMISSION, R.string.location_permission_msg, R.string.location_feature_disabled)
                     return
                 }
                 _onNavigateToScreen.emit(tile.actClass)
@@ -229,92 +195,47 @@ class MainViewModelKt @Inject constructor(
             }
 
             DashItem.CELL_SCREEN -> {
-//                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q && !isPhoneNumberPermissionEnabled.value) {
-//                    checkPermission(
-//                        Utils.PHONE_NUMBER_PERMISSION,
-//                        R.string.phone_number_permission_msg,
-//                        R.string.phone_number_permission_msg
-//                    )
-//                }
                 if (!isPhonePermissionEnabled.value) {
-                    checkPermission(
-                        Utils.PHONE_PERMISSION,
-                        R.string.phone_permission_msg,
-                        R.string.phone_permission_msg
-                    )
+                    checkPermission(Utils.PHONE_PERMISSION, R.string.phone_permission_msg, R.string.phone_permission_msg)
                     return
                 }
-
                 if (!isLocationPermissionEnabled.value) {
-                    checkPermission(
-                        Utils.LOCATION_PERMISSION,
-                        R.string.location_permission_msg,
-                        R.string.location_feature_disabled
-                    )
+                    checkPermission(Utils.LOCATION_PERMISSION, R.string.location_permission_msg, R.string.location_feature_disabled)
                     return
                 }
-
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q && !isPhoneNumberPermissionEnabled.value) {
-                    checkPermission(
-                        Utils.PHONE_NUMBER_PERMISSION,
-                        R.string.phone_number_permission_msg,
-                        R.string.phone_number_permission_msg
-                    )
+                    checkPermission(Utils.PHONE_NUMBER_PERMISSION, R.string.phone_number_permission_msg, R.string.phone_number_permission_msg)
                     return
                 }
-
                 _onNavigateToScreen.emit(tile.actClass)
             }
 
-            DashItem.SENSOR_SCREEN -> {
-                _onNavigateToScreen.emit(tile.actClass)
-            }
-
-            DashItem.DISPLAY_SCREEN -> {
-                _onNavigateToScreen.emit(tile.actClass)
-            }
+            DashItem.SENSOR_SCREEN -> _onNavigateToScreen.emit(tile.actClass)
+            DashItem.DISPLAY_SCREEN -> _onNavigateToScreen.emit(tile.actClass)
 
             DashItem.WIFI_SCREEN -> {
                 if (!isLocationPermissionEnabled.value) {
-                    checkPermission(
-                        Utils.LOCATION_PERMISSION,
-                        R.string.location_permission_msg,
-                        R.string.location_feature_disabled
-                    )
+                    checkPermission(Utils.LOCATION_PERMISSION, R.string.location_permission_msg, R.string.location_feature_disabled)
                     return
                 }
                 _onNavigateToScreen.emit(tile.actClass)
             }
 
-            DashItem.ABOUT_SCREEN -> {
-                _onNavigateToScreen.emit(tile.actClass)
-            }
+            DashItem.ABOUT_SCREEN -> _onNavigateToScreen.emit(tile.actClass)
         }
     }
 
     private suspend fun checkPermission(permission: String, msgRes: Int, disabledMsg: Int) {
         getPermissionState(permission) { permissionState ->
             viewModelScope.launch {
-
                 val permisions = arrayListOf(permission)
                 if (permission == Utils.PHONE_PERMISSION) {
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q && !isPhoneNumberPermissionEnabled.value) {
                         permisions.add(Utils.PHONE_NUMBER_PERMISSION)
-//                        checkPermission(
-//                            Utils.PHONE_NUMBER_PERMISSION,
-//                            R.string.phone_number_permission_msg,
-//                            R.string.phone_number_permission_msg
-//                        )
                     }
                 }
-
                 _onPermissionCheck.emit(
-                    PermissionCheckModel(
-                        msgRes,
-                        disabledMsg,
-                        permisions.toTypedArray(),
-                        permissionState
-                    )
+                    PermissionCheckModel(msgRes, disabledMsg, permisions.toTypedArray(), permissionState)
                 )
             }
         }
@@ -322,12 +243,7 @@ class MainViewModelKt @Inject constructor(
 
     suspend fun checkLocationPermission() {
         if (!isLocationPermissionEnabled.value) {
-            checkPermission(
-                Utils.LOCATION_PERMISSION,
-                R.string.location_permission_msg,
-                R.string.location_feature_disabled
-            )
-            return
+            checkPermission(Utils.LOCATION_PERMISSION, R.string.location_permission_msg, R.string.location_feature_disabled)
         }
     }
 

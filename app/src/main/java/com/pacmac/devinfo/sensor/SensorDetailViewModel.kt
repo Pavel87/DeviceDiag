@@ -4,6 +4,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.pacmac.devinfo.UIObject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,6 +12,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
+
+private const val TAG = "SensorDetailViewModel"
 
 @HiltViewModel
 class SensorDetailViewModel @Inject constructor(val sensorManager: SensorManager) : ViewModel() {
@@ -40,14 +43,14 @@ class SensorDetailViewModel @Inject constructor(val sensorManager: SensorManager
 
     fun subscribeToSensor() {
         sensor?.let {
-            println("subscribeToSensor")
+            Log.d(TAG, "subscribeToSensor")
             sensorManager.registerListener(sensorEventListener, sensor, SAMPLING_FREQ)
         }
     }
 
     fun unsubscribeToSensor() {
         sensor?.let {
-            println("unsubscribeToSensor")
+            Log.d(TAG, "unsubscribeToSensor")
             sensorManager.unregisterListener(sensorEventListener)
         }
     }

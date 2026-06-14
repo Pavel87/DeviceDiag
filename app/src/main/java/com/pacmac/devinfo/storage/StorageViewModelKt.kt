@@ -1,48 +1,43 @@
 package com.pacmac.devinfo.storage
 
 import android.content.Context
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pacmac.devinfo.ListType
 import com.pacmac.devinfo.R
 import com.pacmac.devinfo.UIObject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class StorageViewModelKt : ViewModel() {
+private const val TAG = "StorageViewModel"
 
-    private val storageInfo = mutableStateOf<List<UIObject>>(arrayListOf())
+@HiltViewModel
+class StorageViewModelKt @Inject constructor() : ViewModel() {
 
-    fun getStorageInfo(): State<List<UIObject>> = storageInfo
+    private val _storageInfo = MutableStateFlow<List<UIObject>>(emptyList())
+    val storageInfo: StateFlow<List<UIObject>> = _storageInfo.asStateFlow()
 
     fun observeStorageInfo(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 loadStorageInfo(context)
             } catch (e: Exception) {
-                e.printStackTrace()
+                Log.e(TAG, "Failed to load storage info", e)
             }
         }
     }
 
-    fun getStorageInfoForExport(context: Context): List<UIObject> {
-        val list: MutableList<UIObject> = ArrayList()
-        list.add(
-            UIObject(
-                context.getString(R.string.title_activity_storage_info), "", ListType.TITLE
-            )
-        )
-        list.add(
-            UIObject(
-                context.getString(R.string.param), context.getString(R.string.value), ListType.TITLE
-            )
-        )
-        list.addAll(storageInfo.value)
-        return list
+    fun getStorageInfoForExport(context: Context): List<UIObject> = buildList {
+        add(UIObject(context.getString(R.string.title_activity_storage_info), "", ListType.TITLE))
+        add(UIObject(context.getString(R.string.param), context.getString(R.string.value), ListType.TITLE))
+        addAll(storageInfo.value)
     }
-
 
     private fun loadStorageInfo(context: Context) {
         val list: MutableList<UIObject> = ArrayList()
@@ -66,8 +61,6 @@ class StorageViewModelKt : ViewModel() {
             )
         )
 
-
-        //retrieve STORAGE OPTIONS
         val listStorage = StorageUtils.getDeviceStorage(context)
         if (listStorage.size > 0) {
             if (listStorage.size > 1) {
@@ -77,54 +70,24 @@ class StorageViewModelKt : ViewModel() {
                     total += storage.total
                     free += storage.free
                 }
-                list.add(
-                    UIObject(
-                        context.getString(R.string.device_storage_label), "", ListType.TITLE
-                    )
-                )
+                list.add(UIObject(context.getString(R.string.device_storage_label), "", ListType.TITLE))
                 val totalStorage = StorageUtils.byteConvertor(total)
                 val availableStorage = StorageUtils.byteConvertor(free)
-                list.add(
-                    UIObject(
-                        context.resources.getString(R.string.device_total),
-                        totalStorage.value,
-                        totalStorage.unit
-                    )
-                )
-                list.add(
-                    UIObject(
-                        context.getString(R.string.device_available),
-                        availableStorage.value,
-                        availableStorage.unit
-                    )
-                )
+                list.add(UIObject(context.resources.getString(R.string.device_total), totalStorage.value, totalStorage.unit))
+                list.add(UIObject(context.getString(R.string.device_available), availableStorage.value, availableStorage.unit))
                 val used = StorageUtils.byteConvertor(total - free)
                 list.add(UIObject(context.getString(R.string.device_used), used.value, used.unit))
             }
             for (s in listStorage) {
                 list.add(UIObject(StorageUtils.getTypeString(context, s.type), "", ListType.TITLE))
                 val totalSD = StorageUtils.byteConvertor(s.total)
-                list.add(
-                    UIObject(
-                        context.resources.getString(R.string.device_total),
-                        totalSD.value,
-                        totalSD.unit
-                    )
-                )
+                list.add(UIObject(context.resources.getString(R.string.device_total), totalSD.value, totalSD.unit))
                 val freeSD = StorageUtils.byteConvertor(s.free)
-                list.add(
-                    UIObject(
-                        context.getString(R.string.device_available), freeSD.value, freeSD.unit
-                    )
-                )
+                list.add(UIObject(context.getString(R.string.device_available), freeSD.value, freeSD.unit))
                 val usedSD = StorageUtils.byteConvertor(s.total - s.free)
-                list.add(
-                    UIObject(
-                        context.getString(R.string.device_used), usedSD.value, usedSD.unit
-                    )
-                )
+                list.add(UIObject(context.getString(R.string.device_used), usedSD.value, usedSD.unit))
             }
         }
-        storageInfo.value = list
+        _storageInfo.value = list
     }
 }

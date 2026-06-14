@@ -15,6 +15,8 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -72,9 +74,10 @@ fun SensorListScreen(
             verticalArrangement = Arrangement.SpaceBetween,
             modifier = modifier.fillMaxSize(),
         ) {
+            val sensorList by viewModel.sensorList.collectAsState()
             SensorList(
                 modifier = Modifier.weight(1f),
-                data = viewModel.sensorList.value
+                data = sensorList
             ) { onSensorSelected.invoke(it) }
             AdvertView(Modifier.fillMaxWidth(), R.string.banner_id_8)
         }

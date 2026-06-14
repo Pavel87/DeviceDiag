@@ -42,19 +42,19 @@ fun InfoListView(
             items(data) { item ->
                 when (item.type) {
                     ListType.TITLE -> {
-                        TitleItemView(label = item.label, value = item.value)
+                        TitleItemView(label = item.label, value = item.value.orEmpty())
                     }
 
                     ListType.MAIN -> {
                         MainItemView(
                             label = item.label,
-                            value = item.value,
+                            value = item.value.orEmpty(),
                             suffix = item.suffix ?: ""
                         )
                     }
 
                     ListType.ICON -> {
-                        ImageItemView(label = item.label, value = item.state)
+                        ImageItemView(label = item.label, value = item.state ?: ThreeState.MAYBE)
                     }
 
                     ListType.RESOLUTION -> {

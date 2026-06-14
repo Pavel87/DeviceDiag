@@ -6,6 +6,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,7 +24,9 @@ import com.pacmac.devinfo.ui.components.AdvertView
 import com.pacmac.devinfo.ui.components.InfoListView
 import com.pacmac.devinfo.ui.components.TopBar
 import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StorageInfoKt : ComponentActivity(), ExportTask.OnExportTaskFinished {
 
     private val viewModel by viewModels<StorageViewModelKt>()
@@ -32,6 +36,7 @@ class StorageInfoKt : ComponentActivity(), ExportTask.OnExportTaskFinished {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val storageInfo by viewModel.storageInfo.collectAsState()
             val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
             val onBack = { backDispatcher?.onBackPressed() }
 
@@ -53,7 +58,7 @@ class StorageInfoKt : ComponentActivity(), ExportTask.OnExportTaskFinished {
                     ) {
                         InfoListView(
                             modifier = Modifier.weight(1f),
-                            data = viewModel.getStorageInfo().value
+                            data = storageInfo
                         )
                         AdvertView(Modifier.fillMaxWidth(), R.string.banner_id_9)
                     }

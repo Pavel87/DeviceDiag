@@ -1,19 +1,21 @@
 package com.pacmac.devinfo.gps
 
 import android.content.Context
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pacmac.devinfo.export.ExportTask
 import com.pacmac.devinfo.gps.models.GPSMainInfoModel
-import com.pacmac.devinfo.gps.models.ScreenType
 import com.pacmac.devinfo.gps.models.NMEALog
+import com.pacmac.devinfo.gps.models.ScreenType
 import com.pacmac.devinfo.gps.models.Satellite
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -21,6 +23,8 @@ import kotlinx.coroutines.flow.takeWhile
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+
+private const val TAG = "GPSViewModel"
 
 @HiltViewModel
 class GPSViewModelKt @Inject constructor(private val locationRepository: LocationRepository) :
@@ -45,16 +49,14 @@ class GPSViewModelKt @Inject constructor(private val locationRepository: Locatio
     )
 
     private var isNMEALogRunning = false
-
     private var isExporting = false
+
     private val _onExportDone = MutableSharedFlow<String?>()
     val onExportDone = _onExportDone.asSharedFlow()
 
-    // REFACTOR EXPORT logic
     fun export(context: Context, screenType: ScreenType) {
         if (!isExporting) {
             isExporting = true
-
             if (screenType == ScreenType.NMEA) {
                 if (nmeaLog.value.isNotEmpty()) {
                     ExportTask(context, EXPORT_NMEA_FILE_NAME) {
@@ -62,8 +64,7 @@ class GPSViewModelKt @Inject constructor(private val locationRepository: Locatio
                             isExporting = false
                             _onExportDone.emit(it)
                         }
-                    }
-                        .execute(this)
+                    }.execute(this)
                 }
             } else {
                 ExportTask(context, EXPORT_FILE_NAME) {
@@ -76,20 +77,20 @@ class GPSViewModelKt @Inject constructor(private val locationRepository: Locatio
         }
     }
 
-    private val _gpsInfo = mutableStateOf(gpsDataDefault)
-    fun getMainGPSData(): State<GPSMainInfoModel> = _gpsInfo
+    private val _gpsInfo = MutableStateFlow(gpsDataDefault)
+    val gpsInfo: StateFlow<GPSMainInfoModel> = _gpsInfo.asStateFlow()
 
-    private val _updateTimeLive = mutableStateOf("--:--:--")
-    fun getUpdateTimeLive(): State<String> = _updateTimeLive
+    private val _updateTimeLive = MutableStateFlow("--:--:--")
+    val updateTimeLive: StateFlow<String> = _updateTimeLive.asStateFlow()
 
-    private val _satellites = mutableStateOf<List<Satellite>>(arrayListOf())
-    val satellites: State<List<Satellite>> = _satellites
+    private val _satellites = MutableStateFlow<List<Satellite>>(emptyList())
+    val satellites: StateFlow<List<Satellite>> = _satellites.asStateFlow()
 
-    private val _nmeaLog = mutableStateOf<List<NMEALog>>(emptyList())
-    val nmeaLog: State<List<NMEALog>> = _nmeaLog
+    private val _nmeaLog = MutableStateFlow<List<NMEALog>>(emptyList())
+    val nmeaLog: StateFlow<List<NMEALog>> = _nmeaLog.asStateFlow()
 
-    private val _address = mutableStateOf("" to "")
-    val address: State<Pair<String, String>> = _address
+    private val _address = MutableStateFlow("" to "")
+    val address: StateFlow<Pair<String, String>> = _address.asStateFlow()
 
     fun isGPSEnabled(): Boolean = locationRepository.isGPSEnabled()
 
@@ -127,10 +128,7 @@ class GPSViewModelKt @Inject constructor(private val locationRepository: Locatio
     private fun getAddress(latitude: Double, longitude: Double) {
         viewModelScope.launch {
             val address = withContext(Dispatchers.IO) {
-                locationRepository.fetchCurrentAddress(
-                    latitude,
-                    longitude
-                )
+                locationRepository.fetchCurrentAddress(latitude, longitude)
             }
             _address.value = address
         }
@@ -141,10 +139,8 @@ class GPSViewModelKt @Inject constructor(private val locationRepository: Locatio
             locationRepository.subscribeToLocationUpdates()
                 .takeWhile { areGPSUpdatesActive }
                 .onEach { locationUpdate ->
-                    println("PACMAC - LOCATION UPDATE: ${locationUpdate}")
-
+                    Log.d(TAG, "Location update: $locationUpdate")
                     _updateTimeLive.value = locationUpdate.getUpdateTime()
-
                     _gpsInfo.value = GPSMainInfoModel(
                         _gpsInfo.value.gpsStatus,
                         _gpsInfo.value.firstFix,
@@ -157,16 +153,12 @@ class GPSViewModelKt @Inject constructor(private val locationRepository: Locatio
                         locationUpdate.accuracy,
                         locationUpdate.bearing
                     )
-
                     getAddress(locationUpdate.latitude, locationUpdate.longitude)
-
                 }
-                .catch {
-                    println("PACMAC - LOCATION UPDATE EXCEPTION")
-                    it.printStackTrace()
+                .catch { e ->
+                    Log.e(TAG, "Location update exception", e)
                 }
                 .collect()
-
         }
     }
 
@@ -175,10 +167,8 @@ class GPSViewModelKt @Inject constructor(private val locationRepository: Locatio
             locationRepository.subscribeToGPSStatus()
                 .takeWhile { areGPSUpdatesActive }
                 .onEach { gpsStatus ->
-                    println("PACMAC - GPS STATUS UPDATE: ${gpsStatus.gpsStatus.name}")
-                    gpsStatus.satellites?.let {
-                        _satellites.value = it
-                    }
+                    Log.d(TAG, "GPS status update: ${gpsStatus.gpsStatus.name}")
+                    gpsStatus.satellites?.let { _satellites.value = it }
 
                     val timeToFirstFix = if (gpsStatus.firstFixTime != -1) {
                         gpsStatus.firstFixTime
@@ -186,12 +176,11 @@ class GPSViewModelKt @Inject constructor(private val locationRepository: Locatio
                         _gpsInfo.value.firstFix
                     }
 
-                    val satCount =
-                        if (gpsStatus.satellites == null) {
-                            _gpsInfo.value.visibleSatellites
-                        } else {
-                            gpsStatus.satelliteCount
-                        }
+                    val satCount = if (gpsStatus.satellites == null) {
+                        _gpsInfo.value.visibleSatellites
+                    } else {
+                        gpsStatus.satelliteCount
+                    }
 
                     _gpsInfo.value = GPSMainInfoModel(
                         gpsStatus.gpsStatus,
@@ -205,11 +194,9 @@ class GPSViewModelKt @Inject constructor(private val locationRepository: Locatio
                         _gpsInfo.value.accuracy,
                         _gpsInfo.value.bearing
                     )
-
                 }
-                .catch {
-                    println("PACMAC - GPS STATUS UPDATE EXCEPTION")
-                    it.printStackTrace()
+                .catch { e ->
+                    Log.e(TAG, "GPS status update exception", e)
                 }
                 .collect()
         }

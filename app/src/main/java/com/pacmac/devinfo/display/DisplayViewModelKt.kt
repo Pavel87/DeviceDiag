@@ -3,20 +3,21 @@ package com.pacmac.devinfo.display
 import android.content.Context
 import android.util.DisplayMetrics
 import android.view.Display
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.pacmac.devinfo.ListType
 import com.pacmac.devinfo.R
 import com.pacmac.devinfo.UIObject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
 class DisplayViewModelKt @Inject constructor() : ViewModel() {
 
-    private val displayInfo = mutableStateOf<List<UIObject>>(arrayListOf())
-    fun getDisplayInfo(): State<List<UIObject>> = displayInfo
+    private val _displayInfo = MutableStateFlow<List<UIObject>>(emptyList())
+    val displayInfo: StateFlow<List<UIObject>> = _displayInfo.asStateFlow()
 
     fun observeDisplayInfo(
         context: Context,
@@ -24,7 +25,7 @@ class DisplayViewModelKt @Inject constructor() : ViewModel() {
         metrics: DisplayMetrics
     ) = loadDisplayInfo(context, display, metrics)
 
-    fun getDisplayInfoForExport(context: Context): List<UIObject>? {
+    fun getDisplayInfoForExport(context: Context): List<UIObject> {
         val list: MutableList<UIObject> = ArrayList()
         list.add(
             UIObject(
@@ -40,7 +41,7 @@ class DisplayViewModelKt @Inject constructor() : ViewModel() {
                 ListType.TITLE
             )
         )
-        list.addAll(displayInfo.value)
+        list.addAll(_displayInfo.value)
         return list
     }
 
@@ -55,7 +56,7 @@ class DisplayViewModelKt @Inject constructor() : ViewModel() {
         list.add(DisplayUtils.getLayoutSize(context))
         list.add(DisplayUtils.getType(context, display))
         list.add(DisplayUtils.getDrawType(context, metrics))
-        displayInfo.value = list
+        _displayInfo.value = list
     }
 
 }

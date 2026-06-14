@@ -79,7 +79,7 @@ class LocationRepository @Inject constructor(
                             status.getAzimuthDegrees(i),
                             status.getElevationDegrees(i)
                         )
-                        satellite.setConstellationType(status.getConstellationType(i))
+                        satellite.constellationType = status.getConstellationType(i)
                         satelliteList.add(satellite)
                     }
                 }

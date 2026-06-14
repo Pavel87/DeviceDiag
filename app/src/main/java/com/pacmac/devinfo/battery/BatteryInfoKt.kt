@@ -8,6 +8,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.pacmac.devinfo.R
@@ -29,6 +31,7 @@ class BatteryInfoKt : ComponentActivity(), OnExportTaskFinished {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val batteryData by viewModel.batteryData.collectAsState()
             val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
             val onBack = { backDispatcher?.onBackPressed() }
 
@@ -54,7 +57,7 @@ class BatteryInfoKt : ComponentActivity(), OnExportTaskFinished {
                     }
                 ) { contentPadding ->
                     val modifier = Modifier.padding(contentPadding)
-                    InfoListView(modifier = modifier, data = viewModel.getBatteryData().value)
+                    InfoListView(modifier = modifier, data = batteryData)
                 }
             }
         }

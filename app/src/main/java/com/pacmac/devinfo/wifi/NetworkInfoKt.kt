@@ -19,6 +19,8 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -49,6 +51,7 @@ class NetworkInfoKt : ComponentActivity(), OnExportTaskFinished {
         super.onCreate(savedInstanceState)
 
         setContent {
+            val wifiInfo by viewModel.wifiInfo.collectAsState()
             val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
             val onBack = { backDispatcher?.onBackPressed() }
 
@@ -72,7 +75,7 @@ class NetworkInfoKt : ComponentActivity(), OnExportTaskFinished {
 
                     InfoListView(
                         modifier = modifier,
-                        data = viewModel.getWifiInfo().value,
+                        data = wifiInfo,
                         header = {
                             val contentModifier =
                                 if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {

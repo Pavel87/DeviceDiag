@@ -117,7 +117,7 @@ object SensorUtils {
                 if (isValid(uiState.sensorReading1).not()) return list
                 when (uiState.sensorReading1) {
                     0f -> list.add(context.getString(R.string.sensor_near))
-                    uiState.maxRange.value.toFloat() -> list.add(context.getString(R.string.sensor_far))
+                    uiState.maxRange.value?.toFloat() ?: 0f -> list.add(context.getString(R.string.sensor_far))
                     else -> {
                         list.add(
                             String.format(

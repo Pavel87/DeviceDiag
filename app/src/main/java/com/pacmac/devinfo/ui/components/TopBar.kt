@@ -31,7 +31,8 @@ fun TopBar(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(align = Alignment.Top),
-        colors = TopAppBarDefaults.largeTopAppBarColors(
+        windowInsets = TopAppBarDefaults.windowInsets,
+        colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.onPrimary,
             navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,

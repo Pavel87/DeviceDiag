@@ -3,8 +3,7 @@ package com.pacmac.devinfo.camera
 import android.content.Context
 import android.content.pm.PackageManager
 import android.hardware.Camera
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pacmac.devinfo.ThreeState
@@ -13,23 +12,27 @@ import com.pacmac.devinfo.camera.model.CameraSpec
 import com.pacmac.devinfo.export.ExportTask
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val TAG = "CameraViewModel"
 
 @HiltViewModel
 class CameraViewModelKt @Inject constructor(private val packageManager: PackageManager) :
     ViewModel() {
 
-    private val _cameraCount = mutableStateOf(0)
-    val cameraCount: State<Int> = _cameraCount
+    private val _cameraCount = MutableStateFlow(0)
+    val cameraCount: StateFlow<Int> = _cameraCount.asStateFlow()
 
-    private val _cameraInfoGeneral = mutableStateOf(CameraGeneral())
-    val cameraInfoGeneral: State<CameraGeneral> = _cameraInfoGeneral
+    private val _cameraInfoGeneral = MutableStateFlow(CameraGeneral())
+    val cameraInfoGeneral: StateFlow<CameraGeneral> = _cameraInfoGeneral.asStateFlow()
 
-
-    private val _cameraListData = mutableStateOf<List<CameraSpec>>(arrayListOf())
-    val cameraListData: State<List<CameraSpec>> = _cameraListData
+    private val _cameraListData = MutableStateFlow<List<CameraSpec>>(emptyList())
+    val cameraListData: StateFlow<List<CameraSpec>> = _cameraListData.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -38,73 +41,32 @@ class CameraViewModelKt @Inject constructor(private val packageManager: PackageM
         }
     }
 
-    // TODO explore ##CameraCharacteristics##
     private fun loadCameraInfo() {
         val camGeneral = CameraGeneral(
-            if (CameraUtilsKt.checkCameraFeature(
-                    packageManager,
-                    PackageManager.FEATURE_CAMERA_AUTOFOCUS
-                )
-            ) ThreeState.YES else ThreeState.NO,
-            if (CameraUtilsKt.checkCameraFeature(
-                    packageManager,
-                    PackageManager.FEATURE_CAMERA_FLASH
-                )
-            ) ThreeState.YES else ThreeState.NO,
-            if (CameraUtilsKt.checkCameraFeature(
-                    packageManager,
-                    PackageManager.FEATURE_CAMERA_FRONT
-                )
-            ) ThreeState.YES else ThreeState.NO,
-            if (CameraUtilsKt.checkCameraFeature(
-                    packageManager,
-                    PackageManager.FEATURE_CAMERA_EXTERNAL
-                )
-            ) ThreeState.YES else ThreeState.NO,
-            if (CameraUtilsKt.checkCameraFeature(
-                    packageManager,
-                    PackageManager.FEATURE_CAMERA_CAPABILITY_MANUAL_POST_PROCESSING
-                )
-            ) ThreeState.YES else ThreeState.NO,
-            if (CameraUtilsKt.checkCameraFeature(
-                    packageManager,
-                    PackageManager.FEATURE_CAMERA_CAPABILITY_MANUAL_SENSOR
-                )
-            ) ThreeState.YES else ThreeState.NO,
-            if (CameraUtilsKt.checkCameraFeature(
-                    packageManager,
-                    PackageManager.FEATURE_CAMERA_CAPABILITY_RAW
-                )
-            ) ThreeState.YES else ThreeState.NO,
-            if (CameraUtilsKt.checkCameraFeature(
-                    packageManager,
-                    PackageManager.FEATURE_CAMERA_LEVEL_FULL
-                )
-            ) ThreeState.YES else ThreeState.NO,
-            if (CameraUtilsKt.checkCameraFeature(
-                    packageManager,
-                    PackageManager.FEATURE_CAMERA_AR
-                )
-            ) ThreeState.YES else ThreeState.NO,
+            if (CameraUtilsKt.checkCameraFeature(packageManager, PackageManager.FEATURE_CAMERA_AUTOFOCUS)) ThreeState.YES else ThreeState.NO,
+            if (CameraUtilsKt.checkCameraFeature(packageManager, PackageManager.FEATURE_CAMERA_FLASH)) ThreeState.YES else ThreeState.NO,
+            if (CameraUtilsKt.checkCameraFeature(packageManager, PackageManager.FEATURE_CAMERA_FRONT)) ThreeState.YES else ThreeState.NO,
+            if (CameraUtilsKt.checkCameraFeature(packageManager, PackageManager.FEATURE_CAMERA_EXTERNAL)) ThreeState.YES else ThreeState.NO,
+            if (CameraUtilsKt.checkCameraFeature(packageManager, PackageManager.FEATURE_CAMERA_CAPABILITY_MANUAL_POST_PROCESSING)) ThreeState.YES else ThreeState.NO,
+            if (CameraUtilsKt.checkCameraFeature(packageManager, PackageManager.FEATURE_CAMERA_CAPABILITY_MANUAL_SENSOR)) ThreeState.YES else ThreeState.NO,
+            if (CameraUtilsKt.checkCameraFeature(packageManager, PackageManager.FEATURE_CAMERA_CAPABILITY_RAW)) ThreeState.YES else ThreeState.NO,
+            if (CameraUtilsKt.checkCameraFeature(packageManager, PackageManager.FEATURE_CAMERA_LEVEL_FULL)) ThreeState.YES else ThreeState.NO,
+            if (CameraUtilsKt.checkCameraFeature(packageManager, PackageManager.FEATURE_CAMERA_AR)) ThreeState.YES else ThreeState.NO,
         )
         _cameraInfoGeneral.value = camGeneral
     }
-
 
     private suspend fun initializeCameras() {
         _cameraCount.value = Camera.getNumberOfCameras()
         val cameraList: ArrayList<CameraSpec> = arrayListOf()
 
-        val count = _cameraCount.value
-
-        for (i in 0 until count) {
+        for (i in 0 until _cameraCount.value) {
             try {
                 val camera = Camera.open(i)
                 val params = camera.parameters
                 val cameraInfo = Camera.CameraInfo()
                 Camera.getCameraInfo(i, cameraInfo)
                 camera.release()
-
 
                 var maxZoomRatio: String = ""
                 var sSmoothZoom = ThreeState.NO
@@ -122,10 +84,8 @@ class CameraViewModelKt @Inject constructor(private val packageManager: PackageM
                     params.getHorizontalViewAngle(),
                     params.getFocalLength(),
                     params.getExposureCompensationStep(),
-                    Math.round(params.getExposureCompensationStep() * params.getMinExposureCompensation())
-                        .toInt(),
-                    Math.round(params.getExposureCompensationStep() * params.getMaxExposureCompensation())
-                        .toInt(),
+                    Math.round(params.getExposureCompensationStep() * params.getMinExposureCompensation()).toInt(),
+                    Math.round(params.getExposureCompensationStep() * params.getMaxExposureCompensation()).toInt(),
                     params.getJpegQuality(),
                     params.getMaxNumDetectedFaces(),
                     cameraInfo.facing,
@@ -138,22 +98,18 @@ class CameraViewModelKt @Inject constructor(private val packageManager: PackageM
                     maxZoomRatio,
                     sSmoothZoom
                 )
-
                 cameraList.add(cameraSpec)
-
             } catch (e: Exception) {
-                e.printStackTrace()
+                Log.e(TAG, "Failed to open camera $i", e)
             }
         }
         _cameraListData.value = cameraList
     }
 
-
     private var isExporting = false
     private val _onExportDone = MutableSharedFlow<String?>()
     val onExportDone = _onExportDone.asSharedFlow()
 
-    // REFACTOR EXPORT logic
     fun export(context: Context) {
         if (!isExporting) {
             isExporting = true

@@ -2,6 +2,7 @@ package com.pacmac.devinfo.cellular
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.net.ConnectivityManager
 import android.os.Build
 import android.telephony.CellInfo
@@ -533,7 +534,7 @@ class CellularViewModelKt @Inject constructor(
     }
 
     fun registerPSL() {
-        println("PACMAC - REGISTER PSL")
+        Log.d("CellularViewModel", "registerPSL")
         telephonyManager.listen(pslKt, PSLKt.getPSLListenerFlags())
     }
 

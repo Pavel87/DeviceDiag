@@ -4,7 +4,7 @@ import com.pacmac.devinfo.KtorClient
 import com.pacmac.devinfo.utils.Utils
 import io.ktor.client.request.get
 import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.readText
+import io.ktor.client.statement.bodyAsText
 
 class AppServiceImpl : AppService {
 
@@ -14,6 +14,6 @@ class AppServiceImpl : AppService {
 
     override suspend fun getAppVersion(): String {
         val response: HttpResponse = ktorClient.get(APP_VERSION_CHECK_URL)
-        return Utils.extractVersionNameFromHTML(response.readText())
+        return Utils.extractVersionNameFromHTML(response.bodyAsText())
     }
 }

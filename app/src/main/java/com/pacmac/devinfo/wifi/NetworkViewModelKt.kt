@@ -1,8 +1,7 @@
 package com.pacmac.devinfo.wifi
 
 import android.content.Context
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pacmac.devinfo.UIObject
@@ -14,6 +13,9 @@ import com.pacmac.devinfo.wifi.NetworkUtils.getWifiInformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -22,22 +24,20 @@ import javax.inject.Inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
+private const val TAG = "NetworkViewModel"
+
 @HiltViewModel
 class NetworkViewModelKt @Inject constructor() : ViewModel() {
 
     private var isActive = false
 
-    private val wifiInfo = mutableStateOf<List<UIObject>>(arrayListOf())
+    private val _wifiInfo = MutableStateFlow<List<UIObject>>(emptyList())
+    val wifiInfo: StateFlow<List<UIObject>> = _wifiInfo.asStateFlow()
 
-    private var radioState: List<UIObject>? = ArrayList()
-    private var wifiInformation: List<UIObject>? = ArrayList()
-    private var dhcpInformation: List<UIObject>? = ArrayList()
-    private var wifiFeatures: List<UIObject>? = ArrayList()
-
-
-    fun getWifiInfo(): State<List<UIObject>> {
-        return wifiInfo
-    }
+    private var radioState: List<UIObject> = emptyList()
+    private var wifiInformation: List<UIObject> = emptyList()
+    private var dhcpInformation: List<UIObject> = emptyList()
+    private var wifiFeatures: List<UIObject> = emptyList()
 
     fun fetchWifiInfo(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -57,57 +57,51 @@ class NetworkViewModelKt @Inject constructor() : ViewModel() {
         if (isActive) return
         isActive = true
         tickerFlow(2.seconds).onEach {
-                viewModelScope.launch(Dispatchers.IO) {
-                    try {
-                        loadWifiInfo(context)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    loadWifiInfo(context)
+                } catch (e: Exception) {
+                    Log.e(TAG, "Failed to load wifi info", e)
                 }
-            }.launchIn(viewModelScope)
+            }
+        }.launchIn(viewModelScope)
     }
 
     fun stopObserver() {
         isActive = false
     }
 
-    fun getWifiInfoForExport(): List<UIObject>? {
-        val list: MutableList<UIObject> = ArrayList()
-        if (radioState != null && radioState!!.size != 0) {
-            list.addAll(radioState!!)
+    fun getWifiInfoForExport(): List<UIObject> = buildList {
+        if (radioState.isNotEmpty()) addAll(radioState)
+        if (wifiInformation.isNotEmpty()) {
+            add(UIObject("", ""))
+            add(UIObject("", ""))
+            addAll(wifiInformation)
         }
-        if (wifiInformation != null && wifiInformation!!.size != 0) {
-            list.add(UIObject("", ""))
-            list.add(UIObject("", ""))
-            list.addAll(wifiInformation!!)
+        if (dhcpInformation.isNotEmpty()) {
+            add(UIObject("", ""))
+            add(UIObject("", ""))
+            addAll(dhcpInformation)
         }
-        if (dhcpInformation != null && dhcpInformation!!.size != 0) {
-            list.add(UIObject("", ""))
-            list.add(UIObject("", ""))
-            list.addAll(dhcpInformation!!)
+        if (wifiFeatures.isNotEmpty()) {
+            add(UIObject("", ""))
+            add(UIObject("", ""))
+            addAll(wifiFeatures)
         }
-        if (wifiFeatures != null && wifiFeatures!!.size != 0) {
-            list.add(UIObject("", ""))
-            list.add(UIObject("", ""))
-            list.addAll(wifiFeatures!!)
-        }
-        return list
     }
 
     private fun loadWifiInfo(context: Context) {
-        val list: MutableList<UIObject> = ArrayList()
-        val isLocationPermissionEnabled =
-            Utils.checkPermission(context, Utils.LOCATION_PERMISSION)
-        radioState = getRadiosState(context)
-        wifiInformation = getWifiInformation(context, isLocationPermissionEnabled)
-        dhcpInformation = getDHCPInfo(context)
-        wifiFeatures = getWifiFeatures(context)
-        list.addAll(radioState!!)
-        list.addAll(wifiInformation!!)
-        if (dhcpInformation != null) {
-            list.addAll(dhcpInformation!!)
+        val isLocationPermissionEnabled = Utils.checkPermission(context, Utils.LOCATION_PERMISSION)
+        radioState = getRadiosState(context) ?: emptyList()
+        wifiInformation = getWifiInformation(context, isLocationPermissionEnabled) ?: emptyList()
+        dhcpInformation = getDHCPInfo(context) ?: emptyList()
+        wifiFeatures = getWifiFeatures(context) ?: emptyList()
+
+        _wifiInfo.value = buildList {
+            addAll(radioState)
+            addAll(wifiInformation)
+            addAll(dhcpInformation)
+            addAll(wifiFeatures)
         }
-        list.addAll(wifiFeatures!!)
-        wifiInfo.value = list
     }
 }

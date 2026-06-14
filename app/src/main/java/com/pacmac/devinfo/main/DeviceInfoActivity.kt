@@ -19,6 +19,7 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,7 +36,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.ResponseInfo
 import com.pacmac.devinfo.NewFeaturesScreen
 import com.pacmac.devinfo.R
 import com.pacmac.devinfo.UpToDateEnum
@@ -58,6 +58,8 @@ import com.pacmac.devinfo.utils.Utils.PHONE_NUMBER_PERMISSION
 import com.pacmac.devinfo.utils.Utils.PHONE_PERMISSION
 import com.unity3d.ads.UnityAds
 import com.unity3d.ads.metadata.MetaData
+import android.util.Log
+import com.pacmac.devinfo.BuildConfig
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -80,21 +82,10 @@ class DeviceInfoActivity : ComponentActivity() {
                 if (isGranted.not()) return@forEach
 
                 when (p) {
-                    LOCATION_PERMISSION -> {
-                        viewModel._isLocationPermissionEnabled.value = true
-                    }
-
-                    CAMERA_PERMISSION -> {
-                        viewModel._isCameraPermissionEnabled.value = true
-                    }
-
-                    PHONE_PERMISSION -> {
-                        viewModel._isPhonePermissionEnabled.value = true
-                    }
-
-                    PHONE_NUMBER_PERMISSION -> {
-                        viewModel._isPhoneNumberPermissionEnabled.value = true
-                    }
+                    LOCATION_PERMISSION -> viewModel.setLocationPermission(true)
+                    CAMERA_PERMISSION -> viewModel.setCameraPermission(true)
+                    PHONE_PERMISSION -> viewModel.setPhonePermission(true)
+                    PHONE_NUMBER_PERMISSION -> viewModel.setPhoneNumberPermission(true)
                 }
             }
         }
@@ -103,6 +94,10 @@ class DeviceInfoActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+
+        if (BuildConfig.DEBUG) {
+            UnityAds.debugMode = true
+        }
 
         val gdprMetaData = MetaData(this)
         gdprMetaData["gdpr.consent"] = true
@@ -118,7 +113,11 @@ class DeviceInfoActivity : ComponentActivity() {
         backgroundScope.launch {
             // Initialize the Google Mobile Ads SDK on a background thread.
             MobileAds.initialize(this@DeviceInfoActivity) { initializationStatus ->
-                // start loading ads past this point
+                if (BuildConfig.DEBUG) {
+                    initializationStatus.adapterStatusMap.forEach {
+                        Log.d("DeviceInfoActivity", "AdMob adapter: ${it.key} = ${it.value.initializationState}")
+                    }
+                }
             }
         }
 
@@ -126,6 +125,7 @@ class DeviceInfoActivity : ComponentActivity() {
         setContent {
             val context = LocalContext.current
             val permissionLauncher = observePermissionRequestResult()
+            val appUpdateStatus by viewModel.appUpdateStatus.collectAsState()
             var showNewFeatures by remember { mutableStateOf(false) }
             var showGPSError by remember { mutableStateOf(false) }
             var showRateDialog by remember { mutableStateOf(false) }
@@ -296,7 +296,7 @@ class DeviceInfoActivity : ComponentActivity() {
 
                     }
 
-                    if (viewModel.appUpdateStatus.value == UpToDateEnum.NO) {
+                    if (appUpdateStatus == UpToDateEnum.NO) {
                         DeviceInfoDialog(
                             title = stringResource(id = R.string.new_version_title),
                             msg = stringResource(id = R.string.new_version_content),
@@ -332,9 +332,7 @@ class DeviceInfoActivity : ComponentActivity() {
 
 
             // Check if user disabled LOCATION permission at some point
-            viewModel._isLocationPermissionEnabled.value = Utils.checkPermission(
-                applicationContext, LOCATION_PERMISSION
-            )
+            viewModel.setLocationPermission(Utils.checkPermission(applicationContext, LOCATION_PERMISSION))
 
             SideEffect {
                 lifecycleScope.launch {

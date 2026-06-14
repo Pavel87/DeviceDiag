@@ -84,7 +84,7 @@ class ExportViewModel @Inject constructor(private val appRepository: AppReposito
         viewModelScope.launch {
             val openedSlots = appRepository.getExportSlots().firstOrNull() ?: 0
             _onRewardEarned.emit(openedSlots)
-            println("PACMAC - addExportSlot $openedSlots")
+            Log.d("ExportViewModel", "addExportSlot $openedSlots")
             appRepository.updateExportSlot((openedSlots + 1).coerceAtMost(5))
         }
     }
@@ -161,7 +161,7 @@ class ExportViewModel @Inject constructor(private val appRepository: AppReposito
     fun onExportClick() {
         viewModelScope.launch {
             val openedSlots = appRepository.getExportSlots().firstOrNull() ?: 0
-            println("PACMAC - onExportClick $openedSlots")
+            Log.d("ExportViewModel", "onExportClick $openedSlots")
             appRepository.updateExportSlot((openedSlots - 1).coerceAtLeast(0))
         }
     }

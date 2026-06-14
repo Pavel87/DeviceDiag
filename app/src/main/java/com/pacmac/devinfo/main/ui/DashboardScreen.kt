@@ -109,33 +109,20 @@ fun DashboardScreen(
 
 private fun checkAllPermissions(viewModel: MainViewModelKt, context: Context) {
     Utils.checkPermission(context, Utils.CAMERA_PERMISSION).run {
-        if (this) viewModel.updatePermissionState(
-            Utils.CAMERA_PERMISSION,
-            PermissionState.GRANTED
-        )
-        viewModel._isCameraPermissionEnabled.value = this
+        if (this) viewModel.updatePermissionState(Utils.CAMERA_PERMISSION, PermissionState.GRANTED)
+        viewModel.setCameraPermission(this)
     }
     Utils.checkPermission(context, Utils.LOCATION_PERMISSION).run {
-        if (this) viewModel.updatePermissionState(
-            Utils.LOCATION_PERMISSION,
-            PermissionState.GRANTED
-        )
-        viewModel._isLocationPermissionEnabled.value = this
+        if (this) viewModel.updatePermissionState(Utils.LOCATION_PERMISSION, PermissionState.GRANTED)
+        viewModel.setLocationPermission(this)
     }
     Utils.checkPermission(context, Utils.PHONE_PERMISSION).run {
-        if (this) viewModel.updatePermissionState(
-            Utils.PHONE_PERMISSION,
-            PermissionState.GRANTED
-        )
-        viewModel._isPhonePermissionEnabled.value = this
+        if (this) viewModel.updatePermissionState(Utils.PHONE_PERMISSION, PermissionState.GRANTED)
+        viewModel.setPhonePermission(this)
     }
-
     Utils.checkPermission(context, Utils.PHONE_NUMBER_PERMISSION).run {
-        if (this) viewModel.updatePermissionState(
-            Utils.PHONE_NUMBER_PERMISSION,
-            PermissionState.GRANTED
-        )
-        viewModel._isPhoneNumberPermissionEnabled.value = this
+        if (this) viewModel.updatePermissionState(Utils.PHONE_NUMBER_PERMISSION, PermissionState.GRANTED)
+        viewModel.setPhoneNumberPermission(this)
     }
 
 }

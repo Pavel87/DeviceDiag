@@ -11,6 +11,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -24,16 +26,15 @@ import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
 
 @Composable
 fun GPSScreen(modifier: Modifier = Modifier, viewModel: GPSViewModelKt = hiltViewModel()) {
-
-
-    val gpsData = viewModel.getMainGPSData()
+    val gpsData by viewModel.gpsInfo.collectAsState()
+    val updateTime by viewModel.updateTimeLive.collectAsState()
 
     Surface(modifier = Modifier.fillMaxSize()) {
         InfoListView(
             modifier = modifier,
-            data = Utils.getMainGPSInfoList(LocalContext.current, gpsData.value),
+            data = Utils.getMainGPSInfoList(LocalContext.current, gpsData),
             header = {
-                MainGPSScreenHeader(lastUpdateTime = viewModel.getUpdateTimeLive().value)
+                MainGPSScreenHeader(lastUpdateTime = updateTime)
             }
         )
     }
@@ -77,5 +78,4 @@ fun PreviewGPSScreen() {
     DeviceInfoTheme {
         MainGPSScreenHeader()
     }
-
 }

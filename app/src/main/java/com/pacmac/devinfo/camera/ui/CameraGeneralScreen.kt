@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -18,13 +20,14 @@ import com.pacmac.devinfo.ui.components.InfoListView
 @Composable
 fun CameraGeneralScreen(viewModel: CameraViewModelKt = hiltViewModel()) {
     val context = LocalContext.current
+    val cameraInfoGeneral by viewModel.cameraInfoGeneral.collectAsState()
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxSize(),
     ) {
         InfoListView(
             modifier = Modifier.weight(1f),
-            data = CameraUtilsKt.getFormattedGeneralInfo(context, viewModel.cameraInfoGeneral.value)
+            data = CameraUtilsKt.getFormattedGeneralInfo(context, cameraInfoGeneral)
         )
         AdvertView(Modifier.fillMaxWidth(), R.string.banner_id_5)
     }

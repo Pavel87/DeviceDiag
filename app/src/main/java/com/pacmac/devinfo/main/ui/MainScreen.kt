@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -27,6 +29,7 @@ fun MainScreen(
     openBuildProp: () -> Unit
 ) {
     val context = LocalContext.current
+    val mainInfo by viewModel.mainInfo.collectAsState()
     viewModel.loadMainInfo()
 
     Column(
@@ -34,7 +37,7 @@ fun MainScreen(
         modifier = modifier.fillMaxSize(),
     ) {
         InfoListView(
-            modifier = Modifier.weight(1f), data = MainInfoModel.toUIModelList(context, viewModel.mainInfo.value)
+            modifier = Modifier.weight(1f), data = MainInfoModel.toUIModelList(context, mainInfo)
         )
 
         ActionButton(

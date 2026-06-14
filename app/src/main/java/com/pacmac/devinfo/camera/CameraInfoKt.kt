@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,11 +48,12 @@ class CameraInfoKt : ComponentActivity() {
         setContent {
             val viewModel: CameraViewModelKt = hiltViewModel()
             var camId by remember { mutableStateOf(0) }
+            val cameraCount by viewModel.cameraCount.collectAsState()
 
             val navController = rememberNavController()
             val currentBackStack by navController.currentBackStackEntryAsState()
             val currentDestination = currentBackStack?.destination
-            val allDestinations = getCamTabs(viewModel.cameraCount.value)
+            val allDestinations = getCamTabs(cameraCount)
 
             val currentScreen = allDestinations.find { it.route == currentDestination?.route }
                 ?: CameraGeneralDestination

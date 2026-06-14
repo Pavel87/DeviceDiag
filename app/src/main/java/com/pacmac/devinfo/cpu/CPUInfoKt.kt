@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.pacmac.devinfo.R
@@ -35,7 +37,7 @@ class CPUInfoKt : ComponentActivity(), OnExportTaskFinished {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
+            val cpuInfo by viewModel.cpuInfo.collectAsState()
             val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
             val onBack = { backDispatcher?.onBackPressed() }
 
@@ -57,7 +59,7 @@ class CPUInfoKt : ComponentActivity(), OnExportTaskFinished {
                     ) {
                         InfoListView(
                             modifier = Modifier.weight(1f),
-                            data = viewModel.getCPUInfo().value
+                            data = cpuInfo
                         )
                         AdvertView(Modifier.fillMaxWidth(), R.string.banner_id_3)
                     }

@@ -17,6 +17,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -53,6 +54,7 @@ fun BuildPropertiesScreen(
     var enableSearch by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current
+    val filteredBuildProperties by viewModel.filteredBuildProperties.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
         lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
@@ -106,11 +108,11 @@ fun BuildPropertiesScreen(
             ) {
                 InfoListView(
                     modifier = Modifier.weight(1f), data = Utils.getUIObjectsFromBuildProps(
-                        LocalContext.current, viewModel.filteredBuildProperties.value
+                        LocalContext.current, filteredBuildProperties
                     )
                 )
                 PropCounter(
-                    viewModel.filteredBuildProperties.value.size,
+                    filteredBuildProperties.size,
                     viewModel.getSizeOfTheList(),
                     Modifier.fillMaxWidth()
                 )

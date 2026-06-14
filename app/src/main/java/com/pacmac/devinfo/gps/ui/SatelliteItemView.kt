@@ -44,7 +44,7 @@ fun SatelliteItemView(satellite: Satellite, modfier: Modifier = Modifier) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     SatValue(
                         stringResource(id = R.string.constellation_label),
-                        satellite.constellationType,
+                        satellite.getConstellationType(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         Modifier.fillMaxWidth()
                     )
