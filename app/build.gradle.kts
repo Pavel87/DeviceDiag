@@ -94,6 +94,9 @@ android {
         kotlinCompilerExtensionVersion = "1.4.2"
     }
     namespace = "com.pacmac.devinfo"
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
