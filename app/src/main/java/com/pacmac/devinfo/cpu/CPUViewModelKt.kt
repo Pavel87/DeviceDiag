@@ -84,7 +84,37 @@ class CPUViewModelKt @Inject constructor() : ViewModel() {
         list.add(UIObject(context.getString(R.string.cpu_core_available), Runtime.getRuntime().availableProcessors().toString()))
         list.add(UIObject(context.getString(R.string.cpu_core_active), getNumCores().toString()))
         list.addAll(getCPUFrequency(context))
+        list.add(getCpuHeadroom(context))
+        list.addAll(getPerCoreInfo(context))
         _cpuInfo.value = list
+    }
+
+    @android.annotation.SuppressLint("WrongConstant")
+    private fun getCpuHeadroom(context: Context): UIObject {
+        if (Build.VERSION.SDK_INT >= 36) {
+            return try {
+                val perfHintManager = context.getSystemService(Context.PERFORMANCE_HINT_SERVICE)
+                        as? android.os.PerformanceHintManager
+                if (perfHintManager != null) {
+                    val method = perfHintManager.javaClass.getMethod("getCpuHeadroom")
+                    val headroom = method.invoke(perfHintManager) as Float
+                    if (headroom.isNaN() || headroom < 0) {
+                        UIObject(context.getString(R.string.cpu_headroom), "N/A")
+                    } else {
+                        UIObject(
+                            context.getString(R.string.cpu_headroom),
+                            String.format(Locale.ENGLISH, "%.1f%%", headroom * 100)
+                        )
+                    }
+                } else {
+                    UIObject(context.getString(R.string.cpu_headroom), "N/A")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to get CPU headroom", e)
+                UIObject(context.getString(R.string.cpu_headroom), "N/A")
+            }
+        }
+        return UIObject(context.getString(R.string.cpu_headroom), "N/A")
     }
 
     private fun readCPUinfo(context: Context): List<UIObject> {
@@ -185,6 +215,123 @@ class CPUViewModelKt @Inject constructor() : ViewModel() {
     } catch (e: Exception) {
         Log.e(TAG, "Failed to count CPU cores", e)
         1
+    }
+
+    /**
+     * Reads a single line from a sysfs file. Returns null if the file does not exist or cannot be read.
+     */
+    private fun readSysfsLine(path: String): String? {
+        val file = File(path)
+        if (!file.exists()) return null
+        return try {
+            file.bufferedReader().use { it.readLine()?.trim() }
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to read sysfs file: $path", e)
+            null
+        }
+    }
+
+    /**
+     * Reads a frequency value from sysfs (in kHz) and converts to GHz string formatted to 3 decimals.
+     */
+    private fun readFreqFileGHz(path: String): String? {
+        return readSysfsLine(path)?.toFloatOrNull()?.div(1_000_000f)?.let { "%.3f".format(it) }
+    }
+
+    /**
+     * Checks whether a given CPU core is online.
+     * cpu0 is always online and has no 'online' file on most kernels.
+     */
+    private fun isCoreOnline(coreIndex: Int): Boolean {
+        if (coreIndex == 0) return true
+        val value = readSysfsLine("/sys/devices/system/cpu/cpu$coreIndex/online")
+        return value == "1"
+    }
+
+    /**
+     * Detects cluster topology by grouping cores by their max frequency.
+     * Returns a human-readable string like "2x2.840GHz + 2x2.420GHz + 4x1.800GHz".
+     */
+    private fun detectClusterTopology(numCores: Int): String? {
+        val maxFreqs = mutableListOf<Long>()
+        for (i in 0 until numCores) {
+            val freq = readSysfsLine("/sys/devices/system/cpu/cpu$i/cpufreq/cpuinfo_max_freq")
+                ?.toLongOrNull()
+            maxFreqs.add(freq ?: -1L)
+        }
+
+        // Filter out cores where we couldn't read the frequency
+        val validFreqs = maxFreqs.filter { it > 0 }
+        if (validFreqs.isEmpty()) return null
+
+        // Group by frequency and sort descending (big cores first)
+        val groups = validFreqs.groupBy { it }
+            .entries
+            .sortedByDescending { it.key }
+
+        val topologyParts = groups.map { (freqKHz, cores) ->
+            val ghz = freqKHz / 1_000_000f
+            "${cores.size}x${"%.2f".format(ghz)}GHz"
+        }
+
+        return topologyParts.joinToString(" + ")
+    }
+
+    /**
+     * Builds per-core information: cluster topology and per-core freq/governor/status details.
+     */
+    private fun getPerCoreInfo(context: Context): List<UIObject> {
+        val list = mutableListOf<UIObject>()
+        val numCores = getNumCores()
+
+        // Section header
+        list.add(UIObject(context.getString(R.string.cpu_per_core_info), "", ListType.TITLE))
+
+        // Cluster topology
+        detectClusterTopology(numCores)?.let { topology ->
+            list.add(UIObject(context.getString(R.string.cpu_cluster_topology), topology))
+        }
+
+        // Per-core details
+        for (i in 0 until numCores) {
+            list.add(
+                UIObject(
+                    String.format(context.getString(R.string.cpu_core_label), i),
+                    "",
+                    ListType.TITLE
+                )
+            )
+
+            val online = isCoreOnline(i)
+            list.add(
+                UIObject(
+                    context.getString(R.string.cpu_core_status),
+                    context.getString(if (online) R.string.cpu_core_online else R.string.cpu_core_offline)
+                )
+            )
+
+            if (online) {
+                val basePath = "/sys/devices/system/cpu/cpu$i/cpufreq"
+
+                readFreqFileGHz("$basePath/scaling_cur_freq")?.let {
+                    list.add(UIObject(context.getString(R.string.cpu_core_freq), it, "GHz"))
+                }
+
+                readFreqFileGHz("$basePath/cpuinfo_min_freq")?.let {
+                    list.add(UIObject(context.getString(R.string.cpu_core_min_freq), it, "GHz"))
+                }
+
+                readFreqFileGHz("$basePath/cpuinfo_max_freq")?.let {
+                    list.add(UIObject(context.getString(R.string.cpu_core_max_freq), it, "GHz"))
+                }
+
+                readSysfsLine("$basePath/scaling_governor")?.let {
+                    list.add(UIObject(context.getString(R.string.cpu_core_governor), it))
+                }
+            }
+        }
+
+        return list
     }
 
     private suspend fun readUsage(): Float = try {

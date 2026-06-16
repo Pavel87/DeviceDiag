@@ -1,5 +1,6 @@
 package com.pacmac.devinfo.cellular.ui
 
+import android.os.Build
 import androidx.compose.runtime.Composable
 import com.pacmac.devinfo.Destination
 import com.pacmac.devinfo.R
@@ -33,4 +34,19 @@ object ConfigDestination : Destination {
     override val screen: @Composable () -> Unit = { ConfigScreen() }
 }
 
-fun getCellTabs() = listOf(SIMDestination, NetworkDestination, CellDestination, ConfigDestination)
+object SatelliteDestination : Destination {
+    override val route: String = "SATELLITE"
+    override val nameResId: Int = R.string.satellite_tab
+    override val type = ScreenType.SATELLITE
+    override val screen: @Composable () -> Unit = { SatelliteScreen() }
+}
+
+fun getCellTabs(): List<Destination> = buildList {
+    add(SIMDestination)
+    add(NetworkDestination)
+    add(CellDestination)
+    if (Build.VERSION.SDK_INT >= 36) {
+        add(SatelliteDestination)
+    }
+    add(ConfigDestination)
+}

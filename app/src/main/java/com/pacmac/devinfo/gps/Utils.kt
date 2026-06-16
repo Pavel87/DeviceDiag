@@ -1,9 +1,11 @@
 package com.pacmac.devinfo.gps
 
 import android.content.Context
+import android.location.GnssCapabilities
 import android.os.Build
 import com.pacmac.devinfo.ListType
 import com.pacmac.devinfo.R
+import com.pacmac.devinfo.ThreeState
 import com.pacmac.devinfo.UIObject
 import com.pacmac.devinfo.gps.models.GPSMainInfoModel
 import com.pacmac.devinfo.gps.models.NMEALog
@@ -55,6 +57,15 @@ object Utils {
                 UIObject(
                     context.getString(R.string.gnss_hardware_year),
                     model.gnssYearOfHardware.toString()
+                )
+            )
+        }
+
+        model.gnssHardwareModelName?.let {
+            list.add(
+                UIObject(
+                    context.getString(R.string.gnss_hardware_model),
+                    it
                 )
             )
         }
@@ -131,11 +142,71 @@ object Utils {
                 UIObject(
                     context.getString(R.string.gps_bearing),
                     bearing,
-                    if (bearing.isNotEmpty()) "m" else ""
+                    if (bearing.isNotEmpty()) "°" else ""
                 )
             )
         } else {
             list.add(UIObject(context.getString(R.string.gps_bearing), "--"))
+        }
+
+        model.verticalAccuracy?.let {
+            list.add(
+                UIObject(
+                    context.getString(R.string.gps_vertical_accuracy),
+                    roundTo1Decimal(it),
+                    "m"
+                )
+            )
+        }
+
+        model.speedAccuracy?.let {
+            list.add(
+                UIObject(
+                    context.getString(R.string.gps_speed_accuracy),
+                    roundTo1Decimal(it),
+                    "m/s"
+                )
+            )
+        }
+
+        model.bearingAccuracy?.let {
+            list.add(
+                UIObject(
+                    context.getString(R.string.gps_bearing_accuracy),
+                    roundTo1Decimal(it),
+                    "°"
+                )
+            )
+        }
+
+        model.mslAltitude?.let {
+            list.add(
+                UIObject(
+                    context.getString(R.string.gps_msl_altitude),
+                    roundTo2Decimals(it.toFloat()),
+                    "m"
+                )
+            )
+        }
+
+        model.mslAltitudeAccuracy?.let {
+            list.add(
+                UIObject(
+                    context.getString(R.string.gps_msl_altitude_accuracy),
+                    roundTo1Decimal(it),
+                    "m"
+                )
+            )
+        }
+
+        model.isMock?.let {
+            list.add(
+                UIObject(
+                    context.getString(R.string.gps_mock_location),
+                    if (it) ThreeState.YES else ThreeState.NO,
+                    ListType.ICON
+                )
+            )
         }
 
         if (model.visibleSatellites != -1) {
@@ -150,6 +221,97 @@ object Utils {
         }
 
         return list
+    }
+
+    fun getGnssCapabilitiesList(
+        context: Context,
+        capabilities: GnssCapabilities?,
+        signalTypes: List<String>,
+        antennaFrequencies: List<Double>
+    ): List<UIObject> {
+        if (capabilities == null && signalTypes.isEmpty() && antennaFrequencies.isEmpty()) {
+            return emptyList()
+        }
+        val list = ArrayList<UIObject>()
+
+        if (capabilities != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            list.add(UIObject(context.getString(R.string.gnss_capabilities), "", ListType.TITLE))
+
+            list.add(capabilityItem(context, R.string.gnss_has_measurements, capabilities.hasMeasurements()))
+            list.add(capabilityItem(context, R.string.gnss_has_nav_messages, capabilities.hasNavigationMessages()))
+            list.add(capabilityItem(context, R.string.gnss_has_low_power_mode, capabilities.hasLowPowerMode()))
+            list.add(capabilityItem(context, R.string.gnss_has_geofencing, capabilities.hasGeofencing()))
+            list.add(capabilityItem(context, R.string.gnss_has_satellite_blocklist, capabilities.hasSatelliteBlocklist()))
+            list.add(capabilityItem(context, R.string.gnss_has_satellite_pvt, capabilities.hasSatellitePvt()))
+            list.add(capabilityItem(context, R.string.gnss_has_antenna_info, capabilities.hasAntennaInfo()))
+            list.add(capabilityItem(context, R.string.gnss_has_scheduling, capabilities.hasScheduling()))
+            list.add(capabilityItem(context, R.string.gnss_has_single_shot_fix, capabilities.hasSingleShotFix()))
+            list.add(capabilityItem(context, R.string.gnss_has_on_demand_time, capabilities.hasOnDemandTime()))
+            list.add(capabilityItem(context, R.string.gnss_has_msa, capabilities.hasMsa()))
+            list.add(capabilityItem(context, R.string.gnss_has_msb, capabilities.hasMsb()))
+            list.add(capabilityItem(context, R.string.gnss_has_measurement_corrections, capabilities.hasMeasurementCorrections()))
+            list.add(capabilityItem(context, R.string.gnss_has_corrections_los, capabilities.hasMeasurementCorrectionsLosSats()))
+            list.add(capabilityItem(context, R.string.gnss_has_corrections_excess_path, capabilities.hasMeasurementCorrectionsExcessPathLength()))
+            list.add(capabilityItem(context, R.string.gnss_has_corrections_reflecting, capabilities.hasMeasurementCorrectionsReflectingPlane()))
+
+            if (Build.VERSION.SDK_INT >= 33) {
+                list.add(capabilityItem(context, R.string.gnss_has_corrections_driving, capabilities.hasMeasurementCorrectionsForDriving()))
+                list.add(capabilityItem(context, R.string.gnss_has_correlation_vectors, capabilities.hasMeasurementCorrelationVectors()))
+            }
+
+            list.add(capabilityItem(context, R.string.gnss_power_total, capabilities.hasPowerTotal()))
+            list.add(capabilityItem(context, R.string.gnss_power_singleband_tracking, capabilities.hasPowerSinglebandTracking()))
+            list.add(capabilityItem(context, R.string.gnss_power_singleband_acquisition, capabilities.hasPowerSinglebandAcquisition()))
+            list.add(capabilityItem(context, R.string.gnss_power_multiband_tracking, capabilities.hasPowerMultibandTracking()))
+            list.add(capabilityItem(context, R.string.gnss_power_multiband_acquisition, capabilities.hasPowerMultibandAcquisition()))
+            list.add(capabilityItem(context, R.string.gnss_power_other_modes, capabilities.hasPowerOtherModes()))
+
+            val adrState = capabilities.hasAccumulatedDeltaRange()
+            list.add(
+                UIObject(
+                    context.getString(R.string.gnss_accumulated_delta_range),
+                    when (adrState) {
+                        GnssCapabilities.CAPABILITY_SUPPORTED -> context.getString(R.string.gnss_adr_supported)
+                        GnssCapabilities.CAPABILITY_UNSUPPORTED -> context.getString(R.string.gnss_adr_unsupported)
+                        else -> context.getString(R.string.gnss_adr_unknown)
+                    }
+                )
+            )
+
+            if (Build.VERSION.SDK_INT >= 37) {
+                list.add(capabilityItem(context, R.string.gnss_engine_restart_power_mode, capabilities.hasGnssEngineRestartAfterPowerModeChange()))
+            }
+        }
+
+        if (signalTypes.isNotEmpty()) {
+            list.add(UIObject(context.getString(R.string.gnss_signal_types), "", ListType.TITLE))
+            signalTypes.forEach { signalType ->
+                list.add(UIObject(signalType, ""))
+            }
+        }
+
+        if (antennaFrequencies.isNotEmpty()) {
+            list.add(UIObject(context.getString(R.string.gnss_antenna_info), "", ListType.TITLE))
+            antennaFrequencies.forEachIndexed { index, freq ->
+                list.add(
+                    UIObject(
+                        "${context.getString(R.string.gnss_antenna_carrier_freq)} ${index + 1}",
+                        String.format(Locale.ENGLISH, "%.1f", freq),
+                        "MHz"
+                    )
+                )
+            }
+        }
+
+        return list
+    }
+
+    private fun capabilityItem(context: Context, nameResId: Int, supported: Boolean): UIObject {
+        return UIObject(
+            context.getString(nameResId),
+            if (supported) ThreeState.YES else ThreeState.NO,
+            ListType.ICON
+        )
     }
 
     private fun getStatusString(context: Context, status: Status): String {

@@ -134,7 +134,8 @@
     <string name="manufacturer_code">Manufacturer Code</string>
     <string name="imei">IMEI</string>
     <string name="meid">MEID</string>
-    <string name="embedded">Is ESIM</string>
+    <string name="embedded">Is Embedded SIM</string>
+    <string name="esim_supported">eSIM Supported</string>
     <string name="network_country_code">Country Code</string>
     <string name="data_enabled">Data Enabled</string>
     <string name="data_roaming_enabled">Data Roaming Enabled</string>
@@ -467,4 +468,244 @@
 
 
     <string name="navigate_to_sensor_detail">Go to Sensor Data</string>
+
+    <!-- Camera2 strings -->
+    <string name="camera_hw_level">Hardware Level</string>
+    <string name="camera_sensor_size">Sensor Size</string>
+    <string name="camera_megapixels">Megapixels</string>
+    <string name="camera_apertures">Aperture(s)</string>
+    <string name="camera_focal_lengths">Focal Length(s)</string>
+    <string name="camera_ois">Optical Stabilization (OIS)</string>
+    <string name="camera_eis">Electronic Stabilization (EIS)</string>
+    <string name="camera_raw_support">RAW Capture</string>
+    <string name="camera_af_modes">AF Modes</string>
+    <string name="camera_ae_range">AE Compensation Range</string>
+    <string name="camera_ae_step">AE Compensation Step</string>
+    <string name="camera_flash_supported">Flash</string>
+    <string name="camera_facing">Facing</string>
+    <string name="camera_facing_back">Back</string>
+    <string name="camera_facing_front">Front</string>
+    <string name="camera_facing_external">External</string>
+    <string name="camera_output_formats">Output Formats</string>
+    <string name="camera_physical_cameras">Physical Cameras</string>
+    <string name="camera_logical_multi">Logical Multi-Camera</string>
+    <string name="camera_sensor_pixel_array">Sensor Pixel Array</string>
+    <string name="camera_max_digital_zoom">Max Digital Zoom</string>
+    <string name="camera_supported_resolutions">Supported Resolutions</string>
+
+    <!-- CPU per-core strings -->
+    <string name="cpu_core_label">Core %d</string>
+    <string name="cpu_core_freq">Frequency</string>
+    <string name="cpu_core_min_freq">Min Frequency</string>
+    <string name="cpu_core_max_freq">Max Frequency</string>
+    <string name="cpu_core_governor">Governor</string>
+    <string name="cpu_core_status">Status</string>
+    <string name="cpu_core_online">Online</string>
+    <string name="cpu_core_offline">Offline</string>
+    <string name="cpu_cluster_topology">Cluster Topology</string>
+    <string name="cpu_per_core_info">Per-Core Information</string>
+
+    <!-- Display HDR/foldable strings -->
+    <string name="display_hdr_capabilities">HDR Capabilities</string>
+    <string name="display_hdr_types">HDR Types</string>
+    <string name="display_max_luminance">Max Luminance</string>
+    <string name="display_min_luminance">Min Luminance</string>
+    <string name="display_max_avg_luminance">Max Avg Luminance</string>
+    <string name="display_wide_color_gamut">Wide Color Gamut</string>
+    <string name="display_peak_refresh_rate">Peak Refresh Rate</string>
+    <string name="display_supported_modes">Supported Modes</string>
+    <string name="display_cutout_type">Display Cutout</string>
+    <string name="display_hinge_angle">Hinge Angle</string>
+    <string name="display_no_hdr">Not Supported</string>
+
+    <!-- WiFi 7 / Satellite strings -->
+    <string name="wifi_standard_be">802.11be (WiFi 7)</string>
+
+    <!-- GPU Info strings -->
+    <string name="title_activity_gpu_info">GPU Information</string>
+    <string name="gpu_renderer">GPU Renderer</string>
+    <string name="gpu_vendor">GPU Vendor</string>
+    <string name="gpu_gl_version">OpenGL ES Version</string>
+    <string name="gpu_vulkan_version">Vulkan Version</string>
+    <string name="gpu_max_texture_size">Max Texture Size</string>
+    <string name="gpu_extensions">GL Extensions</string>
+    <string name="gpu_compressed_formats">Compressed Texture Formats</string>
+    <string name="gpu_shader_precision">Shader Precision</string>
+    <string name="gpu_vertex_high">Vertex High Float</string>
+    <string name="gpu_vertex_medium">Vertex Medium Float</string>
+    <string name="gpu_vertex_low">Vertex Low Float</string>
+    <string name="gpu_fragment_high">Fragment High Float</string>
+    <string name="gpu_fragment_medium">Fragment Medium Float</string>
+    <string name="gpu_fragment_low">Fragment Low Float</string>
+
+    <!-- Bluetooth Info strings -->
+    <string name="title_activity_bluetooth_info">Bluetooth Information</string>
+    <string name="bt_adapter_name">Adapter Name</string>
+    <string name="bt_adapter_address">Adapter Address</string>
+    <string name="bt_version">Bluetooth Version</string>
+    <string name="bt_le_support">Bluetooth LE</string>
+    <string name="bt_le_audio">LE Audio</string>
+    <string name="bt_supported_profiles">Supported Features</string>
+    <string name="bt_paired_devices">Paired Devices</string>
+    <string name="bt_codecs">Supported Codecs</string>
+    <string name="bt_le_advertising">LE Advertising</string>
+    <string name="bt_offloaded_filtering">Offloaded Scan Filtering</string>
+    <string name="bt_offloaded_batching">Offloaded Scan Batching</string>
+    <string name="bt_adapter_info">Adapter Info</string>
+    <string name="bt_multiple_advertisement">Multiple Advertisement</string>
+    <string name="bt_max_connected_audio">Max Connected Audio Devices</string>
+    <string name="bt_permission_msg">Bluetooth permission is required in order to display Bluetooth adapter information and paired devices.</string>
+    <string name="bt_feature_disabled">This feature is disabled as it requires Bluetooth Permission. You have previously rejected to grant this permission twice so if you wish to use this feature you will have to navigate to Device Settings and enable permission manually for Device Info app.</string>
+    <string name="bt_not_available">Bluetooth is not available on this device.</string>
+
+    <!-- Audio/Codec Info strings -->
+    <string name="title_activity_audio_info">Audio Information</string>
+    <string name="audio_output_sample_rate">Output Sample Rate</string>
+    <string name="audio_output_buffer_size">Output Buffer Size</string>
+    <string name="audio_spatial_support">Spatial Audio</string>
+    <string name="audio_low_latency">Low Latency Audio</string>
+    <string name="audio_pro">Audio Pro</string>
+    <string name="audio_midi">MIDI Support</string>
+    <string name="audio_microphone_count">Microphone Count</string>
+    <string name="audio_output_devices">Audio Output Devices</string>
+    <string name="audio_codecs_title">Audio/Video Codecs</string>
+    <string name="audio_codec_name">Codec</string>
+    <string name="audio_codec_type">Type</string>
+    <string name="audio_codec_hw">Hardware Accelerated</string>
+    <string name="audio_device_info">Device Capabilities</string>
+    <string name="audio_hi_res">Hi-Res Audio</string>
+
+    <!-- Thermal Status strings -->
+    <string name="title_activity_thermal_info">Thermal Status</string>
+    <string name="thermal_status">Thermal Status</string>
+    <string name="thermal_headroom">Thermal Headroom</string>
+    <string name="thermal_battery_temp">Battery Temperature</string>
+    <string name="thermal_none">None</string>
+    <string name="thermal_light">Light</string>
+    <string name="thermal_moderate">Moderate</string>
+    <string name="thermal_severe">Severe</string>
+    <string name="thermal_critical">Critical</string>
+    <string name="thermal_emergency">Emergency</string>
+    <string name="thermal_shutdown">Shutdown</string>
+    <string name="thermal_requires_api">Requires API 29+</string>
+
+    <!-- Display API 36 strings -->
+    <string name="display_arr_support">Adaptive Refresh Rate (ARR)</string>
+    <string name="display_supported_refresh_rates">Supported Refresh Rates</string>
+
+    <!-- Build/Main Info API 36/37 strings -->
+    <string name="device_minor_sdk">Minor SDK Version</string>
+    <string name="device_sdk_full">Full SDK Version</string>
+    <string name="device_advanced_protection">Advanced Protection Mode</string>
+
+    <!-- CPU API 36 strings -->
+    <string name="cpu_headroom">CPU Headroom</string>
+
+    <!-- GPU API 36 strings -->
+    <string name="gpu_headroom">GPU Headroom</string>
+    <string name="gpu_agsl_shaders">Custom AGSL Shaders</string>
+
+    <!-- Thermal API 36 strings -->
+    <string name="thermal_cpu_headroom">CPU Headroom</string>
+    <string name="thermal_gpu_headroom">GPU Headroom</string>
+
+    <!-- Camera API 36/37 strings -->
+    <string name="camera_ae_priority_mode">AE Priority Mode</string>
+    <string name="camera_color_temp_control">Color Temperature Control</string>
+    <string name="camera_night_mode_indicator">Night Mode Indicator</string>
+    <string name="camera_heic_ultrahdr">HEIC Ultra HDR</string>
+    <string name="camera_raw14">RAW14 (14-bit)</string>
+    <string name="camera_device_type">Device Type</string>
+    <string name="camera_type_builtin">Built-in</string>
+    <string name="camera_type_external">External (USB)</string>
+    <string name="camera_type_virtual">Virtual</string>
+
+    <!-- Audio API 36/37 strings -->
+    <string name="audio_apv_codec">APV Codec</string>
+    <string name="audio_ble_hearing_aid">BLE Hearing Aid Device</string>
+
+    <!-- Bluetooth API 36/37 strings -->
+    <string name="bt_auracast">Auracast (LE Audio Broadcast)</string>
+    <string name="bt_hearing_aid">Hearing Aid</string>
+
+    <!-- WiFi/Network API 36/37 strings -->
+    <string name="network_satellite_transport">Satellite Transport</string>
+    <string name="network_wifi_rtt_az">802.11az Secure Ranging</string>
+    <string name="network_nfc_state">NFC</string>
+    <string name="network_uwb_support">UWB (Ultra-Wideband)</string>
+    <string name="nfc_enabled">Enabled</string>
+    <string name="nfc_disabled">Disabled</string>
+    <string name="nfc_not_available">Not Available</string>
+
+    <!-- GPS/GNSS new properties -->
+    <string name="gnss_hardware_model">GNSS Hardware Model</string>
+    <string name="gps_msl_altitude">MSL Altitude</string>
+    <string name="gps_msl_altitude_accuracy">MSL Altitude Accuracy</string>
+    <string name="gps_vertical_accuracy">Vertical Accuracy</string>
+    <string name="gps_speed_accuracy">Speed Accuracy</string>
+    <string name="gps_bearing_accuracy">Bearing Accuracy</string>
+    <string name="gps_mock_location">Mock Location</string>
+    <string name="gnss_capabilities">GNSS Capabilities</string>
+    <string name="gnss_has_measurements">Measurements</string>
+    <string name="gnss_has_nav_messages">Navigation Messages</string>
+    <string name="gnss_has_low_power_mode">Low Power Mode</string>
+    <string name="gnss_has_geofencing">Geofencing</string>
+    <string name="gnss_has_satellite_blocklist">Satellite Blocklist</string>
+    <string name="gnss_has_satellite_pvt">Satellite PVT</string>
+    <string name="gnss_has_measurement_corrections">Measurement Corrections</string>
+    <string name="gnss_has_corrections_los">Corrections LoS Sats</string>
+    <string name="gnss_has_corrections_excess_path">Corrections Excess Path</string>
+    <string name="gnss_has_corrections_reflecting">Corrections Reflecting Plane</string>
+    <string name="gnss_has_corrections_driving">Corrections for Driving</string>
+    <string name="gnss_has_antenna_info">Antenna Info</string>
+    <string name="gnss_has_correlation_vectors">Correlation Vectors</string>
+    <string name="gnss_accumulated_delta_range">Accumulated Delta Range</string>
+    <string name="gnss_has_scheduling">Scheduling</string>
+    <string name="gnss_has_single_shot_fix">Single Shot Fix</string>
+    <string name="gnss_has_on_demand_time">On Demand Time</string>
+    <string name="gnss_has_msa">MSA (Mobile Station Assisted)</string>
+    <string name="gnss_has_msb">MSB (Mobile Station Based)</string>
+    <string name="gnss_power_multiband_tracking">Power Multiband Tracking</string>
+    <string name="gnss_power_multiband_acquisition">Power Multiband Acquisition</string>
+    <string name="gnss_power_singleband_tracking">Power Singleband Tracking</string>
+    <string name="gnss_power_singleband_acquisition">Power Singleband Acquisition</string>
+    <string name="gnss_power_other_modes">Power Other Modes</string>
+    <string name="gnss_power_total">Power Total</string>
+    <string name="gnss_engine_restart_power_mode">Engine Restart After Power Mode</string>
+    <string name="gnss_signal_types">Supported Signal Types</string>
+    <string name="gnss_antenna_info">GNSS Antenna Info</string>
+    <string name="gnss_antenna_carrier_freq">Carrier Frequency</string>
+    <string name="gnss_satellite_carrier_freq">Carrier Freq</string>
+    <string name="gnss_adr_supported">Supported</string>
+    <string name="gnss_adr_unknown">Unknown</string>
+    <string name="gnss_adr_unsupported">Unsupported</string>
+
+    <!-- Satellite Connectivity strings -->
+    <string name="satellite_tab">Satellite</string>
+    <string name="title_satellite">Satellite Connectivity</string>
+    <string name="satellite_supported">Satellite Supported</string>
+    <string name="satellite_communication">Satellite Communication</string>
+    <string name="satellite_modem_state">Modem State</string>
+    <string name="satellite_not_available_msg">Satellite connectivity info requires Android 16 (API 36)+</string>
+    <string name="satellite_not_supported_msg">This device does not support satellite connectivity</string>
+    <string name="satellite_checking">Checking satellite support…</string>
+
+    <!-- v4.0 What's New strings -->
+    <!-- v4.0.0 What's New strings -->
+    <string name="new_features_v400_1">New Modules</string>
+    <string name="new_features_v400_1_desc">GPU, Bluetooth, Audio/Codec, and Thermal monitoring — four all-new info screens</string>
+    <string name="new_features_v400_2">Satellite Connectivity</string>
+    <string name="new_features_v400_2_desc">New dedicated Satellite tab in Cellular with live modem state and transport detection</string>
+    <string name="new_features_v400_3">Enhanced GPS/GNSS</string>
+    <string name="new_features_v400_3_desc">GNSS hardware model, MSL altitude, full accuracy details, mock detection, 25+ GNSS capability flags, signal types, and per-satellite carrier frequency</string>
+    <string name="new_features_v400_4">Android 16 &amp; 17 Support</string>
+    <string name="new_features_v400_4_desc">Adaptive refresh rates, CPU/GPU headroom, camera device types, NFC/UWB detection, and more</string>
+    <string name="new_features_v400_5">Camera2 API</string>
+    <string name="new_features_v400_5_desc">Detailed sensor info, apertures, hardware capability level, and HDR/RAW formats</string>
+    <string name="new_features_v400_6">Enhanced CPU &amp; Display</string>
+    <string name="new_features_v400_6_desc">Per-core frequencies, cluster topology, HDR capabilities, wide color gamut, and WiFi 7</string>
+
+    <string name="dismiss_ads_title">Hide ads for 1 hour</string>
+    <string name="dismiss_ads_message">Watch a short video to remove banner ads for 1 hour.</string>
+    <string name="watch_video">Watch Video</string>
 </resources>

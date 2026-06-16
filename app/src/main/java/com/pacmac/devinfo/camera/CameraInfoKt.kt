@@ -3,7 +3,6 @@ package com.pacmac.devinfo.camera
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -25,6 +24,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.pacmac.devinfo.R
+import com.pacmac.devinfo.ads.InterstitialAdManager
 import com.pacmac.devinfo.camera.ui.CameraGeneralDestination
 import com.pacmac.devinfo.camera.ui.CameraGeneralScreen
 import com.pacmac.devinfo.camera.ui.CameraInfoDestination
@@ -38,9 +38,13 @@ import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CameraInfoKt : ComponentActivity() {
+
+    @Inject
+    lateinit var interstitialAdManager: InterstitialAdManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,8 +63,9 @@ class CameraInfoKt : ComponentActivity() {
                 ?: CameraGeneralDestination
 
             val context = LocalContext.current
-            val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-            val onBack = { backDispatcher?.onBackPressed() }
+            val onBack = {
+                interstitialAdManager.maybeShowInterstitial(this@CameraInfoKt) { finish() }
+            }
 
             LaunchedEffect(key1 = Unit) {
                 lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {

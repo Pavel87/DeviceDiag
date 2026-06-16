@@ -28,11 +28,20 @@ import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
 fun GPSScreen(modifier: Modifier = Modifier, viewModel: GPSViewModelKt = hiltViewModel()) {
     val gpsData by viewModel.gpsInfo.collectAsState()
     val updateTime by viewModel.updateTimeLive.collectAsState()
+    val gnssCapabilities by viewModel.gnssCapabilities.collectAsState()
+    val gnssSignalTypes by viewModel.gnssSignalTypes.collectAsState()
+    val gnssAntennaFrequencies by viewModel.gnssAntennaFrequencies.collectAsState()
+
+    val context = LocalContext.current
+    val combinedList = buildList {
+        addAll(Utils.getMainGPSInfoList(context, gpsData))
+        addAll(Utils.getGnssCapabilitiesList(context, gnssCapabilities, gnssSignalTypes, gnssAntennaFrequencies))
+    }
 
     Surface(modifier = Modifier.fillMaxSize()) {
         InfoListView(
             modifier = modifier,
-            data = Utils.getMainGPSInfoList(LocalContext.current, gpsData),
+            data = combinedList,
             header = {
                 MainGPSScreenHeader(lastUpdateTime = updateTime)
             }

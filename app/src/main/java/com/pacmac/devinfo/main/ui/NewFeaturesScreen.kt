@@ -17,32 +17,22 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pacmac.devinfo.main.model.FeatureModel
-import com.pacmac.devinfo.main.ui.DeviceInfoDialog
 import com.pacmac.devinfo.ui.components.ActionButton
-import com.pacmac.devinfo.ui.components.WalletUpsell
 import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
-import com.pacmac.devinfo.utils.Utils
 
 @Composable
 fun NewFeaturesScreen(
@@ -53,29 +43,30 @@ fun NewFeaturesScreen(
 
     val newFeautures = listOf(
         FeatureModel(
-            stringResource(id = R.string.new_features1),
-            "Switch to dark mode and enjoy the new look"
-        ),
-        FeatureModel(stringResource(id = R.string.new_features2), "Multiple UI updates"),
-        FeatureModel(
-            stringResource(id = R.string.new_features3),
-            "If permissions denied 2 times user is informed about option to enable via Device Settings"
+            stringResource(id = R.string.new_features_v400_1),
+            stringResource(id = R.string.new_features_v400_1_desc)
         ),
         FeatureModel(
-            stringResource(id = R.string.new_features4),
-            "Once the phone permission is enabled within the app the Phone Number appears in Main Info"
-        )
+            stringResource(id = R.string.new_features_v400_2),
+            stringResource(id = R.string.new_features_v400_2_desc)
+        ),
+        FeatureModel(
+            stringResource(id = R.string.new_features_v400_3),
+            stringResource(id = R.string.new_features_v400_3_desc)
+        ),
+        FeatureModel(
+            stringResource(id = R.string.new_features_v400_4),
+            stringResource(id = R.string.new_features_v400_4_desc)
+        ),
+        FeatureModel(
+            stringResource(id = R.string.new_features_v400_5),
+            stringResource(id = R.string.new_features_v400_5_desc)
+        ),
+        FeatureModel(
+            stringResource(id = R.string.new_features_v400_6),
+            stringResource(id = R.string.new_features_v400_6_desc)
+        ),
     )
-
-    val contentModifier =
-        if (windowWidthSizeClass == WindowWidthSizeClass.Compact) Modifier.fillMaxWidth() else Modifier.width(
-            450.dp
-        )
-
-
-    var displayRateDialog by remember { mutableStateOf(false) }
-
-    val context = LocalContext.current
 
     BackHandler(true) {
         onClose()
@@ -122,37 +113,9 @@ fun NewFeaturesScreen(
                     isEnabled = true
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Card(
-                    shape = MaterialTheme.shapes.extraSmall,
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-                    elevation = CardDefaults.cardElevation(6.dp),
-                    modifier = contentModifier.align(Alignment.CenterHorizontally)
-                ) {
-                    WalletUpsell(
-                        Modifier.padding(8.dp),
-                        windowWidthSizeClass,
-                        onClick = { Utils.openWalletAppPlayStore(context) })
-                }
             }
         }
 
-        if (displayRateDialog) {
-            DeviceInfoDialog(
-                title = stringResource(id = R.string.rate_app),
-                msg = stringResource(id = R.string.rta_dialog_message),
-                onDismiss = {
-                    displayRateDialog = false
-                },
-                onPositiveAction = {
-                    Utils.launchPlayStore(context)
-                    displayRateDialog = false
-                },
-                positiveButtonText = stringResource(id = R.string.rateit),
-                dismissButtonText = stringResource(id = R.string.no_thanks),
-            )
-        }
     }
 }
 

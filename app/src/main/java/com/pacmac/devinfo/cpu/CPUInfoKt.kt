@@ -3,7 +3,6 @@ package com.pacmac.devinfo.cpu
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.pacmac.devinfo.R
+import com.pacmac.devinfo.ads.InterstitialAdManager
 import com.pacmac.devinfo.export.ExportTask
 import com.pacmac.devinfo.export.ExportTask.OnExportTaskFinished
 import com.pacmac.devinfo.export.ExportUtils
@@ -26,6 +26,7 @@ import com.pacmac.devinfo.ui.components.InfoListView
 import com.pacmac.devinfo.ui.components.TopBar
 import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CPUInfoKt : ComponentActivity(), OnExportTaskFinished {
@@ -34,12 +35,16 @@ class CPUInfoKt : ComponentActivity(), OnExportTaskFinished {
 
     private var isExporting = false
 
+    @Inject
+    lateinit var interstitialAdManager: InterstitialAdManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val cpuInfo by viewModel.cpuInfo.collectAsState()
-            val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-            val onBack = { backDispatcher?.onBackPressed() }
+            val onBack = {
+                interstitialAdManager.maybeShowInterstitial(this@CPUInfoKt) { finish() }
+            }
 
             DeviceInfoTheme {
                 Scaffold(topBar = {

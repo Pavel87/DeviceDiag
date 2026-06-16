@@ -23,4 +23,8 @@ interface AppRepository {
 
     suspend fun updateExportSlot(slotOpened: Int)
 
+    fun getBannerFreeUntil(): Flow<Long>
+
+    suspend fun setBannerFreeUntil(timestamp: Long)
+
 }

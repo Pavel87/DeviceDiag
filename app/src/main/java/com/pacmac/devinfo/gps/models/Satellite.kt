@@ -12,6 +12,7 @@ class Satellite(
     val azimuth: Float,
     val elevation: Float,
     var constellationType: Int = 0,
+    var carrierFrequencyHz: Float? = null,
 ) : Parcelable {
 
     fun getConstellationType(): String = getConstellation(constellationType)

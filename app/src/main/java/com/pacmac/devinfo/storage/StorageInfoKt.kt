@@ -3,7 +3,6 @@ package com.pacmac.devinfo.storage
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
@@ -17,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.pacmac.devinfo.R
+import com.pacmac.devinfo.ads.InterstitialAdManager
 import com.pacmac.devinfo.export.ExportTask
 import com.pacmac.devinfo.export.ExportUtils
 import com.pacmac.devinfo.export.ui.ExportActivity
@@ -25,6 +25,7 @@ import com.pacmac.devinfo.ui.components.InfoListView
 import com.pacmac.devinfo.ui.components.TopBar
 import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class StorageInfoKt : ComponentActivity(), ExportTask.OnExportTaskFinished {
@@ -33,12 +34,16 @@ class StorageInfoKt : ComponentActivity(), ExportTask.OnExportTaskFinished {
 
     private var isExporting = false
 
+    @Inject
+    lateinit var interstitialAdManager: InterstitialAdManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val storageInfo by viewModel.storageInfo.collectAsState()
-            val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-            val onBack = { backDispatcher?.onBackPressed() }
+            val onBack = {
+                interstitialAdManager.maybeShowInterstitial(this@StorageInfoKt) { finish() }
+            }
 
             DeviceInfoTheme {
                 Scaffold(topBar = {

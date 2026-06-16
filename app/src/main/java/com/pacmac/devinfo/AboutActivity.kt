@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import com.pacmac.devinfo.main.ui.DeviceInfoDialog
 import com.pacmac.devinfo.ui.components.ActionButton
 import com.pacmac.devinfo.ui.components.TopBar
-import com.pacmac.devinfo.ui.components.WalletUpsell
 import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
 import com.pacmac.devinfo.utils.Utils
 import java.util.*
@@ -128,18 +127,12 @@ class AboutActivity : ComponentActivity() {
         version: String = "9.9.9",
         onRateAppClick: () -> Unit
     ) {
-        val context = LocalContext.current
         Surface(color = MaterialTheme.colorScheme.surface, modifier = modifier) {
             Column(
                 Modifier
                     .padding(16.dp)
                     .fillMaxHeight()
             ) {
-                WalletUpsell(
-                    Modifier,
-                    windowSizeClass,
-                    onClick = { Utils.openWalletAppPlayStore(context) })
-                Spacer(modifier = Modifier.height(24.dp))
                 AboutCard(version, windowSizeClass)
                 Spacer(modifier = Modifier.height(32.dp))
                 ActionButton(
@@ -157,14 +150,6 @@ class AboutActivity : ComponentActivity() {
     fun PreviewAboutCard() {
         DeviceInfoTheme {
             AboutCard("9.9.9", WindowWidthSizeClass.Compact)
-        }
-    }
-
-    @Preview(showBackground = true, widthDp = 500)
-    @Composable
-    fun PreviewWalletUpsell() {
-        DeviceInfoTheme {
-            WalletUpsell(Modifier.padding(16.dp), WindowWidthSizeClass.Expanded) {}
         }
     }
 

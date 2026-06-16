@@ -124,7 +124,14 @@ private fun checkAllPermissions(viewModel: MainViewModelKt, context: Context) {
         if (this) viewModel.updatePermissionState(Utils.PHONE_NUMBER_PERMISSION, PermissionState.GRANTED)
         viewModel.setPhoneNumberPermission(this)
     }
-
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+        Utils.checkPermission(context, Utils.BLUETOOTH_PERMISSION).run {
+            if (this) viewModel.updatePermissionState(Utils.BLUETOOTH_PERMISSION, PermissionState.GRANTED)
+            viewModel.setBluetoothPermission(this)
+        }
+    } else {
+        viewModel.setBluetoothPermission(true)
+    }
 }
 
 @Composable

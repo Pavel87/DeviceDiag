@@ -1,6 +1,7 @@
 package com.pacmac.devinfo.display
 
 import android.content.Context
+import android.hardware.SensorManager
 import android.util.DisplayMetrics
 import android.view.Display
 import androidx.lifecycle.ViewModel
@@ -22,8 +23,9 @@ class DisplayViewModelKt @Inject constructor() : ViewModel() {
     fun observeDisplayInfo(
         context: Context,
         display: Display,
-        metrics: DisplayMetrics
-    ) = loadDisplayInfo(context, display, metrics)
+        metrics: DisplayMetrics,
+        sensorManager: SensorManager? = null
+    ) = loadDisplayInfo(context, display, metrics, sensorManager)
 
     fun getDisplayInfoForExport(context: Context): List<UIObject> {
         val list: MutableList<UIObject> = ArrayList()
@@ -45,7 +47,7 @@ class DisplayViewModelKt @Inject constructor() : ViewModel() {
         return list
     }
 
-    private fun loadDisplayInfo(context: Context, display: Display, metrics: DisplayMetrics) {
+    private fun loadDisplayInfo(context: Context, display: Display, metrics: DisplayMetrics, sensorManager: SensorManager? = null) {
         val list: MutableList<UIObject> = ArrayList()
         list.add(DisplayUtils.getDensity(context, metrics))
         list.add(DisplayUtils.getScaleFactor(context, metrics))
@@ -56,6 +58,14 @@ class DisplayViewModelKt @Inject constructor() : ViewModel() {
         list.add(DisplayUtils.getLayoutSize(context))
         list.add(DisplayUtils.getType(context, display))
         list.add(DisplayUtils.getDrawType(context, metrics))
+        list.addAll(DisplayUtils.getHdrCapabilities(context, display))
+        list.add(DisplayUtils.getWideColorGamut(context, display))
+        list.addAll(DisplayUtils.getPeakRefreshRate(context, display))
+        list.add(DisplayUtils.getArrSupport(context, display))
+        list.add(DisplayUtils.getSupportedRefreshRates(context, display))
+        if (sensorManager != null) {
+            list.add(DisplayUtils.getHingeAngle(context, sensorManager))
+        }
         _displayInfo.value = list
     }
 

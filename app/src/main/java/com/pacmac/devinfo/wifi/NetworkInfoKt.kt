@@ -3,11 +3,11 @@ package com.pacmac.devinfo.wifi
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,16 +28,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pacmac.devinfo.R
+import com.pacmac.devinfo.ads.InterstitialAdManager
 import com.pacmac.devinfo.export.ExportTask
 import com.pacmac.devinfo.export.ExportTask.OnExportTaskFinished
 import com.pacmac.devinfo.export.ExportUtils
 import com.pacmac.devinfo.export.ui.ExportActivity
+import com.pacmac.devinfo.ui.components.AdvertView
 import com.pacmac.devinfo.ui.components.InfoListView
 import com.pacmac.devinfo.ui.components.PacmacAdBanner
 import com.pacmac.devinfo.ui.components.TopBar
 import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
 import com.pacmac.devinfo.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class NetworkInfoKt : ComponentActivity(), OnExportTaskFinished {
@@ -46,14 +49,18 @@ class NetworkInfoKt : ComponentActivity(), OnExportTaskFinished {
 
     private val viewModel: NetworkViewModelKt by viewModels()
 
+    @Inject
+    lateinit var interstitialAdManager: InterstitialAdManager
+
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             val wifiInfo by viewModel.wifiInfo.collectAsState()
-            val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-            val onBack = { backDispatcher?.onBackPressed() }
+            val onBack = {
+                interstitialAdManager.maybeShowInterstitial(this@NetworkInfoKt) { finish() }
+            }
 
             val windowSizeClass = calculateWindowSizeClass(this)
             val context = LocalContext.current
@@ -69,28 +76,31 @@ class NetworkInfoKt : ComponentActivity(), OnExportTaskFinished {
                         onBack = { onBack() }
                     )
                 }) {
-                    val modifier = Modifier
-                        .padding(it)
-                        .fillMaxSize()
-
-                    InfoListView(
-                        modifier = modifier,
-                        data = wifiInfo,
-                        header = {
-                            val contentModifier =
-                                if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
-                                    Modifier.fillMaxWidth()
-                                } else {
-                                    Modifier.width(390.dp)
+                    val modifier = Modifier.padding(it)
+                    Column(
+                        verticalArrangement = Arrangement.SpaceBetween,
+                        modifier = modifier.fillMaxSize(),
+                    ) {
+                        InfoListView(
+                            modifier = Modifier.weight(1f),
+                            data = wifiInfo,
+                            header = {
+                                val contentModifier =
+                                    if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
+                                        Modifier.fillMaxWidth()
+                                    } else {
+                                        Modifier.width(390.dp)
+                                    }
+                                PacmacAdBanner(
+                                    adText = stringResource(id = R.string.icmp_ping_ad),
+                                    modifier = contentModifier.padding(8.dp)
+                                ) {
+                                    Utils.openGooglePlayListing("com.pacmac.pinger", context)
                                 }
-                            PacmacAdBanner(
-                                adText = stringResource(id = R.string.icmp_ping_ad),
-                                modifier = contentModifier.padding(8.dp)
-                            ) {
-                                Utils.openGooglePlayListing("com.pacmac.pinger", context)
                             }
-                        }
-                    )
+                        )
+                        AdvertView(Modifier.fillMaxWidth(), R.string.banner_id_12)
+                    }
                 }
             }
         }

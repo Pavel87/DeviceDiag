@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
@@ -33,6 +32,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.pacmac.devinfo.Destination
 import com.pacmac.devinfo.R
+import com.pacmac.devinfo.ads.InterstitialAdManager
 import com.pacmac.devinfo.cellular.ui.CellDestination
 import com.pacmac.devinfo.cellular.ui.CellScreen
 import com.pacmac.devinfo.cellular.ui.ConfigDestination
@@ -41,6 +41,8 @@ import com.pacmac.devinfo.cellular.ui.MobileNetworkScreen
 import com.pacmac.devinfo.cellular.ui.NetworkDestination
 import com.pacmac.devinfo.cellular.ui.PhoneAndSIMScreen
 import com.pacmac.devinfo.cellular.ui.SIMDestination
+import com.pacmac.devinfo.cellular.ui.SatelliteDestination
+import com.pacmac.devinfo.cellular.ui.SatelliteScreen
 import com.pacmac.devinfo.cellular.ui.getCellTabs
 import com.pacmac.devinfo.export.ExportUtils
 import com.pacmac.devinfo.export.ui.ExportActivity
@@ -52,11 +54,15 @@ import com.pacmac.devinfo.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CellularInfoKt : ComponentActivity() {
 
     val viewModel: CellularViewModelKt by viewModels()
+
+    @Inject
+    lateinit var interstitialAdManager: InterstitialAdManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,8 +77,9 @@ class CellularInfoKt : ComponentActivity() {
             var searchTerm by rememberSaveable { mutableStateOf("") }
             var enableSearch by rememberSaveable { mutableStateOf(false) }
             var hideSearch by remember { mutableStateOf(true) }
-            val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-            val onBack = { backDispatcher?.onBackPressed() }
+            val onBack = {
+                interstitialAdManager.maybeShowInterstitial(this@CellularInfoKt) { finish() }
+            }
 
             val currentScreen =
                 allDestinations.find { it.route == currentDestination?.route } ?: SIMDestination
@@ -173,6 +180,9 @@ class CellularInfoKt : ComponentActivity() {
                         composable(route = ConfigDestination.route) {
                             ConfigScreen(viewModel = viewModel)
                         }
+                        composable(route = SatelliteDestination.route) {
+                            SatelliteScreen()
+                        }
                     }
                 }
             }
@@ -201,6 +211,7 @@ class CellularInfoKt : ComponentActivity() {
         is NetworkDestination -> stringResource(id = R.string.active_network)
         is CellDestination -> stringResource(id = R.string.connected_cells)
         is ConfigDestination -> stringResource(id = R.string.carrier_config)
+        is SatelliteDestination -> stringResource(id = R.string.title_satellite)
         else -> ""
     }
 }

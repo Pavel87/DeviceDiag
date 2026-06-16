@@ -86,6 +86,7 @@ class DeviceInfoActivity : ComponentActivity() {
                     CAMERA_PERMISSION -> viewModel.setCameraPermission(true)
                     PHONE_PERMISSION -> viewModel.setPhonePermission(true)
                     PHONE_NUMBER_PERMISSION -> viewModel.setPhoneNumberPermission(true)
+                    Utils.BLUETOOTH_PERMISSION -> viewModel.setBluetoothPermission(true)
                 }
             }
         }
@@ -106,8 +107,6 @@ class DeviceInfoActivity : ComponentActivity() {
         val ccpaMetaData = MetaData(this)
         ccpaMetaData["privacy.consent"] = true
         ccpaMetaData.commit()
-
-        MobileAds.initialize(this) {}
 
         val backgroundScope = CoroutineScope(Dispatchers.IO)
         backgroundScope.launch {

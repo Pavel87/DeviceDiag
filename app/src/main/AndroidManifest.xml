@@ -12,7 +12,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
+    <uses-permission android:name="android.permission.QUERY_ADVANCED_PROTECTION_MODE" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
 
 
@@ -44,6 +47,8 @@
         <activity
             android:name=".cpu.CPUInfoKt"/>
         <activity
+            android:name=".gpu.GPUInfoKt"/>
+        <activity
             android:name=".export.ui.ExportActivity"/>
         <activity
             android:name=".cellular.CellularInfoKt">
@@ -60,6 +65,12 @@
         </activity>
         <activity
             android:name=".sensor.SensorInfoKt" />
+        <activity
+            android:name=".thermal.ThermalInfoActivity" />
+        <activity
+            android:name=".audio.AudioInfoActivity" />
+        <activity
+            android:name=".bluetooth.BluetoothInfoActivity" />
         <activity
             android:name=".AboutActivity"/>
         <activity
