@@ -17,7 +17,7 @@ android {
         applicationId = "com.pacmac.devicediag"
         minSdk = 24
         targetSdk = 37
-        versionCode = 78
+        versionCode = 79
         versionName = "4.0.0"
         multiDexEnabled = true
 
