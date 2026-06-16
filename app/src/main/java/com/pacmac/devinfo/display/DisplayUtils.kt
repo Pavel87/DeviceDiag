@@ -3,9 +3,14 @@ package com.pacmac.devinfo.display
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Point
+import android.hardware.Sensor
+import android.hardware.SensorManager
+import android.os.Build
 import android.util.DisplayMetrics
 import android.view.Display
+import com.pacmac.devinfo.ListType
 import com.pacmac.devinfo.R
+import com.pacmac.devinfo.ThreeState
 import com.pacmac.devinfo.UIObject
 import java.util.Locale
 
@@ -94,5 +99,154 @@ object DisplayUtils {
         2 -> "180"
         3 -> "270"
         else -> context.getString(R.string.not_available_info)
+    }
+
+    internal fun getHdrCapabilities(context: Context, display: Display): List<UIObject> {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            return listOf(
+                UIObject(
+                    context.getString(R.string.display_hdr_capabilities),
+                    context.getString(R.string.not_available_info)
+                )
+            )
+        }
+
+        val hdrCaps = display.hdrCapabilities
+        if (hdrCaps == null || hdrCaps.supportedHdrTypes.isEmpty()) {
+            return listOf(
+                UIObject(
+                    context.getString(R.string.display_hdr_capabilities),
+                    context.getString(R.string.display_no_hdr)
+                )
+            )
+        }
+
+        val list = mutableListOf<UIObject>()
+        val typeNames = hdrCaps.supportedHdrTypes.map { type ->
+            when (type) {
+                Display.HdrCapabilities.HDR_TYPE_HDR10 -> "HDR10"
+                Display.HdrCapabilities.HDR_TYPE_HLG -> "HLG"
+                Display.HdrCapabilities.HDR_TYPE_DOLBY_VISION -> "Dolby Vision"
+                else -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && type == Display.HdrCapabilities.HDR_TYPE_HDR10_PLUS) {
+                        "HDR10+"
+                    } else {
+                        "Unknown ($type)"
+                    }
+                }
+            }
+        }
+        list.add(UIObject(context.getString(R.string.display_hdr_types), typeNames.joinToString(", ")))
+        list.add(
+            UIObject(
+                context.getString(R.string.display_max_luminance),
+                String.format(Locale.ENGLISH, "%.1f", hdrCaps.desiredMaxLuminance),
+                "nits"
+            )
+        )
+        list.add(
+            UIObject(
+                context.getString(R.string.display_min_luminance),
+                String.format(Locale.ENGLISH, "%.4f", hdrCaps.desiredMinLuminance),
+                "nits"
+            )
+        )
+        list.add(
+            UIObject(
+                context.getString(R.string.display_max_avg_luminance),
+                String.format(Locale.ENGLISH, "%.1f", hdrCaps.desiredMaxAverageLuminance),
+                "nits"
+            )
+        )
+        return list
+    }
+
+    internal fun getWideColorGamut(context: Context, display: Display): UIObject {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return UIObject(
+                context.getString(R.string.display_wide_color_gamut),
+                context.getString(R.string.not_available_info)
+            )
+        }
+        val state = if (display.isWideColorGamut) ThreeState.YES else ThreeState.NO
+        return UIObject(context.getString(R.string.display_wide_color_gamut), state, ListType.ICON)
+    }
+
+    @Suppress("DEPRECATION")
+    internal fun getPeakRefreshRate(context: Context, display: Display): List<UIObject> {
+        val modes = display.supportedModes
+        if (modes.isNullOrEmpty()) {
+            return listOf(
+                UIObject(
+                    context.getString(R.string.display_peak_refresh_rate),
+                    context.getString(R.string.not_available_info)
+                )
+            )
+        }
+        val peakRate = modes.maxOf { it.refreshRate }
+        val modeStrings = modes.map { mode ->
+            String.format(Locale.ENGLISH, "%dx%d@%.0ffps", mode.physicalWidth, mode.physicalHeight, mode.refreshRate)
+        }
+        return listOf(
+            UIObject(
+                context.getString(R.string.display_peak_refresh_rate),
+                String.format(Locale.ENGLISH, "%.1f", peakRate),
+                "fps"
+            ),
+            UIObject(
+                context.getString(R.string.display_supported_modes),
+                modeStrings.joinToString(", ")
+            )
+        )
+    }
+
+    internal fun getArrSupport(context: Context, display: Display): UIObject {
+        if (Build.VERSION.SDK_INT >= 36) {
+            return try {
+                val hasArr = display.hasArrSupport()
+                UIObject(
+                    context.getString(R.string.display_arr_support),
+                    if (hasArr) ThreeState.YES else ThreeState.NO,
+                    ListType.ICON
+                )
+            } catch (e: Exception) {
+                UIObject(context.getString(R.string.display_arr_support), "N/A")
+            }
+        }
+        return UIObject(context.getString(R.string.display_arr_support), "N/A")
+    }
+
+    internal fun getSupportedRefreshRates(context: Context, display: Display): UIObject {
+        if (Build.VERSION.SDK_INT >= 36) {
+            return try {
+                val rates = display.supportedRefreshRates
+                if (rates != null && rates.isNotEmpty()) {
+                    val ratesStr = rates.joinToString(", ") {
+                        String.format(Locale.ENGLISH, "%.0f", it)
+                    }
+                    UIObject(context.getString(R.string.display_supported_refresh_rates), ratesStr, "Hz")
+                } else {
+                    UIObject(context.getString(R.string.display_supported_refresh_rates), "N/A")
+                }
+            } catch (e: Exception) {
+                UIObject(context.getString(R.string.display_supported_refresh_rates), "N/A")
+            }
+        }
+        return UIObject(context.getString(R.string.display_supported_refresh_rates), "N/A")
+    }
+
+    internal fun getHingeAngle(context: Context, sensorManager: SensorManager): UIObject {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            return UIObject(
+                context.getString(R.string.display_hinge_angle),
+                context.getString(R.string.not_available_info)
+            )
+        }
+        val hingeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_HINGE_ANGLE)
+        return if (hingeSensor != null) {
+            UIObject(context.getString(R.string.display_hinge_angle), "Supported")
+        } else {
+            UIObject(context.getString(R.string.display_hinge_angle), context.getString(R.string.not_available_info))
+        }
     }
 }

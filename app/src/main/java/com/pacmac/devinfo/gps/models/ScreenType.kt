@@ -13,5 +13,6 @@ enum class ScreenType {
     MAIN_INFO,
     DASHBOARD,
     EXPORT,
-    PROMO
+    PROMO,
+    SATELLITE
 }

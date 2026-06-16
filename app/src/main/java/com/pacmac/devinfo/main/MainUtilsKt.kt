@@ -67,6 +67,44 @@ object MainUtilsKt {
         return "${Build.VERSION.RELEASE}  API:${Build.VERSION.SDK_INT}"
     }
 
+    fun getMinorSdkVersion(): String? {
+        if (Build.VERSION.SDK_INT >= 36) {
+            return try {
+                val field = Build.VERSION::class.java.getField("MINOR_SDK_INT")
+                field.getInt(null).toString()
+            } catch (e: Exception) {
+                null
+            }
+        }
+        return null
+    }
+
+    fun getFullSdkInt(): String? {
+        if (Build.VERSION.SDK_INT >= 36) {
+            return try {
+                Build.VERSION.SDK_INT_FULL.toString()
+            } catch (e: Exception) {
+                null
+            }
+        }
+        return null
+    }
+
+    @SuppressLint("MissingPermission")
+    fun getAdvancedProtectionEnabled(context: Context): Boolean? {
+        if (Build.VERSION.SDK_INT >= 37) {
+            return try {
+                val apm = context.getSystemService(
+                    android.security.advancedprotection.AdvancedProtectionManager::class.java
+                )
+                apm?.isAdvancedProtectionEnabled
+            } catch (e: Exception) {
+                null
+            }
+        }
+        return null
+    }
+
     fun getDeviceLanguageSetting(): String {
         return Locale.getDefault().displayLanguage
     }

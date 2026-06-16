@@ -4,6 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import com.pacmac.devinfo.BuildConfig
 import com.pacmac.devinfo.UpToDateEnum
 import com.pacmac.devinfo.main.model.PermissionState
@@ -67,6 +68,7 @@ class AppRepositoryImpl @Inject constructor(
             Utils.PHONE_PERMISSION -> PreferencesKeys.PHONE_PERMISSION_KEY
             Utils.PHONE_NUMBER_PERMISSION -> PreferencesKeys.PHONE_NUMBER_PERMISSION_KEY
             Utils.CAMERA_PERMISSION -> PreferencesKeys.CAMERA_PERMISSION_KEY
+            Utils.BLUETOOTH_PERMISSION -> PreferencesKeys.BLUETOOTH_PERMISSION_KEY
             else -> {
                 throw Exception("Missing pref key for permission: $permission")
             }
@@ -79,7 +81,9 @@ class AppRepositoryImpl @Inject constructor(
         val PHONE_PERMISSION_KEY = intPreferencesKey(Utils.PHONE_PERMISSION)
         val PHONE_NUMBER_PERMISSION_KEY = intPreferencesKey(Utils.PHONE_NUMBER_PERMISSION)
         val CAMERA_PERMISSION_KEY = intPreferencesKey(Utils.CAMERA_PERMISSION)
+        val BLUETOOTH_PERMISSION_KEY = intPreferencesKey(Utils.BLUETOOTH_PERMISSION)
         val EXPORT_SLOT_AVAILABLE = intPreferencesKey("EXPORT_SLOT_AVAILABLE")
+        val BANNER_FREE_UNTIL = longPreferencesKey("BANNER_FREE_UNTIL")
     }
 
 
@@ -128,6 +132,17 @@ class AppRepositoryImpl @Inject constructor(
     override suspend fun updateExportSlot(slotOpened: Int) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.EXPORT_SLOT_AVAILABLE] = slotOpened
+        }
+    }
+
+    override fun getBannerFreeUntil(): Flow<Long> = dataStore.data
+        .map { preferences ->
+            preferences[PreferencesKeys.BANNER_FREE_UNTIL] ?: 0L
+        }
+
+    override suspend fun setBannerFreeUntil(timestamp: Long) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.BANNER_FREE_UNTIL] = timestamp
         }
     }
 }

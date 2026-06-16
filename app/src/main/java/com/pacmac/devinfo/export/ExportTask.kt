@@ -4,7 +4,9 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.pacmac.devinfo.UIObject
+import com.pacmac.devinfo.audio.AudioViewModelKt
 import com.pacmac.devinfo.battery.BatteryViewModelKt
+import com.pacmac.devinfo.bluetooth.BluetoothViewModelKt
 import com.pacmac.devinfo.camera.CameraUtilsKt
 import com.pacmac.devinfo.camera.CameraViewModelKt
 import com.pacmac.devinfo.cellular.CellularViewModelKt
@@ -13,11 +15,13 @@ import com.pacmac.devinfo.config.BuildPropViewModelKt
 import com.pacmac.devinfo.cpu.CPUViewModelKt
 import com.pacmac.devinfo.display.DisplayViewModelKt
 import com.pacmac.devinfo.gps.GPSViewModelKt
+import com.pacmac.devinfo.gpu.GPUViewModelKt
 import com.pacmac.devinfo.gps.Utils as GpsUtils
 import com.pacmac.devinfo.main.MainViewModelKt
 import com.pacmac.devinfo.main.model.MainInfoModel
 import com.pacmac.devinfo.sensor.SensorViewModelKt
 import com.pacmac.devinfo.storage.StorageViewModelKt
+import com.pacmac.devinfo.thermal.ThermalViewModelKt
 import com.pacmac.devinfo.utils.Utils as AppUtils
 import com.pacmac.devinfo.wifi.NetworkViewModelKt
 import kotlinx.coroutines.Dispatchers
@@ -78,6 +82,8 @@ class ExportTask(
             ExportUtils.writeRecordsToFile(context, viewModel.getBatteryInfoForExport(context), fileName, 0)
         is DisplayViewModelKt ->
             ExportUtils.writeRecordsToFile(context, viewModel.getDisplayInfoForExport(context), fileName, 0)
+        is GPUViewModelKt ->
+            ExportUtils.writeRecordsToFile(context, viewModel.getGpuInfoForExport(context), fileName, 0)
         is NetworkViewModelKt ->
             ExportUtils.writeRecordsToFile(context, viewModel.getWifiInfoForExport(), fileName, 0)
         is BuildPropViewModelKt -> {
@@ -92,6 +98,12 @@ class ExportTask(
             }
             ExportUtils.writeRecordsToFile(context, exportList, fileName, 0)
         }
+        is BluetoothViewModelKt ->
+            ExportUtils.writeRecordsToFile(context, viewModel.getBluetoothInfoForExport(context), fileName, 0)
+        is AudioViewModelKt ->
+            ExportUtils.writeRecordsToFile(context, viewModel.getAudioInfoForExport(context), fileName, 0)
+        is ThermalViewModelKt ->
+            ExportUtils.writeRecordsToFile(context, viewModel.getThermalInfoForExport(context), fileName, 0)
         is SensorViewModelKt ->
             ExportUtils.writeRecordsToFile(context, viewModel.getSensorListForExport(context), fileName, 0)
         is GPSViewModelKt -> {

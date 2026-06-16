@@ -19,6 +19,7 @@ object Utils {
     const val PHONE_NUMBER_PERMISSION = "android.permission.READ_PHONE_NUMBERS"
     const val STORAGE_PERMISSION = Manifest.permission.WRITE_EXTERNAL_STORAGE
     const val CAMERA_PERMISSION = Manifest.permission.CAMERA
+    const val BLUETOOTH_PERMISSION = "android.permission.BLUETOOTH_CONNECT"
 
     /**
      * This method will check if permission is granted at runtime

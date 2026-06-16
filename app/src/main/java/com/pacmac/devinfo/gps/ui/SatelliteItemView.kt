@@ -70,6 +70,12 @@ fun SatelliteItemView(satellite: Satellite, modfier: Modifier = Modifier) {
                         )
                     }
                 }
+                satellite.carrierFrequencyHz?.let { freq ->
+                    SatValue(
+                        stringResource(id = R.string.gnss_satellite_carrier_freq),
+                        String.format(java.util.Locale.ENGLISH, "%.1f MHz", freq / 1_000_000f)
+                    )
+                }
             }
         }
 

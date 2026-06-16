@@ -2,7 +2,6 @@ package com.pacmac.devinfo.camera
 
 import android.content.Context
 import android.content.pm.PackageManager
-import android.hardware.Camera
 import android.os.Build
 import com.pacmac.devinfo.ListType
 import com.pacmac.devinfo.R
@@ -11,7 +10,6 @@ import com.pacmac.devinfo.ThreeState
 import com.pacmac.devinfo.UIObject
 import com.pacmac.devinfo.camera.model.CameraGeneral
 import com.pacmac.devinfo.camera.model.CameraSpec
-import com.pacmac.devinfo.camera.model.Resolution
 import java.util.Locale
 
 object CameraUtilsKt {
@@ -24,7 +22,6 @@ object CameraUtilsKt {
         isForExport: Boolean = false
     ): List<UIObject> {
         val list: ArrayList<UIObject> = arrayListOf()
-
 
         if (isForExport) {
             list.add(
@@ -100,7 +97,6 @@ object CameraUtilsKt {
                 context.getString(R.string.camera_full_hw_capability_level),
                 cameraGeneral.hasFullHWCapabilityLevel,
                 ListType.ICON
-
             )
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -118,7 +114,6 @@ object CameraUtilsKt {
     fun checkCameraFeature(packageManager: PackageManager, feature: String): Boolean {
         return packageManager.hasSystemFeature(feature)
     }
-
 
     fun getCameraSpecParams(
         context: Context,
@@ -148,118 +143,131 @@ object CameraUtilsKt {
             )
         }
 
-        val position = if (spec.camPosition == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-            context.getString(R.string.camera_front_facing)
-        } else context.getString(R.string.camera_rear_facing)
-        uList.add(UIObject(context.getString(R.string.camera_position), position))
+        // Facing
+        uList.add(UIObject(context.getString(R.string.camera_facing), spec.facing))
+
+        // Hardware Level
+        uList.add(UIObject(context.getString(R.string.camera_hw_level), spec.hardwareLevel))
+
+        // Sensor Size
         uList.add(
             UIObject(
-                context.getString(R.string.camera_vertical_view_angle),
-                String.format(Locale.ENGLISH, "%.02f", spec.vertAngle),
-                "°"
-            )
-        )
-        uList.add(
-            UIObject(
-                context.getString(R.string.camera_horizontal_view_angle), String.format(
-                    Locale.ENGLISH, "%.02f", spec.horizontalAngle
-                ), "°"
-            )
-        )
-        uList.add(
-            UIObject(
-                context.getString(R.string.camera_focal_length),
-                String.format(Locale.ENGLISH, "%.02f", spec.focalLen),
+                context.getString(R.string.camera_sensor_size),
+                spec.sensorSizeMm,
                 "mm"
             )
         )
-        val sMinMaxEv = if (spec.minExposure != 0 || spec.maxExposure != 0) {
-            spec.sMinMaxEv
-        } else {
-            context.resources.getString(R.string.not_available_info)
-        }
-        uList.add(
-            UIObject(
-                context.getString(R.string.camera_ev_min_max),
-                String.format(Locale.ENGLISH, "%s", sMinMaxEv)
-            )
-        )
-        if (spec.isZoomSupported) {
-            uList.add(UIObject(context.getString(R.string.camera_max_zoom), spec.maxZoomRatio, "x"))
-        } else {
-            uList.add(
-                UIObject(
-                    context.getString(R.string.camera_max_zoom),
-                    context.resources.getString(R.string.no_string)
-                )
-            )
-        }
 
+        // Megapixels
         uList.add(
             UIObject(
-                context.getString(R.string.camera_smooth_zoom),
-                if (spec.sSmoothZoom == ThreeState.YES) context.resources.getString(R.string.yes_string) else context.resources.getString(
-                    R.string.no_string
-                )
-            )
-        )
-        uList.add(
-            UIObject(
-                context.getString(R.string.camera_orientation),
-                spec.camOrientation.toString(),
-                "°"
-            )
-        )
-        uList.add(
-            UIObject(
-                context.getString(R.string.camera_face_detection),
-                if (spec.faces != 0) spec.faces.toString() else context.resources.getString(R.string.not_supported),
-                "max"
-            )
-        )
-        uList.add(
-            UIObject(
-                context.getString(R.string.camera_focus_area),
-                spec.maxFocusAreas.toString(),
-                "max"
-            )
-        )
-        uList.add(
-            UIObject(
-                context.getString(R.string.camera_video_snapshot),
-                spec.isVideoSnapshotSupported,
-                ListType.ICON
-            )
-        )
-        uList.add(
-            UIObject(
-                context.getString(R.string.camera_video_stabilization),
-                spec.isVideoStabilizationSupported,
-                ListType.ICON
-            )
-        )
-        uList.add(
-            UIObject(
-                context.getString(R.string.camera_auto_exposure),
-                spec.isAutoExposureLockSupported,
-                ListType.ICON
-            )
-        )
-        uList.add(
-            UIObject(
-                context.getString(R.string.camera_auto_white_balance),
-                spec.isAutoWhiteBalanceLockSupported,
-                ListType.ICON
-            )
-        )
-        uList.add(
-            UIObject(
-                context.getString(R.string.camera_jpeg_quality),
-                spec.jpegQuality.toString(),
-                "%"
+                context.getString(R.string.camera_megapixels),
+                spec.megapixels,
+                "MP"
             )
         )
 
+        // Sensor Pixel Array
+        uList.add(
+            UIObject(
+                context.getString(R.string.camera_sensor_pixel_array),
+                spec.pixelArraySize
+            )
+        )
+
+        // Apertures
+        uList.add(UIObject(context.getString(R.string.camera_apertures), spec.apertures))
+
+        // Focal Lengths
+        uList.add(UIObject(context.getString(R.string.camera_focal_lengths), spec.focalLengths))
+
+        // OIS
+        uList.add(
+            UIObject(
+                context.getString(R.string.camera_ois),
+                spec.opticalStabilization,
+                ListType.ICON
+            )
+        )
+
+        // EIS
+        uList.add(
+            UIObject(
+                context.getString(R.string.camera_eis),
+                spec.electronicStabilization,
+                ListType.ICON
+            )
+        )
+
+        // RAW support
+        uList.add(
+            UIObject(
+                context.getString(R.string.camera_raw_support),
+                spec.rawSupport,
+                ListType.ICON
+            )
+        )
+
+        // Flash
+        uList.add(
+            UIObject(
+                context.getString(R.string.camera_flash_supported),
+                spec.flashSupported,
+                ListType.ICON
+            )
+        )
+
+        // AF Modes
+        uList.add(UIObject(context.getString(R.string.camera_af_modes), spec.afModes))
+
+        // AE Compensation Range
+        uList.add(UIObject(context.getString(R.string.camera_ae_range), spec.aeCompensationRange))
+
+        // AE Compensation Step
+        uList.add(UIObject(context.getString(R.string.camera_ae_step), spec.aeCompensationStep))
+
+        // Max Digital Zoom
+        uList.add(
+            UIObject(
+                context.getString(R.string.camera_max_digital_zoom),
+                spec.maxDigitalZoom,
+                "x"
+            )
+        )
+
+        // Physical Camera IDs (logical multi-camera)
+        uList.add(
+            UIObject(context.getString(R.string.camera_physical_cameras), spec.physicalCameraIds)
+        )
+
+        // Output Formats
+        uList.add(
+            UIObject(context.getString(R.string.camera_output_formats), spec.outputFormats)
+        )
+
+        // API 36+ Camera features
+        spec.aePriorityMode?.let {
+            uList.add(UIObject(context.getString(R.string.camera_ae_priority_mode), it))
+        }
+        spec.colorTempControl?.let {
+            uList.add(UIObject(context.getString(R.string.camera_color_temp_control), it, ListType.ICON))
+        }
+        spec.nightModeIndicator?.let {
+            uList.add(UIObject(context.getString(R.string.camera_night_mode_indicator), it, ListType.ICON))
+        }
+        spec.heicUltraHdr?.let {
+            uList.add(UIObject(context.getString(R.string.camera_heic_ultrahdr), it, ListType.ICON))
+        }
+
+        // API 37+ Camera features
+        spec.raw14Support?.let {
+            uList.add(UIObject(context.getString(R.string.camera_raw14), it, ListType.ICON))
+        }
+        spec.deviceType?.let {
+            uList.add(UIObject(context.getString(R.string.camera_device_type), it))
+        }
+
+        // Resolutions
         if (isForExport.not()) {
             uList.add(
                 ResolutionUIObject(
@@ -273,9 +281,7 @@ object CameraUtilsKt {
                     spec.videoResolutions
                 )
             )
-
         } else {
-
             if (spec.picResolutions.isNotEmpty()) {
                 uList.add(
                     UIObject(
@@ -292,12 +298,7 @@ object CameraUtilsKt {
                     )
                 )
                 spec.picResolutions.forEach {
-                    uList.add(
-                        UIObject(
-                            it.width.toString(),
-                            it.height.toString()
-                        )
-                    )
+                    uList.add(UIObject(it.width.toString(), it.height.toString()))
                 }
             }
             if (spec.videoResolutions.isNotEmpty()) {
@@ -316,45 +317,10 @@ object CameraUtilsKt {
                     )
                 )
                 spec.videoResolutions.forEach {
-                    uList.add(
-                        UIObject(
-                            it.width.toString(),
-                            it.height.toString()
-                        )
-                    )
+                    uList.add(UIObject(it.width.toString(), it.height.toString()))
                 }
             }
         }
         return uList
-    }
-
-
-    fun getMaxZoomRatio(parameters: Camera.Parameters): String {
-        val zoomRatList = parameters.zoomRatios
-        val zoom = zoomRatList[zoomRatList.size - 1]
-        return String.format(Locale.ENGLISH, "%.1f", zoom / 100.0)
-    }
-
-
-    fun getPictureResolutions(parameters: Camera.Parameters): List<Resolution> {
-        val picResList: ArrayList<Resolution> = arrayListOf()
-        val picSizeList = parameters.supportedPictureSizes
-        if (picSizeList != null) {
-            for (size in picSizeList) {
-                picResList.add(Resolution(size.width, size.height))
-            }
-        }
-        return picResList
-    }
-
-    fun getVideoResolutions(parameters: Camera.Parameters): List<Resolution> {
-        val videoResList: ArrayList<Resolution> = arrayListOf()
-        val vidSizeList = parameters.supportedVideoSizes
-        if (vidSizeList != null) {
-            for (size in vidSizeList) {
-                videoResList.add(Resolution(size.width, size.height))
-            }
-        }
-        return videoResList
     }
 }

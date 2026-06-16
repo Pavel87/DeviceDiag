@@ -11,6 +11,12 @@ data class LocationUpdate(
     val speed: Float,
     val accuracy: Float,
     val bearing: Float,
+    val verticalAccuracy: Float? = null,
+    val speedAccuracy: Float? = null,
+    val bearingAccuracy: Float? = null,
+    val mslAltitude: Double? = null,
+    val mslAltitudeAccuracy: Float? = null,
+    val isMock: Boolean? = null,
 ) {
     fun getUpdateTime(): String {
         val cal = Calendar.getInstance()

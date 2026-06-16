@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.NetworkInfo
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
+import android.nfc.NfcManager
 import android.os.Build
 import com.pacmac.devinfo.ListType
 import com.pacmac.devinfo.R
@@ -96,9 +98,57 @@ object NetworkUtils {
                             "kbps"
                         )
                     )
+
+                    // Satellite Transport (API 36+)
+                    if (Build.VERSION.SDK_INT >= 36) {
+                        try {
+                            val hasSatellite = networkCapabilities.hasTransport(
+                                NetworkCapabilities.TRANSPORT_SATELLITE
+                            )
+                            list.add(
+                                UIObject(
+                                    context.getString(R.string.network_satellite_transport),
+                                    if (hasSatellite) ThreeState.YES else ThreeState.NO,
+                                    ListType.ICON
+                                )
+                            )
+                        } catch (e: Exception) {
+                            list.add(
+                                UIObject(
+                                    context.getString(R.string.network_satellite_transport),
+                                    "N/A"
+                                )
+                            )
+                        }
+                    }
                 }
             }
         }
+
+        // NFC state
+        val nfcManager = context.getSystemService(Context.NFC_SERVICE) as? NfcManager
+        val nfcAdapter = nfcManager?.defaultAdapter
+        list.add(
+            UIObject(
+                context.getString(R.string.network_nfc_state),
+                when {
+                    nfcAdapter == null -> context.getString(R.string.nfc_not_available)
+                    nfcAdapter.isEnabled -> context.getString(R.string.nfc_enabled)
+                    else -> context.getString(R.string.nfc_disabled)
+                }
+            )
+        )
+
+        // UWB support
+        list.add(
+            UIObject(
+                context.getString(R.string.network_uwb_support),
+                if (context.packageManager.hasSystemFeature("android.hardware.uwb"))
+                    ThreeState.YES else ThreeState.NO,
+                ListType.ICON
+            )
+        )
+
         return list
     }
 
@@ -230,6 +280,29 @@ object NetworkUtils {
                             ListType.ICON
                         )
                     )
+                }
+
+                // 802.11az Secure Ranging (API 36+)
+                if (Build.VERSION.SDK_INT >= 36) {
+                    try {
+                        val hasRtt = context.packageManager.hasSystemFeature(
+                            PackageManager.FEATURE_WIFI_RTT
+                        )
+                        list.add(
+                            UIObject(
+                                context.getString(R.string.network_wifi_rtt_az),
+                                if (hasRtt) ThreeState.YES else ThreeState.NO,
+                                ListType.ICON
+                            )
+                        )
+                    } catch (e: Exception) {
+                        list.add(
+                            UIObject(
+                                context.getString(R.string.network_wifi_rtt_az),
+                                "N/A"
+                            )
+                        )
+                    }
                 }
             }
         }
@@ -573,6 +646,7 @@ object NetworkUtils {
             ScanResult.WIFI_STANDARD_11N -> context.getString(R.string.wifi_standard_n)
             ScanResult.WIFI_STANDARD_11AC -> context.getString(R.string.wifi_standard_ac)
             ScanResult.WIFI_STANDARD_11AX -> context.getString(R.string.wifi_standard_ax)
+            ScanResult.WIFI_STANDARD_11BE -> context.getString(R.string.wifi_standard_be)
             else -> context.resources.getString(R.string.unknown)
         }
     }

@@ -16,7 +16,10 @@ data class MainInfoModel(
     val bootloader: String,
     val language: String,
     val locale: String,
-    val phoneNumbers: ArrayList<String>
+    val phoneNumbers: ArrayList<String>,
+    val minorSdkVersion: String? = null,
+    val fullSdkInt: String? = null,
+    val advancedProtection: Boolean? = null,
 ) {
 
     companion object {
@@ -45,6 +48,16 @@ data class MainInfoModel(
             list.add(UIObject(context.getString(R.string.device_bootloader), data.bootloader))
             list.add(UIObject(context.getString(R.string.device_lang), data.language))
             list.add(UIObject(context.getString(R.string.device_locale), data.locale))
+
+            data.minorSdkVersion?.let {
+                list.add(UIObject(context.getString(R.string.device_minor_sdk), it))
+            }
+            data.fullSdkInt?.let {
+                list.add(UIObject(context.getString(R.string.device_sdk_full), it))
+            }
+            data.advancedProtection?.let {
+                list.add(UIObject(context.getString(R.string.device_advanced_protection), if (it) "Enabled" else "Disabled"))
+            }
 
             list.addAll(addPhoneNumbers(context, data.phoneNumbers))
 

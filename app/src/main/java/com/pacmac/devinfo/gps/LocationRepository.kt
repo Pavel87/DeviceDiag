@@ -3,6 +3,7 @@ package com.pacmac.devinfo.gps
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Geocoder
+import android.location.GnssCapabilities
 import android.location.GnssStatus
 import android.location.GpsSatellite
 import android.location.GpsStatus
@@ -37,6 +38,30 @@ class LocationRepository @Inject constructor(
 
     private fun createLocationListener(producer: ProducerScope<LocationUpdate>): LocationListener {
         return LocationListener { location ->
+            val verticalAccuracy = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && location.hasVerticalAccuracy()) {
+                location.verticalAccuracyMeters
+            } else null
+
+            val speedAccuracy = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && location.hasSpeedAccuracy()) {
+                location.speedAccuracyMetersPerSecond
+            } else null
+
+            val bearingAccuracy = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && location.hasBearingAccuracy()) {
+                location.bearingAccuracyDegrees
+            } else null
+
+            val mslAltitude = if (Build.VERSION.SDK_INT >= 34 && location.hasMslAltitude()) {
+                location.mslAltitudeMeters
+            } else null
+
+            val mslAltitudeAccuracy = if (Build.VERSION.SDK_INT >= 34 && location.hasMslAltitudeAccuracy()) {
+                location.mslAltitudeAccuracyMeters
+            } else null
+
+            val isMock = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                location.isMock
+            } else null
+
             val update = LocationUpdate(
                 updateTime = location.time,
                 latitude = location.latitude,
@@ -45,6 +70,12 @@ class LocationRepository @Inject constructor(
                 speed = location.speed,
                 accuracy = location.accuracy,
                 bearing = location.bearing,
+                verticalAccuracy = verticalAccuracy,
+                speedAccuracy = speedAccuracy,
+                bearingAccuracy = bearingAccuracy,
+                mslAltitude = mslAltitude,
+                mslAltitudeAccuracy = mslAltitudeAccuracy,
+                isMock = isMock,
             )
 
             producer.trySend(update)
@@ -80,6 +111,9 @@ class LocationRepository @Inject constructor(
                             status.getElevationDegrees(i)
                         )
                         satellite.constellationType = status.getConstellationType(i)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && status.hasCarrierFrequencyHz(i)) {
+                            satellite.carrierFrequencyHz = status.getCarrierFrequencyHz(i)
+                        }
                         satelliteList.add(satellite)
                     }
                 }
@@ -153,6 +187,50 @@ class LocationRepository @Inject constructor(
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             locationManager.gnssYearOfHardware
         } else -1
+    }
+
+    fun getGnssHardwareModelName(): String? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            try { locationManager.gnssHardwareModelName } catch (e: Exception) { null }
+        } else null
+    }
+
+    fun getGnssCapabilities(): GnssCapabilities? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            try { locationManager.gnssCapabilities } catch (e: Exception) { null }
+        } else null
+    }
+
+    fun getGnssAntennaCarrierFrequencies(): List<Double> {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return emptyList()
+        return try {
+            locationManager.gnssAntennaInfos?.map { it.carrierFrequencyMHz } ?: emptyList()
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
+    fun getGnssSignalTypesDescription(): List<String> {
+        if (Build.VERSION.SDK_INT < 34) return emptyList()
+        return try {
+            val caps = locationManager.gnssCapabilities
+            caps.gnssSignalTypes.map { signalType ->
+                "${getConstellationName(signalType.constellationType)} ${signalType.codeType} @ ${"%.1f".format(signalType.carrierFrequencyHz / 1_000_000.0)} MHz"
+            }
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
+    private fun getConstellationName(type: Int): String = when (type) {
+        GnssStatus.CONSTELLATION_GPS -> "GPS"
+        GnssStatus.CONSTELLATION_SBAS -> "SBAS"
+        GnssStatus.CONSTELLATION_GLONASS -> "GLONASS"
+        GnssStatus.CONSTELLATION_QZSS -> "QZSS"
+        GnssStatus.CONSTELLATION_BEIDOU -> "BEIDOU"
+        GnssStatus.CONSTELLATION_GALILEO -> "GALILEO"
+        GnssStatus.CONSTELLATION_IRNSS -> "IRNSS"
+        else -> "Unknown"
     }
 
     fun isGPSEnabled(): Boolean {

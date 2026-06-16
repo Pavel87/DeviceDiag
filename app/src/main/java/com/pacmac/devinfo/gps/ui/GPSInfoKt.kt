@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -27,6 +29,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.pacmac.devinfo.R
+import com.pacmac.devinfo.ads.InterstitialAdManager
 import com.pacmac.devinfo.export.ExportUtils
 import com.pacmac.devinfo.export.ui.ExportActivity
 import com.pacmac.devinfo.gps.GPSInfoListDestination
@@ -38,6 +41,7 @@ import com.pacmac.devinfo.gps.SatellitesDestination
 import com.pacmac.devinfo.gps.SatellitesScreen
 import com.pacmac.devinfo.gps.TabRow
 import com.pacmac.devinfo.gps.gpsTabs
+import com.pacmac.devinfo.ui.components.AdvertView
 import com.pacmac.devinfo.ui.components.BarTitle
 import com.pacmac.devinfo.ui.components.BarTitle2Line
 import com.pacmac.devinfo.ui.components.TopBar
@@ -45,9 +49,13 @@ import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class GPSInfoKt : ComponentActivity() {
+
+    @Inject
+    lateinit var interstitialAdManager: InterstitialAdManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,8 +71,9 @@ class GPSInfoKt : ComponentActivity() {
             val currentScreen =
                 gpsTabs().find { it.route == currentDestination?.route } ?: GPSInfoListDestination
 
-            val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-            val onBack = { backDispatcher?.onBackPressed() }
+            val onBack = {
+                interstitialAdManager.maybeShowInterstitial(this@GPSInfoKt) { finish() }
+            }
 
             DisposableEffect(key1 = Unit) {
                 this.onDispose {
@@ -117,20 +126,26 @@ class GPSInfoKt : ComponentActivity() {
                         }
                     }) {
                     val modifier = Modifier.padding(it)
-                    NavHost(
-                        navController = navController,
-                        startDestination = GPSInfoListDestination.route,
-                        modifier = modifier
+                    Column(
+                        verticalArrangement = Arrangement.SpaceBetween,
+                        modifier = modifier.fillMaxSize(),
                     ) {
-                        composable(route = GPSInfoListDestination.route) {
-                            GPSScreen(viewModel = viewModel)
+                        NavHost(
+                            navController = navController,
+                            startDestination = GPSInfoListDestination.route,
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            composable(route = GPSInfoListDestination.route) {
+                                GPSScreen(viewModel = viewModel)
+                            }
+                            composable(route = SatellitesDestination.route) {
+                                SatellitesScreen(viewModel = viewModel)
+                            }
+                            composable(route = NMEALogDestination.route) {
+                                NMEALogScreen(viewModel = viewModel)
+                            }
                         }
-                        composable(route = SatellitesDestination.route) {
-                            SatellitesScreen(viewModel = viewModel)
-                        }
-                        composable(route = NMEALogDestination.route) {
-                            NMEALogScreen(viewModel = viewModel)
-                        }
+                        AdvertView(Modifier.fillMaxWidth(), R.string.banner_id_11)
                     }
                 }
             }

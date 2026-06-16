@@ -1,6 +1,7 @@
 package com.pacmac.devinfo.gps
 
 import android.content.Context
+import android.location.GnssCapabilities
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -45,7 +46,8 @@ class GPSViewModelKt @Inject constructor(private val locationRepository: Locatio
         Double.MAX_VALUE,
         Float.MAX_VALUE,
         Float.MAX_VALUE,
-        Float.MAX_VALUE
+        Float.MAX_VALUE,
+        gnssHardwareModelName = locationRepository.getGnssHardwareModelName(),
     )
 
     private var isNMEALogRunning = false
@@ -92,6 +94,15 @@ class GPSViewModelKt @Inject constructor(private val locationRepository: Locatio
     private val _address = MutableStateFlow("" to "")
     val address: StateFlow<Pair<String, String>> = _address.asStateFlow()
 
+    private val _gnssCapabilities = MutableStateFlow<GnssCapabilities?>(null)
+    val gnssCapabilities: StateFlow<GnssCapabilities?> = _gnssCapabilities.asStateFlow()
+
+    private val _gnssSignalTypes = MutableStateFlow<List<String>>(emptyList())
+    val gnssSignalTypes: StateFlow<List<String>> = _gnssSignalTypes.asStateFlow()
+
+    private val _gnssAntennaFrequencies = MutableStateFlow<List<Double>>(emptyList())
+    val gnssAntennaFrequencies: StateFlow<List<Double>> = _gnssAntennaFrequencies.asStateFlow()
+
     fun isGPSEnabled(): Boolean = locationRepository.isGPSEnabled()
 
     fun unsubscribeToGPSUpdates() {
@@ -105,6 +116,15 @@ class GPSViewModelKt @Inject constructor(private val locationRepository: Locatio
             areGPSUpdatesActive = true
             observeLocationUpdates()
             observeGPSStatus()
+            loadGnssCapabilities()
+        }
+    }
+
+    private fun loadGnssCapabilities() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _gnssCapabilities.value = locationRepository.getGnssCapabilities()
+            _gnssSignalTypes.value = locationRepository.getGnssSignalTypesDescription()
+            _gnssAntennaFrequencies.value = locationRepository.getGnssAntennaCarrierFrequencies()
         }
     }
 
@@ -151,7 +171,14 @@ class GPSViewModelKt @Inject constructor(private val locationRepository: Locatio
                         locationUpdate.altitude,
                         locationUpdate.speed,
                         locationUpdate.accuracy,
-                        locationUpdate.bearing
+                        locationUpdate.bearing,
+                        verticalAccuracy = locationUpdate.verticalAccuracy,
+                        speedAccuracy = locationUpdate.speedAccuracy,
+                        bearingAccuracy = locationUpdate.bearingAccuracy,
+                        mslAltitude = locationUpdate.mslAltitude,
+                        mslAltitudeAccuracy = locationUpdate.mslAltitudeAccuracy,
+                        isMock = locationUpdate.isMock,
+                        gnssHardwareModelName = locationRepository.getGnssHardwareModelName(),
                     )
                     getAddress(locationUpdate.latitude, locationUpdate.longitude)
                 }
@@ -182,17 +209,11 @@ class GPSViewModelKt @Inject constructor(private val locationRepository: Locatio
                         gpsStatus.satelliteCount
                     }
 
-                    _gpsInfo.value = GPSMainInfoModel(
-                        gpsStatus.gpsStatus,
-                        timeToFirstFix,
-                        satCount,
-                        locationRepository.getGnssYearOfHardware(),
-                        _gpsInfo.value.latitude,
-                        _gpsInfo.value.longitude,
-                        _gpsInfo.value.altitude,
-                        _gpsInfo.value.speed,
-                        _gpsInfo.value.accuracy,
-                        _gpsInfo.value.bearing
+                    _gpsInfo.value = _gpsInfo.value.copy(
+                        gpsStatus = gpsStatus.gpsStatus,
+                        firstFix = timeToFirstFix,
+                        visibleSatellites = satCount,
+                        gnssYearOfHardware = locationRepository.getGnssYearOfHardware(),
                     )
                 }
                 .catch { e ->

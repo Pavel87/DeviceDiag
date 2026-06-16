@@ -1,11 +1,12 @@
 package com.pacmac.devinfo.display
 
+import android.content.Context
 import android.content.Intent
+import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
@@ -26,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.pacmac.devinfo.R
+import com.pacmac.devinfo.ads.InterstitialAdManager
 import com.pacmac.devinfo.export.ExportTask
 import com.pacmac.devinfo.export.ExportTask.OnExportTaskFinished
 import com.pacmac.devinfo.export.ExportUtils
@@ -35,6 +37,7 @@ import com.pacmac.devinfo.ui.components.InfoListView
 import com.pacmac.devinfo.ui.components.TopBar
 import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DisplayInfoKt : ComponentActivity(), OnExportTaskFinished {
@@ -42,14 +45,18 @@ class DisplayInfoKt : ComponentActivity(), OnExportTaskFinished {
     private val viewModel: DisplayViewModelKt by viewModels()
     private var isExporting = false
 
+    @Inject
+    lateinit var interstitialAdManager: InterstitialAdManager
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             val displayInfo by viewModel.displayInfo.collectAsState()
-            val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-            val onBack = { backDispatcher?.onBackPressed() }
+            val onBack = {
+                interstitialAdManager.maybeShowInterstitial(this@DisplayInfoKt) { finish() }
+            }
 
             DeviceInfoTheme {
                 Scaffold(topBar = {
@@ -102,8 +109,9 @@ class DisplayInfoKt : ComponentActivity(), OnExportTaskFinished {
 
         val metrics = DisplayMetrics()
         display?.getMetrics(metrics)
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         display?.let {
-            viewModel.observeDisplayInfo(context = this, display = display, metrics = metrics)
+            viewModel.observeDisplayInfo(context = this, display = display, metrics = metrics, sensorManager = sensorManager)
         }
     }
 

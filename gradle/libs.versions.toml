@@ -30,6 +30,7 @@ androidx-annotation = { module = "androidx.annotation:annotation", version.ref =
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-lifecycle-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycleViewmodelKtx" }
+androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidxLifecycleViewmodelKtx" }
 androidx-rules = { module = "androidx.test:rules", version.ref = "rules" }
 androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
@@ -89,6 +90,7 @@ androidx-libs = [
     "datastore-preferences",
     "kotlinx-coroutines-android",
     "androidx-lifecycle-lifecycle-viewmodel-ktx",
+    "androidx-lifecycle-process",
     "androidx-core-ktx",
     "androidx-core-splashscreen",
     "androidx-annotation",

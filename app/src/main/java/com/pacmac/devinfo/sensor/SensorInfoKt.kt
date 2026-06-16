@@ -2,18 +2,22 @@ package com.pacmac.devinfo.sensor
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.pacmac.devinfo.ads.InterstitialAdManager
 import com.pacmac.devinfo.ui.theme.DeviceInfoTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SensorInfoKt : ComponentActivity() {
+
+    @Inject
+    lateinit var interstitialAdManager: InterstitialAdManager
 
     private val LIST_DESTINATION = "LIST_DESTINATION"
     private val DETAIL_DESTINATION = "DETAIL_DESTINATION"
@@ -22,8 +26,9 @@ class SensorInfoKt : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-            val onBack = { backDispatcher?.onBackPressed() }
+            val onBack = {
+                interstitialAdManager.maybeShowInterstitial(this@SensorInfoKt) { finish() }
+            }
 
             DeviceInfoTheme() {
                 val navController = rememberNavController()

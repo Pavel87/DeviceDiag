@@ -10,13 +10,16 @@ import androidx.lifecycle.viewModelScope
 import com.pacmac.devinfo.AboutActivity
 import com.pacmac.devinfo.R
 import com.pacmac.devinfo.UpToDateEnum
+import com.pacmac.devinfo.audio.AudioInfoActivity
 import com.pacmac.devinfo.battery.BatteryInfoKt
+import com.pacmac.devinfo.bluetooth.BluetoothInfoActivity
 import com.pacmac.devinfo.camera.CameraInfoKt
 import com.pacmac.devinfo.cellular.CellularInfoKt
 import com.pacmac.devinfo.cpu.CPUInfoKt
 import com.pacmac.devinfo.display.DisplayInfoKt
 import com.pacmac.devinfo.export.ExportTask
 import com.pacmac.devinfo.gps.ui.GPSInfoKt
+import com.pacmac.devinfo.gpu.GPUInfoKt
 import com.pacmac.devinfo.main.data.AppRepository
 import com.pacmac.devinfo.main.model.DashItem
 import com.pacmac.devinfo.main.model.DashModel
@@ -25,9 +28,11 @@ import com.pacmac.devinfo.main.model.PermissionCheckModel
 import com.pacmac.devinfo.main.model.PermissionState
 import com.pacmac.devinfo.sensor.SensorInfoKt
 import com.pacmac.devinfo.storage.StorageInfoKt
+import com.pacmac.devinfo.thermal.ThermalInfoActivity
 import com.pacmac.devinfo.utils.Utils
 import com.pacmac.devinfo.wifi.NetworkInfoKt
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,6 +48,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModelKt @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val telephonyManager: TelephonyManager,
     private val subscriptionManager: SubscriptionManager,
     private val appRepository: AppRepository,
@@ -85,10 +91,14 @@ class MainViewModelKt @Inject constructor(
     private val _isPhoneNumberPermissionEnabled = MutableStateFlow(true)
     val isPhoneNumberPermissionEnabled: StateFlow<Boolean> = _isPhoneNumberPermissionEnabled.asStateFlow()
 
+    private val _isBluetoothPermissionEnabled = MutableStateFlow(false)
+    val isBluetoothPermissionEnabled: StateFlow<Boolean> = _isBluetoothPermissionEnabled.asStateFlow()
+
     fun setLocationPermission(enabled: Boolean) { _isLocationPermissionEnabled.value = enabled }
     fun setCameraPermission(enabled: Boolean) { _isCameraPermissionEnabled.value = enabled }
     fun setPhonePermission(enabled: Boolean) { _isPhonePermissionEnabled.value = enabled }
     fun setPhoneNumberPermission(enabled: Boolean) { _isPhoneNumberPermissionEnabled.value = enabled }
+    fun setBluetoothPermission(enabled: Boolean) { _isBluetoothPermissionEnabled.value = enabled }
 
     var permissionRequest: PermissionCheckModel? = null
 
@@ -151,13 +161,17 @@ class MainViewModelKt @Inject constructor(
                 subscriptionManager,
                 simCount,
                 _isPhonePermissionEnabled.value
-            )
+            ),
+            minorSdkVersion = MainUtilsKt.getMinorSdkVersion(),
+            fullSdkInt = MainUtilsKt.getFullSdkInt(),
+            advancedProtection = MainUtilsKt.getAdvancedProtectionEnabled(context),
         )
     }
 
     fun getDashboarItems(): List<DashModel> {
         val list = arrayListOf<DashModel>()
         list.add(DashModel(DashItem.CPU_SCREEN, R.drawable.cpu_img_2, "CPU", CPUInfoKt::class.java) { onTileClick(it) })
+        list.add(DashModel(DashItem.GPU_SCREEN, R.drawable.gpu_img_2, "GPU", GPUInfoKt::class.java) { onTileClick(it) })
         list.add(DashModel(DashItem.RAM_SCREEN, R.drawable.ram_img_2, "RAM", StorageInfoKt::class.java) { onTileClick(it) })
         list.add(DashModel(DashItem.BAT_SCREEN, R.drawable.battery_img_2, "", BatteryInfoKt::class.java) { onTileClick(it) })
         list.add(DashModel(DashItem.CAM_SCREEN, R.drawable.camera_img_2, "", CameraInfoKt::class.java) { onTileClick(it) })
@@ -166,6 +180,9 @@ class MainViewModelKt @Inject constructor(
         list.add(DashModel(DashItem.SENSOR_SCREEN, R.drawable.sensor_img_2, "", SensorInfoKt::class.java) { onTileClick(it) })
         list.add(DashModel(DashItem.DISPLAY_SCREEN, R.drawable.display_img_2, "", DisplayInfoKt::class.java) { onTileClick(it) })
         list.add(DashModel(DashItem.WIFI_SCREEN, R.drawable.network_img_2, "", NetworkInfoKt::class.java) { onTileClick(it) })
+        list.add(DashModel(DashItem.BLUETOOTH_SCREEN, R.drawable.bluetooth_img_2, "", BluetoothInfoActivity::class.java) { onTileClick(it) })
+        list.add(DashModel(DashItem.AUDIO_SCREEN, R.drawable.audio_img_2, "", AudioInfoActivity::class.java) { onTileClick(it) })
+        list.add(DashModel(DashItem.THERMAL_SCREEN, R.drawable.thermal_img_2, "", ThermalInfoActivity::class.java) { onTileClick(it) })
         list.add(DashModel(DashItem.ABOUT_SCREEN, R.drawable.about_img_2, "", AboutActivity::class.java) { onTileClick(it) })
         return list
     }
@@ -173,6 +190,7 @@ class MainViewModelKt @Inject constructor(
     private suspend fun onTileClick(tile: DashModel) {
         when (tile.dashItem) {
             DashItem.CPU_SCREEN -> _onNavigateToScreen.emit(tile.actClass)
+            DashItem.GPU_SCREEN -> _onNavigateToScreen.emit(tile.actClass)
             DashItem.RAM_SCREEN -> _onNavigateToScreen.emit(tile.actClass)
             DashItem.BAT_SCREEN -> _onNavigateToScreen.emit(tile.actClass)
 
@@ -221,6 +239,16 @@ class MainViewModelKt @Inject constructor(
                 _onNavigateToScreen.emit(tile.actClass)
             }
 
+            DashItem.BLUETOOTH_SCREEN -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !isBluetoothPermissionEnabled.value) {
+                    checkPermission(Utils.BLUETOOTH_PERMISSION, R.string.bt_permission_msg, R.string.bt_feature_disabled)
+                    return
+                }
+                _onNavigateToScreen.emit(tile.actClass)
+            }
+
+            DashItem.AUDIO_SCREEN -> _onNavigateToScreen.emit(tile.actClass)
+            DashItem.THERMAL_SCREEN -> _onNavigateToScreen.emit(tile.actClass)
             DashItem.ABOUT_SCREEN -> _onNavigateToScreen.emit(tile.actClass)
         }
     }

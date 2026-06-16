@@ -17,7 +17,8 @@ data class BasicPhoneModel(
     val isConcurrentVoiceAndDataSupported: Boolean?,
     val isRttSupported: Boolean?,
     val isMultiSimSupported: Int?,
-    val isWorldPhone: Boolean
+    val isWorldPhone: Boolean,
+    val isEsimSupported: Boolean?
 ) {
 
     companion object {
@@ -39,6 +40,9 @@ data class BasicPhoneModel(
                 list.add(isMultiSimSupported(context, it))
             }
             list.add(isWorldPhone(context, data.isWorldPhone))
+            data.isEsimSupported?.let {
+                list.add(isEsimSupported(context, it))
+            }
             return list
         }
 
@@ -101,6 +105,13 @@ data class BasicPhoneModel(
             )
         }
 
+
+        private fun isEsimSupported(context: Context, isSupported: Boolean): UIObject {
+            return UIObject(
+                context.getString(R.string.esim_supported),
+                if (isSupported) context.getString(R.string.yes_string) else context.getString(R.string.no_string)
+            )
+        }
 
         private fun getSimCount(context: Context, simCount: Int): UIObject {
             return if (simCount != -1) {

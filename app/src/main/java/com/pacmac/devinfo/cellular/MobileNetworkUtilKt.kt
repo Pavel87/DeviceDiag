@@ -3,6 +3,7 @@ package com.pacmac.devinfo.cellular
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
+import android.telephony.euicc.EuiccManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.telephony.CellInfo
@@ -376,6 +377,11 @@ object MobileNetworkUtilKt {
         return subscriptionInfo?.isEmbedded
     }
 
+    fun isEsimSupported(context: Context): Boolean {
+        val euiccManager = context.getSystemService(Context.EUICC_SERVICE) as? EuiccManager
+        return euiccManager?.isEnabled == true
+    }
+
     @SuppressLint("MissingPermission")
     fun getIMEIOrMEID(
         telephonyManager: TelephonyManager, slotID: Int
@@ -630,7 +636,7 @@ object MobileNetworkUtilKt {
             TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_LTE_CA -> return "LTE Carrier Aggregation"
             TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_LTE_ADVANCED_PRO -> return "LTE Advanced Pro"
             TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_NR_NSA -> return "5G NSA"
-            TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_NR_NSA_MMWAVE -> return "5G NSA MMW"
+            TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_NR_NSA_MMWAVE -> return "5G NSA mmWave"
             TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_NR_ADVANCED -> return "5G+ (Advanced)"
         }
         return "N/A"
@@ -1186,10 +1192,10 @@ object MobileNetworkUtilKt {
                     val freq = method.invoke(serviceState, *arrayOfNulls(0)) as Int
                     if (freq != null) {
                         when (freq) {
-                            1 -> return "Below 1GHz"
-                            2 -> return "1GHz - 3GHz"
-                            3 -> return "3GHz - 6GHz"
-                            4 -> return "millimeter Wave"
+                            1 -> return "Sub-1 GHz (FR1)"
+                            2 -> return "1-3 GHz (FR1)"
+                            3 -> return "3-6 GHz (FR1)"
+                            4 -> return "mmWave (FR2)"
                         }
                         return null
                     }
@@ -1213,10 +1219,10 @@ object MobileNetworkUtilKt {
                     if (g1 != null) {
                         val freq = g1.toInt()
                         when (freq) {
-                            1 -> return "Below 1GHz"
-                            2 -> return "1GHz - 3GHz"
-                            3 -> return "3GHz - 6GHz"
-                            4 -> return "Millimeter Wave"
+                            1 -> return "Sub-1 GHz (FR1)"
+                            2 -> return "1-3 GHz (FR1)"
+                            3 -> return "3-6 GHz (FR1)"
+                            4 -> return "mmWave (FR2)"
                         }
                     }
                 }

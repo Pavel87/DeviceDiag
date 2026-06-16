@@ -1,6 +1,7 @@
 package com.pacmac.devinfo.cellular
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
 import android.util.Log
 import android.net.ConnectivityManager
@@ -32,6 +33,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CellularViewModelKt @Inject constructor(
+    private val application: Application,
     private val telephonyManager: TelephonyManager,
     private val subscriptionManager: SubscriptionManager,
     private val connectivityManager: ConnectivityManager,
@@ -157,6 +159,10 @@ class CellularViewModelKt @Inject constructor(
         }
         val isWorldPhone = telephonyManager.isWorldPhone
 
+        val isEsimSupported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            MobileNetworkUtilKt.isEsimSupported(application)
+        } else null
+
         emit(
             BasicPhoneModel(
                 slotCount,
@@ -167,7 +173,8 @@ class CellularViewModelKt @Inject constructor(
                 isConcurrentVoiceAndDataSupported,
                 isRttSupported,
                 isMultiSimSupported,
-                isWorldPhone
+                isWorldPhone,
+                isEsimSupported
             )
         )
     }
