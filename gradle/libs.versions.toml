@@ -5,7 +5,7 @@ applovin = "13.6.2.0"
 coreKtx = "1.19.0"
 coreSplashscreen = "1.2.0"
 datastorePreferences = "1.2.1"
-sqliteFramework = "2.5.0"
+workRuntime = "2.10.0"
 facebook = "6.21.0.3"
 gradle = "9.2.1"
 hiltAndroid = "2.59.2"
@@ -35,7 +35,7 @@ androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", 
 androidx-rules = { module = "androidx.test:rules", version.ref = "rules" }
 androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
-sqlite-framework = { module = "androidx.sqlite:sqlite-framework", version.ref = "sqliteFramework" }
+work-runtime = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntime" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktorClientCore" }
@@ -97,7 +97,7 @@ androidx-libs = [
     "androidx-core-splashscreen",
     "androidx-annotation",
     "material",
-    "sqlite-framework",
+    "work-runtime",
 ]
 
 ktor = [
