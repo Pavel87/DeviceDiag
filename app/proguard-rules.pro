@@ -30,3 +30,7 @@
 
 -keep class com.facebook.infer.annotation.** { *; }
 -dontwarn com.facebook.infer.annotation.**
+
+# Room generated implementations (required for WorkManager 2.10+ / Room 2.6+)
+-keep class androidx.work.impl.WorkDatabase_Impl { <init>(); }
+-keep class * extends androidx.room.RoomDatabase { <init>(); }
